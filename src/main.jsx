@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom/client';
 
 import { CssBaseline } from '@mui/material';
 
+import '@fontsource/inter';
+import '@fontsource/montserrat';
+
 import Providers from '@/components/Providers';
 import App from './App.jsx';
 

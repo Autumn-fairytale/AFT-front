@@ -8,19 +8,27 @@ const ProtectedRoute = ({ authRedirectLink, accessRedirectLink, role }) => {
   const location = useLocation();
 
   // Mock user data
-  const user = { isAuth: true, roles: ['user', '', '', ''] };
+  const user = { isAuth: true, roles: ['user', 'chef', 'admin', ''] };
 
   const isAuth = user.isAuth;
   const isAccessByRole = user.roles.includes(role);
 
   if (!isAuth)
     return (
-      <Navigate to={authRedirectLink} state={{ from: location }} replace />
+      <Navigate
+        to={authRedirectLink}
+        state={{ from: location }}
+        replace={true}
+      />
     );
 
   if (!isAccessByRole)
     return (
-      <Navigate to={accessRedirectLink} state={{ from: location }} replace />
+      <Navigate
+        to={accessRedirectLink}
+        state={{ from: location }}
+        replace={true}
+      />
     );
 
   return (

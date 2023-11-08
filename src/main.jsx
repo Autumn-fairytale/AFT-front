@@ -4,6 +4,9 @@ import { Provider } from 'react-redux';
 
 import { CssBaseline } from '@mui/material';
 
+import '@fontsource/inter';
+import '@fontsource/montserrat';
+
 import Providers from '@/components/Providers';
 import App from './App.jsx';
 import { store } from './redux/store.js';

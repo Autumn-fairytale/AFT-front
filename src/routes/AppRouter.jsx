@@ -3,8 +3,8 @@ import { Route, Routes } from 'react-router-dom';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { route } from '@/constants';
-import ProtectedRoute from '@/pages/access/ProtectedRoute/ProtectedRoute';
-import RestrictedRoute from '@/pages/access/RestrictedRoute/RestrictedRoute';
+import ProtectedRoute from '@/pages/access/ProtectedRoute';
+import RestrictedRoute from '@/pages/access/RestrictedRoute';
 
 const SignInPage = lazy(() => import('@/pages/auth/SignIn'));
 const SignUpPage = lazy(() => import('@/pages/auth/SignUp'));
@@ -46,16 +46,16 @@ const AppRouter = () => {
         </Route>
 
         <Route
-          path={route.HOME}
+          path={route.CHEF_SIGN_UP}
           element={
             <RestrictedRoute redirectLink={route.CHEF_ACCOUNT} role="chef" />
           }
         >
-          <Route path={route.CHEF_SIGN_UP} element={<ChefSignUpPage />} />
+          <Route index element={<ChefSignUpPage />} />
         </Route>
 
         <Route
-          path={route.HOME}
+          path={route.COURIER_SIGN_UP}
           element={
             <RestrictedRoute
               redirectLink={route.COURIER_ACCOUNT}
@@ -63,7 +63,7 @@ const AppRouter = () => {
             />
           }
         >
-          <Route path={route.COURIER_SIGN_UP} element={<CourierSignUpPage />} />
+          <Route index element={<CourierSignUpPage />} />
         </Route>
 
         <Route path={route.DISHES}>

@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@mui/material/styles';
 
-import theme from '@/theme';
+import { theme } from '@/theme';
 import { ProvidersPropTypes } from './Providers.props';
 
 const Providers = ({ children }) => {

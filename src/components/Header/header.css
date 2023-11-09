@@ -1,0 +1,17 @@
+.header-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    position: sticky;   
+  }
+  
+  .logo-container {
+    margin-right: auto;
+  }
+
+  .logo-container img {
+    max-width: 100%;
+  }
+  
+  

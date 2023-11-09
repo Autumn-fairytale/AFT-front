@@ -1,3 +1,4 @@
+import Header from './components/Header/Header';
 import AppRouter from './routes/AppRouter';
 
 function App() {

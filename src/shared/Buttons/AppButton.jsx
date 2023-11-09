@@ -1,9 +1,14 @@
 import { Button } from '@mui/material';
+import { styled } from '@mui/material';
 
 import { PropTypes } from 'prop-types';
 
 import { useTheme } from '@emotion/react';
 import { appButtonStyles } from './appButtonStyles';
+
+const StyledButton = styled(Button)(({ theme, type }) =>
+  appButtonStyles(theme, type)
+);
 
 const AppButton = ({
   type = 'contained',
@@ -16,21 +21,21 @@ const AppButton = ({
   ...other
 }) => {
   const theme = useTheme();
-  const defaultStyles = appButtonStyles(theme, type);
 
   return (
-    <Button
+    <StyledButton
       onClick={onClick}
       variant={type}
-      css={defaultStyles}
       style={style}
       disabled={disabled}
       startIcon={startIcon}
       endIcon={endIcon}
+      type={type}
+      theme={theme}
       {...other}
     >
       {label}
-    </Button>
+    </StyledButton>
   );
 };
 

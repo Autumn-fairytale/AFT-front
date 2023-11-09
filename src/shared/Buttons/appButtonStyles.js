@@ -1,16 +1,14 @@
 import { darken, lighten } from '@mui/material/styles';
 
-import { css } from '@emotion/react';
-
 /* Set background color and hover effect for each button type */
-export const containedButtonStyles = (theme) => css`
+const containedButtonStyles = ({ theme }) => `
   background-color: ${theme.palette.primary.main};
   &:hover {
     background-color: ${darken(theme.palette.primary.main, 0.1)};
   }
 `;
 
-export const outlinedButtonStyles = (theme) => css`
+const outlinedButtonStyles = ({ theme }) => `
   color: ${theme.palette.primary.main};
   border-color: ${lighten(theme.palette.primary.main, 0.4)};
   &:hover {
@@ -19,7 +17,7 @@ export const outlinedButtonStyles = (theme) => css`
   }
 `;
 
-export const textButtonStyles = (theme) => css`
+const textButtonStyles = ({ theme }) => `
   color: ${theme.palette.primary.main};
   &:hover {
     background-color: ${theme.palette.primary.light};
@@ -34,14 +32,12 @@ export const appButtonStyles = (theme, type) => {
     text: textButtonStyles,
   };
 
-  const selectedStyle = styleMappings[type];
-
-  return css`
-    height: 46px;
-    width: max-content;
-    font-size: 1rem;
-    line-height: 1.5;
-    text-transform: none;
-    ${selectedStyle(theme)}
-  `;
+  return {
+    ...styleMappings[type]({ theme }),
+    height: '46px',
+    width: 'max-content',
+    fontSize: '1rem',
+    lineHeight: '1.5',
+    textTransform: 'none',
+  };
 };

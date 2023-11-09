@@ -1,5 +1,9 @@
+import accessDeniedGis from '@/assets/images/no.gif';
+import { ErrorsPage } from '@/components/ErrorsPage';
+
 const AccessDeniedPage = () => {
-  return <main>Access Denied Page</main>;
+  const text = `Error: Access denied`;
+  return <ErrorsPage img={accessDeniedGis} text={text} />;
 };
 
 export default AccessDeniedPage;

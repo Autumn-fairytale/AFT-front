@@ -8,8 +8,17 @@ import { IconButton } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import AppButton from '@/shared/Buttons/AppButton';
-import { css } from '@emotion/css';
-import { theme } from '../../theme/theme';
+import {
+  ButtonsWrapper,
+  DishCardWrapper,
+  DishDescription,
+  DishImage,
+  DishImageWrapper,
+  DishName,
+  DishPrice,
+  FavorireButton,
+  MainInfoWrapper,
+} from './DishCart.styled';
 
 const DishCart = ({ dishInfo }) => {
   const [favorite, setFavorite] = useState(false);
@@ -17,95 +26,28 @@ const DishCart = ({ dishInfo }) => {
     //Required function
   }
   return (
-    <div
-      className={css`
-        position: relative;
-        width: 376px;
-        height: 585px;
-        border-radius: 20px;
-        background: #ffffff;
-        box-shadow: 13px 13px 30px 0px #00000026;
-      `}
-    >
-      <div
-        className={css`
-          position: relative;
-        `}
-      >
-        <img
+    <DishCardWrapper>
+      <DishImageWrapper>
+        <DishImage
           src={dishInfo.image}
           alt={dishInfo.dishname}
-          className={css`
-            display: block;
-            width: 376px;
-            height: 380px;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-          `}
+          component="img"
         />
-        <div
-          className={css`
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: white;
-            border-radius: 20px;
-          `}
-        >
+        <FavorireButton>
           <IconButton onClick={() => setFavorite(!favorite)}>
             <FavoriteBorderIcon color={favorite ? 'primary' : ''} />
           </IconButton>
-        </div>
-      </div>
+        </FavorireButton>
+      </DishImageWrapper>
 
-      <span
-        className={css`
-          display: flex;
-          justify-content: space-between;
-          margin-top: -10px;
-        `}
-      >
-        <h2
-          className={css`
-            font-size: 24px;
-            font-weight: 900;
-            letter-spacing: -1px;
-            color: ${theme.palette.text.primary};
-            margin-left: 20px;
-          `}
-        >
-          {dishInfo.dishname}
-        </h2>
-        <h2
-          className={css`
-            font-size: 24px;
-            font-weight: 900;
-            letter-spacing: 0em;
-            color: ${theme.palette.primary.main};
-            margin-right: 30px;
-          `}
-        >
-          {dishInfo.price}$
-        </h2>
-      </span>
-      <p
-        className={css`
-          font-family: Inter;
-          font-size: 14px;
-          font-weight: 500;
-          text-align: justify;
-          margin: -10px 30px 0 20px;
-        `}
-      >
+      <MainInfoWrapper>
+        <DishName>{dishInfo.dishname}</DishName>
+        <DishPrice>{dishInfo.price}$</DishPrice>
+      </MainInfoWrapper>
+      <DishDescription>
         {dishInfo.description.slice(0, 90) + '...'}
-      </p>
-      <div
-        className={css`
-          display: flex;
-          justify-content: space-between;
-          margin: 10px 30px 0 20px;
-        `}
-      >
+      </DishDescription>
+      <ButtonsWrapper>
         <AppButton
           type="outlined"
           label="Learn More"
@@ -118,8 +60,8 @@ const DishCart = ({ dishInfo }) => {
           endIcon={<ShoppingCartIcon />}
           onClick={handleClick}
         />
-      </div>
-    </div>
+      </ButtonsWrapper>
+    </DishCardWrapper>
   );
 };
 

@@ -1,15 +1,21 @@
 import { useState } from 'react';
 
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { IconButton } from '@mui/material';
 
 import PropTypes from 'prop-types';
 
+import AppButton from '@/shared/Buttons/AppButton';
 import { css } from '@emotion/css';
 import { theme } from '../../theme/theme';
 
 const DishCart = ({ dishInfo }) => {
   const [favorite, setFavorite] = useState(false);
+  function handleClick() {
+    //Required function
+  }
   return (
     <div
       className={css`
@@ -56,7 +62,7 @@ const DishCart = ({ dishInfo }) => {
         className={css`
           display: flex;
           justify-content: space-between;
-          margin-top: -20px;
+          margin-top: -10px;
         `}
       >
         <h2
@@ -93,6 +99,26 @@ const DishCart = ({ dishInfo }) => {
       >
         {dishInfo.description.slice(0, 90) + '...'}
       </p>
+      <div
+        className={css`
+          display: flex;
+          justify-content: space-between;
+          margin: 10px 30px 0 20px;
+        `}
+      >
+        <AppButton
+          type="outlined"
+          label="Learn More"
+          endIcon={<ChevronRightIcon />}
+          onClick={handleClick}
+        />
+        <AppButton
+          type="contained"
+          label="Add to Cart"
+          endIcon={<ShoppingCartIcon />}
+          onClick={handleClick}
+        />
+      </div>
     </div>
   );
 };

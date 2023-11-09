@@ -7,7 +7,7 @@ function App() {
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
     price: '49',
     image:
-      'https://media-cdn.tripadvisor.com/media/photo-p/14/47/10/d9/sweet-potato-burger.jpg',
+      'https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/102cf51c-9220-4278-8b63-2b9611ad275e/Derivates/3831dbe2-352e-4409-a2e2-fc87d11cab0a.jpg',
   };
 
   return (

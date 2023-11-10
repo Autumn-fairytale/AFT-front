@@ -1,13 +1,14 @@
 import { useState } from 'react';
+import { FiChevronRight } from 'react-icons/fi';
+import { FiShoppingCart } from 'react-icons/fi';
+import { MdFavoriteBorder } from 'react-icons/md';
 
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { IconButton } from '@mui/material';
 
 import PropTypes from 'prop-types';
 
 import AppButton from '@/shared/Buttons/AppButton';
+import { primaryColor } from '@/theme/theme';
 import {
   ButtonsWrapper,
   DishCardWrapper,
@@ -35,7 +36,7 @@ const DishCard = ({ dishInfo }) => {
         />
         <FavoriteButton>
           <IconButton onClick={() => setFavorite(!favorite)}>
-            <FavoriteBorderIcon color={favorite ? 'primary' : ''} />
+            <MdFavoriteBorder style={{ color: favorite ? primaryColor : '' }} />
           </IconButton>
         </FavoriteButton>
       </DishImageWrapper>
@@ -51,13 +52,13 @@ const DishCard = ({ dishInfo }) => {
         <AppButton
           type="outlined"
           label="Learn More"
-          endIcon={<ChevronRightIcon />}
+          endIcon={<FiChevronRight />}
           onClick={handleClick}
         />
         <AppButton
           type="contained"
           label="Add to Cart"
-          endIcon={<ShoppingCartIcon />}
+          endIcon={<FiShoppingCart />}
           onClick={handleClick}
         />
       </ButtonsWrapper>

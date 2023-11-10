@@ -1,16 +1,14 @@
 import { red } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
 
+import { customColors } from '../constants';
 import { muiButtonStyles } from './muiButtonStyles';
 import { muiOutlinedInputStyles } from './muiOutlinedInputStyles';
-
-export const primaryColor = '#FF7622';
-export const outlineColor = '#C5C5C5';
 
 export const theme = createTheme({
   palette: {
     primary: {
-      main: primaryColor, // Main elements
+      main: customColors.primaryColor, // Main elements
       light: '#ff762230', // Minor elements
       superLight: '#FFF',
     },
@@ -30,7 +28,7 @@ export const theme = createTheme({
       secondary: '#888888', // Minor Text
     },
     outline: {
-      main: outlineColor, // Outline
+      main: customColors.outlineColor, // Outline
     },
   },
   typography: {

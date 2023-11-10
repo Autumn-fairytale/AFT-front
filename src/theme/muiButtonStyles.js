@@ -1,19 +1,19 @@
 import { lighten } from '@mui/material';
 
-const primaryColor = '#FF7622';
+import { customColors } from '@/constants';
 
 export const muiButtonStyles = {
   styleOverrides: {
     contained: {
       color: 'white',
       '&:hover': {
-        backgroundColor: lighten(primaryColor, 0.1),
+        backgroundColor: lighten(customColors.primaryColor, 0.1),
       },
       '&:active': {
-        backgroundColor: primaryColor,
+        backgroundColor: customColors.primaryColor,
       },
       '& .MuiTouchRipple-child': {
-        backgroundColor: lighten(primaryColor, 0.5),
+        backgroundColor: lighten(customColors.primaryColor, 0.5),
       },
     },
   },

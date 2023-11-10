@@ -21,7 +21,7 @@ export const DishImage = styled('img')(() => ({
   borderTopRightRadius: '20px',
 }));
 
-export const FavorireButton = styled('div')(({ theme }) => ({
+export const FavoriteButton = styled('div')(({ theme }) => ({
   position: 'absolute',
   top: '10px',
   right: '15px',

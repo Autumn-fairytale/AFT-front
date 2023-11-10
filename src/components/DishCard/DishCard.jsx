@@ -16,11 +16,11 @@ import {
   DishImageWrapper,
   DishName,
   DishPrice,
-  FavorireButton,
+  FavoriteButton,
   MainInfoWrapper,
-} from './DishCart.styled';
+} from './DishCard.styled';
 
-const DishCart = ({ dishInfo }) => {
+const DishCard = ({ dishInfo }) => {
   const [favorite, setFavorite] = useState(false);
   function handleClick() {
     //Required function
@@ -33,11 +33,11 @@ const DishCart = ({ dishInfo }) => {
           alt={dishInfo.dishname}
           component="img"
         />
-        <FavorireButton>
+        <FavoriteButton>
           <IconButton onClick={() => setFavorite(!favorite)}>
             <FavoriteBorderIcon color={favorite ? 'primary' : ''} />
           </IconButton>
-        </FavorireButton>
+        </FavoriteButton>
       </DishImageWrapper>
 
       <MainInfoWrapper>
@@ -65,7 +65,7 @@ const DishCart = ({ dishInfo }) => {
   );
 };
 
-DishCart.propTypes = {
+DishCard.propTypes = {
   dishInfo: PropTypes.shape({
     image: PropTypes.string,
     dishname: PropTypes.string,
@@ -74,4 +74,4 @@ DishCart.propTypes = {
   }).isRequired,
 };
 
-export default DishCart;
+export default DishCard;

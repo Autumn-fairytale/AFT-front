@@ -19,8 +19,6 @@ export const dishSchema = zod.object({
 
   category: zod.string().min(1, 'Category required').required(),
 
-  isAvailable: zod.boolean().optional(),
-
   cookingTime: zod
     .number()
     .positive('Cooking time must be positive')

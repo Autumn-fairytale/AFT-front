@@ -3,7 +3,6 @@ import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import styled from '@emotion/styled';
 
 export const TextareaStyled = styled(TextareaAutosize)`
-  /* width: 600px; */
   width: 100%;
   min-width: 100%;
   max-width: 100%;

@@ -1,39 +1,37 @@
-import zod from 'zod';
+import * as zod from 'zod';
 
 export const dishSchema = zod.object({
-  name: zod.string().trim().min(1, 'Dish name required').required(),
+  name: zod.string().trim().min(1, { message: 'Dish name required' }),
 
-  price: zod.number().positive('Any positive number').required(),
+  price: zod.number().positive('Price must be greater than zero'),
 
-  description: zod.string().trim().min(10, 'Min 10 symbols').required(),
+  cuisine: zod.string().min(1, 'Cuisine is required'),
 
-  image: zod.string().url('Must be a valid URL').required(),
+  category: zod.string().min(1, 'Category is required'),
 
-  ingredients: zod
-    .array(zod.string().min(1, 'Ingredient cannot be empty'))
-    .required(),
+  // description: zod.string().trim().min(10, 'Min 10 symbols'),
 
-  isVegan: zod.boolean().required(),
+  // image: zod.string().url('Must be a valid URL'),
 
-  cuisine: zod.string().min(1, 'Cuisine type required').required(),
+  // ingredients: zod.array(zod.string().min(1, 'Ingredient cannot be empty')),
 
-  category: zod.string().min(1, 'Category required').required(),
+  // isVegan: zod.boolean(),
 
-  cookingTime: zod
-    .number()
-    .positive('Cooking time must be positive')
-    .optional(),
+  // cookingTime: zod
+  //   .number()
+  //   .positive('Cooking time must be positive')
+  //   .optional(),
 
-  allergens: zod
-    .array(zod.string().min(1, 'Allergen cannot be empty'))
-    .optional(),
+  // allergens: zod
+  //   .array(zod.string().min(1, 'Allergen cannot be empty'))
+  //   .optional(),
 
-  nutrition: zod
-    .object({
-      calories: zod.number(),
-      protein: zod.number(),
-      fats: zod.number(),
-      carbohydrates: zod.number(),
-    })
-    .optional(),
+  // nutrition: zod
+  //   .object({
+  //     calories: zod.number(),
+  //     protein: zod.number(),
+  //     fats: zod.number(),
+  //     carbohydrates: zod.number(),
+  //   })
+  //   .optional(),
 });

@@ -19,7 +19,7 @@ export const ReviewForm = () => {
   };
 
   return (
-    <form onSubmit={handleFeedbackSubmit}>
+    <form onSubmit={handleFeedbackSubmit} style={{ width: '600px' }}>
       <Stack spacing={3}>
         <label>
           <Typography variant="h5" component="p" gutterBottom>
@@ -45,6 +45,7 @@ export const ReviewForm = () => {
             placeholder="Leave your feedback"
             value={review}
             onChange={handleTextareaChange}
+            maxLength={400}
           />
         </label>
         <button type="submit">Submit</button>

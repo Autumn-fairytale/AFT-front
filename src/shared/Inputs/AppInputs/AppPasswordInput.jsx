@@ -1,7 +1,7 @@
 import { PropTypes } from 'prop-types';
 
 import BaseInput from '../BaseInput/BaseInput';
-import { commonInputPropTypes } from '../BaseInput/BaseInput.props';
+import { baseInputPropTypes } from '../BaseInput/BaseInput.props';
 import { PasswordVisibilityToggle } from '../utils/PasswordVisibilityToggle';
 import { usePasswordShow } from '../utils/usePasswordShow';
 import { StyledPasswordInput } from './AppInputs.styled';
@@ -24,9 +24,7 @@ const AppPasswordInput = ({ wrapperStyle, ...props }) => {
 
 AppPasswordInput.propTypes = {
   wrapperStyle: PropTypes.object,
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  ...commonInputPropTypes,
+  ...baseInputPropTypes,
 };
 
 AppPasswordInput.defaultProps = {

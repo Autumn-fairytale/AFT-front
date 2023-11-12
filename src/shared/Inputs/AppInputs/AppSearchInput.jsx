@@ -7,7 +7,7 @@ import { IconButton, InputAdornment } from '@mui/material';
 import { PropTypes } from 'prop-types';
 
 import BaseInput from '../BaseInput/BaseInput';
-import { commonInputPropTypes } from '../BaseInput/BaseInput.props';
+import { baseInputPropTypes } from '../BaseInput/BaseInput.props';
 import { StyledSearchInput } from './AppInputs.styled';
 
 const AppSearchInput = ({ wrapperStyle, ...props }) => {
@@ -44,9 +44,7 @@ const AppSearchInput = ({ wrapperStyle, ...props }) => {
 
 AppSearchInput.propTypes = {
   wrapperStyle: PropTypes.object,
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  ...commonInputPropTypes,
+  ...baseInputPropTypes,
 };
 
 AppSearchInput.defaultProps = {

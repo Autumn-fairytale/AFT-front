@@ -20,7 +20,6 @@ export const StyledBaseInput = styled(TextField)(({ size, error }) => {
   return {
     'MuiFormControl-root': {
       boxSizing: 'border-box',
-      width: 'inherit',
     },
     ...(size === 'medium' && mediumInputStyles),
     ...(error && {

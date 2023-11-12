@@ -1,7 +1,6 @@
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 
-import { IconButton, useTheme } from '@mui/material';
-import Box from '@mui/material/Box';
+import { Box, IconButton, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
 
 import PropTypes from 'prop-types';
@@ -14,8 +13,8 @@ export default function ModalWindow({ handleClose, children, open }) {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    minWidth: 300,
-    maxWidth: 500,
+    minWidth: 200,
+    maxWidth: 700,
 
     bgcolor: 'background.paper',
     border: `1px solid ${theme.palette.primary.main}`,
@@ -28,20 +27,20 @@ export default function ModalWindow({ handleClose, children, open }) {
     position: 'absolute',
     top: 10,
     right: 10,
-    p: 0,
+    padding: 0,
     backgroundColor: 'transparent',
     color: 'primary',
     borderRadius: '50%',
-    transition: 'color 250ms linear',
+    transition: 'color 250ms linear, transform 250ms linear',
     '&:hover': {
-      color: `${theme.palette.primary.main}`,
+      color: theme.palette.primary.main,
+      transform: 'rotate(180deg)',
     },
   };
 
   return (
     <Modal keepMounted open={open} onClose={handleClose}>
       <Box sx={style}>
-        Modal
         <IconButton
           aria-label="delete"
           color="secondary"

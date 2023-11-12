@@ -3,7 +3,10 @@ import * as zod from 'zod';
 export const dishSchema = zod.object({
   name: zod.string().trim().min(1, { message: 'Dish name required' }),
 
-  price: zod.number().positive('Price must be greater than zero'),
+  price: zod
+    .number()
+    .positive('Price must be greater than zero')
+    .or(zod.string().min(1, 'Number is required')),
 
   cuisine: zod.string().min(1, 'Cuisine is required'),
 

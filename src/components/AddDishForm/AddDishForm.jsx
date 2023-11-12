@@ -8,7 +8,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { AddDishFromStepOne } from './AddDishFormStepOne';
 
 export const MOCK_GAP = ' ';
-export const EMPTY_STRING = '';
 
 export const AddDishForm = () => {
   const [step, setStep] = useState(1);
@@ -16,10 +15,10 @@ export const AddDishForm = () => {
   const [formData, setFormData] = useState({});
 
   const defaultValues = {
-    name: EMPTY_STRING,
-    price: EMPTY_STRING,
-    cuisine: EMPTY_STRING,
-    category: EMPTY_STRING,
+    name: '',
+    price: '',
+    cuisine: '',
+    category: '',
   };
 
   const {

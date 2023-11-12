@@ -5,7 +5,7 @@ import { Autocomplete, Button, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import { CATEGORIES, CUISINES } from '@/constants';
-import { EMPTY_STRING, MOCK_GAP } from './AddDishForm';
+import { MOCK_GAP } from './AddDishForm';
 
 export const AddDishFromStepOne = ({
   register,
@@ -27,11 +27,7 @@ export const AddDishFromStepOne = ({
 
       <TextField
         sx={{ width: '300px' }}
-        {...register('price', {
-          setValueAs: (value) => {
-            return value === EMPTY_STRING ? undefined : Number(value);
-          },
-        })}
+        {...register('price')}
         label="Price"
         error={!!errors.price}
         helperText={errors.price?.message ?? MOCK_GAP}
@@ -46,9 +42,10 @@ export const AddDishFromStepOne = ({
             options={CUISINES}
             getOptionLabel={(option) => option}
             isOptionEqualToValue={(option, value) =>
-              option === value || value === EMPTY_STRING
+              option === value || value === ''
             }
-            onChange={(_, data) => field.onChange(data || EMPTY_STRING)}
+            value={field.value}
+            onChange={(_, data) => field.onChange(data ?? '')}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -71,9 +68,10 @@ export const AddDishFromStepOne = ({
             options={CATEGORIES}
             getOptionLabel={(option) => option}
             isOptionEqualToValue={(option, value) =>
-              option === value || value === EMPTY_STRING
+              option === value || value === ''
             }
-            onChange={(_, data) => field.onChange(data || EMPTY_STRING)}
+            value={field.value}
+            onChange={(_, data) => field.onChange(data ?? '')}
             renderInput={(params) => (
               <TextField
                 {...params}

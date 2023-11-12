@@ -1,9 +1,7 @@
 import { PatternFormat } from 'react-number-format';
 
-import PropTypes from 'prop-types';
-
 import BaseInput from '../BaseInput/BaseInput';
-import { commonInputPropTypes } from '../BaseInput/BaseInput.props';
+import { baseInputPropTypes } from '../BaseInput/BaseInput.props';
 
 const AppPhoneInput = (props) => {
   return (
@@ -17,11 +15,7 @@ const AppPhoneInput = (props) => {
   );
 };
 
-AppPhoneInput.propTypes = {
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  ...commonInputPropTypes,
-};
+AppPhoneInput.propTypes = baseInputPropTypes;
 
 AppPhoneInput.defaultProps = {
   label: 'Phone Number',

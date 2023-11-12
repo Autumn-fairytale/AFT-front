@@ -1,11 +1,11 @@
-import ModalWindow from './components/Modal/Modal';
+import { FakeComponent } from './components/FakeComponent/FakeComponent';
 import AppRouter from './routes/AppRouter';
 
 function App() {
   return (
     <>
       <AppRouter />
-      <ModalWindow />
+      <FakeComponent />
     </>
   );
 }

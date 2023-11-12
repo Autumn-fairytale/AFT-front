@@ -1,15 +1,12 @@
-import * as React from 'react';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 
 import { IconButton, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 
-export default function ModalWindow() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+import PropTypes from 'prop-types';
+
+export default function ModalWindow({ handleClose, children, open }) {
   const theme = useTheme();
 
   const style = {
@@ -42,22 +39,27 @@ export default function ModalWindow() {
   };
 
   return (
-    <>
-      <Button onClick={handleOpen}>Open modal</Button>
-      <Modal keepMounted open={open} onClose={handleClose}>
-        <Box sx={style}>
-          Modal
-          <IconButton
-            aria-label="delete"
-            color="secondary"
-            onClick={handleClose}
-            size="small"
-            sx={iconButtonStyle}
-          >
-            <AiOutlineCloseCircle fontSize="40" />
-          </IconButton>
-        </Box>
-      </Modal>
-    </>
+    <Modal keepMounted open={open} onClose={handleClose}>
+      <Box sx={style}>
+        Modal
+        <IconButton
+          aria-label="delete"
+          color="secondary"
+          onClick={handleClose}
+          size="small"
+          sx={iconButtonStyle}
+        >
+          <AiOutlineCloseCircle fontSize="40" />
+        </IconButton>
+        {children}
+      </Box>
+    </Modal>
   );
 }
+
+ModalWindow.propTypes = {
+  handleOpen: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  children: PropTypes.node,
+};

@@ -4,8 +4,8 @@ import styled from '@emotion/styled';
 
 export const IconButtonStyled = styled(IconButton)`
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 12px;
+  right: 12px;
   padding: 0;
   background-color: transparent;
   border-radius: 50%;

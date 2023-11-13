@@ -15,7 +15,7 @@ import { BoxStyled, IconButtonStyled } from './Modal.styled';
  * @returns {JSX.Element}
  */
 
-export default function AppModal({ handleClose, children, open }) {
+export const AppModal = ({ handleClose, children, open }) => {
   return (
     <Modal keepMounted open={open} onClose={handleClose}>
       <BoxStyled>
@@ -31,6 +31,6 @@ export default function AppModal({ handleClose, children, open }) {
       </BoxStyled>
     </Modal>
   );
-}
+};
 
 AppModal.propTypes = AppModalProps;

@@ -18,16 +18,16 @@ export const AppTextArea = ({
   value,
   onChange,
   placeholder,
-  minRows,
-  maxRows,
+  minRows = 5,
+  maxRows = 5,
   maxLength,
 }) => {
   const isError = value.length > maxLength;
 
   return (
     <TextAreaStyled
-      minRows={minRows || 5}
-      maxRows={maxRows || 5}
+      minRows={minRows}
+      maxRows={maxRows}
       value={value}
       onChange={onChange}
       placeholder={placeholder}

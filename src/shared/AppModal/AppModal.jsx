@@ -3,29 +3,29 @@ import { AiOutlineCloseCircle } from 'react-icons/ai';
 import Modal from '@mui/material/Modal';
 
 import { AppModalProps } from './AppModal.props';
-import { BoxStyled, IconButtonStyled } from './Modal.styled';
+import { BoxStyled, IconButtonStyled } from './AppModal.styled';
 
 /**
  * AppModal component for rendering a AppModal window.
  *
  * @component
- * @param {function} handleClose - The callback function to handle modal close.
- * @param {boolean} open - A boolean indicating whether the modal is open or closed.
+ * @param {function} onClose - The callback function to handle modal close.
+ * @param {boolean} isOpen - A boolean indicating whether the modal is open or closed.
  * @param {React.ReactNode} children - The content to be displayed within the modal.
  * @returns {JSX.Element}
  */
 
-export const AppModal = ({ handleClose, children, open }) => {
+export const AppModal = ({ onClose, children, isOpen }) => {
   return (
-    <Modal keepMounted open={open} onClose={handleClose}>
+    <Modal keepMounted open={isOpen} onClose={onClose}>
       <BoxStyled>
         <IconButtonStyled
           aria-label="close"
           color="secondary"
-          onClick={handleClose}
+          onClick={onClose}
           size="large"
         >
-          <AiOutlineCloseCircle fontSize="50" />
+          <AiOutlineCloseCircle fontSize="20" />
         </IconButtonStyled>
         {children}
       </BoxStyled>

@@ -17,10 +17,10 @@ import { TextAreaStyled } from './AppTextArea.styled';
 export const AppTextArea = ({
   value,
   onChange,
-  placeholder,
+  placeholder = '',
   minRows = 5,
   maxRows = 5,
-  maxLength,
+  maxLength = 400,
 }) => {
   const isError = value.length > maxLength;
 

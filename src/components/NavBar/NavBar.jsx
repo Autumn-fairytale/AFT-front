@@ -28,38 +28,37 @@ import {
   StyledLogoLinkDesktop,
   StyledLogoLinkMobile,
 } from '@/components/NavBar/NavBar.styled.jsx';
+import ProfileMenuMobile from '@/components/NavBar/ProfileMenuMobile.jsx';
 
 const pages = ['Menu', 'Chefs'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function NavBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const [anchorElProfSett, setAnchorElProfSett] = React.useState(null);
+  const [anchorElNavMenuMob, setAnchorElNavMenuMob] = React.useState(null);
+  const [anchorElProfMenuMob, setAnchorElProfMenuMob] = React.useState(null);
 
   const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
+    setAnchorElProfMenuMob(null);
   };
 
   const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
+    setAnchorElProfMenuMob(event.currentTarget);
   };
 
   const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
+    setAnchorElNavMenuMob(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
+    setAnchorElProfSett(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+    setAnchorElNavMenuMob(null);
   };
 
   const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+    setAnchorElProfSett(null);
   };
 
   const menuId = 'primary-search-account-menu';
@@ -86,7 +85,7 @@ function NavBar() {
             </IconButton>
 
             <Menu
-              anchorEl={anchorElNav}
+              anchorEl={anchorElNavMenuMob}
               anchorOrigin={{
                 vertical: 'top',
                 horizontal: 'left',
@@ -97,7 +96,7 @@ function NavBar() {
                 vertical: 'top',
                 horizontal: 'left',
               }}
-              open={Boolean(anchorElNav)}
+              open={Boolean(anchorElNavMenuMob)}
               onClose={handleCloseNavMenu}
             >
               <MenuItem>
@@ -223,7 +222,7 @@ function NavBar() {
               <Menu
                 sx={{ mt: '45px' }}
                 id="menu-appbar"
-                anchorEl={anchorElUser}
+                anchorEl={anchorElProfSett}
                 anchorOrigin={{
                   vertical: 'top',
                   horizontal: 'right',
@@ -233,7 +232,7 @@ function NavBar() {
                   vertical: 'top',
                   horizontal: 'right',
                 }}
-                open={Boolean(anchorElUser)}
+                open={Boolean(anchorElProfSett)}
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
@@ -244,78 +243,10 @@ function NavBar() {
               </Menu>
             </Box>
           </Box>
-
-          {/*ACCOUNT MENU MOBILE START */}
-          <Box sx={{ display: { sx: 'flex', md: 'None' } }}>
-            <Menu
-              anchorEl={mobileMoreAnchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              id={mobileMenuId}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={isMobileMenuOpen}
-              onClose={handleMobileMenuClose}
-            >
-              <MenuItem>
-                <IconButton
-                  size="large"
-                  aria-label="account of current user"
-                  aria-controls="primary-search-account-menu"
-                  aria-haspopup="true"
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
-                <p>Profile</p>
-              </MenuItem>
-
-              <MenuItem>
-                <IconButton
-                  size="large"
-                  aria-label="show 7 new cart items"
-                  color="inherit"
-                >
-                  <Badge badgeContent={7} color="error">
-                    <ShoppingBasketIcon />
-                  </Badge>
-                </IconButton>
-                <p>Shopping Cart</p>
-              </MenuItem>
-
-              <MenuItem>
-                <IconButton
-                  size="large"
-                  aria-label="show 17 new notifications"
-                  color="inherit"
-                >
-                  <Badge badgeContent={17} color="error">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
-                <p>Notifications</p>
-              </MenuItem>
-
-              <MenuItem>
-                <IconButton
-                  size="large"
-                  aria-label="show 4 new favorites"
-                  color="inherit"
-                >
-                  <Badge badgeContent={4} color="error">
-                    <FavoriteIcon />
-                  </Badge>
-                </IconButton>
-                <p>Favorites</p>
-              </MenuItem>
-            </Menu>
-          </Box>
-          {/*ACCOUNT MENU MOBILE END */}
+          <ProfileMenuMobile
+            anchor={anchorElProfMenuMob}
+            onClose={handleMobileMenuClose}
+          />
         </Toolbar>
       </Container>
     </AppBar>

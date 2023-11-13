@@ -5,7 +5,6 @@ import { alpha } from '@mui/material/styles';
 
 export const StyledLogoLinkDesktop = styled(Box)({
   height: '72px',
-  marginRight: '16px',
   '@media (min-width: 900px)': {
     display: 'flex',
   },
@@ -15,7 +14,6 @@ export const StyledLogoLinkDesktop = styled(Box)({
 });
 export const StyledLogoLinkMobile = styled(Box)({
   height: '72px',
-  marginRight: '16px',
   '@media (min-width: 900px)': {
     display: 'none',
   },

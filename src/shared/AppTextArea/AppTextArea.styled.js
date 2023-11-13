@@ -2,10 +2,11 @@ import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 
 import styled from '@emotion/styled';
 
-export const TextareaStyled = styled(TextareaAutosize)`
+export const TextAreaStyled = styled(TextareaAutosize)`
   width: 100%;
   min-width: 100%;
   max-width: 100%;
+  min-height: 100px;
   font-size: 1.3rem;
   font-weight: 400;
   line-height: 1.5;

@@ -1,8 +1,8 @@
-import { texareaProps } from './Texarea.props';
-import { TextareaStyled } from './Textarea.styled';
+import { texAreaProps } from './AppTextArea.props';
+import { TextAreaStyled } from './AppTextArea.styled';
 
 /**
- * Textarea component for rendering a multiline input field.
+ * AppTextArea component for rendering a multiline input field.
  *
  * @component
  * @param {string} value - The current value of the textarea saved in state.
@@ -14,7 +14,7 @@ import { TextareaStyled } from './Textarea.styled';
  * @returns {JSX.Element}
  */
 
-export const Textarea = ({
+export const AppTextArea = ({
   value,
   onChange,
   placeholder,
@@ -25,15 +25,15 @@ export const Textarea = ({
   const isError = value.length > maxLength;
 
   return (
-    <TextareaStyled
+    <TextAreaStyled
       minRows={minRows || 5}
       maxRows={maxRows || 5}
       value={value}
       onChange={onChange}
-      placeholder={placeholder || ''}
+      placeholder={placeholder}
       error={isError ? 'error' : null}
     />
   );
 };
 
-Textarea.propTypes = texareaProps;
+AppTextArea.propTypes = texAreaProps;

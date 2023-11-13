@@ -18,6 +18,7 @@ export const AppTextArea = ({
   value,
   onChange,
   placeholder = '',
+  name = '',
   minRows = 5,
   maxRows = 5,
   maxLength = 400,
@@ -32,6 +33,7 @@ export const AppTextArea = ({
       onChange={onChange}
       placeholder={placeholder}
       error={isError ? 'error' : null}
+      name={name}
     />
   );
 };

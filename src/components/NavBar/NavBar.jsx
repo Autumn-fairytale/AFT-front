@@ -2,10 +2,7 @@ import * as React from 'react';
 
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import MenuIcon from '@mui/icons-material/Menu';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import RestaurantIcon from '@mui/icons-material/Restaurant';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import AppBar from '@mui/material/AppBar';
@@ -28,41 +25,26 @@ import {
   StyledLogoLinkDesktop,
   StyledLogoLinkMobile,
 } from '@/components/NavBar/NavBar.styled.jsx';
-import ProfileMenuMobile from '@/components/NavBar/ProfileMenuMobile.jsx';
+import NavigationMenuMobile from '@/components/NavBar/NavigationMenuMobile/NavigationMenuMobile.jsx';
+import ProfileMenuMobile from '@/components/NavBar/ProfileMenuMobile/ProfileMenuMobile.jsx';
 
-const pages = ['Menu', 'Chefs'];
+const pages = ['Home', 'Menu', 'Chefs'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function NavBar() {
-  const [anchorElProfSett, setAnchorElProfSett] = React.useState(null);
+  const [anchorElProfile, setAnchorElProfile] = React.useState(null);
   const [anchorElNavMenuMob, setAnchorElNavMenuMob] = React.useState(null);
   const [anchorElProfMenuMob, setAnchorElProfMenuMob] = React.useState(null);
 
-  const handleMobileMenuClose = () => {
-    setAnchorElProfMenuMob(null);
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setAnchorElProfMenuMob(event.currentTarget);
-  };
-
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNavMenuMob(event.currentTarget);
-  };
   const handleOpenUserMenu = (event) => {
-    setAnchorElProfSett(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNavMenuMob(null);
+    setAnchorElProfile(event.currentTarget);
   };
 
   const handleCloseUserMenu = () => {
-    setAnchorElProfSett(null);
+    setAnchorElProfile(null);
   };
 
   const menuId = 'primary-search-account-menu';
-  const mobileMenuId = 'primary-search-account-menu-mobile';
 
   return (
     <AppBar position="static">
@@ -72,60 +54,11 @@ function NavBar() {
             <Box component="img" src={logoUrl} alt="idloLogo"></Box>
           </StyledLogoLinkDesktop>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-
-            <Menu
-              anchorEl={anchorElNavMenuMob}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              id="menu-appbar"
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNavMenuMob)}
-              onClose={handleCloseNavMenu}
-            >
-              <MenuItem>
-                <IconButton
-                  size="large"
-                  aria-label="menu with all dishes"
-                  aria-controls="primary-search-account-menu"
-                  aria-haspopup="true"
-                  color="inherit"
-                >
-                  <MenuBookIcon />
-                </IconButton>
-                <p>Menu</p>
-              </MenuItem>
-
-              <MenuItem>
-                <IconButton
-                  size="large"
-                  aria-label="list of all chef cooks"
-                  aria-controls="primary-search-account-menu"
-                  aria-haspopup="true"
-                  color="inherit"
-                >
-                  <RestaurantIcon />
-                </IconButton>
-                <p>Chefs</p>
-              </MenuItem>
-            </Menu>
-          </Box>
+          <NavigationMenuMobile
+            anchor={anchorElNavMenuMob}
+            onClick={(event) => setAnchorElNavMenuMob(event.currentTarget)}
+            onClose={() => setAnchorElNavMenuMob(null)}
+          />
 
           <StyledLogoLinkMobile component="a" href="/">
             <Box component="img" src={logoUrl} alt="idloLogo"></Box>
@@ -147,7 +80,7 @@ function NavBar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => setAnchorElProfMenuMob(null)}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page}
@@ -155,18 +88,11 @@ function NavBar() {
             ))}
           </Box>
 
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </Box>
+          <ProfileMenuMobile
+            anchor={anchorElProfMenuMob}
+            onClick={(event) => setAnchorElProfMenuMob(event.currentTarget)}
+            onClose={() => setAnchorElProfMenuMob(null)}
+          />
 
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Tooltip title="Open shopping cart">
@@ -222,7 +148,7 @@ function NavBar() {
               <Menu
                 sx={{ mt: '45px' }}
                 id="menu-appbar"
-                anchorEl={anchorElProfSett}
+                anchorEl={anchorElProfile}
                 anchorOrigin={{
                   vertical: 'top',
                   horizontal: 'right',
@@ -232,7 +158,7 @@ function NavBar() {
                   vertical: 'top',
                   horizontal: 'right',
                 }}
-                open={Boolean(anchorElProfSett)}
+                open={Boolean(anchorElProfile)}
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
@@ -243,10 +169,6 @@ function NavBar() {
               </Menu>
             </Box>
           </Box>
-          <ProfileMenuMobile
-            anchor={anchorElProfMenuMob}
-            onClose={handleMobileMenuClose}
-          />
         </Toolbar>
       </Container>
     </AppBar>

@@ -44,7 +44,7 @@ export default AppButton;
 AppButton.propTypes = {
   type: PropTypes.oneOf(['contained', 'text', 'outlined']),
   label: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   style: PropTypes.object,
   disabled: PropTypes.bool,
   startIcon: PropTypes.node,

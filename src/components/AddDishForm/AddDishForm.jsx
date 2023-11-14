@@ -118,9 +118,7 @@ firs step Main information:
 
 second step Additional information
   5 image
-  6 description
-  7 ingredients
-  8 isVegan
+
   
   
 third step Optional

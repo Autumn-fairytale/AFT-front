@@ -11,12 +11,13 @@ import {
   Stack,
   Switch,
   TextField,
-  Tooltip,
+  //   Tooltip,
 } from '@mui/material';
 
 import PropTypes from 'prop-types';
 
 import { MOCK_GAP } from './AddDishForm';
+import { ImageUpload } from './ImagePicker';
 
 export const AddDishFormStepTwo = ({
   register,
@@ -50,6 +51,7 @@ export const AddDishFormStepTwo = ({
 
   return (
     <>
+      <ImageUpload />
       <TextField
         sx={{ width: '300px' }}
         {...register('description')}
@@ -123,17 +125,17 @@ export const AddDishFormStepTwo = ({
         name="isVegan"
         control={control}
         render={({ field: { onChange, value } }) => (
-          <Tooltip title="Select if the dish does not contain meat, eggs, dairy products, and other animal-derived ingredients.">
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={value}
-                  onChange={(e) => onChange(e.target.checked)}
-                />
-              }
-              label="Vegan/Vegetarian-friendly"
-            />
-          </Tooltip>
+          //   <Tooltip title="Select if the dish does not contain meat, eggs, dairy products, and other animal-derived ingredients.">
+          <FormControlLabel
+            control={
+              <Switch
+                checked={value}
+                onChange={(e) => onChange(e.target.checked)}
+              />
+            }
+            label="Vegan/Vegetarian-friendly"
+          />
+          //   </Tooltip>
         )}
       />
 

@@ -7,8 +7,11 @@ import {
   Button,
   Chip,
   CircularProgress,
+  FormControlLabel,
   Stack,
+  Switch,
   TextField,
+  Tooltip,
 } from '@mui/material';
 
 import PropTypes from 'prop-types';
@@ -115,6 +118,25 @@ export const AddDishFormStepTwo = ({
           />
         )}
       />
+
+      <Controller
+        name="isVegan"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <Tooltip title="Select if the dish does not contain meat, eggs, dairy products, and other animal-derived ingredients.">
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={value}
+                  onChange={(e) => onChange(e.target.checked)}
+                />
+              }
+              label="Vegan/Vegetarian-friendly"
+            />
+          </Tooltip>
+        )}
+      />
+
       <Stack direction="row">
         <Button onClick={onPreviousStep}>Back</Button>
         <Button onClick={onNextStep}>Next</Button>

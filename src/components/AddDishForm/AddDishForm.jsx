@@ -14,8 +14,6 @@ export const MOCK_GAP = ' ';
 export const AddDishForm = () => {
   const [step, setStep] = useState(1);
 
-  const [formData, setFormData] = useState({});
-
   const defaultValues = {
     name: '',
     price: '',
@@ -23,12 +21,12 @@ export const AddDishForm = () => {
     category: '',
     description: '',
     ingredients: [],
+    isVegan: false,
   };
 
   const {
     register,
     trigger,
-    setValue,
     getValues,
     handleSubmit,
     formState: { errors },
@@ -46,7 +44,7 @@ export const AddDishForm = () => {
         fieldsToValidate = ['name', 'price', 'cuisine', 'category'];
         break;
       case 2:
-        fieldsToValidate = ['description', 'ingredients'];
+        fieldsToValidate = ['description', 'ingredients', 'isVegan'];
         break;
     }
 
@@ -54,8 +52,6 @@ export const AddDishForm = () => {
 
     if (isFormValid) {
       const currentValues = getValues();
-
-      setFormData({ ...formData, ...currentValues });
 
       console.log(currentValues);
 
@@ -65,10 +61,6 @@ export const AddDishForm = () => {
 
   const onPreviousStep = () => {
     setStep((prevStep) => prevStep - 1);
-
-    Object.keys(formData).forEach((key) => {
-      setValue(key, formData[key]);
-    });
   };
 
   const onSubmit = (data) => {

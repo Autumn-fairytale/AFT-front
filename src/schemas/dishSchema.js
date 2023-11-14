@@ -20,7 +20,7 @@ export const dishSchema = zod.object({
     .array(zod.string().min(1, 'Ingredient cannot be empty'))
     .min(1, 'At least one ingredient is required'),
 
-  // isVegan: zod.boolean(),
+  isVegan: zod.boolean(),
 
   // cookingTime: zod
   //   .number()

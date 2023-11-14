@@ -22,6 +22,7 @@ export const AddDishForm = () => {
     description: '',
     ingredients: [],
     isVegan: false,
+    image: '',
   };
 
   const {
@@ -44,7 +45,7 @@ export const AddDishForm = () => {
         fieldsToValidate = ['name', 'price', 'cuisine', 'category'];
         break;
       case 2:
-        fieldsToValidate = ['description', 'ingredients', 'isVegan'];
+        fieldsToValidate = ['description', 'ingredients', 'isVegan', 'image'];
         break;
     }
 

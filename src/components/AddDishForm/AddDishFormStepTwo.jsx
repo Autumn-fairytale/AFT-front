@@ -51,7 +51,7 @@ export const AddDishFormStepTwo = ({
 
   return (
     <>
-      <ImageUpload />
+      <ImageUpload control={control} />
       <TextField
         sx={{ width: '300px' }}
         {...register('description')}

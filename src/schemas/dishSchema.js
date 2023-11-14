@@ -12,11 +12,13 @@ export const dishSchema = zod.object({
 
   category: zod.string().min(1, 'Category is required'),
 
-  // description: zod.string().trim().min(10, 'Min 10 symbols'),
+  description: zod.string().min(10, 'Min 10 symbols'),
 
-  // image: zod.string().url('Must be a valid URL'),
+  image: zod.string().url('Must be a valid URL'),
 
-  // ingredients: zod.array(zod.string().min(1, 'Ingredient cannot be empty')),
+  ingredients: zod
+    .array(zod.string().min(1, 'Ingredient cannot be empty'))
+    .min(1, 'At least one ingredient is required'),
 
   // isVegan: zod.boolean(),
 
@@ -25,16 +27,17 @@ export const dishSchema = zod.object({
   //   .positive('Cooking time must be positive')
   //   .optional(),
 
-  // allergens: zod
-  //   .array(zod.string().min(1, 'Allergen cannot be empty'))
-  //   .optional(),
-
   // nutrition: zod
   //   .object({
-  //     calories: zod.number(),
-  //     protein: zod.number(),
-  //     fats: zod.number(),
-  //     carbohydrates: zod.number(),
+  //     calories: zod.number().min(0),
+  //     protein: zod.number().min(0),
+  //     fats: zod.number().min(0),
+  //     carbohydrates: zod.number().min(0),
   //   })
   //   .optional(),
+
+  //weight
+  //isAvailable
+  //cookTime
+  //spiceLevel
 });

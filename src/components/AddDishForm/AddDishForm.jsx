@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Box, Button, Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
 
 import { dishSchema } from '@/schemas/dishSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddDishFromStepOne } from './AddDishFormStepOne';
+import { AddDishFormStepThree } from './AddDishFormStepThree';
+import { AddDishFormStepTwo } from './AddDishFormStepTwo';
 
 export const MOCK_GAP = ' ';
-
+// todo - progress-bar
 export const AddDishForm = () => {
   const [step, setStep] = useState(1);
 
@@ -19,6 +21,8 @@ export const AddDishForm = () => {
     price: '',
     cuisine: '',
     category: '',
+    description: '',
+    ingredients: [],
   };
 
   const {
@@ -36,7 +40,17 @@ export const AddDishForm = () => {
   });
 
   const onNextStep = async () => {
-    const isFormValid = await trigger();
+    let fieldsToValidate = [];
+    switch (step) {
+      case 1:
+        fieldsToValidate = ['name', 'price', 'cuisine', 'category'];
+        break;
+      case 2:
+        fieldsToValidate = ['description', 'ingredients'];
+        break;
+    }
+
+    const isFormValid = await trigger(fieldsToValidate);
 
     if (isFormValid) {
       const currentValues = getValues();
@@ -83,27 +97,21 @@ export const AddDishForm = () => {
               setStep={setStep}
             />
           )}
+          {step === 2 && (
+            <AddDishFormStepTwo
+              register={register}
+              errors={errors}
+              onNextStep={onNextStep}
+              onPreviousStep={onPreviousStep}
+              control={control}
+            />
+          )}
 
-          {step > 1 && (
-            <>
-              <Button
-                type="button"
-                variant="contained"
-                onClick={onPreviousStep}
-                size="small"
-                sx={{ width: '80px' }}
-              >
-                Back
-              </Button>
-              <Button
-                type="submit"
-                variant="contained"
-                size="small"
-                sx={{ width: '80px' }}
-              >
-                Submit
-              </Button>
-            </>
+          {step === 3 && (
+            <AddDishFormStepThree
+              onPreviousStep={onPreviousStep}
+              onSubmit={handleSubmit(onSubmit)}
+            />
           )}
         </Box>
       </Box>
@@ -121,12 +129,14 @@ second step Additional information
   6 description
   7 ingredients
   8 isVegan
- 
-
-third step Optional
-  9 cookingTime
-  10 allergens
-  11 nutrition facts
   
+  
+third step Optional
+  9 weight
+  10 cookingTime
+  11 nutrition facts
+  12 spiceLevel
+  12 isAvailable
+
   
   */

@@ -50,3 +50,7 @@ AppButton.propTypes = {
   startIcon: PropTypes.node,
   endIcon: PropTypes.node,
 };
+
+AppButton.defaultProps = {
+  onClick: () => {},
+};

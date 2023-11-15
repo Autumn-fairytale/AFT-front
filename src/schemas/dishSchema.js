@@ -18,21 +18,21 @@ export const dishSchema = zod.object({
     .array(zod.string().min(1, 'Ingredient cannot be empty'))
     .min(1, 'At least one ingredient is required'),
 
-  isVegan: zod.boolean(),
+  // isVegan: zod.boolean(),
 
   // image: zod.object(),
   // image: zod.string().url('Must be a valid URL'),
 
-  cookingTime: zod.number().positive('Cooking time must be positive'),
+  // cookingTime: zod.number().positive('Cooking time must be positive'),
 
-  // nutrition: zod
-  //   .object({
-  //     calories: zod.number().min(0),
-  //     protein: zod.number().min(0),
-  //     fats: zod.number().min(0),
-  //     carbohydrates: zod.number().min(0),
-  //   })
-  //   .optional(),
+  // nutrition: zod.object({
+  //   calories: zod.number().min(0).max(),
+  //   protein: zod.number().min(0),
+  //   fats: zod.number().min(0),
+  //   carbohydrates: zod.number().min(0),
+  // }),
+
+  // spiceLevel: zod.number().min(0).max(3),
 
   //weight
   //isAvailable

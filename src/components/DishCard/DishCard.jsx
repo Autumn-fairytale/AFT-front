@@ -50,13 +50,13 @@ const DishCard = ({ dishInfo }) => {
       </DishDescription>
       <ButtonsWrapper>
         <AppButton
-          type="outlined"
+          variant="outlined"
           label="Learn More"
           endIcon={<FiChevronRight />}
           onClick={handleClick}
         />
         <AppButton
-          type="contained"
+          variant="contained"
           label="Add to Cart"
           endIcon={<FiShoppingCart />}
           onClick={handleClick}

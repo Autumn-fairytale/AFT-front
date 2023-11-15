@@ -61,7 +61,7 @@ export const AddDishForm = () => {
         fieldsToValidate = ['description', 'ingredients', 'isVegan', 'image'];
         break;
       case 3:
-        fieldsToValidate = ['weight', 'cookingTime', 'nutrition'];
+        fieldsToValidate = ['weight', 'cookingTime', 'nutrition', 'spiceLevel'];
     }
 
     const isFormValid = await trigger(fieldsToValidate);
@@ -79,10 +79,10 @@ export const AddDishForm = () => {
     setStep((prevStep) => prevStep - 1);
   };
 
-  const onSubmit = (e, data) => {
-    e.preventDefault();
+  const Submit = (data) => {
     console.log(data);
   };
+  console.log(step, errors);
 
   return (
     <Container>
@@ -98,7 +98,7 @@ export const AddDishForm = () => {
         <AddDishFormStepper step={step} />
         <Box
           component={'form'}
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(Submit)}
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -123,19 +123,15 @@ export const AddDishForm = () => {
           )}
 
           {step === 3 && (
-            <AddDishFormStepThree
-              control={control}
-              errors={errors}
-              onSubmit={handleSubmit(onSubmit)}
-            />
+            <AddDishFormStepThree control={control} errors={errors} />
           )}
+          <AddDishFormNavButtons
+            step={step}
+            onPreviousStep={onPreviousStep}
+            onNextStep={onNextStep}
+            totalSteps={3}
+          />
         </Box>
-        <AddDishFormNavButtons
-          step={step}
-          onPreviousStep={onPreviousStep}
-          onNextStep={onNextStep}
-          totalSteps={3}
-        />
       </Box>
     </Container>
   );

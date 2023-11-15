@@ -8,9 +8,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { AddDishFromStepOne } from './AddDishFormStepOne';
 import { AddDishFormStepThree } from './AddDishFormStepThree';
 import { AddDishFormStepTwo } from './AddDishFormStepTwo';
+import { AddDishFormStepper } from './AddDishFromStepper';
 
 export const MOCK_GAP = ' ';
 // todo - progress-bar
+// use  "react-number-format": "^5.3.1",
 export const AddDishForm = () => {
   const [step, setStep] = useState(1);
 
@@ -72,6 +74,7 @@ export const AddDishForm = () => {
   return (
     <Container>
       <Box sx={{ mt: 5 }}>
+        <AddDishFormStepper step={step} />
         <Box
           component={'form'}
           onSubmit={handleSubmit(onSubmit)}
@@ -79,6 +82,7 @@ export const AddDishForm = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            mt: 3,
           }}
         >
           {step === 1 && (

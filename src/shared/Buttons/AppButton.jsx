@@ -23,8 +23,4 @@ AppButton.defaultProps = {
   label: 'Submit',
 };
 
-AppButton.defaultProps = {
-  onClick: () => {},
-};
-
 export default AppButton;

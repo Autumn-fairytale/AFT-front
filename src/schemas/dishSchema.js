@@ -14,13 +14,14 @@ export const dishSchema = zod.object({
 
   description: zod.string().min(10, 'Min 10 symbols'),
 
-  image: zod.string().url('Must be a valid URL'),
-
   ingredients: zod
     .array(zod.string().min(1, 'Ingredient cannot be empty'))
     .min(1, 'At least one ingredient is required'),
 
   isVegan: zod.boolean(),
+
+  // image: zod.object(),
+  // image: zod.string().url('Must be a valid URL'),
 
   // cookingTime: zod
   //   .number()

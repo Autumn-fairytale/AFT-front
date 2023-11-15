@@ -17,7 +17,7 @@ import {
 import PropTypes from 'prop-types';
 
 import { MOCK_GAP } from './AddDishForm';
-import { ImageUpload } from './ImagePicker';
+import { ImageUpload } from './ImageUpload';
 
 export const AddDishFormStepTwo = ({
   register,
@@ -25,6 +25,7 @@ export const AddDishFormStepTwo = ({
   onNextStep,
   onPreviousStep,
   control,
+  setValue,
 }) => {
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -51,7 +52,7 @@ export const AddDishFormStepTwo = ({
 
   return (
     <>
-      <ImageUpload control={control} />
+      <ImageUpload control={control} setValue={setValue} />
       <TextField
         sx={{ width: '300px' }}
         {...register('description')}
@@ -125,7 +126,6 @@ export const AddDishFormStepTwo = ({
         name="isVegan"
         control={control}
         render={({ field: { onChange, value } }) => (
-          //   <Tooltip title="Select if the dish does not contain meat, eggs, dairy products, and other animal-derived ingredients.">
           <FormControlLabel
             control={
               <Switch
@@ -135,7 +135,6 @@ export const AddDishFormStepTwo = ({
             }
             label="Vegan/Vegetarian-friendly"
           />
-          //   </Tooltip>
         )}
       />
 
@@ -153,4 +152,5 @@ AddDishFormStepTwo.propTypes = {
   onNextStep: PropTypes.func.isRequired,
   onPreviousStep: PropTypes.func.isRequired,
   control: PropTypes.object.isRequired,
+  setValue: PropTypes.func.isRequired,
 };

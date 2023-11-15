@@ -29,6 +29,7 @@ export const AddDishForm = () => {
     register,
     trigger,
     getValues,
+    setValue,
     handleSubmit,
     formState: { errors },
     control,
@@ -97,6 +98,7 @@ export const AddDishForm = () => {
               onNextStep={onNextStep}
               onPreviousStep={onPreviousStep}
               control={control}
+              setValue={setValue}
             />
           )}
 
@@ -118,8 +120,7 @@ firs step Main information:
   done but need refactoring, too hard to read 
 
 second step Additional information
-  5 image
-
+done but must change image picker and refactor some code
   
   
 third step Optional

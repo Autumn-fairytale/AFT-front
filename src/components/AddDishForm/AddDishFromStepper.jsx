@@ -5,8 +5,16 @@ import PropTypes from 'prop-types';
 const steps = ['Main information', 'Additional information', 'Other options'];
 
 export const AddDishFormStepper = ({ step }) => {
+  const countSteps = () => {
+    if (step < 3) {
+      return step - 1;
+    } else {
+      return step;
+    }
+  };
+
   return (
-    <Stepper activeStep={step - 1}>
+    <Stepper activeStep={countSteps()}>
       {steps.map((label) => {
         const stepProps = {};
         const labelProps = {};

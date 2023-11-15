@@ -11,7 +11,6 @@ import { AddDishFormStepTwo } from './AddDishFormStepTwo';
 import { AddDishFormStepper } from './AddDishFromStepper';
 
 export const MOCK_GAP = ' ';
-// todo - progress-bar
 // use  "react-number-format": "^5.3.1",
 export const AddDishForm = () => {
   const [step, setStep] = useState(1);

@@ -12,7 +12,6 @@ import { AddDishFormStepTwo } from './AddDishFormStepTwo';
 import { AddDishFormStepper } from './AddDishFromStepper';
 
 export const MOCK_GAP = ' ';
-// use  "react-number-format": "^5.3.1",
 
 export const AddDishForm = () => {
   const [step, setStep] = useState(1);
@@ -35,12 +34,13 @@ export const AddDishForm = () => {
       fats: '',
       carbohydrates: '',
     },
+    isAvailable: true,
   };
 
   const {
     register,
     trigger,
-    getValues,
+    // reset,
     setValue,
     handleSubmit,
     formState: { errors },
@@ -50,7 +50,7 @@ export const AddDishForm = () => {
     defaultValues,
     mode: 'onChange',
   });
-
+  console.log(errors);
   const onNextStep = async () => {
     let fieldsToValidate = [];
     switch (step) {
@@ -61,16 +61,12 @@ export const AddDishForm = () => {
         fieldsToValidate = ['description', 'ingredients', 'isVegan', 'image'];
         break;
       case 3:
-        fieldsToValidate = ['weight', 'cookingTime', 'nutrition', 'spiceLevel'];
+        fieldsToValidate = ['weight', 'cookTime', 'spiceLevel', 'isAvailable'];
     }
 
     const isFormValid = await trigger(fieldsToValidate);
 
     if (isFormValid) {
-      const currentValues = getValues();
-
-      console.log(currentValues);
-
       setStep((prevStep) => prevStep + 1);
     }
   };
@@ -81,8 +77,8 @@ export const AddDishForm = () => {
 
   const Submit = (data) => {
     console.log(data);
+    // reset();
   };
-  console.log(step, errors);
 
   return (
     <Container>

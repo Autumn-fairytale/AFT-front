@@ -1,10 +1,12 @@
-// import { Button } from '@mui/material';
+import { Controller } from 'react-hook-form';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  FormControlLabel,
+  Switch,
   Typography,
 } from '@mui/material';
 
@@ -21,23 +23,23 @@ export const AddDishFormStepThree = ({ control, errors }) => {
         sx={{ width: '300px' }}
         control={control}
         name="weight"
-        label="Weight (kg)"
-        error={!!errors.price}
-        helperText={errors.price?.message ?? MOCK_GAP}
+        label="Weight (g)"
+        error={!!errors.weight}
+        helperText={errors.weight?.message ?? MOCK_GAP}
       />
 
       <FormattedNumberInput
         sx={{ width: '300px' }}
         control={control}
         name="cookTime"
-        label="Cooking Time (minutes)"
-        error={!!errors.price}
-        helperText={errors.price?.message ?? MOCK_GAP}
+        label="Cooking Time (m)"
+        error={!!errors.cookTime}
+        helperText={errors.cookTime?.message ?? MOCK_GAP}
       />
 
       <Accordion sx={{ width: '300px', mt: 2 }}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>Nutrition Information</Typography>
+          <Typography>Nutrition Facts (optional)</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <FormattedNumberInput
@@ -50,7 +52,7 @@ export const AddDishFormStepThree = ({ control, errors }) => {
           <FormattedNumberInput
             control={control}
             name="nutrition.protein"
-            label="Protein (g)"
+            label="Protein  (g)"
             error={!!errors['nutrition.protein']}
             helperText={errors['nutrition.protein']?.message ?? MOCK_GAP}
           />
@@ -75,6 +77,21 @@ export const AddDishFormStepThree = ({ control, errors }) => {
         name="spiceLevel"
         error={errors.spiceLevel}
       />
+      <Controller
+        name="isAvailable"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <FormControlLabel
+            control={
+              <Switch
+                checked={value}
+                onChange={(e) => onChange(e.target.checked)}
+              />
+            }
+            label="Is dish available to order"
+          />
+        )}
+      />
     </>
   );
 };
@@ -83,9 +100,3 @@ AddDishFormStepThree.propTypes = {
   errors: PropTypes.object.isRequired,
   control: PropTypes.object.isRequired,
 };
-
-// 9 weight
-// 10 cookingTime
-// 11 nutrition facts
-// 12 spiceLevel
-// 12 isAvailable

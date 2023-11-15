@@ -3,7 +3,7 @@ import { TextField } from '@mui/material';
 
 /* By default, MUI has only small (40px) and normal (56px) input sizes. 
 The middle size is 46px */
-const mediumInputStyles = {
+export const mediumInputStyles = {
   '& .MuiInputBase-input': {
     paddingTop: '11.5px',
     paddingBottom: '11.5px',

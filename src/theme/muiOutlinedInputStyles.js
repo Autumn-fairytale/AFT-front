@@ -13,4 +13,21 @@ export const muiOutlinedInputStyles = {
       borderColor: customColors.outlineColor,
     },
   },
+  variants: [
+    {
+      props: { size: 'medium' },
+      style: {
+        '& .MuiInputBase-input': {
+          paddingTop: '11.5px',
+          paddingBottom: '11.5px',
+        },
+        '& .MuiInputLabel-root': {
+          transform: 'translate(14px, 11.5px) scale(1)',
+        },
+        '& .MuiInputLabel-shrink': {
+          transform: 'translate(14px, -9px) scale(0.75)',
+        },
+      },
+    },
+  ],
 };

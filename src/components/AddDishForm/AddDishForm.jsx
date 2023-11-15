@@ -5,6 +5,7 @@ import { Box, Container } from '@mui/material';
 
 import { dishSchema } from '@/schemas/dishSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { AddDishFormNavButtons } from './AddDishFormNavButtons';
 import { AddDishFromStepOne } from './AddDishFormStepOne';
 import { AddDishFormStepThree } from './AddDishFormStepThree';
 import { AddDishFormStepTwo } from './AddDishFormStepTwo';
@@ -12,6 +13,7 @@ import { AddDishFormStepper } from './AddDishFromStepper';
 
 export const MOCK_GAP = ' ';
 // use  "react-number-format": "^5.3.1",
+
 export const AddDishForm = () => {
   const [step, setStep] = useState(1);
 
@@ -66,13 +68,22 @@ export const AddDishForm = () => {
     setStep((prevStep) => prevStep - 1);
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = (e, data) => {
+    e.preventDefault();
     console.log(data);
   };
 
   return (
     <Container>
-      <Box sx={{ mt: 5 }}>
+      <Box
+        sx={{
+          mt: 5,
+          mb: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
         <AddDishFormStepper step={step} />
         <Box
           component={'form'}
@@ -88,7 +99,6 @@ export const AddDishForm = () => {
             <AddDishFromStepOne
               control={control}
               errors={errors}
-              onNextStep={onNextStep}
               register={register}
               step={step}
               setStep={setStep}
@@ -112,6 +122,12 @@ export const AddDishForm = () => {
             />
           )}
         </Box>
+        <AddDishFormNavButtons
+          step={step}
+          onPreviousStep={onPreviousStep}
+          onNextStep={onNextStep}
+          totalSteps={3}
+        />
       </Box>
     </Container>
   );

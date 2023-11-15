@@ -34,6 +34,7 @@ export const FormattedNumberInput = ({
           helperText={helperText}
           inputRef={ref}
           sx={sx}
+          autoComplete="off"
         />
       )}
     />

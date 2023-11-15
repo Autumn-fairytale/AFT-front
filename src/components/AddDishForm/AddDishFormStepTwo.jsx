@@ -4,14 +4,11 @@ import { Controller } from 'react-hook-form';
 import {
   Autocomplete,
   Box,
-  Button,
   Chip,
   CircularProgress,
   FormControlLabel,
-  Stack,
   Switch,
   TextField,
-  //   Tooltip,
 } from '@mui/material';
 
 import PropTypes from 'prop-types';
@@ -19,14 +16,7 @@ import PropTypes from 'prop-types';
 import { MOCK_GAP } from './AddDishForm';
 import { ImageUpload } from './ImageUpload';
 
-export const AddDishFormStepTwo = ({
-  register,
-  errors,
-  onNextStep,
-  onPreviousStep,
-  control,
-  setValue,
-}) => {
+export const AddDishFormStepTwo = ({ register, errors, control, setValue }) => {
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -137,11 +127,6 @@ export const AddDishFormStepTwo = ({
           />
         )}
       />
-
-      <Stack direction="row">
-        <Button onClick={onPreviousStep}>Back</Button>
-        <Button onClick={onNextStep}>Next</Button>
-      </Stack>
     </>
   );
 };
@@ -149,8 +134,6 @@ export const AddDishFormStepTwo = ({
 AddDishFormStepTwo.propTypes = {
   register: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  onNextStep: PropTypes.func.isRequired,
-  onPreviousStep: PropTypes.func.isRequired,
   control: PropTypes.object.isRequired,
   setValue: PropTypes.func.isRequired,
 };

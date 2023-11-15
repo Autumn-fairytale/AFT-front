@@ -50,7 +50,7 @@ export const ReviewForm = () => {
         />
       </label>
       <ButtonWrapper>
-        <AppButton type="contained" label="Send" />
+        <AppButton variant="contained" label="Send" />
       </ButtonWrapper>
     </Form>
   );

@@ -1,3 +1,5 @@
+import { Button } from '@mui/material';
+import { styled } from '@mui/material';
 import { darken, lighten } from '@mui/material/styles';
 
 /* Set background color and hover effect for each button type */
@@ -25,19 +27,20 @@ const textButtonStyles = ({ theme }) => `
 `;
 
 /* Apply common button styles and styles based on type */
-export const appButtonStyles = (theme, type) => {
+export const StyledButton = styled(Button)(({ theme, variant }) => {
   const styleMappings = {
     contained: containedButtonStyles,
     outlined: outlinedButtonStyles,
     text: textButtonStyles,
   };
 
+  const selectedStyle = styleMappings[variant] || containedButtonStyles;
   return {
-    ...styleMappings[type]({ theme }),
+    ...selectedStyle({ theme }),
     height: '46px',
     width: 'max-content',
     fontSize: '1rem',
     lineHeight: '1.5',
     textTransform: 'none',
   };
-};
+});

@@ -24,7 +24,7 @@ export const FormattedNumberInput = ({
           {...restFieldProps}
           value={value}
           onValueChange={(values) => {
-            onChange(values.value || '');
+            onChange(values.value ? Number(values.value) : '');
           }}
           customInput={TextField}
           thousandSeparator={thousandSeparator}

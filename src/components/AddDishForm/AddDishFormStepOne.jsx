@@ -90,6 +90,4 @@ AddDishFromStepOne.propTypes = {
   register: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   control: PropTypes.object.isRequired,
-  // onNextStep: PropTypes.func.isRequired,
-  step: PropTypes.number.isRequired,
 };

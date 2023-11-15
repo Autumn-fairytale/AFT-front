@@ -6,7 +6,7 @@ export const dishSchema = zod.object({
   price: zod
     .number()
     .positive('Price must be greater than zero')
-    .or(zod.string().min(1, 'Number is required')),
+    .or(zod.string().min(1, 'Price is required')),
 
   cuisine: zod.string().min(1, 'Cuisine is required'),
 
@@ -23,10 +23,7 @@ export const dishSchema = zod.object({
   // image: zod.object(),
   // image: zod.string().url('Must be a valid URL'),
 
-  // cookingTime: zod
-  //   .number()
-  //   .positive('Cooking time must be positive')
-  //   .optional(),
+  cookingTime: zod.number().positive('Cooking time must be positive'),
 
   // nutrition: zod
   //   .object({

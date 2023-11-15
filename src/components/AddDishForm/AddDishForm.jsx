@@ -26,6 +26,15 @@ export const AddDishForm = () => {
     ingredients: [],
     isVegan: false,
     image: '',
+    weight: '',
+    cookTime: '',
+    spiceLevel: 0,
+    nutrition: {
+      calories: '',
+      protein: '',
+      fats: '',
+      carbohydrates: '',
+    },
   };
 
   const {
@@ -51,6 +60,8 @@ export const AddDishForm = () => {
       case 2:
         fieldsToValidate = ['description', 'ingredients', 'isVegan', 'image'];
         break;
+      case 3:
+        fieldsToValidate = ['weight', 'cookingTime', 'nutrition'];
     }
 
     const isFormValid = await trigger(fieldsToValidate);
@@ -100,16 +111,12 @@ export const AddDishForm = () => {
               control={control}
               errors={errors}
               register={register}
-              step={step}
-              setStep={setStep}
             />
           )}
           {step === 2 && (
             <AddDishFormStepTwo
               register={register}
               errors={errors}
-              onNextStep={onNextStep}
-              onPreviousStep={onPreviousStep}
               control={control}
               setValue={setValue}
             />
@@ -117,7 +124,8 @@ export const AddDishForm = () => {
 
           {step === 3 && (
             <AddDishFormStepThree
-              onPreviousStep={onPreviousStep}
+              control={control}
+              errors={errors}
               onSubmit={handleSubmit(onSubmit)}
             />
           )}

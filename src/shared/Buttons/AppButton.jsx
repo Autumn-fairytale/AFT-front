@@ -6,12 +6,12 @@ import { PropTypes } from 'prop-types';
 import { useTheme } from '@emotion/react';
 import { appButtonStyles } from './appButtonStyles';
 
-const StyledButton = styled(Button)(({ theme, type }) =>
-  appButtonStyles(theme, type)
+const StyledButton = styled(Button)(({ theme, variant }) =>
+  appButtonStyles(theme, variant)
 );
-
 const AppButton = ({
-  type = 'contained',
+  type = 'button',
+  variant = 'contained',
   label,
   onClick,
   style,
@@ -25,7 +25,7 @@ const AppButton = ({
   return (
     <StyledButton
       onClick={onClick}
-      variant={type}
+      variant={variant}
       style={style}
       disabled={disabled}
       startIcon={startIcon}
@@ -42,9 +42,11 @@ const AppButton = ({
 export default AppButton;
 
 AppButton.propTypes = {
-  type: PropTypes.oneOf(['contained', 'text', 'outlined']),
+  type: PropTypes.oneOf(['submit', 'button', 'reset']),
+  variant: PropTypes.oneOf(['contained', 'text', 'outlined']),
   label: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
+  onSubmit: PropTypes.func,
   style: PropTypes.object,
   disabled: PropTypes.bool,
   startIcon: PropTypes.node,

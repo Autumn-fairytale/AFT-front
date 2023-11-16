@@ -7,4 +7,13 @@ export const texAreaProps = {
   minRows: PropTypes.number,
   maxRows: PropTypes.number,
   maxLength: PropTypes.number,
+  name: PropTypes.string,
+};
+
+export const defaultTexAreaProps = {
+  placeholder: '',
+  name: '',
+  minRows: 5,
+  maxRows: 5,
+  maxLength: 400,
 };

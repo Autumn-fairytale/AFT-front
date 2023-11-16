@@ -25,7 +25,7 @@ export const AppModal = ({ onClose, children, isOpen }) => {
           onClick={onClose}
           size="large"
         >
-          <AiOutlineCloseCircle fontSize="20" />
+          <AiOutlineCloseCircle fontSize="30" />
         </IconButtonStyled>
         {children}
       </BoxStyled>

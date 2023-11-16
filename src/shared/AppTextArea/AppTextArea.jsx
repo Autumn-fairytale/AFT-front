@@ -1,4 +1,4 @@
-import { texAreaProps } from './AppTextArea.props';
+import { defaultTexAreaProps, texAreaProps } from './AppTextArea.props';
 import { TextAreaStyled } from './AppTextArea.styled';
 
 /**
@@ -17,10 +17,11 @@ import { TextAreaStyled } from './AppTextArea.styled';
 export const AppTextArea = ({
   value,
   onChange,
-  placeholder = '',
-  minRows = 5,
-  maxRows = 5,
-  maxLength = 400,
+  placeholder,
+  name,
+  minRows,
+  maxRows,
+  maxLength,
 }) => {
   const isError = value.length > maxLength;
 
@@ -32,8 +33,11 @@ export const AppTextArea = ({
       onChange={onChange}
       placeholder={placeholder}
       error={isError ? 'error' : null}
+      name={name}
     />
   );
 };
 
 AppTextArea.propTypes = texAreaProps;
+
+AppTextArea.defaultProps = defaultTexAreaProps;

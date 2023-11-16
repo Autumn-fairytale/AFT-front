@@ -7,8 +7,8 @@ import { IconButton } from '@mui/material';
 
 import PropTypes from 'prop-types';
 
+import { customColors } from '@/constants';
 import AppButton from '@/shared/Buttons/AppButton';
-import { primaryColor } from '@/theme/theme';
 import {
   ButtonsWrapper,
   DishCardWrapper,
@@ -36,7 +36,9 @@ const DishCard = ({ dishInfo }) => {
         />
         <FavoriteButton>
           <IconButton onClick={() => setFavorite(!favorite)}>
-            <MdFavoriteBorder style={{ color: favorite ? primaryColor : '' }} />
+            <MdFavoriteBorder
+              style={{ color: favorite ? customColors.primaryColor : '' }}
+            />
           </IconButton>
         </FavoriteButton>
       </DishImageWrapper>

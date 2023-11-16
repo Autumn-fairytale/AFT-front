@@ -11,9 +11,14 @@ import { StyledRating } from './AddDishFormSpiceLevelStyled';
 export const AddDishFormSpiceLevel = ({ control, name, error }) => {
   return (
     <Box
-      sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        mt: 'auto',
+      }}
     >
-      <Typography component="legend">Spice Level</Typography>
+      <Typography component="legend">Adjust spice level</Typography>
       <Controller
         name={name}
         control={control}

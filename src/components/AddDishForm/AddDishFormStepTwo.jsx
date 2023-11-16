@@ -68,7 +68,7 @@ export const AddDishFormStepTwo = ({ errors, control }) => {
                 <TextField
                   {...params}
                   label="Ingredients"
-                  placeholder="Select ingredients please"
+                  placeholder="Select to pick ingredient"
                   error={!!errors.ingredients}
                   helperText={errors.ingredients?.message ?? MOCK_GAP}
                   InputProps={{
@@ -101,6 +101,12 @@ export const AddDishFormStepTwo = ({ errors, control }) => {
         )}
       />
 
+      <AddDishFormSpiceLevel
+        control={control}
+        name="spiceLevel"
+        error={errors.spiceLevel}
+      />
+
       <Controller
         name="isVegan"
         control={control}
@@ -116,12 +122,6 @@ export const AddDishFormStepTwo = ({ errors, control }) => {
             label="Vegan/Vegetarian-friendly"
           />
         )}
-      />
-
-      <AddDishFormSpiceLevel
-        control={control}
-        name="spiceLevel"
-        error={errors.spiceLevel}
       />
 
       <Controller

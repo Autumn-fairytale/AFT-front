@@ -30,25 +30,21 @@ export const dishSchema = zod.object({
   nutrition: zod
     .object({
       calories: zod
-        .number()
-        .min(0)
-        .or(zod.string().min(1, 'More than 0'))
-        .optional(),
-
+        .union([zod.number().nonnegative(), zod.string().length(0)])
+        .optional()
+        .nullable(),
       protein: zod
-        .number()
-        .min(0)
-        .or(zod.string().min(1, 'More than 0'))
-        .optional(),
+        .union([zod.number().nonnegative(), zod.string().length(0)])
+        .optional()
+        .nullable(),
       fats: zod
-        .number()
-        .min(0)
-        .or(zod.string().min(1, 'More than 0'))
-        .optional(),
+        .union([zod.number().nonnegative(), zod.string().length(0)])
+        .optional()
+        .nullable(),
       carbohydrates: zod
-        .number()
-        .min(0)
-        .or(zod.string().min(1, 'More than 0').optional()),
+        .union([zod.number().nonnegative(), zod.string().length(0)])
+        .optional()
+        .nullable(),
     })
     .optional(),
 
@@ -56,7 +52,7 @@ export const dishSchema = zod.object({
   weight: zod
     .number()
     .min(0, 'Weight must be non-negative')
-    .max(100, 'Weight must be less than or equal to 100kg')
+    .max(100000, 'Really more than 100kg ? ')
     .or(zod.string().min(1, 'Weight must id required')),
 
   isAvailable: zod.boolean(),

@@ -97,7 +97,7 @@ export const ImageUpload = ({ control, setValue }) => {
               handleImageChange(e, onChange);
             }}
           />
-          <Box sx={{ textAlign: 'center', mt: 2 }}>
+          <Box>
             <Paper
               variant="outlined"
               sx={{

@@ -20,7 +20,6 @@ export const AddDishForm = () => {
 
   const totalSteps = 4;
 
-  console.log(step);
   const {
     register,
     trigger,
@@ -34,6 +33,7 @@ export const AddDishForm = () => {
     defaultValues,
     mode: 'onChange',
   });
+
   const onNextStep = async () => {
     let fieldsToValidate = [];
     switch (step) {
@@ -72,57 +72,56 @@ export const AddDishForm = () => {
   };
 
   return (
-    <Container>
+    <Container
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        mt: 5,
+        mb: 2,
+        height: '80vh',
+        // justifyContent: 'space-between',
+      }}
+    >
+      <AddDishFormStepper step={step} />
       <Box
+        component={'form'}
+        onSubmit={handleSubmit(Submit)}
         sx={{
-          mt: 5,
-          mb: 2,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          mt: 3,
+          flexGrow: 1,
         }}
       >
-        <AddDishFormStepper step={step} />
-        <Box
-          component={'form'}
-          onSubmit={handleSubmit(Submit)}
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            mt: 3,
-          }}
-        >
-          {step === 1 && (
-            <AddDishFromStepOne
-              control={control}
-              errors={errors}
-              register={register}
-            />
-          )}
-          {step === 2 && (
-            <AddDishFormStepTwo errors={errors} control={control} />
-          )}
-
-          {step === 3 && (
-            <AddDishFormStepThree
-              register={register}
-              errors={errors}
-              control={control}
-              setValue={setValue}
-            />
-          )}
-          {step === 4 && (
-            <AddDishFormStepFour control={control} errors={errors} />
-          )}
-
-          <AddDishFormNavButtons
-            step={step}
-            onPreviousStep={onPreviousStep}
-            onNextStep={onNextStep}
-            totalSteps={totalSteps}
+        {step === 1 && (
+          <AddDishFromStepOne
+            control={control}
+            errors={errors}
+            register={register}
           />
-        </Box>
+        )}
+        {step === 2 && <AddDishFormStepTwo errors={errors} control={control} />}
+
+        {step === 3 && (
+          <AddDishFormStepThree
+            register={register}
+            errors={errors}
+            control={control}
+            setValue={setValue}
+          />
+        )}
+        {step === 4 && (
+          <AddDishFormStepFour control={control} errors={errors} />
+        )}
+
+        <AddDishFormNavButtons
+          step={step}
+          onPreviousStep={onPreviousStep}
+          onNextStep={onNextStep}
+          totalSteps={totalSteps}
+        />
       </Box>
     </Container>
   );

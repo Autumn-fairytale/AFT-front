@@ -11,7 +11,7 @@ export const AddDishFormNavButtons = ({
   totalSteps,
 }) => {
   return (
-    <Stack direction="row" spacing={1}>
+    <Stack direction="row" spacing={1} sx={{ mt: 'auto' }}>
       {step > 1 && <AppButton label="Back" onClick={onPreviousStep} />}
       {step < totalSteps && <AppButton label="Next" onClick={onNextStep} />}
       {step === totalSteps && <AppButton label="Submit" type="submit" />}

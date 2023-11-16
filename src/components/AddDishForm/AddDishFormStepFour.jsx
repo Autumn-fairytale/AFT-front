@@ -28,7 +28,7 @@ export const AddDishFormStepFour = ({ control, errors }) => {
 
       <Typography variant="body2">Nutrition Facts (optional)</Typography>
 
-      <Stack direction="row" spacing={1} sx={{ width: '300px' }}>
+      <Stack direction="row" spacing={1} sx={{ width: '300px', mt: 1 }}>
         <FormattedNumberInput
           sx={{ width: '50%' }}
           control={control}
@@ -63,28 +63,6 @@ export const AddDishFormStepFour = ({ control, errors }) => {
           helperText={errors['nutrition.carbohydrates']?.message ?? MOCK_GAP}
         />
       </Stack>
-
-      {/* <AddDishFormSpiceLevel
-        control={control}
-        name="spiceLevel"
-        error={errors.spiceLevel}
-      />
-      <Controller
-        name="isAvailable"
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <FormControlLabel
-            sx={{ ml: 'auto', mr: 'auto' }}
-            control={
-              <Switch
-                checked={value}
-                onChange={(e) => onChange(e.target.checked)}
-              />
-            }
-            label="Is dish available to order"
-          />
-        )}
-      /> */}
     </>
   );
 };

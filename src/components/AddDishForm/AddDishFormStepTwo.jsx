@@ -14,9 +14,9 @@ import {
 import PropTypes from 'prop-types';
 
 import { MOCK_GAP } from './AddDishForm';
-import { ImageUpload } from './ImageUpload';
+import { AddDishFormSpiceLevel } from './AddDishFormSpiceLevel/AddDishFormSpiceLevel';
 
-export const AddDishFormStepTwo = ({ register, errors, control, setValue }) => {
+export const AddDishFormStepTwo = ({ errors, control }) => {
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -42,17 +42,6 @@ export const AddDishFormStepTwo = ({ register, errors, control, setValue }) => {
 
   return (
     <>
-      <ImageUpload control={control} setValue={setValue} />
-      <TextField
-        sx={{ width: '300px' }}
-        {...register('description')}
-        label="Description"
-        error={!!errors.description}
-        helperText={errors.description?.message ?? MOCK_GAP}
-        multiline
-        rows={2}
-      />
-
       <Controller
         name="ingredients"
         control={control}
@@ -117,6 +106,7 @@ export const AddDishFormStepTwo = ({ register, errors, control, setValue }) => {
         control={control}
         render={({ field: { onChange, value } }) => (
           <FormControlLabel
+            sx={{ ml: 2, mr: 'auto' }}
             control={
               <Switch
                 checked={value}
@@ -127,13 +117,34 @@ export const AddDishFormStepTwo = ({ register, errors, control, setValue }) => {
           />
         )}
       />
+
+      <AddDishFormSpiceLevel
+        control={control}
+        name="spiceLevel"
+        error={errors.spiceLevel}
+      />
+
+      <Controller
+        name="isAvailable"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <FormControlLabel
+            sx={{ ml: 2, mr: 'auto' }}
+            control={
+              <Switch
+                checked={value}
+                onChange={(e) => onChange(e.target.checked)}
+              />
+            }
+            label="Is dish available to order"
+          />
+        )}
+      />
     </>
   );
 };
 
 AddDishFormStepTwo.propTypes = {
-  register: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   control: PropTypes.object.isRequired,
-  setValue: PropTypes.func.isRequired,
 };

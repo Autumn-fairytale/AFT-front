@@ -3,9 +3,11 @@ import { useForm } from 'react-hook-form';
 
 import { Box, Container } from '@mui/material';
 
+import { dishFormDefaultValues as defaultValues } from '@/constants/defaultValues';
 import { dishSchema } from '@/schemas/dishSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddDishFormNavButtons } from './AddDishFormNavButtons';
+import { AddDishFormStepFour } from './AddDishFormStepFour';
 import { AddDishFromStepOne } from './AddDishFormStepOne';
 import { AddDishFormStepThree } from './AddDishFormStepThree';
 import { AddDishFormStepTwo } from './AddDishFormStepTwo';
@@ -16,27 +18,9 @@ export const MOCK_GAP = ' ';
 export const AddDishForm = () => {
   const [step, setStep] = useState(1);
 
-  const defaultValues = {
-    name: '',
-    price: '',
-    cuisine: '',
-    category: '',
-    description: '',
-    ingredients: [],
-    isVegan: false,
-    image: '',
-    weight: '',
-    cookTime: '',
-    spiceLevel: 0,
-    nutrition: {
-      calories: '',
-      protein: '',
-      fats: '',
-      carbohydrates: '',
-    },
-    isAvailable: true,
-  };
+  const totalSteps = 4;
 
+  console.log(step);
   const {
     register,
     trigger,
@@ -50,7 +34,6 @@ export const AddDishForm = () => {
     defaultValues,
     mode: 'onChange',
   });
-  console.log(errors);
   const onNextStep = async () => {
     let fieldsToValidate = [];
     switch (step) {
@@ -58,10 +41,18 @@ export const AddDishForm = () => {
         fieldsToValidate = ['name', 'price', 'cuisine', 'category'];
         break;
       case 2:
-        fieldsToValidate = ['description', 'ingredients', 'isVegan', 'image'];
+        fieldsToValidate = [
+          'ingredients',
+          'isVegan',
+          'spiceLevel',
+          'isAvailable',
+        ];
         break;
       case 3:
-        fieldsToValidate = ['weight', 'cookTime', 'spiceLevel', 'isAvailable'];
+        fieldsToValidate = ['description', 'image'];
+        break;
+      case 4:
+        fieldsToValidate = ['weight', 'cookTime', 'nutrition'];
     }
 
     const isFormValid = await trigger(fieldsToValidate);
@@ -110,22 +101,26 @@ export const AddDishForm = () => {
             />
           )}
           {step === 2 && (
-            <AddDishFormStepTwo
+            <AddDishFormStepTwo errors={errors} control={control} />
+          )}
+
+          {step === 3 && (
+            <AddDishFormStepThree
               register={register}
               errors={errors}
               control={control}
               setValue={setValue}
             />
           )}
-
-          {step === 3 && (
-            <AddDishFormStepThree control={control} errors={errors} />
+          {step === 4 && (
+            <AddDishFormStepFour control={control} errors={errors} />
           )}
+
           <AddDishFormNavButtons
             step={step}
             onPreviousStep={onPreviousStep}
             onNextStep={onNextStep}
-            totalSteps={3}
+            totalSteps={totalSteps}
           />
         </Box>
       </Box>
@@ -143,11 +138,7 @@ done but must change image picker and refactor some code
   
   
 third step Optional
-  9 weight
-  10 cookingTime
-  11 nutrition facts
-  12 spiceLevel
-  12 isAvailable
+ refactor
 
   
   */

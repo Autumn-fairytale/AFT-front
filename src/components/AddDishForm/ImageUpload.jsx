@@ -106,10 +106,10 @@ export const ImageUpload = ({ control, setValue }) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                maxHeight: 300,
+                maxHeight: 225,
                 minWidth: 300,
                 width: 300,
-                height: 300,
+                height: 225,
               }}
             >
               {!image && (
@@ -118,7 +118,7 @@ export const ImageUpload = ({ control, setValue }) => {
                     color="primary"
                     aria-label="upload picture"
                     component="span"
-                    sx={{ width: 250, height: 250 }}
+                    sx={{ width: 200, height: 200 }}
                   >
                     <AddPhotoAlternateIcon style={{ fontSize: 70 }} />
                   </IconButton>
@@ -130,7 +130,7 @@ export const ImageUpload = ({ control, setValue }) => {
                     component="img"
                     src={image}
                     alt="Image Preview"
-                    sx={{ maxWidth: 280, maxHeight: 280 }}
+                    sx={{ maxWidth: 230, maxHeight: 200 }}
                   />
                   <IconButton
                     color="secondary"

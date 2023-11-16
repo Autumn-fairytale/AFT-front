@@ -14,9 +14,13 @@ const AppSearchInput = ({ wrapperStyle, ...props }) => {
   const inputRef = useRef(null);
 
   const handleClearClick = () => {
-    props.onChange({ target: { value: '' } });
-    if (inputRef.current) {
-      inputRef.current.focus();
+    if (props.onChange) {
+      props.onChange({ target: { value: '' } });
+    } else {
+      if (inputRef.current) {
+        inputRef.current.value = '';
+        inputRef.current.focus();
+      }
     }
   };
 

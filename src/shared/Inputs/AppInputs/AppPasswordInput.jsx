@@ -1,3 +1,5 @@
+import { forwardRef } from 'react';
+
 import { PropTypes } from 'prop-types';
 
 import BaseInput from '../BaseInput/BaseInput';
@@ -6,9 +8,9 @@ import { PasswordVisibilityToggle } from '../utils/PasswordVisibilityToggle';
 import { usePasswordShow } from '../utils/usePasswordShow';
 import { StyledPasswordInput } from './AppInputs.styled';
 
-const AppPasswordInput = ({ wrapperStyle, ...props }) => {
+const AppPasswordInput = forwardRef(({ wrapperStyle, ...props }, ref) => {
   const { ...toggleProps } = usePasswordShow();
-
+  console.log(toggleProps.showPassword);
   return (
     <StyledPasswordInput style={wrapperStyle}>
       <BaseInput
@@ -16,11 +18,12 @@ const AppPasswordInput = ({ wrapperStyle, ...props }) => {
         InputProps={{
           endAdornment: <PasswordVisibilityToggle {...toggleProps} />,
         }}
+        ref={ref}
         {...props}
       />
     </StyledPasswordInput>
   );
-};
+});
 
 AppPasswordInput.propTypes = {
   wrapperStyle: PropTypes.object,
@@ -29,6 +32,9 @@ AppPasswordInput.propTypes = {
 
 AppPasswordInput.defaultProps = {
   label: 'Password',
+  autoComplete: 'off',
 };
+
+AppPasswordInput.displayName = 'AppPasswordInput';
 
 export default AppPasswordInput;

@@ -16,15 +16,18 @@ const mediumInputStyles = {
   },
 };
 
-export const StyledBaseInput = styled(TextField)(({ size, error }) => {
+export const StyledBaseInput = styled(TextField)(({ theme, size, error }) => {
   return {
     'MuiFormControl-root': {
       boxSizing: 'border-box',
     },
     ...(size === 'medium' && mediumInputStyles),
+    '&&.MuiFormControl-root:hover  .MuiInputLabel-shrink:not(.Mui-error)': {
+      color: theme.palette.primary.main,
+    },
     ...(error && {
-      '&:hover fieldset': {
-        borderColor: 'transparent',
+      '.MuiInputBase-root:hover fieldset': {
+        borderColor: theme.palette.error.main,
       },
     }),
   };

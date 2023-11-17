@@ -6,14 +6,17 @@ import { Box, Container } from '@mui/material';
 import { dishFormDefaultValues as defaultValues } from '@/constants/defaultValues';
 import { dishSchema } from '@/schemas/dishSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AddDishFormNavButtons } from './AddDishFormNavButtons';
-import { AddDishFormStepFour } from './AddDishFormStepFour';
-import { AddDishFromStepOne } from './AddDishFormStepOne';
-import { AddDishFormStepThree } from './AddDishFormStepThree';
-import { AddDishFormStepTwo } from './AddDishFormStepTwo';
-import { AddDishFormStepper } from './AddDishFromStepper';
+import { AddDishFormNavButtons } from '../AddDishForm';
+import { AddDishFormStepper } from './AddDishFromStepper/AddDishFromStepper';
+import {
+  AddDishFormStepFour,
+  AddDishFormStepThree,
+  AddDishFormStepTwo,
+  AddDishFromStepOne,
+} from './AddDishFromSteps';
 
 export const MOCK_GAP = ' ';
+export const FIELD_WIDTH = '300px';
 
 export const AddDishForm = () => {
   const [step, setStep] = useState(1);
@@ -23,7 +26,7 @@ export const AddDishForm = () => {
   const {
     register,
     trigger,
-    // reset,
+    reset,
     setValue,
     handleSubmit,
     formState: { errors },
@@ -68,7 +71,7 @@ export const AddDishForm = () => {
 
   const Submit = (data) => {
     console.log(data);
-    // reset();
+    reset();
   };
 
   return (
@@ -79,8 +82,8 @@ export const AddDishForm = () => {
         alignItems: 'center',
         mt: 5,
         mb: 2,
-        height: '80vh',
-        // justifyContent: 'space-between',
+        height: '500px',
+        maxHeight: '80vh',
       }}
     >
       <AddDishFormStepper step={step} />
@@ -126,18 +129,3 @@ export const AddDishForm = () => {
     </Container>
   );
 };
-
-/* Todo:
-11 fields
-firs step Main information:
-  done but need refactoring, too hard to read 
-
-second step Additional information
-done but must change image picker and refactor some code
-  
-  
-third step Optional
- refactor
-
-  
-  */

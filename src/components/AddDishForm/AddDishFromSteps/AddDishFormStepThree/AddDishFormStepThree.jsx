@@ -2,8 +2,8 @@ import { TextField } from '@mui/material';
 
 import PropTypes from 'prop-types';
 
-import { MOCK_GAP } from './AddDishForm';
-import { ImageUpload } from './ImageUpload';
+import { AddDishFormImageUpload } from '@/components/AddDishForm';
+import { FIELD_WIDTH, MOCK_GAP } from '../../AddDishForm';
 
 export const AddDishFormStepThree = ({
   register,
@@ -13,9 +13,9 @@ export const AddDishFormStepThree = ({
 }) => {
   return (
     <>
-      <ImageUpload control={control} setValue={setValue} />
+      <AddDishFormImageUpload control={control} setValue={setValue} />
       <TextField
-        sx={{ width: '300px' }}
+        sx={{ width: FIELD_WIDTH }}
         {...register('description')}
         label="Description"
         error={!!errors.description}

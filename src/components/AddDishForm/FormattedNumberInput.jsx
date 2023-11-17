@@ -23,6 +23,7 @@ export const FormattedNumberInput = ({
         <NumericFormat
           {...restFieldProps}
           value={value}
+          size="normal"
           onValueChange={(values) => {
             onChange(values.value ? Number(values.value) : '');
           }}

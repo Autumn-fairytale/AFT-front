@@ -2,14 +2,14 @@ import { Stack, Typography } from '@mui/material';
 
 import PropTypes from 'prop-types';
 
-import { MOCK_GAP } from './AddDishForm';
-import { FormattedNumberInput } from './FormattedInput';
+import { FIELD_WIDTH, MOCK_GAP } from '../../AddDishForm';
+import { FormattedNumberInput } from '../../FormattedNumberInput';
 
 export const AddDishFormStepFour = ({ control, errors }) => {
   return (
     <>
       <FormattedNumberInput
-        sx={{ width: '300px' }}
+        sx={{ width: FIELD_WIDTH }}
         control={control}
         name="weight"
         label="Weight (g)"
@@ -18,7 +18,7 @@ export const AddDishFormStepFour = ({ control, errors }) => {
       />
 
       <FormattedNumberInput
-        sx={{ width: '300px' }}
+        sx={{ width: FIELD_WIDTH }}
         control={control}
         name="cookTime"
         label="Cooking Time (m)"
@@ -28,7 +28,7 @@ export const AddDishFormStepFour = ({ control, errors }) => {
 
       <Typography variant="body2">Nutrition Facts (optional)</Typography>
 
-      <Stack direction="row" spacing={1} sx={{ width: '300px', mt: 1 }}>
+      <Stack direction="row" spacing={1} sx={{ width: FIELD_WIDTH, mt: 1 }}>
         <FormattedNumberInput
           sx={{ width: '50%' }}
           control={control}
@@ -46,7 +46,7 @@ export const AddDishFormStepFour = ({ control, errors }) => {
         />
       </Stack>
 
-      <Stack direction="row" spacing={1} sx={{ width: '300px' }}>
+      <Stack direction="row" spacing={1} sx={{ width: FIELD_WIDTH }}>
         <FormattedNumberInput
           sx={{ width: '50%' }}
           control={control}

@@ -11,10 +11,10 @@ import DialogContent from '@mui/material/DialogContent';
 
 import PropTypes from 'prop-types';
 
-import { MOCK_GAP } from './AddDishForm';
-import getCroppedImg from './crop/getCroppedImage';
+import { MOCK_GAP } from '../AddDishForm';
+import getCroppedImg from '../crop/getCroppedImage';
 
-export const ImageUpload = ({ control, setValue }) => {
+export const AddDishFormImageUpload = ({ control, setValue }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [imageSrc, setImageSrc] = useState(null);
@@ -31,11 +31,14 @@ export const ImageUpload = ({ control, setValue }) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
+
       reader.onloadend = () => {
         setImageSrc(reader.result);
+
         setShowCropper(true);
       };
       reader.readAsDataURL(file);
+
       onChange(file);
     }
   };
@@ -45,6 +48,7 @@ export const ImageUpload = ({ control, setValue }) => {
       const croppedImageURL = await getCroppedImg(imageSrc, croppedArea);
       // console.log(croppedImageURL);
       setValue('image', croppedImageURL);
+
       setShowCropper(false);
     } catch (e) {
       console.error('Error', e);
@@ -56,8 +60,11 @@ export const ImageUpload = ({ control, setValue }) => {
       URL.revokeObjectURL(image);
     }
     setImageSrc(null);
+
     setValue('image', '');
+
     setShowCropper(false);
+
     onChange('');
 
     if (fileInputRef.current) {
@@ -71,6 +78,7 @@ export const ImageUpload = ({ control, setValue }) => {
       URL.revokeObjectURL(imageSrc);
     }
     setImageSrc(null);
+
     setValue('image', '');
 
     if (fileInputRef.current) {
@@ -134,7 +142,6 @@ export const ImageUpload = ({ control, setValue }) => {
                   />
                   <IconButton
                     color="secondary"
-                    aria-label="delete picture"
                     onClick={() => handleDelete(image, onChange)}
                     sx={{ position: 'absolute', top: 2, right: 2 }}
                   >
@@ -143,7 +150,6 @@ export const ImageUpload = ({ control, setValue }) => {
                   <label htmlFor="image-upload">
                     <IconButton
                       color="primary"
-                      aria-label="replace picture"
                       component="span"
                       sx={{ position: 'absolute', bottom: 2, right: 2 }}
                     >
@@ -202,7 +208,7 @@ export const ImageUpload = ({ control, setValue }) => {
   );
 };
 
-ImageUpload.propTypes = {
+AddDishFormImageUpload.propTypes = {
   control: PropTypes.object.isRequired,
   setValue: PropTypes.func.isRequired,
 };

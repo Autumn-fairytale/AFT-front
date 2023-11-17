@@ -5,15 +5,20 @@ import { Autocomplete, Stack, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import { CATEGORIES, CUISINES } from '@/constants';
-import { MOCK_GAP } from './AddDishForm';
-import { FormattedNumberInput } from './FormattedInput';
+import { FIELD_WIDTH, MOCK_GAP } from '../../AddDishForm';
+import { FormattedNumberInput } from '../../FormattedNumberInput';
+
+const isOptionEqual = (option, value) => {
+  return option === value || value === '';
+};
 
 export const AddDishFromStepOne = ({ register, errors, control }) => {
   return (
     <>
       <Stack spacing={1}>
         <TextField
-          sx={{ width: '300px' }}
+          size="normal"
+          sx={{ width: FIELD_WIDTH }}
           {...register('name')}
           autoComplete="off"
           label="Dish Name"
@@ -22,7 +27,7 @@ export const AddDishFromStepOne = ({ register, errors, control }) => {
         />
 
         <FormattedNumberInput
-          sx={{ width: '300px' }}
+          sx={{ width: FIELD_WIDTH }}
           control={control}
           name="price"
           label="Price"
@@ -35,12 +40,10 @@ export const AddDishFromStepOne = ({ register, errors, control }) => {
           control={control}
           render={({ field }) => (
             <Autocomplete
-              sx={{ width: '300px' }}
+              sx={{ width: FIELD_WIDTH }}
               options={CUISINES}
               getOptionLabel={(option) => option}
-              isOptionEqualToValue={(option, value) =>
-                option === value || value === ''
-              }
+              isOptionEqualToValue={isOptionEqual}
               value={field.value}
               onChange={(_, data) => field.onChange(data ?? '')}
               renderInput={(params) => (
@@ -60,13 +63,11 @@ export const AddDishFromStepOne = ({ register, errors, control }) => {
           control={control}
           render={({ field }) => (
             <Autocomplete
-              sx={{ width: '300px' }}
+              sx={{ width: FIELD_WIDTH }}
               {...field}
               options={CATEGORIES}
               getOptionLabel={(option) => option}
-              isOptionEqualToValue={(option, value) =>
-                option === value || value === ''
-              }
+              isOptionEqualToValue={isOptionEqual}
               value={field.value}
               onChange={(_, data) => field.onChange(data ?? '')}
               renderInput={(params) => (

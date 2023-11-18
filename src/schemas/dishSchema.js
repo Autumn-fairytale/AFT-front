@@ -12,7 +12,7 @@ export const dishSchema = zod.object({
 
   category: zod.string().min(1, 'Category is required'),
 
-  description: zod.string().min(10, 'Min 10 symbols'),
+  description: zod.string().trim().min(10, 'Min 10 symbols'),
 
   ingredients: zod
     .array(zod.string().min(1, 'Ingredient cannot be empty'))

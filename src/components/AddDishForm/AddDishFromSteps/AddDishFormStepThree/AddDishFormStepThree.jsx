@@ -21,7 +21,7 @@ export const AddDishFormStepThree = ({
         error={!!errors.description}
         helperText={errors.description?.message ?? MOCK_GAP}
         multiline
-        rows={2}
+        rows={5}
       />
     </>
   );

@@ -82,7 +82,7 @@ export const AddDishForm = () => {
         alignItems: 'center',
         mt: 5,
         mb: 2,
-        height: '500px',
+        height: '585px',
         maxHeight: '80vh',
       }}
     >

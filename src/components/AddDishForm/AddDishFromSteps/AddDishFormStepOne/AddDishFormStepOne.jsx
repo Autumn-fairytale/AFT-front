@@ -34,6 +34,7 @@ export const AddDishFromStepOne = ({ register, errors, control }) => {
           error={!!errors.price}
           helperText={errors.price?.message ?? MOCK_GAP}
           thousandSeparator={true}
+          endAdornment={<span>₴</span>}
         />
         <Controller
           name="cuisine"

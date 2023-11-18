@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { NumericFormat } from 'react-number-format';
 
@@ -14,7 +15,10 @@ export const FormattedNumberInput = ({
   sx,
   thousandSeparator = false,
   decimalScale = 2,
+  endAdornment,
 }) => {
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
     <Controller
       name={name}
@@ -36,6 +40,11 @@ export const FormattedNumberInput = ({
           inputRef={ref}
           sx={sx}
           autoComplete="off"
+          InputProps={{
+            endAdornment: isFocused ? endAdornment : null,
+            onFocus: () => setIsFocused(true),
+            onBlur: () => setIsFocused(false),
+          }}
         />
       )}
     />
@@ -51,4 +60,5 @@ FormattedNumberInput.propTypes = {
   sx: PropTypes.object,
   thousandSeparator: PropTypes.bool,
   decimalScale: PropTypes.number,
+  endAdornment: PropTypes.node,
 };

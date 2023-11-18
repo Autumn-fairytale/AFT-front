@@ -3,9 +3,12 @@ import { Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import { FIELD_WIDTH, MOCK_GAP } from '../../AddDishForm';
+import { AddDishFormFieldEndAdornment } from '../../AddDishFormFieldEndAdornment/AddDishFormFieldEndAdornment';
 import { FormattedNumberInput } from '../../FormattedNumberInput';
 
 export const AddDishFormStepFour = ({ control, errors }) => {
+  const GramEndAdornment = <AddDishFormFieldEndAdornment text="g" />;
+
   return (
     <>
       <FormattedNumberInput
@@ -15,6 +18,8 @@ export const AddDishFormStepFour = ({ control, errors }) => {
         label="Weight (g)"
         error={!!errors.weight}
         helperText={errors.weight?.message ?? MOCK_GAP}
+        thousandSeparator={true}
+        endAdornment={GramEndAdornment}
       />
 
       <FormattedNumberInput
@@ -24,6 +29,7 @@ export const AddDishFormStepFour = ({ control, errors }) => {
         label="Cooking Time (m)"
         error={!!errors.cookTime}
         helperText={errors.cookTime?.message ?? MOCK_GAP}
+        endAdornment={<AddDishFormFieldEndAdornment text="sec" />}
       />
 
       <Typography variant="body2">Nutrition Facts (optional)</Typography>
@@ -36,6 +42,8 @@ export const AddDishFormStepFour = ({ control, errors }) => {
           label="Calories"
           error={!!errors['nutrition.calories']}
           helperText={errors['nutrition.calories']?.message ?? MOCK_GAP}
+          thousandSeparator={true}
+          endAdornment={<AddDishFormFieldEndAdornment text="cal" />}
         />
         <FormattedNumberInput
           control={control}
@@ -43,6 +51,7 @@ export const AddDishFormStepFour = ({ control, errors }) => {
           label="Protein  (g)"
           error={!!errors['nutrition.protein']}
           helperText={errors['nutrition.protein']?.message ?? MOCK_GAP}
+          endAdornment={GramEndAdornment}
         />
       </Stack>
 
@@ -54,6 +63,7 @@ export const AddDishFormStepFour = ({ control, errors }) => {
           label="Fats (g)"
           error={!!errors['nutrition.fats']}
           helperText={errors['nutrition.fats']?.message ?? MOCK_GAP}
+          endAdornment={GramEndAdornment}
         />
         <FormattedNumberInput
           control={control}
@@ -61,6 +71,7 @@ export const AddDishFormStepFour = ({ control, errors }) => {
           label="Carbohydrates (g)"
           error={!!errors['nutrition.carbohydrates']}
           helperText={errors['nutrition.carbohydrates']?.message ?? MOCK_GAP}
+          endAdornment={GramEndAdornment}
         />
       </Stack>
     </>

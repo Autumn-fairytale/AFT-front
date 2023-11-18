@@ -25,18 +25,20 @@ export const AddDishFormStepTwo = ({ errors, control }) => {
 
   error && console.log(error);
 
+  const isOptionExist = options && options.length > 0;
+
   return (
     <>
       <Controller
         name="ingredients"
         control={control}
         render={({ field }) =>
-          options && (
+          isOptionExist && (
             <Autocomplete
               sx={{ width: FIELD_WIDTH }}
               multiple
               loading={loading}
-              options={options.map((option) => option.ttl)}
+              options={options.map((option) => option.name)}
               getOptionLabel={(option) => option}
               value={field.value}
               onChange={(_, newValue) => {
@@ -60,13 +62,18 @@ export const AddDishFormStepTwo = ({ errors, control }) => {
                     InputProps={{
                       ...params.InputProps,
                       startAdornment: field.value.length > 0 && (
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            gap: 1,
+                          }}
+                        >
                           {field.value.map((ingredient) => (
                             <Chip
                               key={ingredient}
                               label={ingredient}
                               onDelete={() => handleDelete(ingredient)}
-                              sx={{ margin: 0.5 }}
                             />
                           ))}
                         </Box>

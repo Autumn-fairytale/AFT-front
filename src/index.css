@@ -1,0 +1,11 @@
+.slick-prev:before,
+.slick-next:before {
+  color: #794007;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.slick-prev:hover:before,
+.slick-next:hover:before {
+  color: #005b96;
+}

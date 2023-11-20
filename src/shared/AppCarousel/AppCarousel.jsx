@@ -22,10 +22,8 @@ export const AppCarousel = ({ children }) => {
       {
         breakpoint: 1200,
         settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: true,
+          slidesToShow: 2,
+          slidesToScroll: 2,
         },
       },
       {
@@ -33,7 +31,6 @@ export const AppCarousel = ({ children }) => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          initialSlide: 2,
         },
       },
       {

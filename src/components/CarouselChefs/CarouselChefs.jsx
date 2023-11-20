@@ -1,7 +1,7 @@
 import { AppCarousel } from '@/shared/AppCarousel/AppCarousel';
 import ChefCard from '../ChefCard/ChefCard';
 
-// Mok array of schefs
+// Mok array of chefs
 const chefArray = [
   {
     name: 'Chef Giovanni',

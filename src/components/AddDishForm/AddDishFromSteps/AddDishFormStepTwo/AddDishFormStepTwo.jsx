@@ -14,7 +14,8 @@ import PropTypes from 'prop-types';
 
 import { AddDishFormSpiceLevel } from '@/components/AddDishForm';
 import { useFetchIngredients } from '@/hooks/useFetchIngredients';
-import { FIELD_WIDTH, MOCK_GAP } from '../../AddDishForm';
+import { FIELD_WIDTH } from '../../AddDishForm';
+import { HelperText } from '../../HelperText';
 
 export const AddDishFormStepTwo = ({ errors, control }) => {
   const {
@@ -58,7 +59,12 @@ export const AddDishFormStepTwo = ({ errors, control }) => {
                     label="Ingredients"
                     placeholder="Select to pick ingredient"
                     error={!!errors.ingredients}
-                    helperText={errors.ingredients?.message ?? MOCK_GAP}
+                    helperText={
+                      <HelperText
+                        text={errors.ingredients?.message}
+                        isError={!!errors.ingredients}
+                      />
+                    }
                     InputProps={{
                       ...params.InputProps,
                       startAdornment: field.value.length > 0 && (

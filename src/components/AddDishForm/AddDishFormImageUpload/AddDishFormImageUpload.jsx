@@ -4,15 +4,22 @@ import { Controller } from 'react-hook-form';
 
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, Card, IconButton, Paper, Stack, Typography } from '@mui/material';
-import { Button } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  IconButton,
+  Paper,
+  Stack,
+  Typography,
+} from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 
 import PropTypes from 'prop-types';
 
-import { MOCK_GAP } from '../AddDishForm';
 import getCroppedImg from '../crop/getCroppedImage';
+import { HelperText } from '../HelperText';
 
 export const AddDishFormImageUpload = ({ control, setValue }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -45,7 +52,7 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
 
   const handleSave = async () => {
     try {
-      const croppedImageURL = await getCroppedImg(imageSrc, croppedArea);
+      let croppedImageURL = await getCroppedImg(imageSrc, croppedArea);
       // console.log(croppedImageURL);
       setValue('image', croppedImageURL);
 
@@ -164,7 +171,7 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
               variant="caption"
               sx={{ display: 'block', minHeight: '20px' }}
             >
-              {error?.message || MOCK_GAP}
+              <HelperText text={error?.message} isError={!!error?.message} />
             </Typography>
             {showCropper && (
               <Dialog

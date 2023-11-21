@@ -1,13 +1,7 @@
-import { AddDishForm } from './components/AddDishForm/AddDishForm';
-// import AppRouter from './routes/AppRouter';
+import AppRouter from './routes/AppRouter';
 
 function App() {
-  return (
-    <>
-      <AddDishForm />
-      {/* <AppRouter /> */}
-    </>
-  );
+  return <AppRouter />;
 }
 
 export default App;

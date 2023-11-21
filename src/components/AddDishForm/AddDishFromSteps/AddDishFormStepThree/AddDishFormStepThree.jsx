@@ -3,7 +3,8 @@ import { TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import { AddDishFormImageUpload } from '@/components/AddDishForm';
-import { FIELD_WIDTH, MOCK_GAP } from '../../AddDishForm';
+import { FIELD_WIDTH } from '../../AddDishForm';
+import { HelperText } from '../../HelperText';
 
 export const AddDishFormStepThree = ({
   register,
@@ -19,7 +20,12 @@ export const AddDishFormStepThree = ({
         {...register('description')}
         label="Description"
         error={!!errors.description}
-        helperText={errors.description?.message ?? MOCK_GAP}
+        helperText={
+          <HelperText
+            text={errors.description?.message}
+            isError={!!errors.description}
+          />
+        }
         multiline
         rows={5}
       />

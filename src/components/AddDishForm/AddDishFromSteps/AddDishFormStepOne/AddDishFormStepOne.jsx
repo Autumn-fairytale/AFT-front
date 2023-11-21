@@ -5,8 +5,9 @@ import { Autocomplete, Stack, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import { CATEGORIES, CUISINES } from '@/constants';
-import { FIELD_WIDTH, MOCK_GAP } from '../../AddDishForm';
+import { FIELD_WIDTH } from '../../AddDishForm';
 import { FormattedNumberInput } from '../../FormattedNumberInput';
+import { HelperText } from '../../HelperText';
 
 const isOptionEqual = (option, value) => {
   return option === value || value === '';
@@ -23,19 +24,22 @@ export const AddDishFromStepOne = ({ register, errors, control }) => {
           autoComplete="off"
           label="Dish Name"
           error={!!errors.name}
-          helperText={errors.name?.message ?? MOCK_GAP}
+          helperText={
+            <HelperText text={errors.name?.message} isError={!!errors.name} />
+          }
         />
 
         <FormattedNumberInput
           sx={{ width: FIELD_WIDTH }}
           control={control}
           name="price"
-          label="Price"
+          label="Price ( ₴ )"
           error={!!errors.price}
-          helperText={errors.price?.message ?? MOCK_GAP}
+          helperText={errors.price?.message}
           thousandSeparator={true}
           endAdornment={<span>₴</span>}
         />
+
         <Controller
           name="cuisine"
           control={control}
@@ -52,7 +56,12 @@ export const AddDishFromStepOne = ({ register, errors, control }) => {
                   {...params}
                   label="Cuisine"
                   error={!!errors.cuisine}
-                  helperText={errors.cuisine?.message ?? MOCK_GAP}
+                  helperText={
+                    <HelperText
+                      text={errors.cuisine?.message}
+                      isError={!!errors.cuisine}
+                    />
+                  }
                 />
               )}
             />
@@ -77,7 +86,12 @@ export const AddDishFromStepOne = ({ register, errors, control }) => {
                   label="Category"
                   variant="outlined"
                   error={!!errors.category}
-                  helperText={errors.category?.message ?? MOCK_GAP}
+                  helperText={
+                    <HelperText
+                      text={errors.category?.message}
+                      isError={!!errors.category}
+                    />
+                  }
                 />
               )}
             />

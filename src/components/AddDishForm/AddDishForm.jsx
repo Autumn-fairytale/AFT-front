@@ -15,8 +15,7 @@ import {
   AddDishFromStepOne,
 } from './AddDishFromSteps';
 
-export const MOCK_GAP = ' ';
-export const FIELD_WIDTH = '300px';
+export const FIELD_WIDTH = '400px';
 
 export const AddDishForm = () => {
   const [step, setStep] = useState(1);
@@ -105,6 +104,7 @@ export const AddDishForm = () => {
             register={register}
           />
         )}
+
         {step === 2 && <AddDishFormStepTwo errors={errors} control={control} />}
 
         {step === 3 && (
@@ -115,6 +115,7 @@ export const AddDishForm = () => {
             setValue={setValue}
           />
         )}
+
         {step === 4 && (
           <AddDishFormStepFour control={control} errors={errors} />
         )}

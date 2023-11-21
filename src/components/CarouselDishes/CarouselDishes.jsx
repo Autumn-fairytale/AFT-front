@@ -53,7 +53,7 @@ const dishArray = [
   },
 ];
 
-export const CarouselDisches = () => {
+export const CarouselDishes = () => {
   return (
     <AppCarousel>
       {dishArray.map((data, index) => (

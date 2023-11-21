@@ -26,7 +26,7 @@ export const dishSchema = zod.object({
 
   // image: zod.string().url('Must be a valid URL'),
 
-  cookTime: zod
+  cookTimeInMinutes: zod
     .number()
     .positive('Cooking time must be positive')
     .or(zod.string().min(1, 'Cooking time is required')),

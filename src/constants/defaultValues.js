@@ -8,7 +8,7 @@ export const dishFormDefaultValues = Object.freeze({
   isVegan: false,
   image: '',
   weight: '',
-  cookTime: '',
+  cookTimeInMinutes: '',
   spiceLevel: 0,
   nutrition: {
     calories: '',

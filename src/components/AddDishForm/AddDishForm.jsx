@@ -55,7 +55,7 @@ export const AddDishForm = () => {
         fieldsToValidate = ['description', 'image'];
         break;
       case 4:
-        fieldsToValidate = ['weight', 'cookTime', 'nutrition'];
+        fieldsToValidate = ['weight', 'cookTimeInMinutes', 'nutrition'];
     }
 
     const isFormValid = await trigger(fieldsToValidate);

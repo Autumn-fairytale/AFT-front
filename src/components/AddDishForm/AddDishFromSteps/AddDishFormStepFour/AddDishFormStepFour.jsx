@@ -25,10 +25,10 @@ export const AddDishFormStepFour = ({ control, errors }) => {
       <FormattedNumberInput
         sx={{ width: FIELD_WIDTH }}
         control={control}
-        name="cookTime"
+        name="cookTimeInMinutes"
         label="Cooking Time (m)"
-        error={!!errors.cookTime}
-        helperText={errors.cookTime?.message ?? MOCK_GAP}
+        error={!!errors.cookTimeInMinutes}
+        helperText={errors.cookTimeInMinutes?.message ?? MOCK_GAP}
         endAdornment={<AddDishFormFieldEndAdornment text="sec" />}
       />
 

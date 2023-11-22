@@ -1,38 +1,48 @@
+import { Link } from 'react-router-dom';
+
+import Container from '@mui/material/Container';
+
+import styled from '@emotion/styled';
+import { SocialMediaLinksList } from '../SocialMediaLinksList/SocialMediaLinksList';
+import {
+  ContentWrapper,
+  FooterStyled,
+  FooterText,
+  SocLinksAndTextWrapper,
+} from './Footer.styled';
+import { Logo } from './Logo';
+
+const LogoLink = styled(Link)`
+  width: 64px;
+
+  &:focus,
+  &:hover {
+    & > svg {
+      fill: #ffffff;
+    }
+  }
+
+  & > svg {
+    transition: fill 0.3s ease;
+    fill: #ff7622;
+  }
+`;
+
 export const Footer = () => {
   return (
-    <footer
-      style={{
-        background: '#1E1E1E',
-        padding: '20px',
-        textAlign: 'center',
-        color: '#FF9100',
-      }}
-    >
-      <p>&#169; 2023 IDLO</p>
-
-      <div style={{ marginTop: '10px' }}>
-        <a
-          href="https://www.facebook.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Facebook
-        </a>
-        <a
-          href="https://twitter.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Twitter
-        </a>{' '}
-        <a
-          href="https://www.instagram.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Instagram
-        </a>
-      </div>
-    </footer>
+    <FooterStyled>
+      <Container fixed>
+        <ContentWrapper>
+          <LogoLink to="/" aria-label="logo" tabIndex="0">
+            <Logo />
+          </LogoLink>
+          <SocLinksAndTextWrapper>
+            <SocialMediaLinksList />
+            <FooterText>Designed by AFT Team - 2023</FooterText>
+          </SocLinksAndTextWrapper>
+          <FooterText>&#169; All rights reserved</FooterText>
+        </ContentWrapper>
+      </Container>
+    </FooterStyled>
   );
 };

@@ -1,5 +1,7 @@
+import { Main } from '@/shared/Main/Main';
+
 const ChefSignUpPage = () => {
-  return <main>Chef Sign-Up Page</main>;
+  return <Main>Chef Sign-Up Page</Main>;
 };
 
 export default ChefSignUpPage;

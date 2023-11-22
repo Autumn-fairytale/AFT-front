@@ -1,5 +1,7 @@
+import { Main } from '@/shared/Main/Main';
+
 const CourierSignUpPage = () => {
-  return <main>Courier Sign-Up Page</main>;
+  return <Main>Courier Sign-Up Page</Main>;
 };
 
 export default CourierSignUpPage;

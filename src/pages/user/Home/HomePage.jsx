@@ -1,4 +1,4 @@
-import { Main } from '@/components/Main/Main';
+import { Main } from '@/shared/Main/Main';
 
 const HomePage = () => {
   return <Main>Home Page</Main>;

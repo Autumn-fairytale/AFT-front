@@ -1,5 +1,7 @@
+import { Main } from '@/shared/Main/Main';
+
 const ChefCreateDishPage = () => {
-  return <main>Chef Create Dish</main>;
+  return <Main>Chef Create Dish</Main>;
 };
 
 export default ChefCreateDishPage;

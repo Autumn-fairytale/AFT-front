@@ -1,5 +1,7 @@
+import { Main } from '@/shared/Main/Main';
+
 const SignUpPage = () => {
-  return <main>Sign-Up Page</main>;
+  return <Main>Sign-Up Page</Main>;
 };
 
 export default SignUpPage;

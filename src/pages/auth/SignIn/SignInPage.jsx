@@ -1,5 +1,7 @@
+import { Main } from '@/shared/Main/Main';
+
 const SignInPage = () => {
-  return <main>Sign-In Page</main>;
+  return <Main>Sign-In Page</Main>;
 };
 
 export default SignInPage;

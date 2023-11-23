@@ -10,7 +10,7 @@ import { StyledPasswordInput } from './AppInputs.styled';
 
 const AppPasswordInput = forwardRef(({ wrapperStyle, ...props }, ref) => {
   const { ...toggleProps } = usePasswordShow();
-  console.log(toggleProps.showPassword);
+
   return (
     <StyledPasswordInput style={wrapperStyle}>
       <BaseInput

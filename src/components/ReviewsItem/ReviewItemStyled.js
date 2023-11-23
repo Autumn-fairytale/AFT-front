@@ -9,7 +9,7 @@ export const Item = styled.li`
 `;
 
 export const AvatarBox = styled.div`
-  padding: 12px;
+  padding: 8px;
   grid-area: 1 / 1 / 3 / 2;
   display: flex;
   justify-content: center;
@@ -17,15 +17,16 @@ export const AvatarBox = styled.div`
 `;
 
 export const RatingBox = styled.div`
-  padding: 12px;
+  padding: 4px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: top;
 
   grid-area: 1 / 2 / 2 / 3;
 `;
 
 export const ReviewBox = styled.div`
-  padding: 12px;
+  padding: 4px;
   grid-area: 2 / 2 / 3 / 3;
 `;
 

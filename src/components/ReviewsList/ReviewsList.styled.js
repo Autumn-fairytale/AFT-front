@@ -5,11 +5,11 @@ export const ReviewsListStyled = styled.ul`
   flex-direction: column;
 
   & > :not(:last-child) {
-    border-bottom: 1px solid green;
+    border-bottom: 1px solid grey;
   }
 
   & > :nth-of-type(even) {
-    background-color: #fff6f4;
+    background-color: #eff0f0;
   }
 `;
 

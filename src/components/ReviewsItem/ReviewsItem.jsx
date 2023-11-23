@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import StarIcon from '@mui/icons-material/Star';
+import Avatar from '@mui/material/Avatar';
 import Rating from '@mui/material/Rating';
+
+import { format } from 'date-fns';
 
 import {
   AvatarBox,
@@ -46,19 +49,14 @@ export const ReviewsItem = ({ review }) => {
   return (
     <Item>
       <AvatarBox>
-        <div
-          style={{
-            width: '30px',
-            height: '30px',
-            border: '1px solid red',
-            borderRadius: '50%',
-          }}
-        >
-          AV
-        </div>
+        <Avatar src={review.owner.avatar} />
       </AvatarBox>
 
       <RatingBox>
+        <p>{`${review.owner.firstName} ${review.owner.lastName}`}</p>
+        <p style={{ fontSize: '12px', color: 'grey' }}>
+          {format(new Date(review.createdAt), 'MM.yyyy')}
+        </p>
         <Rating
           name="text-feedback"
           size="small"

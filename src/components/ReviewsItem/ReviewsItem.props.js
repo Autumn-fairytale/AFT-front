@@ -12,5 +12,6 @@ export const ReviewsItemProps = {
     dish: PropTypes.string.isRequired,
     rating: PropTypes.number.isRequired,
     review: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
   }).isRequired,
 };

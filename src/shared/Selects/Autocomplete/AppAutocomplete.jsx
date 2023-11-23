@@ -38,6 +38,7 @@ const AppAutocomplete = ({
   placeholder,
   id,
   style,
+  ...other
 }) => {
   const {
     getRootProps,
@@ -87,7 +88,7 @@ const AppAutocomplete = ({
   );
 
   return (
-    <AutocompleteWrapper style={style} error={error}>
+    <AutocompleteWrapper style={style} error={error} {...other}>
       <div {...getRootProps()}>
         {/* Label of input */}
         {inputLabel && (

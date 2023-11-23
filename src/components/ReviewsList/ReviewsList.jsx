@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
 import Typography from '@mui/material/Typography';
 
 import ReviewsItem from '../ReviewsItem/ReviewsItem';
@@ -139,6 +142,24 @@ const reviews = [
 ];
 
 export const ReviewsList = () => {
+  const location = useLocation();
+  console.log('location:', location);
+
+  useEffect(() => {
+    const path = location.pathname;
+
+    const id = path.split('/').pop();
+
+    const endpoint = path.includes('/chefs/')
+      ? `/api/reviews/by-chef/${id}/`
+      : `/api/reviews/by-dish/${id}/`;
+
+    console.log('endpoint:', endpoint);
+
+    // Зробити запит за даними
+    // Продумати пагінацію та взаємодію зі store
+  }, [location.pathname]);
+
   return (
     <>
       <TitleWrapper>

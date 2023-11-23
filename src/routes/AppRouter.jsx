@@ -19,7 +19,7 @@ const ChefProfilePage = lazy(() => import('@/pages/chef/ChefProfile'));
 const ChefCreateDishPage = lazy(() => import('@/pages/chef/ChefCreateDish'));
 const ChefOrdersPage = lazy(() => import('@/pages/chef/ChefOrders'));
 const ChefDishesPage = lazy(() => import('@/pages/chef/ChefDishes'));
-const ChefDisheInfoPage = lazy(() => import('@/pages/chef/ChefDishInfo'));
+const ChefDishInfoPage = lazy(() => import('@/pages/chef/ChefDishInfo'));
 const CourierAccountPage = lazy(() => import('@/pages/courier/CourierAccount'));
 const CourierSignUpPage = lazy(() => import('@/pages/courier/CourierSignUp'));
 const CourierProfilePage = lazy(() => import('@/pages/courier/CourierProfile'));
@@ -94,7 +94,7 @@ const AppRouter = () => {
               path={route.CHEF_CREATE_DISH}
               element={<ChefCreateDishPage />}
             />
-            <Route path=":dishId" element={<ChefDisheInfoPage />} />
+            <Route path=":dishId" element={<ChefDishInfoPage />} />
           </Route>
         </Route>
 

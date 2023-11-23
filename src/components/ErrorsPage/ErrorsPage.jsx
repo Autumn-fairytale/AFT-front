@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 
-import { Button } from '@mui/material';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
 import PropTypes from 'prop-types';
 
+import { AppButton } from '@/shared';
 import { CenterBox, ImageBox } from './ErrorsPage.styled';
 
 export const ErrorsPage = ({ img, text }) => {
@@ -22,9 +22,8 @@ export const ErrorsPage = ({ img, text }) => {
         <Typography variant="h5" component="h1">
           {text}
         </Typography>
-        <Button variant="outlined" onClick={handleBackHome} sx={{ mt: 2 }}>
-          go to home
-        </Button>
+
+        <AppButton onClick={handleBackHome} sx={{ mt: 2 }} label="GO TO HOME" />
       </CenterBox>
     </Container>
   );

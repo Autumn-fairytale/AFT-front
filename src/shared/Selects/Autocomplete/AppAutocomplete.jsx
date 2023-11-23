@@ -18,7 +18,7 @@ import { StyledTag } from './utils/AutocompleteTag.styled';
  *
  * @component
  * @param {Object} props - The component props.
- * @param {string} props.label - The text label for the autocomplete input.
+ * @param {string} props.inputLabel - The text label for the autocomplete input.
  * @param {string[]} props.options - The array of options for the autocomplete.
  * @param {function} props.onChange - The callback function triggered when the selected options change and add it to the state array.
  * @param {boolean} [props.error] - Indicates whether there is an error in the input.
@@ -30,7 +30,7 @@ import { StyledTag } from './utils/AutocompleteTag.styled';
  */
 
 const AppAutocomplete = ({
-  label,
+  inputLabel,
   options,
   onChange,
   error,
@@ -81,15 +81,24 @@ const AppAutocomplete = ({
       {value.map((option, index) => (
         <StyledTag label={option} key={option} {...getTagProps({ index })} />
       ))}
+
       <input {...getInputProps()} placeholder={dirty ? '' : placeholder} />
     </InputWrapper>
   );
 
   return (
-    <AutocompleteWrapper style={style}>
+    <AutocompleteWrapper style={style} error={error}>
       <div {...getRootProps()}>
         {/* Label of input */}
-        {label && <Label {...getInputLabelProps()}>{label}</Label>}
+        {inputLabel && (
+          <Label
+            error={error}
+            className={focused ? 'focused' : ''}
+            {...getInputLabelProps()}
+          >
+            {inputLabel}
+          </Label>
+        )}
 
         {/* Input field */}
         {renderInputField()}
@@ -111,7 +120,7 @@ AppAutocomplete.propTypes = autocompletePropTypes;
 AppAutocomplete.defaultProps = {
   id: 'ingredients-autocomplete',
   error: false,
-  placeholder: 'Select ingredients',
+  placeholder: 'Select ingredients...',
 };
 
 export default AppAutocomplete;

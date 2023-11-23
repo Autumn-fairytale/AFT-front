@@ -39,7 +39,6 @@ const AppSelect = ({
       error={error}
       placeholder={placeholder}
       value={value}
-      size="medium"
     >
       <InputLabel
         id="basic-select-label"

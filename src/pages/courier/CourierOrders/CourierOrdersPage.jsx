@@ -1,5 +1,7 @@
+import { Main } from '@/shared/Main/Main';
+
 const CourierOrdersPage = () => {
-  return <main>Courier Orders Page</main>;
+  return <Main>Courier Orders Page</Main>;
 };
 
 export default CourierOrdersPage;

@@ -1,5 +1,7 @@
+import { Main } from '@/shared/Main/Main';
+
 const AdminOrdersPage = () => {
-  return <main>Admin Orders Page</main>;
+  return <Main>Admin Orders Page</Main>;
 };
 
 export default AdminOrdersPage;

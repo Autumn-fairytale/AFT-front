@@ -1,5 +1,7 @@
+import { Main } from '@/shared/Main/Main';
+
 const ChefProfilePage = () => {
-  return <div>Chef Profile Page</div>;
+  return <Main>Chef Profile Page</Main>;
 };
 
 export default ChefProfilePage;

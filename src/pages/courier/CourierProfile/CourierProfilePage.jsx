@@ -1,5 +1,7 @@
+import { Main } from '@/shared/Main/Main';
+
 const CourierProfilePage = () => {
-  return <main>Courier Profile Page</main>;
+  return <Main>Courier Profile Page</Main>;
 };
 
 export default CourierProfilePage;

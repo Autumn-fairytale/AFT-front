@@ -1,5 +1,7 @@
+import { Main } from '@/shared/Main/Main';
+
 const DishesPage = () => {
-  return <main>Dishes page</main>;
+  return <Main>Dishes page</Main>;
 };
 
 export default DishesPage;

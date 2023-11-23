@@ -1,9 +1,11 @@
 import { useParams } from 'react-router-dom';
 
+import { Main } from '@/shared/Main/Main';
+
 const ChefDishInfoPage = () => {
   const { dishId } = useParams();
 
-  return <main>Chef Dish Info Page: {dishId}</main>;
+  return <Main>Chef Dish Info Page: {dishId}</Main>;
 };
 
 export default ChefDishInfoPage;

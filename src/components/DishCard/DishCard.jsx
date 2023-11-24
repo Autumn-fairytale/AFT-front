@@ -29,11 +29,7 @@ const DishCard = ({ dishInfo }) => {
   return (
     <DishCardWrapper>
       <DishImageWrapper>
-        <DishImage
-          src={dishInfo.image}
-          alt={dishInfo.dishname}
-          component="img"
-        />
+        <DishImage src={dishInfo.image} alt={dishInfo.name} component="img" />
         <FavoriteButton>
           <IconButton onClick={() => setFavorite(!favorite)}>
             <PiHeart
@@ -44,7 +40,7 @@ const DishCard = ({ dishInfo }) => {
       </DishImageWrapper>
 
       <MainInfoWrapper>
-        <DishName>{dishInfo.dishname}</DishName>
+        <DishName>{dishInfo.name}</DishName>
         <DishPrice>{dishInfo.price}$</DishPrice>
       </MainInfoWrapper>
       <DishDescription>
@@ -71,7 +67,7 @@ const DishCard = ({ dishInfo }) => {
 DishCard.propTypes = {
   dishInfo: PropTypes.shape({
     image: PropTypes.string,
-    dishname: PropTypes.string,
+    name: PropTypes.string,
     price: PropTypes.number,
     description: PropTypes.string,
   }).isRequired,

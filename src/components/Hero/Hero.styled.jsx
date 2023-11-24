@@ -1,6 +1,7 @@
-import { Container, styled } from '@mui/material';
+import { styled } from '@mui/material';
 
 import hero from '@/assets/images/hero/hero.jpg';
+import { AppContainer } from '@/shared';
 
 export const HeroSectionStyled = styled('section')(() => ({
   height: '500px',
@@ -10,7 +11,7 @@ export const HeroSectionStyled = styled('section')(() => ({
 }));
 
 const backgroundDarkColor = 'rgba(0, 0, 0, 0.3)';
-export const HeroContainerStyled = styled(Container)(() => ({
+export const HeroContainerStyled = styled(AppContainer)(() => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',

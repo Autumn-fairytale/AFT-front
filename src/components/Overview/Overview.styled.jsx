@@ -1,6 +1,8 @@
-import { Box, Container, Link, styled } from '@mui/material';
+import { Box, Link, styled } from '@mui/material';
 
-export const OverviewContainerStyled = styled(Container)(() => ({}));
+import { AppContainer } from '@/shared';
+
+export const OverviewContainerStyled = styled(AppContainer)(() => ({}));
 
 export const OverviewHeaderWrapper = styled(Box)({
   display: 'flex',

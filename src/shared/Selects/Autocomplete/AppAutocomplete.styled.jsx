@@ -2,21 +2,40 @@ import { autocompleteClasses } from '@mui/material/Autocomplete';
 import { lighten, styled } from '@mui/material/styles';
 
 export const AutocompleteWrapper = styled('div')(
-  ({ theme }) => `
+  ({ theme, error }) => `
   color: ${theme.palette.text.primary};
   font-size: 14px;
 
   & .MuiFormHelperText-root {
     padding: 0 14px;
   }
+
+  &:hover label {
+    color: ${error ? theme.palette.error.main : theme.palette.primary.main};
+  }
 `
 );
 
-export const Label = styled('label')`
-  padding: 0 8px 4px;
+export const Label = styled('label')(
+  ({ theme, error }) =>
+    `
+  margin-left: 10px;
+  padding: 2px 6px;
   line-height: 1;
   display: block;
-`;
+  color: ${error ? theme.palette.error.main : theme.palette.text.secondary};
+  font-size: 0.8rem;
+  position: relative;
+  top: 8px;
+  width: min-content;
+  background-color: ${theme.palette.background.default};
+  z-index: 1;
+
+  &.focused {
+    color: ${error ? theme.palette.error.main : theme.palette.primary.main};
+  }
+`
+);
 
 export const InputWrapper = styled('div')(({ theme, error }) => {
   const borderColor = error
@@ -25,14 +44,14 @@ export const InputWrapper = styled('div')(({ theme, error }) => {
 
   return `
   width: 100%;
-  border: 1px solid ${error ? theme.palette.error.main : '#d9d9d9'};
+  border: 1px solid ${error ? theme.palette.error.main : '#C5C5C5'};
   border-radius: 4px;
-  min-height: 46px;
+  min-height: 56px;
   display: flex;
   flex-wrap: wrap;
-  padding: 4px 8px;
+  padding: 9px 8px;
   align-items: center;
-  background-color: ${theme.palette.background.paper};
+  background-color: ${theme.palette.background.default};
   gap: 4px;
 
   &:hover {
@@ -44,10 +63,10 @@ export const InputWrapper = styled('div')(({ theme, error }) => {
     border-color: ${borderColor};
   }
 
-  
-
   & input {
     color: ${theme.palette.secondary.main};
+    background-color: ${theme.palette.background.default};
+  
     height: 30px;
     font-size: 16px;
     font-family: ${theme.typography.fontFamily};
@@ -63,6 +82,16 @@ export const InputWrapper = styled('div')(({ theme, error }) => {
 
     &::placeholder {
       font-size: 16px;
+      color: ${error ? theme.palette.error.main : theme.palette.text.secondary};
+    }
+  }
+
+    &.focused {
+    outline: 1px solid ${borderColor};
+    border-color: ${borderColor};
+
+    & input::placeholder {
+      color: ${theme.palette.text.secondary};
     }
   }
 `;

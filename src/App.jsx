@@ -1,7 +1,10 @@
-import AppRouter from './routes/AppRouter';
+// import AppRouter from './routes/AppRouter';
+
+import { UsersOrdersTable } from './components/UsersOrdersTable/UsersOrdersTable';
 
 function App() {
-  return <AppRouter />;
+  return <UsersOrdersTable />;
+  // return <AppRouter />;
 }
 
 export default App;

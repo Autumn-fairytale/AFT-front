@@ -1,8 +1,5 @@
 import { Typography } from '@mui/material';
 
-import { route } from '@/constants';
-import { CarouselChefs } from '../CarouselChefs/CarouselChefs';
-import { CarouselDishes } from '../CarouselDishes/CarouselDishes';
 import { OverviewPropTypes } from './Overview.props';
 import {
   OverviewContainerStyled,
@@ -10,7 +7,7 @@ import {
   OverviewSeeAllLinkStyled,
 } from './Overview.styled';
 
-const Overview = ({ title, type, data }) => {
+const Overview = ({ title, component, redirectTo }) => {
   return (
     <section>
       <OverviewContainerStyled>
@@ -18,19 +15,11 @@ const Overview = ({ title, type, data }) => {
           <Typography component="h2" variant="h4">
             {title}
           </Typography>
-          <OverviewSeeAllLinkStyled
-            href={type === 'dish' ? route.DISHES : route.CHEFS}
-            variant="subtitle1"
-            underline="always"
-          >
+          <OverviewSeeAllLinkStyled href={redirectTo} variant="subtitle1">
             See all
           </OverviewSeeAllLinkStyled>
         </OverviewHeaderWrapper>
-        {type === 'dish' ? (
-          <CarouselDishes data={data} />
-        ) : (
-          <CarouselChefs data={data} />
-        )}
+        {component}
       </OverviewContainerStyled>
     </section>
   );

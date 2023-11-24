@@ -1,5 +1,8 @@
+import { CarouselChefs } from '@/components/CarouselChefs/CarouselChefs';
+import { CarouselDishes } from '@/components/CarouselDishes/CarouselDishes';
 import Hero from '@/components/Hero';
 import Overview from '@/components/Overview';
+import { route } from '@/constants';
 import { Main } from '@/shared/Main/Main';
 
 const dishArray = [
@@ -100,9 +103,21 @@ const HomePage = () => {
   return (
     <Main>
       <Hero />
-      <Overview title="Random dishes" type="dish" data={dishArray} />
-      <Overview title="Popular dishes" type="dish" data={dishArray} />
-      <Overview title="Popular chefs" type="chef" data={chefArray} />
+      <Overview
+        title="Random dishes"
+        redirectTo={route.DISHES}
+        component={<CarouselDishes data={dishArray} />}
+      />
+      <Overview
+        title="Popular dishes"
+        redirectTo={route.DISHES}
+        component={<CarouselDishes data={dishArray} />}
+      />
+      <Overview
+        title="Popular chefs"
+        redirectTo={route.CHEFS}
+        component={<CarouselChefs data={chefArray} />}
+      />
     </Main>
   );
 };

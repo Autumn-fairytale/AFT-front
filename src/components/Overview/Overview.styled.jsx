@@ -5,7 +5,7 @@ export const OverviewContainerStyled = styled(Container)(() => ({}));
 export const OverviewHeaderWrapper = styled(Box)({
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'center',
+  alignItems: 'flex-end',
 });
 
 export const OverviewSeeAllLinkStyled = styled(Link)(() => ({

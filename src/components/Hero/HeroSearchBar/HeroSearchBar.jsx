@@ -1,15 +1,21 @@
 import { useCallback, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { AppButton, AppSearchInput, AppSelect } from '@/shared';
-import { HeroSearchBarFormStyled } from './HeroSearchBar.styled';
+import { route } from '@/constants';
+import { AppSearchInput, AppSelect } from '@/shared';
+import {
+  HeroSearchBarFormStyled,
+  HeroSearchButtonStyles,
+} from './HeroSearchBar.styled';
 
 const searchType = Object.freeze({
-  chef: 'Chef',
-  dish: 'Dish',
+  CHEF: 'Chef',
+  DISH: 'Dish',
 });
 
 const HeroSearchBar = () => {
-  const [type, setType] = useState(searchType.dish);
+  const navigate = useNavigate();
+  const [type, setType] = useState(searchType.DISH);
   const [query, setQuery] = useState('');
 
   const changeTypeHandler = useCallback((evt) => {
@@ -18,23 +24,38 @@ const HeroSearchBar = () => {
   const changeQueryHandler = useCallback((evt) => {
     setQuery(evt.target.value);
   }, []);
+  const submitHandler = useCallback(
+    (evt) => {
+      evt.preventDefault();
+      const searchQuery = query.trim();
+
+      navigate(
+        `${
+          type === searchType.CHEF ? route.CHEFS : route.DISHES
+        }?search=${searchQuery}`
+      );
+    },
+    [navigate, query, type]
+  );
 
   return (
-    <HeroSearchBarFormStyled>
+    <HeroSearchBarFormStyled onSubmit={submitHandler}>
       <AppSelect
         options={Object.values(searchType)}
         onChange={changeTypeHandler}
         value={type}
+        wrapperStyle={{ width: '150px' }}
       />
       <AppSearchInput
+        label=""
         value={query}
         InputLabelProps={{
           shrink: false,
         }}
-        InputProps={{ style: { flexGrow: 1, backgroundColor: 'white' } }}
+        InputProps={{ style: { width: '300px' } }}
         onChange={changeQueryHandler}
       />
-      <AppButton label="Search" sx={{ width: '400px' }} />
+      <HeroSearchButtonStyles type="submit" label="Search" />
     </HeroSearchBarFormStyled>
   );
 };

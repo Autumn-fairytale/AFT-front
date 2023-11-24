@@ -134,12 +134,19 @@ export const UsersOrdersTable = () => {
               Total dishes: {order.length}
             </Typography>
             <Collapse in={orders.id === clickedIndex}>
-              <Stack spacing={1}>
+              <Stack
+                spacing={1}
+                sx={{
+                  borderTop: '2px solid',
+                  borderTopColor: 'primary.main',
+                  pt: 2,
+                }}
+              >
                 {orders.value.map((order, index) => (
                   <Tooltip key={index} title={order.name}>
-                    <Typography noWrap variant="body2">{`Dish ${index + 1}: ${
+                    <Typography noWrap variant="body2">{` ${index + 1}: ${
                       order.name
-                    }, Count: ${order.count}`}</Typography>
+                    }, PCS : ${order.count}`}</Typography>
                   </Tooltip>
                 ))}
               </Stack>

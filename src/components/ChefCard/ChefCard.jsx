@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { MdFavoriteBorder } from 'react-icons/md';
-import { MdStar } from 'react-icons/md';
+import { PiHeart, PiStarFill } from 'react-icons/pi';
 
 import { IconButton } from '@mui/material';
 
@@ -25,7 +24,7 @@ const ChefCard = ({ chefInfo }) => {
         <ChefImage src={chefInfo.image} alt={chefInfo.name} component="img" />
         <FavoriteButton>
           <IconButton onClick={() => setFavorite(!favorite)}>
-            <MdFavoriteBorder
+            <PiHeart
               style={{ color: favorite ? customColors.primaryColor : '' }}
             />
           </IconButton>
@@ -36,7 +35,7 @@ const ChefCard = ({ chefInfo }) => {
         <ChefName>{chefInfo.name}</ChefName>
         <RateNumber>
           {chefInfo.rate}
-          <MdStar style={{ fontSize: '25px', marginLeft: '5px' }} />
+          <PiStarFill style={{ fontSize: '25px', marginLeft: '5px' }} />
         </RateNumber>
       </MainInfoWrapper>
     </ChefCardWrapper>

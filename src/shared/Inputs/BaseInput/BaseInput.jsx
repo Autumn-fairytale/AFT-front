@@ -1,9 +1,11 @@
+import { forwardRef } from 'react';
+
 import { useTheme } from '@emotion/react';
 import { baseInputPropTypes } from './BaseInput.props';
 import { StyledBaseInput } from './BaseInput.styled';
 
 /**
- * Most commonly used default input field props
+ * BaseInput component serves as the foundation for other input-type components
  *
  * @component
  * @param {string} label - The label for the input field
@@ -18,38 +20,50 @@ import { StyledBaseInput } from './BaseInput.styled';
  * @param {Object} other - Additional props to pass to the input field
  * @returns {JSX.Element}
  */
-const BaseInput = ({
-  label,
-  value,
-  onChange,
-  fullWidth = true,
-  size = 'medium',
-  error,
-  helperText,
-  disabled,
-  type,
-  ...other
-}) => {
-  const theme = useTheme();
+const BaseInput = forwardRef(
+  (
+    {
+      label,
+      value,
+      onChange,
+      fullWidth,
+      size,
+      error,
+      helperText,
+      disabled,
+      type,
+      ...other
+    },
+    ref
+  ) => {
+    const theme = useTheme();
 
-  return (
-    <StyledBaseInput
-      type={type}
-      variant="outlined"
-      theme={theme}
-      size={size}
-      label={label}
-      value={value}
-      onChange={onChange}
-      fullWidth={fullWidth}
-      error={error}
-      helperText={helperText}
-      disabled={disabled}
-      {...other}
-    />
-  );
-};
+    return (
+      <StyledBaseInput
+        type={type}
+        theme={theme}
+        size={size}
+        label={label}
+        value={value}
+        onChange={onChange}
+        fullWidth={fullWidth}
+        error={error}
+        helperText={helperText}
+        disabled={disabled}
+        inputRef={ref}
+        {...other}
+      />
+    );
+  }
+);
 
 BaseInput.propTypes = baseInputPropTypes;
+
+BaseInput.defaultProps = {
+  fullWidth: true,
+  variant: 'outlined',
+};
+
+BaseInput.displayName = 'BaseInput';
 
 export default BaseInput;

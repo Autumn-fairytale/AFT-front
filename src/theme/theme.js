@@ -30,6 +30,9 @@ export const theme = createTheme({
     outline: {
       main: customColors.outlineColor, // Outline
     },
+    success: {
+      main: '#1B7A04',
+    },
   },
   typography: {
     fontFamily: ['Montserrat', 'Inter', 'sans-serif'].join(','),

@@ -22,8 +22,8 @@ export const StyledTag = styled(Tag)(
   ({ theme }) => `
   display: flex;
   align-items: center;
-  height: 28px;
-  line-height: 20px;
+  height: 34px;
+  line-height: 22px;
   background-color: ${lighten(theme.palette.primary.light, 0.2)};
   border: 1px solid ${lighten(theme.palette.primary.light, 0.1)};
   border-radius: 2px;
@@ -31,6 +31,7 @@ export const StyledTag = styled(Tag)(
   padding: 0 4px 0 10px;
   outline: 0;
   overflow: hidden;
+  z-index: 2;
 
   &:focus {
     background-color: ${theme.palette.primary.light};

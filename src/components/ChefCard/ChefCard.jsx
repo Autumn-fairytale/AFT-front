@@ -21,7 +21,7 @@ const ChefCard = ({ chefInfo }) => {
   return (
     <ChefCardWrapper>
       <ChefImageWrapper>
-        <ChefImage src={chefInfo.image} alt={chefInfo.name} component="img" />
+        <ChefImage src={chefInfo.avatar} alt={chefInfo.name} component="img" />
         <FavoriteButton>
           <IconButton onClick={() => setFavorite(!favorite)}>
             <PiHeart
@@ -44,7 +44,7 @@ const ChefCard = ({ chefInfo }) => {
 
 ChefCard.propTypes = {
   chefInfo: PropTypes.shape({
-    image: PropTypes.string,
+    avatar: PropTypes.string,
     name: PropTypes.string,
     rate: PropTypes.number,
   }).isRequired,

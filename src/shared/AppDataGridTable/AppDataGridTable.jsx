@@ -15,7 +15,9 @@ const AppDataGridTable = ({
   disableColumnMenu = false,
   slotProps = {},
   slots = {},
+  sx = {},
   error,
+  initialState = {},
   ...otherProps
 }) => {
   return (
@@ -35,6 +37,7 @@ const AppDataGridTable = ({
           '& .MuiDataGrid-columnHeaderTitle': {
             fontWeight: 'bold',
           },
+          ...sx,
         }}
         slots={{
           toolbar: GridToolbar,
@@ -55,6 +58,7 @@ const AppDataGridTable = ({
             },
           },
           pagination: { paginationModel: { pageSize: pageSize } },
+          ...initialState,
         }}
         {...otherProps}
       />

@@ -3,19 +3,18 @@ import { useState } from 'react';
 
 import CancelIcon from '@mui/icons-material/Close';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import LaunchIcon from '@mui/icons-material/Launch';
 import SaveIcon from '@mui/icons-material/Save';
-import { IconButton, Paper, Stack } from '@mui/material';
+import { Paper, Stack } from '@mui/material';
 import {
   GridActionsCellItem,
   GridRowEditStopReasons,
   GridRowModes,
 } from '@mui/x-data-grid';
 
+import { chefsAmountAfterFee } from '@/helpers';
 import useChefOrder from '@/hooks/useChefOrders';
 import AppChip from '@/shared/AppChip/AppChip';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
-import { AppModal } from '@/shared/AppModal/AppModal';
 import { formatDateForDataGrid } from '../UsersOrdersTable/formatDateForDataGrid';
 import { CustomPagination } from '../UsersOrdersTable/Pagination';
 import { getStatusOptions } from './getChefsStatusOptions';
@@ -25,14 +24,8 @@ export const ChefsOrdersTable = () => {
   const { data, isLoading, error } = useChefOrder(chefID);
 
   const orders = data ?? [];
-  const [openModal, setOpenModal] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const [rowModesModel, setRowModesModel] = useState({});
 
-  const handleOpenModal = (order) => {
-    setSelectedOrder(order);
-    setOpenModal(true);
-  };
+  const [rowModesModel, setRowModesModel] = useState({});
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -73,20 +66,10 @@ export const ChefsOrdersTable = () => {
   };
 
   const columns = [
-    {
-      field: 'details',
-      headerName: 'Details',
-      renderCell: (params) => (
-        <IconButton onClick={() => handleOpenModal(params.row)}>
-          <LaunchIcon />
-        </IconButton>
-      ),
-      width: 100,
-    },
     { field: 'orderNumber', headerName: 'Order-number', width: 150 },
     {
       field: 'createdAt',
-      headerName: 'Created at',
+      headerName: 'Date',
       width: 150,
       valueGetter: ({ value }) => {
         return formatDateForDataGrid(value);
@@ -146,7 +129,17 @@ export const ChefsOrdersTable = () => {
         ];
       },
     },
-    { field: 'totalPrice', headerName: 'Total Price', type: 'number' },
+    {
+      field: 'totalPrice',
+      headerName: 'Your Profit',
+      valueGetter: ({ value }) => {
+        if (!value) {
+          return value;
+        }
+        return chefsAmountAfterFee(value);
+      },
+      type: 'number',
+    },
 
     {
       field: 'items',
@@ -188,15 +181,17 @@ export const ChefsOrdersTable = () => {
         onRowEditStop={handleRowEditStop}
         slots={{ pagination: CustomPagination }}
         getRowHeight={() => 'auto'}
+        initialState={{
+          sorting: {
+            sortModel: [{ field: 'createdAt', sort: 'desc' }],
+          },
+        }}
         sx={{
           '&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell': {
             py: '15px',
           },
         }}
       />
-      <AppModal open={openModal} onClose={() => setOpenModal(false)}>
-        {selectedOrder && 'Cat'}
-      </AppModal>
     </>
   );
 };

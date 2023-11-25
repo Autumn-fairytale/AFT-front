@@ -6,6 +6,7 @@ import { TextField } from '@mui/material';
 
 import PropTypes from 'prop-types';
 
+import { chefsAmountAfterFee } from '@/helpers';
 import { HelperText } from './HelperText';
 
 export const FormattedNumberInput = ({
@@ -31,9 +32,7 @@ export const FormattedNumberInput = ({
       const value = parseFloat(valueWithoutCommas);
 
       if (!isNaN(value)) {
-        const amountAfterFee = value * 0.85;
-
-        setCalculatedAmount(amountAfterFee.toFixed(2));
+        setCalculatedAmount(chefsAmountAfterFee(value));
       } else {
         setCalculatedAmount('');
       }

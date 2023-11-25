@@ -30,6 +30,7 @@ const AppDataGridTable = ({
         disableDensitySelector
         disableColumnFilter
         disableColumnMenu={disableColumnMenu}
+        disableRowSelectionOnClick={true}
         sx={{
           '& .MuiDataGrid-columnHeaderTitle': {
             fontWeight: 'bold',

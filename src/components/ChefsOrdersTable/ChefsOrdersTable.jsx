@@ -5,7 +5,7 @@ import CancelIcon from '@mui/icons-material/Close';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import LaunchIcon from '@mui/icons-material/Launch';
 import SaveIcon from '@mui/icons-material/Save';
-import { IconButton } from '@mui/material';
+import { IconButton, Paper, Stack } from '@mui/material';
 import {
   GridActionsCellItem,
   GridRowEditStopReasons,
@@ -104,39 +104,24 @@ export const ChefsOrdersTable = () => {
         <AppChip status={params.value} sx={{ width: 110 }} />
       ),
     },
-    { field: 'totalPrice', headerName: 'Total Price', type: 'number' },
-    {
-      field: 'items',
-      valueGetter: ({ value }) => {
-        if (!value) {
-          return value;
-        }
-        return value
-          .map(
-            (item, index) => `${index + 1}: ${item.name},  PSC: ${item.count} `
-          )
-          .join('');
-      },
-      headerName: 'Order items',
-      flex: 0.5,
-    },
     {
       field: 'actions',
       type: 'actions',
-      headerName: 'Actions',
-      width: 100,
+      headerName: 'Edit',
+      width: 75,
       cellClassName: 'actions',
-      getActions: ({ id }) => {
+      getActions: ({ id, row }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+
+        const isEditableStatus = !['completed', 'canceled'].includes(
+          row.status
+        );
 
         if (isInEditMode) {
           return [
             <GridActionsCellItem
               icon={<SaveIcon />}
               label="Save"
-              sx={{
-                color: 'primary.main',
-              }}
               onClick={handleSaveClick(id)}
             />,
             <GridActionsCellItem
@@ -156,8 +141,35 @@ export const ChefsOrdersTable = () => {
             className="textPrimary"
             onClick={handleEditClick(id)}
             color="inherit"
+            disabled={!isEditableStatus}
           />,
         ];
+      },
+    },
+    { field: 'totalPrice', headerName: 'Total Price', type: 'number' },
+
+    {
+      field: 'items',
+      headerName: 'Order items',
+      flex: 1,
+      renderCell: (params) => {
+        return (
+          <Stack spacing={1}>
+            {params.value.map((item, index) => (
+              <Paper
+                key={index}
+                variant="body2"
+                sx={{
+                  padding: '4px',
+                  backgroundColor: (theme) => theme.palette.primary.main,
+                  color: 'white',
+                }}
+              >
+                {`${index + 1}: ${item.name}, PSC: ${item.count}`}
+              </Paper>
+            ))}
+          </Stack>
+        );
       },
     },
   ];
@@ -175,6 +187,12 @@ export const ChefsOrdersTable = () => {
         processRowUpdate={processRowUpdate}
         onRowEditStop={handleRowEditStop}
         slots={{ pagination: CustomPagination }}
+        getRowHeight={() => 'auto'}
+        sx={{
+          '&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell': {
+            py: '15px',
+          },
+        }}
       />
       <AppModal open={openModal} onClose={() => setOpenModal(false)}>
         {selectedOrder && 'Cat'}

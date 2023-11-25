@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify';
+
 import axios from 'axios';
 
 export const processRowUpdate = async (newRow, oldRow, chefID) => {
@@ -12,10 +14,12 @@ export const processRowUpdate = async (newRow, oldRow, chefID) => {
           status: statusToUpdate,
         }
       );
+      toast.success('Updated');
     } catch (error) {
-      console.error('Error updating status:', error);
+      toast.error('Error updating status');
       return oldRow;
     }
   }
+
   return newRow;
 };

@@ -8,6 +8,8 @@ import useUserOrders from '@/hooks/useUserOrders ';
 import AppChip from '@/shared/AppChip/AppChip';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { AppModal } from '@/shared/AppModal/AppModal';
+import { calculateTotalSum } from './calculateTotalSum';
+import { CustomFooter } from './CustomFooter';
 import { UsersOrderDetails } from './UsersOrderDetails';
 
 export const UsersOrdersTable = () => {
@@ -42,7 +44,9 @@ export const UsersOrdersTable = () => {
       field: 'status',
       headerName: 'Status',
       width: 150,
-      renderCell: (params) => <AppChip status={params.value} />,
+      renderCell: (params) => (
+        <AppChip status={params.value} sx={{ width: 110 }} />
+      ),
     },
     { field: 'totalPrice', headerName: 'Total Price', type: 'number' },
     {
@@ -74,9 +78,24 @@ export const UsersOrdersTable = () => {
     },
   ];
 
+  const totalSum = calculateTotalSum(orders);
+
   return (
     <>
-      <AppDataGridTable columns={columns} rows={orders} loading={isLoading} />
+      <AppDataGridTable
+        columns={columns}
+        rows={orders}
+        loading={isLoading}
+        slots={{
+          footer: () => (
+            <CustomFooter
+              totalSum={totalSum}
+              pageSize={5}
+              rowCount={orders.length}
+            />
+          ),
+        }}
+      />
       <AppModal open={openModal} onClose={() => setOpenModal(false)}>
         {selectedOrder && <UsersOrderDetails order={selectedOrder} />}
       </AppModal>

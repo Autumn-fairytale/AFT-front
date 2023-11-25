@@ -14,6 +14,7 @@ const AppDataGridTable = ({
   tableHeight = '500px',
   disableColumnMenu = false,
   slotProps = {},
+  slots = {},
   ...otherProps
 }) => {
   return (
@@ -35,6 +36,7 @@ const AppDataGridTable = ({
         slots={{
           toolbar: GridToolbar,
           loadingOverlay: LinearProgress,
+          ...slots,
         }}
         slotProps={{
           toolbar: {

@@ -12,10 +12,12 @@ const statusColors = {
   canceled: 'error',
 };
 
-const AppChip = ({ status }) => {
+const AppChip = ({ status, sx }) => {
   const color = statusColors[status.toLowerCase()] || 'default';
 
-  return <Chip label={status.toUpperCase()} color={color} size="small" />;
+  return (
+    <Chip label={status.toUpperCase()} color={color} size="small" sx={sx} />
+  );
 };
 
 export default AppChip;

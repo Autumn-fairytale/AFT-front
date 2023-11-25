@@ -157,7 +157,7 @@ export const ReviewsList = () => {
     console.log('endpoint:', endpoint);
 
     // Зробити запит за даними
-    // Продумати пагінацію та взаємодію зі store
+    // Продумати пагінацію та взаємодію
   }, [location.pathname]);
 
   return (

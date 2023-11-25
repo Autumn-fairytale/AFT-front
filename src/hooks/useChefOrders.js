@@ -8,7 +8,11 @@ const useChefOrder = (chefID) => {
     return await axios.get(URI).then((response) => response.data);
   };
 
-  return useQuery(['orders', chefID], () => fetchUserOrders());
+  return useQuery(['orders', chefID], fetchUserOrders, {
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    staleTime: 3 * 60 * 1000,
+  });
 };
 
 export default useChefOrder;

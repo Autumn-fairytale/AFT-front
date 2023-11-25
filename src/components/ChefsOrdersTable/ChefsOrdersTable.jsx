@@ -1,23 +1,18 @@
 /* eslint-disable react/jsx-key */
 import { useState } from 'react';
 
-import CancelIcon from '@mui/icons-material/Close';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import { Paper, Stack } from '@mui/material';
-import {
-  GridActionsCellItem,
-  GridRowEditStopReasons,
-  GridRowModes,
-} from '@mui/x-data-grid';
+import { GridRowEditStopReasons, GridRowModes } from '@mui/x-data-grid';
 
 import { chefsAmountAfterFee } from '@/helpers';
 import useChefOrder from '@/hooks/useChefOrders';
-import AppChip from '@/shared/AppChip/AppChip';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { formatDateForDataGrid } from '../UsersOrdersTable/formatDateForDataGrid';
 import { CustomPagination } from '../UsersOrdersTable/Pagination';
+import { getActions } from './getActions';
 import { getStatusOptions } from './getChefsStatusOptions';
+import { OrderItemsCell } from './OrderItemsCell';
+import { processRowUpdate } from './processRowUpdate';
+import { StatusCell } from './StatusCell';
 
 export const ChefsOrdersTable = () => {
   const chefID = '6557219bccbbbbc3695bc8b2';
@@ -26,6 +21,9 @@ export const ChefsOrdersTable = () => {
   const orders = data ?? [];
 
   const [rowModesModel, setRowModesModel] = useState({});
+  const [columnVisibilityModel] = useState({
+    id: false,
+  });
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -51,21 +49,19 @@ export const ChefsOrdersTable = () => {
     });
   };
 
-  const processRowUpdate = (newRow, oldRow) => {
-    if (newRow.status !== oldRow.status) {
-      console.log('server');
-    }
-
-    // const updatedRow = { ...newRow, isNew: false };
-    // setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    return newRow;
-  };
-
   const handleRowModesModelChange = (newRowModesModel) => {
     setRowModesModel(newRowModesModel);
   };
 
+  const updateRow = async (newRow, oldRow) => {
+    return processRowUpdate(newRow, oldRow, chefID);
+  };
+
   const columns = [
+    {
+      field: 'id',
+      headerName: 'ID',
+    },
     { field: 'orderNumber', headerName: 'Order-number', width: 150 },
     {
       field: 'createdAt',
@@ -82,52 +78,26 @@ export const ChefsOrdersTable = () => {
       width: 150,
       editable: true,
       type: 'singleSelect',
-      valueOptions: (params) => getStatusOptions(params.row.status),
-      renderCell: (params) => (
-        <AppChip status={params.value} sx={{ width: 110 }} />
-      ),
+      valueOptions: (params) => {
+        return getStatusOptions(params.row.status);
+      },
+      renderCell: StatusCell,
     },
     {
       field: 'actions',
       type: 'actions',
-      headerName: 'Edit',
-      width: 75,
+      headerName: 'Edit Status',
+      width: 100,
       cellClassName: 'actions',
-      getActions: ({ id, row }) => {
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-
-        const isEditableStatus = !['completed', 'canceled'].includes(
-          row.status
-        );
-
-        if (isInEditMode) {
-          return [
-            <GridActionsCellItem
-              icon={<SaveIcon />}
-              label="Save"
-              onClick={handleSaveClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<CancelIcon />}
-              label="Cancel"
-              className="textPrimary"
-              onClick={handleCancelClick(id)}
-              color="inherit"
-            />,
-          ];
-        }
-
-        return [
-          <GridActionsCellItem
-            icon={<EditOutlinedIcon />}
-            label="Edit"
-            className="textPrimary"
-            onClick={handleEditClick(id)}
-            color="inherit"
-            disabled={!isEditableStatus}
-          />,
-        ];
-      },
+      getActions: ({ id, row }) =>
+        getActions(
+          id,
+          row,
+          rowModesModel,
+          handleSaveClick,
+          handleCancelClick,
+          handleEditClick
+        ),
     },
     {
       field: 'totalPrice',
@@ -145,25 +115,7 @@ export const ChefsOrdersTable = () => {
       field: 'items',
       headerName: 'Order items',
       flex: 1,
-      renderCell: (params) => {
-        return (
-          <Stack spacing={1}>
-            {params.value.map((item, index) => (
-              <Paper
-                key={index}
-                variant="body2"
-                sx={{
-                  padding: '4px',
-                  backgroundColor: (theme) => theme.palette.primary.main,
-                  color: 'white',
-                }}
-              >
-                {`${index + 1}: ${item.name}, PSC: ${item.count}`}
-              </Paper>
-            ))}
-          </Stack>
-        );
-      },
+      renderCell: OrderItemsCell,
     },
   ];
 
@@ -177,10 +129,11 @@ export const ChefsOrdersTable = () => {
         editMode="row"
         rowModesModel={rowModesModel}
         onRowModesModelChange={handleRowModesModelChange}
-        processRowUpdate={processRowUpdate}
+        processRowUpdate={updateRow}
         onRowEditStop={handleRowEditStop}
         slots={{ pagination: CustomPagination }}
         getRowHeight={() => 'auto'}
+        columnVisibilityModel={columnVisibilityModel}
         initialState={{
           sorting: {
             sortModel: [{ field: 'createdAt', sort: 'desc' }],

@@ -1,9 +1,16 @@
 // import AppRouter from './routes/AppRouter';
 
-import { UsersOrdersTable } from './components/UsersOrdersTable/UsersOrdersTable';
+import { ChefsOrdersTable } from './components/ChefsOrdersTable/ChefsOrdersTable';
+// import { UsersOrdersTable } from './components/UsersOrdersTable/UsersOrdersTable';
 
 function App() {
-  return <UsersOrdersTable />;
+  return (
+    <>
+      {/* <UsersOrdersTable /> */}
+      <ChefsOrdersTable />
+    </>
+  );
+
   // return <AppRouter />;
 }
 

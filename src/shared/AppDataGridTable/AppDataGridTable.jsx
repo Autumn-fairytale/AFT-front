@@ -15,6 +15,7 @@ const AppDataGridTable = ({
   disableColumnMenu = false,
   slotProps = {},
   slots = {},
+  error,
   ...otherProps
 }) => {
   return (
@@ -25,6 +26,7 @@ const AppDataGridTable = ({
         onRowClick={onRowClick}
         pageSizeOptions={pageSizeOptions}
         loading={loading}
+        error={error}
         disableDensitySelector
         disableColumnFilter
         disableColumnMenu={disableColumnMenu}

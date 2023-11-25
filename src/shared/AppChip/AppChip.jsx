@@ -6,6 +6,7 @@ const statusColors = {
   pending: 'default',
   accepted: 'primary',
   cooking: 'secondary',
+  ready: 'info',
   readyToDelivery: 'info',
   delivering: 'warning',
   completed: 'success',
@@ -16,7 +17,12 @@ const AppChip = ({ status, sx }) => {
   const color = statusColors[status.toLowerCase()] || 'default';
 
   return (
-    <Chip label={status.toUpperCase()} color={color} size="small" sx={sx} />
+    <Chip
+      label={status.toUpperCase()}
+      color={color}
+      size="small"
+      sx={{ ...sx }}
+    />
   );
 };
 

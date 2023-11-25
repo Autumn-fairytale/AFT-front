@@ -23,8 +23,6 @@ export const UsersOrdersTable = () => {
     setOpenModal(true);
   };
 
-  if (error) return <div>Error loading data</div>;
-
   const orders = data ? data.data.orders : [];
 
   const columns = [
@@ -86,6 +84,7 @@ export const UsersOrdersTable = () => {
         columns={columns}
         rows={orders}
         loading={isLoading}
+        error={error}
         slots={{
           footer: () => (
             <CustomFooter

@@ -1,164 +1,66 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useLocation } from 'react-router-dom';
 
 import Typography from '@mui/material/Typography';
 
 import ReviewsItem from '../ReviewsItem/ReviewsItem';
+import { ReviewsListProps } from './ReviewsList.props';
 import { ReviewsListStyled, TitleWrapper } from './ReviewsList.styled';
 
-// Mok reviews array
-
-const reviews = [
-  {
-    id: '6554771a797f3a70dd642a96',
-    owner: {
-      id: '654fe4de18f1f5f14f2e1cc2',
-      firstName: 'Jane',
-      lastName: 'Doe',
-      avatar: 'url_to_avatar_2',
-    },
-    dish: '6555336759cc4def8b9ea8f0',
-    rating: 4,
-    review: 'Very satisfied, portions are generous.',
-    createdAt: '2023-11-21T10:34:29.719+00:00',
-  },
-  {
-    id: '6554771a797f3a70dd642a97',
-    owner: {
-      id: '654fe4de18f1f5f14f2e1cc3',
-      firstName: 'John',
-      lastName: 'Smith',
-      avatar: 'url_to_avatar_3',
-    },
-    dish: '6555336759cc4def8b9ea8f1',
-    rating: 5,
-    review: 'Excellent service and delicious food.',
-    createdAt: '2023-11-21T10:34:29.719+00:00',
-  },
-  {
-    id: '6554771a797f3a70dd642a98',
-    owner: {
-      id: '654fe4de18f1f5f14f2e1cc4',
-      firstName: 'Alice',
-      lastName: 'Johnson',
-      avatar: 'url_to_avatar_4',
-    },
-    dish: '6555336759cc4def8b9ea8f2',
-    rating: 3,
-    review: 'Good experience, but the wait was a bit long.',
-    createdAt: '2023-11-21T10:34:29.719+00:00',
-  },
-  {
-    id: '6554771a797f3a70dd642a99',
-    owner: {
-      id: '654fe4de18f1f5f14f2e1cc5',
-      firstName: 'Bob',
-      lastName: 'Miller',
-      avatar: 'url_to_avatar_5',
-    },
-    dish: '6555336759cc4def8b9ea8f3',
-    rating: 4,
-    review: 'Tasty food, reasonable prices.',
-    createdAt: '2023-11-21T10:34:29.719+00:00',
-  },
-  {
-    id: '6554771a797f3a70dd642a9a',
-    owner: {
-      id: '654fe4de18f1f5f14f2e1cc6',
-      firstName: 'Eva',
-      lastName: 'Brown',
-      avatar: 'url_to_avatar_6',
-    },
-    dish: '6555336759cc4def8b9ea8f4',
-    rating: 5,
-    review: 'Outstanding service and atmosphere.',
-    createdAt: '2023-11-21T10:34:29.719+00:00',
-  },
-  {
-    id: '6554771a797f3a70dd642a9b',
-    owner: {
-      id: '654fe4de18f1f5f14f2e1cc7',
-      firstName: 'Charlie',
-      lastName: 'Williams',
-      avatar: 'url_to_avatar_7',
-    },
-    dish: '6555336759cc4def8b9ea8f5',
-    rating: 3,
-    review: 'Decent experience, could be better.',
-    createdAt: '2023-11-21T10:34:29.719+00:00',
-  },
-  {
-    id: '6554771a797f3a70dd642a9c',
-    owner: {
-      id: '654fe4de18f1f5f14f2e1cc8',
-      firstName: 'Grace',
-      lastName: 'Jones',
-      avatar: 'url_to_avatar_8',
-    },
-    dish: '6555336759cc4def8b9ea8f6',
-    rating: 4,
-    review: 'Nice place, friendly staff.',
-    createdAt: '2023-11-21T10:34:29.719+00:00',
-  },
-  {
-    id: '6554771a797f3a70dd642a9d',
-    owner: {
-      id: '654fe4de18f1f5f14f2e1cc9',
-      firstName: 'David',
-      lastName: 'Taylor',
-      avatar: 'url_to_avatar_9',
-    },
-    dish: '6555336759cc4def8b9ea8f7',
-    rating: 5,
-    review: 'Absolutely loved it, will come back!',
-    createdAt: '2023-11-21T10:34:29.719+00:00',
-  },
-  {
-    id: '6554771a797f3a70dd642a9e',
-    owner: {
-      id: '654fe4de18f1f5f14f2e1cca',
-      firstName: 'Sophia',
-      lastName: 'Clark',
-      avatar: 'url_to_avatar_10',
-    },
-    dish: '6555336759cc4def8b9ea8f8',
-    rating: 3,
-    review: 'Average experience, nothing extraordinary.',
-    createdAt: '2023-11-21T10:34:29.719+00:00',
-  },
-  {
-    id: '6554771a797f3a70dd642a9f',
-    owner: {
-      id: '654fe4de18f1f5f14f2e1ccb',
-      firstName: 'Michael',
-      lastName: 'White',
-      avatar: 'url_to_avatar_11',
-    },
-    dish: '6555336759cc4def8b9ea8f9',
-    rating: 4,
-    review: 'Solid choice for a casual meal.',
-    createdAt: '2023-11-21T10:34:29.719+00:00',
-  },
-];
-
-export const ReviewsList = () => {
+export const ReviewsList = ({ id }) => {
   const location = useLocation();
-  console.log('location:', location);
+  const [reviewsArray, setReviewsArray] = useState([]);
+  console.log('reviewsArray:', reviewsArray);
+
+  const [page, setPage] = useState(1);
+
+  const [totalPage, setTotalPage] = useState(null);
+
+  const [hasMore, setHasMore] = useState(true);
+
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
-    const path = location.pathname;
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
 
-    const id = path.split('/').pop();
+    const path = location.pathname;
+    if (totalPage && page > totalPage) {
+      setHasMore(false);
+      return;
+    }
 
     const endpoint = path.includes('/chefs/')
-      ? `/api/reviews/by-chef/${id}/`
-      : `/api/reviews/by-dish/${id}/`;
+      ? `/api/reviews/by-chef/${id}?page=${page}`
+      : `/api/reviews/by-dish/${id}?page=${page}`;
 
-    console.log('endpoint:', endpoint);
-
-    // Зробити запит за даними
-    // Продумати пагінацію та взаємодію
-  }, [location.pathname]);
+    fetch(`http://localhost:4000${endpoint}`)
+      .then((response) => response.json())
+      .then((/*data*/) => {
+        setReviewsArray((prevArray) => [
+          ...prevArray,
+          ...Array.from({ length: 20 }).fill({
+            id: '6554771a797f3a70dd642a9e',
+            owner: {
+              id: '654fe4de18f1f5f14f2e1cca',
+              firstName: 'Sophia',
+              lastName: 'Clark',
+              avatar: 'url_to_avatar_10',
+            },
+            dish: '6555336759cc4def8b9ea8f8',
+            rating: 3,
+            review:
+              'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur suscipit incidunt, cum totam quam rem porro aspernatur nesciunt a obcaecati explicabo quibusdam rerum quod vel ratione sed recusandae blanditiis facere delectus voluptatem consequatur reprehenderit magnam molestias? Expedita architecto optio dolores doloremque ab, soluta maiores harum, vel corporis aspernatur sed incidunt aliquid officia eveniet! Eligendi debitis id velit veritatis. Quia sint voluptatum magni dolorum quisquam quaerat aspernatur enim reiciendis vel quam eos, nobis, modi deleniti ipsum. Ex ipsum beatae tenetur quidem praesentium illo fuga iure ullam deleniti! Sequi, labore nemo. Amet cumque officia dignissimos non id tempore esse. Iure, id aliquid magni repellat, eaque molestias placeat natus at saepe quis vero distinctio quisquam facere obcaecati deleniti voluptatum, culpa soluta voluptates nostrum recusandae unde quos harum suscipit. Ea delectus aspernatur debitis quisquam ipsum harum nisi inventore. Nihil facilis maiores quis numquam, odio perspiciatis illo amet, sequi a quisquam voluptatem atque et aspernatur, non soluta tempora praesentium quam in eos nesciunt corrupti dolorum assumenda pariatur? Nostrum, et. Eius, necessitatibus rerum porro et, sint sunt dicta non cumque libero amet sequi odio. Voluptates similique velit, fugiat reiciendis impedit neque pariatur exercitationem libero optio quaerat, ducimus quibusdam necessitatibus maxime, suscipit a! Vitae, quidem quod eaque commodi ducimus perspiciatis quisquam vero deleniti debitis delectus magnam mollitia voluptatem veritatis ad nisi laudantium esse laboriosam consectetur blanditiis praesentium illo labore autem? Pariatur vitae sed, voluptate illum ullam facilis quae ipsum! Voluptatibus, officiis id pariatur cumque quo qui ratione et veniam amet doloribus magni itaque deleniti! Cumque delectus eos eius sequi alias minima voluptate deserunt tenetur fugit corporis. Explicabo, officia. Provident nobis asperiores vel exercitationem, modi accusamus minima, enim dicta assumenda natus eaque cumque? Repellat dignissimos ullam doloremque officia, dolor ex ipsum quisquam tempora temporibus sint corrupti iste vero culpa rerum eaque inventore accusamus a sed! Natus, nulla incidunt..',
+            createdAt: '2023-11-21T10:34:29.719+00:00',
+          }),
+        ]);
+        setTotalPage(5);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, location.pathname, page]);
 
   return (
     <>
@@ -167,12 +69,31 @@ export const ReviewsList = () => {
           Reviews
         </Typography>
       </TitleWrapper>
-
-      <ReviewsListStyled>
-        {reviews.map((review) => (
-          <ReviewsItem key={review.id} review={review} />
-        ))}
-      </ReviewsListStyled>
+      <InfiniteScroll
+        dataLength={reviewsArray.length}
+        scrollThreshold={0.9}
+        next={() => setPage(page + 1)}
+        hasMore={hasMore}
+        loader={<h4>Loading...</h4>}
+        height={800}
+        endMessage={
+          <p style={{ textAlign: 'center' }}>
+            <b>Yay! You have seen it all</b>
+          </p>
+        }
+      >
+        <ReviewsListStyled>
+          {reviewsArray.map((review, index) => (
+            // <li style={style} key={index}>
+            //   li - #{index}
+            // </li>
+            // <ReviewsItem key={review.id} review={review} />
+            <ReviewsItem key={index} review={review} />
+          ))}
+        </ReviewsListStyled>
+      </InfiniteScroll>
     </>
   );
 };
+
+ReviewsList.propTypes = ReviewsListProps;

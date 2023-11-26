@@ -4,6 +4,9 @@ export const ReviewsListStyled = styled.ul`
   display: flex;
   flex-direction: column;
 
+  width: 100%;
+  padding: 16px;
+
   & > :not(:last-child) {
     border-bottom: 1px solid grey;
   }

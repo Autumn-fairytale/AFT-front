@@ -10,14 +10,14 @@ import './AppCarouselStyles.css';
 
 export const AppCarousel = ({ children }) => {
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 1500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToShow: 5,
+    slidesToScroll: 5,
     initialSlide: 0,
-    autoplaySpeed: 10000,
-    autoplay: true,
+    // autoplaySpeed: 10000,
+    // autoplay: true,
     responsive: [
       {
         breakpoint: 1200,
@@ -29,8 +29,8 @@ export const AppCarousel = ({ children }) => {
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
+          slidesToShow: 3,
+          slidesToScroll: 3,
         },
       },
       {
@@ -38,7 +38,6 @@ export const AppCarousel = ({ children }) => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          dots: false,
         },
       },
     ],

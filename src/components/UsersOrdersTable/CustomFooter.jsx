@@ -1,9 +1,10 @@
-/* eslint-disable react/prop-types */
 import { Box, Typography } from '@mui/material';
+
+import PropTypes from 'prop-types';
 
 import { CustomPagination } from './Pagination';
 
-export const CustomFooter = ({ totalSum = 0.01, rowCount }) => {
+export const CustomFooter = ({ totalSum = 0, rowCount = 0 }) => {
   return (
     <Box
       sx={{
@@ -24,4 +25,9 @@ export const CustomFooter = ({ totalSum = 0.01, rowCount }) => {
       <CustomPagination />
     </Box>
   );
+};
+
+CustomFooter.propTypes = {
+  totalSum: PropTypes.number,
+  rowCount: PropTypes.number,
 };

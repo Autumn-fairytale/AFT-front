@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import LaunchIcon from '@mui/icons-material/Launch';
 import { IconButton } from '@mui/material';
@@ -18,63 +17,67 @@ export const UsersOrdersTable = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
-  const handleOpenModal = (order) => {
+  const handleOpenModal = useCallback((order) => {
     setSelectedOrder(order);
     setOpenModal(true);
-  };
+  }, []);
 
   const orders = data ? data.data.orders : [];
 
-  const columns = [
-    {
-      field: 'details',
-      headerName: 'Details',
-      renderCell: (params) => (
-        <IconButton onClick={() => handleOpenModal(params.row)}>
-          <LaunchIcon />
-        </IconButton>
-      ),
-      width: 100,
-    },
-    { field: 'orderNumber', headerName: 'Order-number', width: 150 },
-    { field: 'date', headerName: 'Created at', width: 150, type: 'Date' },
-    {
-      field: 'status',
-      headerName: 'Status',
-      width: 150,
-      renderCell: (params) => (
-        <AppChip status={params.value} sx={{ width: 110 }} />
-      ),
-    },
-    { field: 'totalPrice', headerName: 'Total Price', type: 'number' },
-    {
-      field: 'address',
-      valueGetter: ({ value }) => {
-        if (!value) {
-          return value;
-        }
-        const address = `${value.country},${value.city},${value.street}`;
-        return address;
+  const columns = useMemo(
+    () => [
+      {
+        field: 'details',
+        headerName: 'Details',
+        renderCell: (params) => (
+          <IconButton onClick={() => handleOpenModal(params.row)}>
+            <LaunchIcon />
+          </IconButton>
+        ),
+        width: 100,
       },
-      headerName: 'Address',
-      width: 200,
-    },
-    {
-      field: 'items',
-      valueGetter: ({ value }) => {
-        if (!value) {
-          return value;
-        }
-        return value
-          .map(
-            (item, index) => `${index + 1}: ${item.name},  PSC: ${item.count} `
-          )
-          .join('');
+      { field: 'orderNumber', headerName: 'Order-number', width: 150 },
+      { field: 'date', headerName: 'Created at', width: 150, type: 'Date' },
+      {
+        field: 'status',
+        headerName: 'Status',
+        width: 150,
+        renderCell: (params) => (
+          <AppChip status={params.value} sx={{ width: 110 }} />
+        ),
       },
-      headerName: 'Order items',
-      flex: 0.5,
-    },
-  ];
+      { field: 'totalPrice', headerName: 'Total Price', type: 'number' },
+      {
+        field: 'address',
+        valueGetter: ({ value }) => {
+          if (!value) {
+            return value;
+          }
+          const address = `${value.country},${value.city},${value.street}`;
+          return address;
+        },
+        headerName: 'Address',
+        width: 200,
+      },
+      {
+        field: 'items',
+        valueGetter: ({ value }) => {
+          if (!value) {
+            return value;
+          }
+          return value
+            .map(
+              (item, index) =>
+                `${index + 1}: ${item.name},  PSC: ${item.count} `
+            )
+            .join('');
+        },
+        headerName: 'Order items',
+        flex: 0.5,
+      },
+    ],
+    [handleOpenModal]
+  );
 
   const totalSum = calculateTotalSum(orders);
 

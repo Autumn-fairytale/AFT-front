@@ -42,9 +42,11 @@ export const UserOrdersTable = () => {
         field: 'status',
         headerName: 'Status',
         width: 150,
-        renderCell: (params) => (
-          <AppChip status={params.value} sx={{ width: 110 }} />
-        ),
+        renderCell: ({ value }) => {
+          const statusToShow =
+            value === 'readyToDelivery' ? '→ delivery' : value;
+          return <AppChip status={statusToShow} sx={{ width: 110 }} />;
+        },
       },
       { field: 'totalPrice', headerName: 'Total Price', type: 'number' },
       {

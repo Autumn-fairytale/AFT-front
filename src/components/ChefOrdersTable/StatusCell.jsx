@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 
-import AppChip from '@/shared/AppChip/AppChip';
+import AppChip, { toDelivery } from '@/shared/AppChip/AppChip';
 
 export const StatusCell = ({ value }) => {
-  const valueToShow = value === 'readyToDelivery' ? 'ready' : value;
+  const valueToShow = value === 'readyToDelivery' ? toDelivery : value;
 
   return <AppChip status={valueToShow} sx={{ width: 110 }} />;
 };

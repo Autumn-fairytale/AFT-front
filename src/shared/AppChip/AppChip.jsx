@@ -1,12 +1,12 @@
 import { Chip } from '@mui/material';
 
 import { AppChipProps } from './AppChip.props';
-
+export const toDelivery = '→ delivery';
 const statusColors = {
   pending: 'default',
   accepted: 'primary',
   cooking: 'secondary',
-  ready: 'info',
+  '→ delivery': 'info',
   readyToDelivery: 'info',
   delivering: 'warning',
   completed: 'success',

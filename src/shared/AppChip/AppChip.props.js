@@ -6,7 +6,7 @@ export const AppChipProps = {
     'accepted',
     'cooking',
     'readyToDelivery',
-    'ready',
+    '→ delivery',
     'delivering',
     'completed',
     'canceled',

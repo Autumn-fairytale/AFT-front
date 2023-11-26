@@ -18,6 +18,9 @@ export const getActions = (
     return [
       <GridActionsCellItem
         icon={<SaveIcon />}
+        sx={{
+          color: 'primary.main',
+        }}
         key={'save'}
         label="Save"
         onClick={handleSaveClick(id)}

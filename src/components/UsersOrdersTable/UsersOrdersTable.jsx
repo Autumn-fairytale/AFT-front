@@ -68,9 +68,9 @@ export const UsersOrdersTable = () => {
           return value
             .map(
               (item, index) =>
-                `${index + 1}: ${item.name},  PSC: ${item.count} `
+                `${index + 1}: ${item.name},  psc: ${item.count} `
             )
-            .join('');
+            .join(';');
         },
         headerName: 'Order items',
         flex: 0.5,

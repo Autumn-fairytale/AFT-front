@@ -2,7 +2,7 @@ import { Divider, List, ListItem, Paper, Typography } from '@mui/material';
 
 import PropTypes from 'prop-types';
 
-export const UsersOrderDetails = ({ order }) => (
+export const UserOrderDetails = ({ order }) => (
   <Paper elevation={3} sx={{ padding: 2, maxWidth: 300, margin: 'auto' }}>
     <Typography variant="h6" sx={{ textAlign: 'center' }}>
       Order Receipt
@@ -36,7 +36,7 @@ export const UsersOrderDetails = ({ order }) => (
   </Paper>
 );
 
-UsersOrderDetails.propTypes = {
+UserOrderDetails.propTypes = {
   order: PropTypes.shape({
     orderNumber: PropTypes.number.isRequired,
     items: PropTypes.arrayOf(

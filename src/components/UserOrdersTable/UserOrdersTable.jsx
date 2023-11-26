@@ -9,9 +9,9 @@ import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { AppModal } from '@/shared/AppModal/AppModal';
 import { calculateTotalSum } from './calculateTotalSum';
 import { CustomFooter } from './CustomFooter';
-import { UsersOrderDetails } from './UsersOrderDetails';
+import { UserOrderDetails } from './UserOrderDetails';
 
-export const UsersOrdersTable = () => {
+export const UserOrdersTable = () => {
   const { data, isLoading, error } = useUserOrders('655a051fb7cc813b6007220b');
 
   const [openModal, setOpenModal] = useState(false);
@@ -99,7 +99,7 @@ export const UsersOrdersTable = () => {
         }}
       />
       <AppModal open={openModal} onClose={() => setOpenModal(false)}>
-        {selectedOrder && <UsersOrderDetails order={selectedOrder} />}
+        {selectedOrder && <UserOrderDetails order={selectedOrder} />}
       </AppModal>
     </>
   );

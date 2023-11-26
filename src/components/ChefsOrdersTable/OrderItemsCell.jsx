@@ -1,5 +1,6 @@
-/* eslint-disable react/prop-types */
 import { Paper, Stack } from '@mui/material';
+
+import PropTypes from 'prop-types';
 
 export const OrderItemsCell = ({ value }) => (
   <Stack spacing={1}>
@@ -18,3 +19,12 @@ export const OrderItemsCell = ({ value }) => (
     ))}
   </Stack>
 );
+
+OrderItemsCell.propTypes = {
+  value: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      count: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+};

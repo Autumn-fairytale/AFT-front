@@ -10,7 +10,6 @@ const useChefOrder = (chefID) => {
 
   return useQuery(['orders', chefID], fetchUserOrders, {
     refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
     staleTime: 3 * 60 * 1000,
   });
 };

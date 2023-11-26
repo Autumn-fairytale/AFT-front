@@ -1,5 +1,4 @@
-/* eslint-disable react/jsx-key */
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { GridRowEditStopReasons, GridRowModes } from '@mui/x-data-grid';
 
@@ -21,9 +20,6 @@ export const ChefsOrdersTable = () => {
   const orders = data ?? [];
 
   const [rowModesModel, setRowModesModel] = useState({});
-  const [columnVisibilityModel] = useState({
-    id: false,
-  });
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -31,23 +27,35 @@ export const ChefsOrdersTable = () => {
     }
   };
 
-  const handleEditClick = (id) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-  };
+  const handleEditClick = useCallback(
+    (id) => () => {
+      setRowModesModel((prevModel) => ({
+        ...prevModel,
+        [id]: { mode: GridRowModes.Edit },
+      }));
+    },
+    []
+  );
 
-  const handleSaveClick = (id) => () => {
-    setRowModesModel({
-      ...rowModesModel,
-      [id]: { mode: GridRowModes.View },
-    });
-  };
+  const handleSaveClick = useCallback(
+    (id) => () => {
+      setRowModesModel((prevModel) => ({
+        ...prevModel,
+        [id]: { mode: GridRowModes.View },
+      }));
+    },
+    []
+  );
 
-  const handleCancelClick = (id) => () => {
-    setRowModesModel({
-      ...rowModesModel,
-      [id]: { mode: GridRowModes.View, ignoreModifications: true },
-    });
-  };
+  const handleCancelClick = useCallback(
+    (id) => () => {
+      setRowModesModel((prevModel) => ({
+        ...prevModel,
+        [id]: { mode: GridRowModes.View, ignoreModifications: true },
+      }));
+    },
+    []
+  );
 
   const handleRowModesModelChange = (newRowModesModel) => {
     setRowModesModel(newRowModesModel);
@@ -57,67 +65,65 @@ export const ChefsOrdersTable = () => {
     return processRowUpdate(newRow, oldRow, chefID);
   };
 
-  const columns = [
-    {
-      field: 'id',
-      headerName: 'ID',
-    },
-    { field: 'orderNumber', headerName: 'Order-number', width: 150 },
-    {
-      field: 'createdAt',
-      headerName: 'Date',
-      width: 150,
-      valueGetter: ({ value }) => {
-        return formatDateForDataGrid(value);
+  const columns = useMemo(
+    () => [
+      { field: 'orderNumber', headerName: 'Order-number', width: 150 },
+      {
+        field: 'createdAt',
+        headerName: 'Date',
+        width: 150,
+        valueGetter: ({ value }) => {
+          return formatDateForDataGrid(value);
+        },
+        type: 'Date',
       },
-      type: 'Date',
-    },
-    {
-      field: 'status',
-      headerName: 'Status',
-      width: 150,
-      editable: true,
-      type: 'singleSelect',
-      valueOptions: (params) => {
-        return getStatusOptions(params.row.status);
+      {
+        field: 'status',
+        headerName: 'Status',
+        width: 150,
+        editable: true,
+        type: 'singleSelect',
+        valueOptions: (params) => {
+          return getStatusOptions(params.row.status);
+        },
+        renderCell: StatusCell,
       },
-      renderCell: StatusCell,
-    },
-    {
-      field: 'actions',
-      type: 'actions',
-      headerName: 'Edit Status',
-      width: 100,
-      cellClassName: 'actions',
-      getActions: ({ id, row }) =>
-        getActions(
-          id,
-          row,
-          rowModesModel,
-          handleSaveClick,
-          handleCancelClick,
-          handleEditClick
-        ),
-    },
-    {
-      field: 'totalPrice',
-      headerName: 'Your Profit',
-      valueGetter: ({ value }) => {
-        if (!value) {
-          return value;
-        }
-        return chefsAmountAfterFee(value);
+      {
+        field: 'actions',
+        type: 'actions',
+        headerName: 'Edit Status',
+        width: 100,
+        getActions: ({ id, row }) =>
+          getActions(
+            id,
+            row,
+            rowModesModel,
+            handleSaveClick,
+            handleCancelClick,
+            handleEditClick
+          ),
       },
-      type: 'number',
-    },
+      {
+        field: 'totalPrice',
+        headerName: 'Your Profit',
+        valueGetter: ({ value }) => {
+          if (!value) {
+            return value;
+          }
+          return chefsAmountAfterFee(value);
+        },
+        type: 'number',
+      },
 
-    {
-      field: 'items',
-      headerName: 'Order items',
-      flex: 1,
-      renderCell: OrderItemsCell,
-    },
-  ];
+      {
+        field: 'items',
+        headerName: 'Order items',
+        flex: 1,
+        renderCell: OrderItemsCell,
+      },
+    ],
+    [handleCancelClick, handleEditClick, handleSaveClick, rowModesModel]
+  );
 
   return (
     <>
@@ -133,7 +139,6 @@ export const ChefsOrdersTable = () => {
         onRowEditStop={handleRowEditStop}
         slots={{ pagination: CustomPagination }}
         getRowHeight={() => 'auto'}
-        columnVisibilityModel={columnVisibilityModel}
         initialState={{
           sorting: {
             sortModel: [{ field: 'createdAt', sort: 'desc' }],

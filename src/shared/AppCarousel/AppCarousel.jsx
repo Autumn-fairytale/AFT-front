@@ -22,15 +22,22 @@ export const AppCarousel = ({ children }) => {
       {
         breakpoint: 1200,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
+          slidesToShow: 4,
+          slidesToScroll: 4,
         },
       },
       {
-        breakpoint: 768,
+        breakpoint: 900,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
+        },
+      },
+      {
+        breakpoint: 720,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
         },
       },
       {

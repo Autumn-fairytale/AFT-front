@@ -16,10 +16,10 @@ import {
   RateNumber,
 } from './ChefCard.styled';
 
-const ChefCard = ({ chefInfo }) => {
+const ChefCard = ({ chefInfo, carousel }) => {
   const [favorite, setFavorite] = useState(false);
   return (
-    <ChefCardWrapper>
+    <ChefCardWrapper carousel={carousel}>
       <ChefImageWrapper>
         <ChefImage src={chefInfo.image} alt={chefInfo.name} component="img" />
         <FavoriteButton>

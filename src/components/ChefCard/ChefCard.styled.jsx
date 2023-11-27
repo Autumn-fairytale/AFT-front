@@ -3,9 +3,9 @@ import { styled } from '@mui/material';
 export const ChefCardWrapper = styled('div')(({ theme, isCarousel }) => {
   return {
     position: 'relative',
-    width: '100%',
+    width: `${isCarousel ? '200px' : '100%'}`,
     height: `${isCarousel ? '300px' : '100%'}`,
-    maxWidth: `${isCarousel ? '200px' : '350px'}`,
+    maxWidth: '350px',
     maxHeight: '400px',
     borderRadius: '20px',
     overflow: 'hidden',

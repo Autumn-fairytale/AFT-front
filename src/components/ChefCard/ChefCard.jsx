@@ -5,7 +5,7 @@ import { MdStar } from 'react-icons/md';
 import { IconButton } from '@mui/material';
 
 import { customColors } from '@/constants';
-import { ChefCardPropTypes } from './ChefCard.props';
+import { ChefCardPropTypes, defaultChefCardPropTypes } from './ChefCard.props';
 import {
   ChefCardWrapper,
   ChefImage,
@@ -16,10 +16,10 @@ import {
   RateNumber,
 } from './ChefCard.styled';
 
-const ChefCard = ({ chefInfo, carousel }) => {
+const ChefCard = ({ chefInfo, isCarousel }) => {
   const [favorite, setFavorite] = useState(false);
   return (
-    <ChefCardWrapper carousel={carousel}>
+    <ChefCardWrapper isCarousel={isCarousel}>
       <ChefImageWrapper>
         <ChefImage src={chefInfo.image} alt={chefInfo.name} component="img" />
         <FavoriteButton>
@@ -43,5 +43,6 @@ const ChefCard = ({ chefInfo, carousel }) => {
 };
 
 ChefCard.propTypes = ChefCardPropTypes;
+ChefCard.defaultProps = defaultChefCardPropTypes;
 
 export default ChefCard;

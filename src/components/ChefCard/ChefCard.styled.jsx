@@ -1,12 +1,11 @@
 import { styled } from '@mui/material';
 
-export const ChefCardWrapper = styled('div')(({ theme, carousel }) => {
-  console.log('carousel styled:', carousel);
+export const ChefCardWrapper = styled('div')(({ theme, isCarousel }) => {
   return {
     position: 'relative',
     width: '100%',
-    height: `${carousel ? '300px' : '100%'}`,
-    maxWidth: `${carousel ? '200px' : '350px'}`,
+    height: `${isCarousel ? '300px' : '100%'}`,
+    maxWidth: `${isCarousel ? '200px' : '350px'}`,
     maxHeight: '400px',
     borderRadius: '20px',
     overflow: 'hidden',

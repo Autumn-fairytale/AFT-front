@@ -5,10 +5,9 @@ import { PiHeart } from 'react-icons/pi';
 
 import { IconButton } from '@mui/material';
 
-import PropTypes from 'prop-types';
-
 import { customColors } from '@/constants';
 import AppButton from '@/shared/Buttons/AppButton';
+import { DishCardPropTypes } from './DishCard.props';
 import {
   ButtonsWrapper,
   DishCardWrapper,
@@ -23,6 +22,7 @@ import {
 
 const DishCard = ({ dishInfo }) => {
   const [favorite, setFavorite] = useState(false);
+
   function handleClick() {
     //Required function
   }
@@ -64,13 +64,6 @@ const DishCard = ({ dishInfo }) => {
   );
 };
 
-DishCard.propTypes = {
-  dishInfo: PropTypes.shape({
-    image: PropTypes.string,
-    name: PropTypes.string,
-    price: PropTypes.number,
-    description: PropTypes.string,
-  }).isRequired,
-};
+
 
 export default DishCard;

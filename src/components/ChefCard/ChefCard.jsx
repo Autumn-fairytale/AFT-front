@@ -3,9 +3,8 @@ import { PiHeart, PiStarFill } from 'react-icons/pi';
 
 import { IconButton } from '@mui/material';
 
-import PropTypes from 'prop-types';
-
 import { customColors } from '@/constants';
+import { ChefCardPropTypes } from './ChefCard.props';
 import {
   ChefCardWrapper,
   ChefImage,
@@ -42,12 +41,5 @@ const ChefCard = ({ chefInfo }) => {
   );
 };
 
-ChefCard.propTypes = {
-  chefInfo: PropTypes.shape({
-    avatar: PropTypes.string,
-    name: PropTypes.string,
-    rate: PropTypes.number,
-  }).isRequired,
-};
 
 export default ChefCard;

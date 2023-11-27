@@ -30,6 +30,7 @@ const AppSelect = ({
   error,
   helperText,
   placeholder,
+  wrapperStyle,
   ...other
 }) => {
   const theme = useTheme();
@@ -40,6 +41,7 @@ const AppSelect = ({
       error={error}
       placeholder={placeholder}
       value={value}
+      style={wrapperStyle}
     >
       <InputLabel
         id="basic-select-label"

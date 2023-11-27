@@ -2,12 +2,13 @@ import { styled } from '@mui/material';
 
 export const ChefCardWrapper = styled('div')(({ theme }) => ({
   position: 'relative',
-  width: '350px',
-  height: '400px',
+  width: '100%',
+  height: '100%',
+  maxWidth: '350px',
+  maxHeight: '400px',
   borderRadius: '20px',
-  overflow: 'hidden', // Додайте це, щоб обрізати зайві частини зображення за межами картки
+  overflow: 'hidden',
   background: `${theme.palette.background.paper}`,
-  boxShadow: '13px 13px 30px 0px #00000026',
 }));
 
 export const ChefImageWrapper = styled('div')(() => ({

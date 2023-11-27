@@ -2,11 +2,12 @@ import { styled } from '@mui/material';
 
 export const DishCardWrapper = styled('div')(({ theme }) => ({
   position: 'relative',
-  width: '376px',
-  height: '585px',
+  width: '100%',
+  height: '100%',
+  maxWidth: '376px',
+  maxHeight: '585px',
   borderRadius: '20px',
   background: `${theme.palette.background.paper}`,
-  boxShadow: '13px 13px 30px 0px #00000026',
 }));
 
 export const DishImageWrapper = styled('div')(() => ({
@@ -15,8 +16,8 @@ export const DishImageWrapper = styled('div')(() => ({
 
 export const DishImage = styled('img')(() => ({
   display: 'block',
-  width: '376px',
-  height: '380px',
+  maxWidth: '376px',
+  maxHeight: '380px',
   borderTopLeftRadius: '20px',
   borderTopRightRadius: '20px',
 }));

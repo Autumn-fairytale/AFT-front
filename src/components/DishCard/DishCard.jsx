@@ -23,17 +23,10 @@ import {
 
 const DishCard = ({ dishInfo }) => {
   const [favorite, setFavorite] = useState(false);
-  function handleClick() {
-    //Required function
-  }
   return (
     <DishCardWrapper>
       <DishImageWrapper>
-        <DishImage
-          src={dishInfo.image}
-          alt={dishInfo.dishname}
-          component="img"
-        />
+        <DishImage src={dishInfo.image} alt={dishInfo.name} component="img" />
         <FavoriteButton>
           <IconButton onClick={() => setFavorite(!favorite)}>
             <MdFavoriteBorder
@@ -44,7 +37,7 @@ const DishCard = ({ dishInfo }) => {
       </DishImageWrapper>
 
       <MainInfoWrapper>
-        <DishName>{dishInfo.dishname}</DishName>
+        <DishName>{dishInfo.name}</DishName>
         <DishPrice>{dishInfo.price}$</DishPrice>
       </MainInfoWrapper>
       <DishDescription>
@@ -55,13 +48,11 @@ const DishCard = ({ dishInfo }) => {
           variant="outlined"
           label="Learn More"
           endIcon={<FiChevronRight />}
-          onClick={handleClick}
         />
         <AppButton
           variant="contained"
           label="Add to Cart"
           endIcon={<FiShoppingCart />}
-          onClick={handleClick}
         />
       </ButtonsWrapper>
     </DishCardWrapper>
@@ -71,7 +62,7 @@ const DishCard = ({ dishInfo }) => {
 DishCard.propTypes = {
   dishInfo: PropTypes.shape({
     image: PropTypes.string,
-    dishname: PropTypes.string,
+    name: PropTypes.string,
     price: PropTypes.number,
     description: PropTypes.string,
   }).isRequired,

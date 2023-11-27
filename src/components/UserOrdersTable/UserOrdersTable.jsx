@@ -3,16 +3,17 @@ import { useCallback, useMemo, useState } from 'react';
 import LaunchIcon from '@mui/icons-material/Launch';
 import { IconButton } from '@mui/material';
 
+import { calculateTotalOrdersSum } from '@/helpers/calculateTotalOrdersSum';
 import useUserOrders from '@/hooks/useUserOrders ';
 import AppChip from '@/shared/AppChip/AppChip';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { AppModal } from '@/shared/AppModal/AppModal';
-import { calculateTotalSum } from './calculateTotalSum';
 import { CustomFooter } from './CustomFooter';
 import { UserOrderDetails } from './UserOrderDetails';
 
 export const UserOrdersTable = () => {
-  const { data, isLoading, error } = useUserOrders('655a051fb7cc813b6007220b');
+  const mockUserId = '655a051fb7cc813b6007220b';
+  const { data, isLoading, error } = useUserOrders(mockUserId);
 
   const [openModal, setOpenModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -81,7 +82,7 @@ export const UserOrdersTable = () => {
     [handleOpenModal]
   );
 
-  const totalSum = calculateTotalSum(orders);
+  const totalSum = calculateTotalOrdersSum(orders);
 
   return (
     <>

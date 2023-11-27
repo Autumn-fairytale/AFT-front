@@ -9,13 +9,12 @@ export const processRowUpdate = async (newRow, oldRow, chefID) => {
     const statusToUpdate =
       newRow.status === toDelivery ? 'readyToDelivery' : newRow.status;
 
+    const URI = `http://localhost:4000/api/chefs/${chefID}/orders/${newRow.id}`;
     try {
-      await axios.patch(
-        `http://localhost:4000/api/chefs/${chefID}/orders/${newRow.id}`,
-        {
-          status: statusToUpdate,
-        }
-      );
+      await axios.patch(URI, {
+        status: statusToUpdate,
+      });
+
       toast.success('Updated');
     } catch (error) {
       toast.error('Error updating status');

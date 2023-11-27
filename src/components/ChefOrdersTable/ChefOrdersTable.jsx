@@ -5,7 +5,7 @@ import { GridRowEditStopReasons, GridRowModes } from '@mui/x-data-grid';
 import { chefsAmountAfterFee } from '@/helpers';
 import useChefOrder from '@/hooks/useChefOrders';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
-import { formatDateForDataGrid } from '../UserOrdersTable/formatDateForDataGrid';
+import { formatDateForDataGrid } from '../../helpers/formatDateForDataGrid';
 import { CustomPagination } from '../UserOrdersTable/Pagination';
 import { getActions } from './getActions';
 import { getStatusOptions } from './getChefStatusOptions';

@@ -5,7 +5,7 @@ export const ChefCardWrapper = styled('div')(({ theme }) => ({
   width: '350px',
   height: '400px',
   borderRadius: '20px',
-  overflow: 'hidden', // Додайте це, щоб обрізати зайві частини зображення за межами картки
+  overflow: 'hidden',
   background: `${theme.palette.background.paper}`,
   boxShadow: '13px 13px 30px 0px #00000026',
 }));
@@ -56,7 +56,7 @@ export const ChefName = styled('h2')(({ theme }) => ({
 export const RateNumber = styled('span')(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
-  marginTop: '25px',
+  marginTop: '5px',
   fontSize: '18px',
   fontWeight: '600',
   letterSpacing: '-1px',

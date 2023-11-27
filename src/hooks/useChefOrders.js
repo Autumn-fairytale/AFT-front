@@ -6,8 +6,8 @@ import axios from 'axios';
 const useChefOrder = (chefID) => {
   const fetchUserOrders = async () => {
     try {
-      const URI = `http://localhost:4000/api/chefs/${chefID}/orders`;
-
+      // const URI = `http://localhost:4000/api/chefs/${chefID}/orders`;
+      const URI = 'http://localhost:4000/api/orders/';
       const { data } = await axios.get(URI);
       console.log(data);
       return data;

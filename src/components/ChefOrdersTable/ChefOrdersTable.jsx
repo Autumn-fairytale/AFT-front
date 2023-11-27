@@ -17,7 +17,8 @@ export const ChefOrdersTable = () => {
   const chefID = '6557219bccbbbbc3695bc8b2';
   const { data, isLoading, error } = useChefOrder(chefID);
 
-  const orders = data ?? [];
+  // const orders = data ?? [];
+  const orders = data ? data.data.orders : [];
 
   const [rowModesModel, setRowModesModel] = useState({});
 

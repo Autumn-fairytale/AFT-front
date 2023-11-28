@@ -30,6 +30,8 @@ const AppSelect = ({
   error,
   helperText,
   placeholder,
+  wrapperStyle,
+  ...other
 }) => {
   const theme = useTheme();
 
@@ -39,7 +41,7 @@ const AppSelect = ({
       error={error}
       placeholder={placeholder}
       value={value}
-      size="medium"
+      style={wrapperStyle}
     >
       <InputLabel
         id="basic-select-label"
@@ -57,6 +59,7 @@ const AppSelect = ({
           autoFocus: false,
         }}
         onChange={onChange}
+        {...other}
       >
         {placeholder && renderPlaceholder(placeholder)}
         {renderOptions(options, theme)}

@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
 import { FiShoppingCart } from 'react-icons/fi';
-import { MdFavoriteBorder } from 'react-icons/md';
+import { PiHeart } from 'react-icons/pi';
 
 import { IconButton } from '@mui/material';
 
-import PropTypes from 'prop-types';
-
 import { customColors } from '@/constants';
 import AppButton from '@/shared/Buttons/AppButton';
+import { defaultDishCardPropTypes, DishCardPropTypes } from './DishCard.props';
 import {
   ButtonsWrapper,
   DishCardWrapper,
@@ -21,22 +20,19 @@ import {
   MainInfoWrapper,
 } from './DishCard.styled';
 
-const DishCard = ({ dishInfo }) => {
+const DishCard = ({ dishInfo, isCarousel }) => {
   const [favorite, setFavorite] = useState(false);
+
   function handleClick() {
     //Required function
   }
   return (
-    <DishCardWrapper>
+    <DishCardWrapper isCarousel={isCarousel}>
       <DishImageWrapper>
-        <DishImage
-          src={dishInfo.image}
-          alt={dishInfo.dishname}
-          component="img"
-        />
+        <DishImage src={dishInfo.image} alt={dishInfo.name} component="img" />
         <FavoriteButton>
           <IconButton onClick={() => setFavorite(!favorite)}>
-            <MdFavoriteBorder
+            <PiHeart
               style={{ color: favorite ? customColors.primaryColor : '' }}
             />
           </IconButton>
@@ -44,7 +40,7 @@ const DishCard = ({ dishInfo }) => {
       </DishImageWrapper>
 
       <MainInfoWrapper>
-        <DishName>{dishInfo.dishname}</DishName>
+        <DishName>{dishInfo.name}</DishName>
         <DishPrice>{dishInfo.price}$</DishPrice>
       </MainInfoWrapper>
       <DishDescription>
@@ -68,13 +64,7 @@ const DishCard = ({ dishInfo }) => {
   );
 };
 
-DishCard.propTypes = {
-  dishInfo: PropTypes.shape({
-    image: PropTypes.string,
-    dishname: PropTypes.string,
-    price: PropTypes.number,
-    description: PropTypes.string,
-  }).isRequired,
-};
+DishCard.propTypes = DishCardPropTypes;
+DishCard.defaultProps = defaultDishCardPropTypes;
 
 export default DishCard;

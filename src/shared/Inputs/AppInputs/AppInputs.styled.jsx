@@ -20,3 +20,10 @@ export const StyledSearchInput = styled(Box)(({ value, style }) => ({
     },
   },
 }));
+
+export const StyledPhoneInput = styled(Box)(({ style, theme }) => ({
+  ...style,
+  '.MuiInputBase-root.Mui-error:not(.Mui-focused) > input': {
+    color: theme.palette.error.main,
+  },
+}));

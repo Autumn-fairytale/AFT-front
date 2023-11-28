@@ -6,4 +6,9 @@ export const ChefCardPropTypes = {
     name: PropTypes.string.isRequired,
     rate: PropTypes.number.isRequired,
   }).isRequired,
+  isCarousel: PropTypes.bool,
+};
+
+export const defaultChefCardPropTypes = {
+  isCarousel: false,
 };

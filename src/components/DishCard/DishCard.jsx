@@ -7,7 +7,7 @@ import { IconButton } from '@mui/material';
 
 import { customColors } from '@/constants';
 import AppButton from '@/shared/Buttons/AppButton';
-import { DishCardPropTypes } from './DishCard.props';
+import { defaultDishCardPropTypes, DishCardPropTypes } from './DishCard.props';
 import {
   ButtonsWrapper,
   DishCardWrapper,
@@ -20,14 +20,14 @@ import {
   MainInfoWrapper,
 } from './DishCard.styled';
 
-const DishCard = ({ dishInfo }) => {
+const DishCard = ({ dishInfo, isCarousel }) => {
   const [favorite, setFavorite] = useState(false);
 
   function handleClick() {
     //Required function
   }
   return (
-    <DishCardWrapper>
+    <DishCardWrapper isCarousel={isCarousel}>
       <DishImageWrapper>
         <DishImage src={dishInfo.image} alt={dishInfo.name} component="img" />
         <FavoriteButton>
@@ -64,6 +64,7 @@ const DishCard = ({ dishInfo }) => {
   );
 };
 
-
+DishCard.propTypes = DishCardPropTypes;
+DishCard.defaultProps = defaultDishCardPropTypes;
 
 export default DishCard;

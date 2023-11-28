@@ -6,7 +6,7 @@ export const CarouselChefs = ({ data }) => {
   return (
     <AppCarousel>
       {data.map((item, index) => (
-        <ChefCard key={index} chefInfo={item} />
+        <ChefCard key={index} chefInfo={item} isCarousel={true} />
       ))}
     </AppCarousel>
   );

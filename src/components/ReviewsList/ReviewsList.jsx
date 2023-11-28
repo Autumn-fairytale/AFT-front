@@ -11,7 +11,6 @@ import { ReviewsListStyled, TitleWrapper } from './ReviewsList.styled';
 export const ReviewsList = ({ id }) => {
   const location = useLocation();
   const [reviewsArray, setReviewsArray] = useState([]);
-  console.log('reviewsArray:', reviewsArray);
 
   const [page, setPage] = useState(1);
 

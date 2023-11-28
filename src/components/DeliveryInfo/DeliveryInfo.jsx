@@ -22,8 +22,14 @@ const DeliveryInfo = ({ control }) => {
           <Typography component="h3" variant="h6">
             Phone number
           </Typography>
-
-          <AppPhoneInput label="" name="phone" autoComplete="tel" />
+          <Controller
+            name="phoneNumber"
+            control={control}
+            render={({ field }) => (
+              <AppPhoneInput label="" autoComplete="tel" {...field} />
+            )}
+          />
+          {/* <AppPhoneInput label="" name="phone" autoComplete="tel" /> */}
         </Box>
         <DividerStyled />
         <Box>
@@ -86,7 +92,6 @@ const DeliveryInfo = ({ control }) => {
             control={control}
             render={({ field }) => <AppTextArea label="" {...field} />}
           />
-          {/* <AppTextArea label="" name="message" value="" onChange={() => {}} /> */}
         </Box>
       </Box>
     </DeliveryInfoSectionStyled>

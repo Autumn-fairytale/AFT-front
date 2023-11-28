@@ -1,16 +1,23 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-// import { createOrder } from '@/api/createOrder';
+import { createOrder } from '@/api/createOrder';
+import { addSpacesToPhoneNumber } from '@/helpers';
+import { createOrderSchema } from '@/schemas';
+import { zodResolver } from '@hookform/resolvers/zod';
 import DeliveryInfo from '../DeliveryInfo';
 import OrderInfo from '../OrderInfo';
 import PaymentButton from '../PaymentButton';
 import { CreateOrderFormStyled } from './CreateOrderForm.styled';
 
 const CreateOrderForm = () => {
-  const { control, handleSubmit } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
     defaultValues: {
-      phoneNumber: '+380666663322',
+      phoneNumber: addSpacesToPhoneNumber('+38(066)3334433'),
       userName: 'Andrii Zaimak',
       address: {
         country: 'Ukraine',
@@ -19,45 +26,45 @@ const CreateOrderForm = () => {
       },
       additionalInfo: '',
     },
+    resolver: zodResolver(createOrderSchema),
   });
 
-  // const [deliveryInfo, setDeliveryInfo] = useState({
-  //   phone: '+380666663322',
-  //   name: 'Andrii Zaimak',
-  //   email: 'dev.andrii.zaimak@gmail.com',
-  //   address: {
-  //     country: 'Ukraine',
-  //     city: 'Kyiv',
-  //     street: 'Street 25, 54',
-  //   },
-  // });
-  // const orderItems = [
-  //   {
-  //     dish: '65572415cf191a7f14e8e423',
-  //     count: 1,
-  //     name: 'Test dish',
-  //   },
-  // ];
+  if (Object.keys(errors).length) console.log('errors: ', errors);
+
+  const orderItems = [
+    {
+      dish: '65572415cf191a7f14e8e423',
+      count: 1,
+      name: 'Test dish',
+    },
+  ];
 
   const [payment, setPayment] = useState(null);
 
   const formSubmitHandler = async (data) => {
     console.log('Form data', data, setPayment(null));
 
-    // const result = await createOrder({
-    //   address: deliveryInfo.address,
-    //   items: orderItems,
-    // });
+    try {
+      const result = await createOrder({
+        // phoneNumber: removeSpacesFromPhoneNumber(data.phoneNumber),
+        // userName: data.userName,
+        // additionalInfo: data.additionalInfo,
+        address: data.address,
+        items: orderItems,
+      });
 
-    // setPayment(result.data.payment);
+      setPayment(result.data.payment);
 
-    // console.log(result.data);
+      console.log(result.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <>
       <CreateOrderFormStyled onSubmit={handleSubmit(formSubmitHandler)}>
         <DeliveryInfo control={control} />
-        <OrderInfo />
+        <OrderInfo isSubmitting={isSubmitting} />
       </CreateOrderFormStyled>
       {payment && (
         <PaymentButton

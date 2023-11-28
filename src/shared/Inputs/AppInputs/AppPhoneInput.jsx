@@ -15,7 +15,7 @@ const AppPhoneInput = forwardRef(({ wrapperStyle, ...props }, ref) => {
     <StyledPhoneInput style={wrapperStyle} theme={theme}>
       <PatternFormat
         customInput={BaseInput}
-        format="+38 (0##) ### ## ##"
+        format="+38(0##) ### ## ##"
         mask="x"
         style={props.error ? { color: theme.palette.error.main } : {}}
         allowEmptyFormatting

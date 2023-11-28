@@ -1,12 +1,15 @@
-import { Box, styled } from '@mui/material';
+import { Box, Paper, styled } from '@mui/material';
 
-export const OrderInfoSectionStyled = styled('section')({
+export const OrderInfoSectionStyled = styled(Paper)({
   position: 'sticky',
   top: 0,
 
   height: '100%',
   width: '450px',
+  padding: '10px',
 });
+
+Paper.defaultProps = { component: 'section' };
 
 export const OrderInfoChefStyled = styled(Box)(({ theme }) => ({
   display: 'flex',

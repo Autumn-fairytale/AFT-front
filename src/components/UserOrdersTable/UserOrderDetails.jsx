@@ -2,6 +2,8 @@ import { Divider, List, ListItem, Paper, Typography } from '@mui/material';
 
 import PropTypes from 'prop-types';
 
+import { formatDateForDataGrid } from '@/helpers/formatDateForDataGrid';
+
 export const UserOrderDetails = ({ order }) => (
   <Paper elevation={3} sx={{ padding: 2, maxWidth: 300, margin: 'auto' }}>
     <Typography variant="h6" sx={{ textAlign: 'center' }}>
@@ -14,7 +16,9 @@ export const UserOrderDetails = ({ order }) => (
       Order Number: {order.orderNumber}
     </Typography>
 
-    <Typography variant="subtitle2">Date: {'yyyy-MM-dd'}</Typography>
+    <Typography variant="subtitle2">
+      Date: {formatDateForDataGrid(order.createdAt)}
+    </Typography>
 
     <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }}>
       Dishes:
@@ -45,6 +49,7 @@ UserOrderDetails.propTypes = {
         count: PropTypes.number.isRequired,
       })
     ).isRequired,
+    createdAt: PropTypes.string,
     totalPrice: PropTypes.number.isRequired,
   }).isRequired,
 };

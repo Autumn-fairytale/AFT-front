@@ -4,6 +4,7 @@ import LaunchIcon from '@mui/icons-material/Launch';
 import { IconButton } from '@mui/material';
 
 import { calculateTotalOrdersSum } from '@/helpers/calculateTotalOrdersSum';
+import { formatDateForDataGrid } from '@/helpers/formatDateForDataGrid';
 import useUserOrders from '@/hooks/useUserOrders ';
 import AppChip from '@/shared/AppChip/AppChip';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
@@ -24,21 +25,29 @@ export const UserOrdersTable = () => {
   }, []);
 
   const orders = data ? data.data.orders : [];
-
+  // console.log(orders);
   const columns = useMemo(
     () => [
       {
         field: 'details',
         headerName: 'Details',
-        renderCell: (params) => (
-          <IconButton onClick={() => handleOpenModal(params.row)}>
+        renderCell: ({ row }) => (
+          <IconButton onClick={() => handleOpenModal(row)}>
             <LaunchIcon />
           </IconButton>
         ),
         width: 100,
       },
       { field: 'orderNumber', headerName: 'Order-number', width: 150 },
-      { field: 'date', headerName: 'Created at', width: 150, type: 'Date' },
+      {
+        field: 'createdAt',
+        headerName: 'Date',
+        width: 150,
+        valueGetter: ({ value }) => {
+          return formatDateForDataGrid(value);
+        },
+        type: 'Date',
+      },
       {
         field: 'status',
         headerName: 'Status',
@@ -77,6 +86,7 @@ export const UserOrdersTable = () => {
         },
         headerName: 'Order items',
         flex: 0.5,
+        type: 'string',
       },
     ],
     [handleOpenModal]
@@ -99,6 +109,11 @@ export const UserOrdersTable = () => {
               rowCount={orders.length}
             />
           ),
+        }}
+        initialState={{
+          sorting: {
+            sortModel: [{ field: 'createdAt', sort: 'desc' }],
+          },
         }}
       />
       <AppModal open={openModal} onClose={() => setOpenModal(false)}>

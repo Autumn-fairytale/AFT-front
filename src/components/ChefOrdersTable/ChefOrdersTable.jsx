@@ -16,9 +16,9 @@ import { StatusCell } from './StatusCell';
 export const ChefOrdersTable = () => {
   const chefID = '6557219bccbbbbc3695bc8b2';
   const { data, isLoading, error } = useChefOrder(chefID);
-
+  // console.log(data, 'data');
   // const orders = data ?? [];
-  const orders = data ? data.data.orders : [];
+  const orders = data ? data : [];
 
   const [rowModesModel, setRowModesModel] = useState({});
 
@@ -113,7 +113,6 @@ export const ChefOrdersTable = () => {
           }
           return chefsAmountAfterFee(value);
         },
-        type: 'number',
       },
 
       {
@@ -150,6 +149,8 @@ export const ChefOrdersTable = () => {
             py: '15px',
           },
         }}
+        tableHeight="85vMin"
+        pageSize={10}
       />
     </>
   );

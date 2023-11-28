@@ -59,7 +59,7 @@ export const ChefName = styled('h2')(({ theme }) => ({
 export const RateNumber = styled('span')(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
-  marginTop: '25px',
+  marginTop: '5px',
   fontSize: '18px',
   fontWeight: '600',
   letterSpacing: '-1px',

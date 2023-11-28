@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
 import { FiShoppingCart } from 'react-icons/fi';
-import { MdFavoriteBorder } from 'react-icons/md';
+import { PiHeart } from 'react-icons/pi';
 
 import { IconButton } from '@mui/material';
 
@@ -32,7 +32,7 @@ const DishCard = ({ dishInfo, isCarousel }) => {
         <DishImage src={dishInfo.image} alt={dishInfo.name} component="img" />
         <FavoriteButton>
           <IconButton onClick={() => setFavorite(!favorite)}>
-            <MdFavoriteBorder
+            <PiHeart
               style={{ color: favorite ? customColors.primaryColor : '' }}
             />
           </IconButton>

@@ -16,8 +16,8 @@ export const DishImageWrapper = styled('div')(() => ({
 
 export const DishImage = styled('img')(() => ({
   display: 'block',
-  width: '376px',
-  height: '380px',
+  maxWidth: '376px',
+  maxHeight: '380px',
   borderTopLeftRadius: '20px',
   borderTopRightRadius: '20px',
 }));

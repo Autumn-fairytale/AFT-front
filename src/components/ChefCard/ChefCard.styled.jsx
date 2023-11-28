@@ -1,5 +1,6 @@
 import { styled } from '@mui/material';
 
+
 export const ChefCardWrapper = styled('div')(({ theme, isCarousel }) => {
   return {
     position: 'relative',

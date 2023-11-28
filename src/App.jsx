@@ -1,13 +1,16 @@
 // import AppRouter from './routes/AppRouter';
 
+import { AddDishForm } from './components/AddDishForm/AddDishForm';
+
 // import { ChefOrdersTable } from './components/ChefOrdersTable/ChefOrdersTable';
-import { UserOrdersTable } from './components/UserOrdersTable/UserOrdersTable';
+// import { UserOrdersTable } from './components/UserOrdersTable/UserOrdersTable';
 
 function App() {
   return (
     <>
-      <UserOrdersTable />
+      {/* <UserOrdersTable /> */}
       {/* <ChefOrdersTable /> */}
+      <AddDishForm />
     </>
   );
 

@@ -7,7 +7,6 @@ import { TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import { chefsAmountAfterFee } from '@/helpers';
-import { HelperText } from './HelperText';
 
 export const FormattedNumberInput = ({
   control,
@@ -41,42 +40,57 @@ export const FormattedNumberInput = ({
     onChange(values.value ? Number(values.value) : '');
   };
 
-  const handleHelperText = calculatedAmount ? (
-    <HelperText
-      text={`You will receive: ${calculatedAmount} ₴`}
-      isError={false}
-    />
-  ) : (
-    <HelperText text={helperText} isError={!!error} />
-  );
+  const handleText = () => {
+    if (error) {
+      return { text: helperText, isError: true };
+    }
+    if (!error && calculatedAmount > 0) {
+      return {
+        text: `You will receive: ${calculatedAmount} ₴`,
+        isError: false,
+      };
+    }
+    return { text: ' ', isError: false };
+  };
+
+  const helperTextStyle = (isError) => ({
+    '& .MuiFormHelperText-root': {
+      color: isError ? 'red' : 'green',
+      fontSize: '1rem',
+    },
+  });
 
   return (
     <>
       <Controller
         name={name}
         control={control}
-        render={({ field: { onChange, value, ref, ...restFieldProps } }) => (
-          <NumericFormat
-            {...restFieldProps}
-            value={value}
-            size="normal"
-            onValueChange={(values) => handleValueChange(values, onChange)}
-            customInput={TextField}
-            thousandSeparator={thousandSeparator}
-            decimalScale={decimalScale}
-            label={label}
-            error={error}
-            helperText={handleHelperText}
-            inputRef={ref}
-            sx={sx}
-            autoComplete="off"
-            InputProps={{
-              endAdornment: isFocused ? endAdornment : null,
-              onFocus: () => setIsFocused(true),
-              onBlur: () => setIsFocused(false),
-            }}
-          />
-        )}
+        render={({ field: { onChange, value, ref, ...restFieldProps } }) => {
+          const { text, isError } = handleText();
+
+          return (
+            <NumericFormat
+              {...restFieldProps}
+              value={value}
+              customInput={TextField}
+              error={error}
+              helperText={text}
+              inputRef={ref}
+              sx={{ ...sx, ...helperTextStyle(isError) }}
+              thousandSeparator={thousandSeparator}
+              decimalScale={decimalScale}
+              label={label}
+              autoComplete="off"
+              InputProps={{
+                endAdornment: isFocused ? endAdornment : null,
+                onFocus: () => setIsFocused(true),
+                onBlur: () => setIsFocused(false),
+              }}
+              size="normal"
+              onValueChange={(values) => handleValueChange(values, onChange)}
+            />
+          );
+        }}
       />
     </>
   );
@@ -87,7 +101,7 @@ FormattedNumberInput.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   error: PropTypes.bool,
-  helperText: PropTypes.node,
+  helperText: PropTypes.any,
   sx: PropTypes.object,
   thousandSeparator: PropTypes.bool,
   decimalScale: PropTypes.number,

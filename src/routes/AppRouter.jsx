@@ -11,6 +11,7 @@ const SignUpPage = lazy(() => import('@/pages/auth/SignUp'));
 const HomePage = lazy(() => import('@/pages/user/Home'));
 const DishesPage = lazy(() => import('@/pages/user/Dishes'));
 const DishesInfoPage = lazy(() => import('@/pages/user/DishInfo'));
+const CreateOrderPage = lazy(() => import('@/pages/user/CreateOrder'));
 const ChefsPage = lazy(() => import('@/pages/user/Chefs'));
 const ChefInfoPage = lazy(() => import('@/pages/user/ChefInfo'));
 const ChefAccountPage = lazy(() => import('@/pages/chef/ChefAccount'));
@@ -73,6 +74,19 @@ const AppRouter = () => {
         <Route path={route.CHEFS}>
           <Route index element={<ChefsPage />} />
           <Route path=":chefId" element={<ChefInfoPage />} />
+        </Route>
+
+        <Route
+          path={route.HOME}
+          element={
+            <ProtectedRoute
+              authRedirectLink={route.SIGN_IN}
+              accessRedirectLink={route.SIGN_IN}
+              role={'user'}
+            />
+          }
+        >
+          <Route path={route.CREATE_ORDER} element={<CreateOrderPage />} />
         </Route>
 
         <Route

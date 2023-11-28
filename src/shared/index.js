@@ -9,4 +9,5 @@ export { default as AppTextInput } from './Inputs/AppInputs/AppTextInput';
 export { default as AppContainer } from './AppContainer/AppContainer';
 export { default as AppAutocomplete } from './Selects/Autocomplete/AppAutocomplete';
 /* App container */
+export { default as AppNumberInput } from './AppNumberInput';
 export { default as AppSelect } from './Selects/BasicSelect/AppSelect';

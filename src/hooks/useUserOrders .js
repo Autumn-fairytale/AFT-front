@@ -9,7 +9,7 @@ const useUserOrders = (userId) => {
       // const URI = `http://localhost:4000/api/orders/by-user/${userId}`;
       const URI = 'http://localhost:4000/api/orders/';
       const { data } = await axios.get(URI);
-      console.log(data, 'users');
+      // console.log(data, 'users');
       return data;
     } catch (error) {
       toast.error('Error fetching orders');

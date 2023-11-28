@@ -26,3 +26,8 @@
 .slick-next:hover:before {
   color: #f77700;
 }
+
+/* .slick-track {
+  display: flex;
+  gap: 5px;
+} */

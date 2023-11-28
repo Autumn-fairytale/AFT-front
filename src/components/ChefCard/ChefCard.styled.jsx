@@ -1,14 +1,17 @@
 import { styled } from '@mui/material';
 
-export const ChefCardWrapper = styled('div')(({ theme }) => ({
-  position: 'relative',
-  width: '350px',
-  height: '400px',
-  borderRadius: '20px',
-  overflow: 'hidden', // Додайте це, щоб обрізати зайві частини зображення за межами картки
-  background: `${theme.palette.background.paper}`,
-  boxShadow: '13px 13px 30px 0px #00000026',
-}));
+export const ChefCardWrapper = styled('div')(({ theme, isCarousel }) => {
+  return {
+    position: 'relative',
+    width: `${isCarousel ? '200px' : '100%'}`,
+    height: `${isCarousel ? '300px' : '100%'}`,
+    maxWidth: '350px',
+    maxHeight: '400px',
+    borderRadius: '20px',
+    overflow: 'hidden',
+    background: `${theme.palette.background.paper}`,
+  };
+});
 
 export const ChefImageWrapper = styled('div')(() => ({
   position: 'relative',
@@ -56,7 +59,7 @@ export const ChefName = styled('h2')(({ theme }) => ({
 export const RateNumber = styled('span')(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
-  marginTop: '25px',
+  marginTop: '5px',
   fontSize: '18px',
   fontWeight: '600',
   letterSpacing: '-1px',

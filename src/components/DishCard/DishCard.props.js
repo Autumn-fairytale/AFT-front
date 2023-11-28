@@ -7,4 +7,9 @@ export const DishCardPropTypes = {
     price: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
   }).isRequired,
+  isCarousel: PropTypes.bool,
+};
+
+export const defaultDishCardPropTypes = {
+  isCarousel: false,
 };

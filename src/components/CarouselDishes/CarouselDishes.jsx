@@ -6,7 +6,7 @@ export const CarouselDishes = ({ data }) => {
   return (
     <AppCarousel>
       {data.map((item, index) => (
-        <DishCard key={index} dishInfo={item} />
+        <DishCard key={index} dishInfo={item} isCarousel={true} />
       ))}
     </AppCarousel>
   );

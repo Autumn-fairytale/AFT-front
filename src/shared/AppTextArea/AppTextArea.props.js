@@ -8,6 +8,7 @@ export const texAreaProps = {
   maxRows: PropTypes.number,
   maxLength: PropTypes.number,
   name: PropTypes.string,
+  otherProps: PropTypes.object,
 };
 
 export const defaultTexAreaProps = {

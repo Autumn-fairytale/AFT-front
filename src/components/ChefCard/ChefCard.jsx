@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import { MdFavoriteBorder } from 'react-icons/md';
-import { MdStar } from 'react-icons/md';
+import { PiHeart, PiStarFill } from 'react-icons/pi';
 
 import { IconButton } from '@mui/material';
 
-import PropTypes from 'prop-types';
-
 import { customColors } from '@/constants';
+import { ChefCardPropTypes, defaultChefCardPropTypes } from './ChefCard.props';
 import {
   ChefCardWrapper,
   ChefImage,
@@ -17,15 +15,15 @@ import {
   RateNumber,
 } from './ChefCard.styled';
 
-const ChefCard = ({ chefInfo }) => {
+const ChefCard = ({ chefInfo, isCarousel }) => {
   const [favorite, setFavorite] = useState(false);
   return (
-    <ChefCardWrapper>
+    <ChefCardWrapper isCarousel={isCarousel}>
       <ChefImageWrapper>
-        <ChefImage src={chefInfo.image} alt={chefInfo.name} component="img" />
+        <ChefImage src={chefInfo.avatar} alt={chefInfo.name} component="img" />
         <FavoriteButton>
           <IconButton onClick={() => setFavorite(!favorite)}>
-            <MdFavoriteBorder
+            <PiHeart
               style={{ color: favorite ? customColors.primaryColor : '' }}
             />
           </IconButton>
@@ -36,19 +34,14 @@ const ChefCard = ({ chefInfo }) => {
         <ChefName>{chefInfo.name}</ChefName>
         <RateNumber>
           {chefInfo.rate}
-          <MdStar style={{ fontSize: '25px', marginLeft: '5px' }} />
+          <PiStarFill style={{ fontSize: '25px', marginLeft: '5px' }} />
         </RateNumber>
       </MainInfoWrapper>
     </ChefCardWrapper>
   );
 };
 
-ChefCard.propTypes = {
-  chefInfo: PropTypes.shape({
-    image: PropTypes.string,
-    name: PropTypes.string,
-    rate: PropTypes.number,
-  }).isRequired,
-};
+ChefCard.propTypes = ChefCardPropTypes;
+ChefCard.defaultProps = defaultChefCardPropTypes;
 
 export default ChefCard;

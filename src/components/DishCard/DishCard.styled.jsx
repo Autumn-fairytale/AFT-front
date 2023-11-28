@@ -1,9 +1,9 @@
 import { styled } from '@mui/material';
 
-export const DishCardWrapper = styled('div')(({ theme }) => ({
+export const DishCardWrapper = styled('div')(({ theme, isCarousel }) => ({
   position: 'relative',
-  width: '100%',
-  height: '100%',
+  width: `${isCarousel ? '200px' : '100%'}`,
+  height: `${isCarousel ? '300px' : '100%'}`,
   maxWidth: '376px',
   maxHeight: '585px',
   borderRadius: '20px',

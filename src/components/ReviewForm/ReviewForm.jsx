@@ -5,14 +5,32 @@ import Typography from '@mui/material/Typography';
 
 import { AppButton } from '@/shared';
 import { AppTextArea } from '@/shared/AppTextArea/AppTextArea';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addReview } from '../../api/addReview';
 import { editReview } from '../../api/editReviewById';
 import { ReviewFormProps } from './ReviewForm.props';
 import { ButtonWrapper, Form } from './ReviewForm.styled';
 
-export const ReviewForm = ({ existingReview, dishId }) => {
+export const ReviewForm = ({ existingReview, dishId, onClose }) => {
+  console.log('onClose:', onClose);
+
   // Test with userId
   // const userId = '6561f42ef5c506ec5f36dbba';
+  // ==================
+  const queryClient = useQueryClient();
+  const addReviewMutate = useMutation({
+    mutationFn: addReview,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['reviews', dishId] });
+    },
+  });
+  const editReviewMutate = useMutation({
+    mutationFn: editReview,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['reviews', dishId] });
+    },
+  });
+  // ================
 
   const [rating, setRating] = useState(
     existingReview ? existingReview.rating : 0
@@ -25,13 +43,21 @@ export const ReviewForm = ({ existingReview, dishId }) => {
     setReview(e.target.value);
   }, []);
 
-  const handleFeedbackSubmit = (e) => {
+  const handleFeedbackSubmit = async (e) => {
     e.preventDefault();
-    console.log('Hello');
+    console.log('id:', dishId);
 
     existingReview
-      ? editReview({ rating, review, dishId, reviewId: existingReview.id })
-      : addReview({ rating, review, dishId });
+      ? await editReviewMutate.mutate({
+          rating,
+          review,
+          dishId,
+          reviewId: existingReview.id,
+        })
+      : await addReviewMutate.mutate({ rating, review, dishId });
+
+    console.log('onClose:', onClose);
+    onClose();
   };
 
   return (

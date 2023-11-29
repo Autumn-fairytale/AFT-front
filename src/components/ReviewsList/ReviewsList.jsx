@@ -13,24 +13,22 @@ import { ReviewsListProps } from './ReviewsList.props';
 import { ReviewsListStyled, TitleWrapper } from './ReviewsList.styled';
 
 export const ReviewsList = ({ id }) => {
-  const location = useLocation();
-  const path = location.pathname;
+  // const path = location.pathname;
 
   const [totalPages, setTotalPage] = useState(null);
 
   const LIMIT = 5;
 
   const fetchReviews = async ({ pageParam }) => {
-    const res = path.includes('/chefs/')
-      ? await getReviewsByChefId(id, pageParam, LIMIT)
-      : await getReviewsByDishId(id, pageParam, LIMIT);
+    const res = await getReviewsByDishId(id, pageParam, LIMIT);
+
     setTotalPage(Math.ceil(res.totalReviews / LIMIT));
 
     return res;
   };
 
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ['reviews', path, id],
+    queryKey: ['reviews', id],
     queryFn: fetchReviews,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
@@ -57,7 +55,7 @@ export const ReviewsList = ({ id }) => {
           scrollThreshold={0.9}
           next={() => fetchNextPage()}
           hasMore={hasNextPage}
-          loader={<h4>Loading...</h4>}
+          // loader={<h4>Loading...</h4>}
           height={500}
           endMessage={
             <p style={{ textAlign: 'center' }}>
@@ -68,12 +66,7 @@ export const ReviewsList = ({ id }) => {
           <ReviewsListStyled>
             {data?.pages?.map((item) =>
               item.reviews.map((review, index) => (
-                <ReviewsItem
-                  key={review.id}
-                  review={review}
-                  path={path}
-                  id={id}
-                />
+                <ReviewsItem key={review.id} review={review} id={id} />
               ))
             )}
           </ReviewsListStyled>

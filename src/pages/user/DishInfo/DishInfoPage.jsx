@@ -15,7 +15,7 @@ const DishInfoPage = () => {
       Dish Info Page: {dishId}
       <button onClick={openModal}>Add review</button>
       <AppModal isOpen={isOpen} onClose={onClose}>
-        <ReviewForm dishId={dishId} />
+        <ReviewForm dishId={dishId} onClose={onClose} />
       </AppModal>
       <ReviewsList id={dishId} />
     </Main>

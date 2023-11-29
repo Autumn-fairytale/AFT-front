@@ -30,7 +30,7 @@ const ColorButton = styled(IconButton)`
   }
 `;
 
-export const ReviewsItem = ({ review, path, id }) => {
+export const ReviewsItem = ({ review, id }) => {
   // Test with userId
   const userId = '6561f42ef5c506ec5f36dbba';
   // Open modal
@@ -61,7 +61,7 @@ export const ReviewsItem = ({ review, path, id }) => {
   const deleteReview = useMutation({
     mutationFn: deleteByReviewId,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['reviews', path, id] });
+      queryClient.invalidateQueries({ queryKey: ['reviews', id] });
     },
   });
 
@@ -151,8 +151,14 @@ export const ReviewsItem = ({ review, path, id }) => {
           </ReviewText>
         </ReviewBox>
       </Item>
+
       <AppModal isOpen={isOpen} onClose={onClose}>
-        <ReviewForm existingReview={review} dishId={review.dish.id} />
+        <ReviewForm
+          existingReview={review}
+          dishId={review.dish.id}
+          id={id}
+          onClose={onClose}
+        />
       </AppModal>
     </>
   );

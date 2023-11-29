@@ -12,7 +12,7 @@ import {
   RatingBox,
   ReviewBox,
   ReviewText,
-} from './ReviewItemStyled';
+} from './ReviewItem.styled';
 import { ReviewsItemProps } from './ReviewsItem.props';
 
 export const ReviewsItem = ({ review }) => {

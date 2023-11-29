@@ -15,42 +15,35 @@ import { ReviewsListStyled, TitleWrapper } from './ReviewsList.styled';
 export const ReviewsList = ({ id }) => {
   const location = useLocation();
   const path = location.pathname;
-  console.log('path:', path);
-  const [reviews, setReviews] = useState([]);
-  console.log('!!reviews:', !!reviews);
-  console.log('reviews.length:', reviews.length);
+
   const [totalPages, setTotalPage] = useState(null);
 
-  const limit = 10;
-
-  //  const endpoint = path.includes('/chefs/')
-  //    ? `/api/reviews/by-chef/${id}?page=${page}`
-  //    : `/api/reviews/by-dish/${id}?page=${page}`;
+  const LIMIT = 5;
 
   const fetchReviews = async ({ pageParam }) => {
-    console.log(pageParam);
     const res = path.includes('/chefs/')
-      ? await getReviewsByChefId(id, pageParam, limit)
-      : await getReviewsByDishId(id, pageParam, limit);
-    setTotalPage(Math.ceil(res.totalReviews / limit));
-    setReviews((prevState) => [...prevState, ...res.reviews]);
+      ? await getReviewsByChefId(id, pageParam, LIMIT)
+      : await getReviewsByDishId(id, pageParam, LIMIT);
+    setTotalPage(Math.ceil(res.totalReviews / LIMIT));
+
     return res;
   };
 
-  const { fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ['reviews'],
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+    queryKey: ['reviews', path, id],
     queryFn: fetchReviews,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      console.log('allPages:', allPages);
-      console.log('lastPage:', lastPage);
       const nextPage =
         allPages.length !== totalPages ? allPages.length + 1 : undefined;
       return nextPage;
     },
   });
 
-  console.log('hasNextPage:', hasNextPage);
+  const qtyReviews = data?.pages
+    ?.map((item) => item.reviews.map((review) => review))
+    .reduce((acc, item) => acc + item.length, 0);
+
   return (
     <>
       <TitleWrapper>
@@ -58,9 +51,9 @@ export const ReviewsList = ({ id }) => {
           Reviews
         </Typography>
       </TitleWrapper>
-      {reviews.length ? (
+      {data ? (
         <InfiniteScroll
-          dataLength={reviews.length}
+          dataLength={qtyReviews}
           scrollThreshold={0.9}
           next={() => fetchNextPage()}
           hasMore={hasNextPage}
@@ -73,9 +66,11 @@ export const ReviewsList = ({ id }) => {
           }
         >
           <ReviewsListStyled>
-            {reviews.map((review, index) => (
-              <ReviewsItem key={index} review={review} />
-            ))}
+            {data?.pages?.map((item) =>
+              item.reviews.map((review, index) => (
+                <ReviewsItem key={index} review={review} />
+              ))
+            )}
           </ReviewsListStyled>
         </InfiniteScroll>
       ) : (

@@ -12,6 +12,13 @@ import { ReviewFormProps } from './ReviewForm.props';
 import { ButtonWrapper, Form } from './ReviewForm.styled';
 
 export const ReviewForm = ({ existingReview, dishId, onClose }) => {
+  const [rating, setRating] = useState(
+    existingReview ? existingReview.rating : 0
+  );
+  const [review, setReview] = useState(
+    existingReview ? existingReview.review : ''
+  );
+
   const queryClient = useQueryClient();
   const addReviewMutate = useMutation({
     mutationFn: addReview,
@@ -25,13 +32,6 @@ export const ReviewForm = ({ existingReview, dishId, onClose }) => {
       queryClient.invalidateQueries({ queryKey: ['reviews', dishId] });
     },
   });
-
-  const [rating, setRating] = useState(
-    existingReview ? existingReview.rating : 0
-  );
-  const [review, setReview] = useState(
-    existingReview ? existingReview.review : ''
-  );
 
   const handleTextareaChange = useCallback((e) => {
     setReview(e.target.value);

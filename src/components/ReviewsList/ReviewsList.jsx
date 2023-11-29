@@ -2,6 +2,10 @@
 import { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+// Add sceleton
+import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 
 import styled from '@emotion/styled';
@@ -30,21 +34,16 @@ const InfiniteScrollStyled = styled(InfiniteScroll)`
 `;
 
 export const ReviewsList = ({ id }) => {
-  // const path = location.pathname;
-
   const [totalPages, setTotalPage] = useState(null);
-
   const LIMIT = 5;
 
   const fetchReviews = async ({ pageParam }) => {
     const res = await getReviewsByDishId(id, pageParam, LIMIT);
-
     setTotalPage(Math.ceil(res.totalReviews / LIMIT));
-
     return res;
   };
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
     queryKey: ['reviews', id],
     queryFn: fetchReviews,
     initialPageParam: 1,
@@ -55,6 +54,7 @@ export const ReviewsList = ({ id }) => {
     },
   });
 
+  // Calculate the total number of reviews
   const qtyReviews = data?.pages
     ?.map((item) => item.reviews.map((review) => review))
     .reduce((acc, item) => acc + item.length, 0);
@@ -66,7 +66,29 @@ export const ReviewsList = ({ id }) => {
           Reviews
         </Typography>
       </TitleWrapper>
-      {qtyReviews && (
+      {/* Check if data is loading */}
+      {isLoading &&
+        Array.from({ length: 4 }).map((_, index) => (
+          <Box
+            sx={{
+              margin: 1,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 4,
+              pl: 4,
+              pr: 5,
+              m: 0,
+            }}
+            key={index}
+          >
+            <Skeleton variant="circular" sx={{ height: 40, width: 40 }}>
+              <Avatar />
+            </Skeleton>
+            <Skeleton animation="wave" height={60} width="100%" />
+          </Box>
+        ))}
+      {/* Check if reviews are available */}
+      {qtyReviews > 0 && (
         <InfiniteScrollStyled
           dataLength={qtyReviews}
           scrollThreshold={0.8}

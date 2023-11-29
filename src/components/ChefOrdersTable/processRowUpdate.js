@@ -5,7 +5,7 @@ import axios from 'axios';
 export const processRowUpdate = async (newRow, oldRow, chefID) => {
   if (newRow.status !== oldRow.status) {
     const statusToUpdate =
-      newRow.status === 'readyToDelivery' ? 'READY_TO_DELIVERY' : newRow.status;
+      newRow.status === 'readyToDelivery' ? 'readyToDelivery' : newRow.status;
 
     const URI = `http://localhost:4000/api/chefs/${chefID}/orders/${newRow.id}`;
     try {

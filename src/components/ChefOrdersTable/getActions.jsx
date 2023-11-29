@@ -12,7 +12,11 @@ export const getActions = (
   handleEditClick
 ) => {
   const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-  const isEditableStatus = !['completed', 'canceled'].includes(row.status);
+  const isEditableStatus = ![
+    'completed',
+    'canceled',
+    'readyToDelivery',
+  ].includes(row.status);
 
   if (isInEditMode) {
     return [

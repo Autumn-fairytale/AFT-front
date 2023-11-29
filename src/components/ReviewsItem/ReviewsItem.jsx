@@ -152,7 +152,7 @@ export const ReviewsItem = ({ review, path, id }) => {
         </ReviewBox>
       </Item>
       <AppModal isOpen={isOpen} onClose={onClose}>
-        <ReviewForm />
+        <ReviewForm existingReview={review} dishId={review.dish.id} />
       </AppModal>
     </>
   );

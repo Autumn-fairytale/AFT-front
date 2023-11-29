@@ -23,9 +23,6 @@ import {
 const DishCard = ({ dishInfo, isCarousel }) => {
   const [favorite, setFavorite] = useState(false);
 
-  function handleClick() {
-    //Required function
-  }
   return (
     <DishCardWrapper isCarousel={isCarousel}>
       <DishImageWrapper>
@@ -51,13 +48,11 @@ const DishCard = ({ dishInfo, isCarousel }) => {
           variant="outlined"
           label="Learn More"
           endIcon={<FiChevronRight />}
-          onClick={handleClick}
         />
         <AppButton
           variant="contained"
           label="Add to Cart"
           endIcon={<FiShoppingCart />}
-          onClick={handleClick}
         />
       </ButtonsWrapper>
     </DishCardWrapper>

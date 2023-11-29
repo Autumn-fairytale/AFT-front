@@ -22,6 +22,7 @@ export const AppTextArea = ({
   minRows,
   maxRows,
   maxLength,
+  ...otherProps
 }) => {
   const isError = value.length > maxLength;
 
@@ -34,6 +35,7 @@ export const AppTextArea = ({
       placeholder={placeholder}
       error={isError ? 'error' : null}
       name={name}
+      {...otherProps}
     />
   );
 };

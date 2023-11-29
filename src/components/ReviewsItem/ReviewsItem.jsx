@@ -12,6 +12,8 @@ import { format } from 'date-fns';
 import styled from '@emotion/styled';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteByReviewId } from '../../api/deleteByReviewId';
+import { AppModal } from '../../shared/AppModal/AppModal';
+import { ReviewForm } from '../ReviewForm/ReviewForm';
 import {
   AvatarBox,
   ButtonWrapper,
@@ -31,6 +33,12 @@ const ColorButton = styled(IconButton)`
 export const ReviewsItem = ({ review, path, id }) => {
   // Test with userId
   const userId = '6561f42ef5c506ec5f36dbba';
+  // Open modal
+  const [isOpen, setIsOpen] = useState(false);
+
+  const onClose = () => {
+    setIsOpen(false);
+  };
 
   //
   const queryClient = useQueryClient();
@@ -66,6 +74,10 @@ export const ReviewsItem = ({ review, path, id }) => {
     }
   };
 
+  const handleEditButton = () => {
+    setIsOpen(true);
+  };
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.addEventListener('click', handleOutsideClick);
@@ -82,62 +94,67 @@ export const ReviewsItem = ({ review, path, id }) => {
       : review.review;
 
   return (
-    <Item>
-      <AvatarBox>
-        <Avatar src={review.owner.avatar} />
-      </AvatarBox>
+    <>
+      <Item>
+        <AvatarBox>
+          <Avatar src={review.owner.avatar} />
+        </AvatarBox>
 
-      <RatingBox>
-        {userId === review.owner.id ? (
-          <p>{`${review.owner.firstName} ${review.owner.lastName}`} (your)</p>
-        ) : (
-          <p>{`${review.owner.firstName} ${review.owner.lastName}`}</p>
-        )}
-        <p style={{ fontSize: '12px', color: 'grey' }}>
-          {format(new Date(review.createdAt), 'MM.yyyy')}
-        </p>
-        {userId === review.owner.id && (
-          <ButtonWrapper>
-            <ColorButton
-              aria-label="edit"
-              size="small"
-              onClick={() => {
-                console.log('Edit');
-              }}
-            >
-              <GrEdit />
-            </ColorButton>
+        <RatingBox>
+          {userId === review.owner.id ? (
+            <p>{`${review.owner.firstName} ${review.owner.lastName}`} (your)</p>
+          ) : (
+            <p>{`${review.owner.firstName} ${review.owner.lastName}`}</p>
+          )}
+          <p style={{ fontSize: '12px', color: 'grey' }}>
+            {format(new Date(review.createdAt), 'MM.yyyy')}
+          </p>
+          {userId === review.owner.id && (
+            <ButtonWrapper>
+              <ColorButton
+                aria-label="edit"
+                size="small"
+                onClick={handleEditButton}
+              >
+                <GrEdit />
+              </ColorButton>
 
-            <ColorButton
-              aria-label="delete"
-              size="small"
-              onClick={() => handleDeleteButton(review.id)}
-            >
-              <RiDeleteBin5Line />
-            </ColorButton>
-          </ButtonWrapper>
-        )}
+              <ColorButton
+                aria-label="delete"
+                size="small"
+                onClick={() => handleDeleteButton(review.id)}
+              >
+                <RiDeleteBin5Line />
+              </ColorButton>
+            </ButtonWrapper>
+          )}
 
-        <Rating
-          name="text-feedback"
-          size="small"
-          value={review.rating}
-          readOnly
-          precision={1}
-          emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-        />
-      </RatingBox>
-      <ReviewBox>
-        <ReviewText
-          ref={myElementRef}
-          onClick={handleClick}
-          expanded={expanded}
-          possibleExpand={review.review.length > maxLength}
-        >
-          {expanded ? review.review : truncatedText}
-        </ReviewText>
-      </ReviewBox>
-    </Item>
+          <Rating
+            name="text-feedback"
+            size="small"
+            value={review.rating}
+            readOnly
+            precision={1}
+            emptyIcon={
+              <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+            }
+          />
+        </RatingBox>
+        <ReviewBox>
+          <ReviewText
+            ref={myElementRef}
+            onClick={handleClick}
+            expanded={expanded}
+            possibleExpand={review.review.length > maxLength}
+          >
+            {expanded ? review.review : truncatedText}
+          </ReviewText>
+        </ReviewBox>
+      </Item>
+      <AppModal isOpen={isOpen} onClose={onClose}>
+        <ReviewForm />
+      </AppModal>
+    </>
   );
 };
 

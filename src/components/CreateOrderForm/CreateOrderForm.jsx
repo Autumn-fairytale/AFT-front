@@ -5,10 +5,10 @@ import { createOrder } from '@/api/createOrder';
 import { addSpacesToPhoneNumber } from '@/helpers';
 import { createOrderSchema } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
-import DeliveryInfo from '../DeliveryInfo';
-import OrderInfo from '../OrderInfo';
 import PaymentButton from '../PaymentButton';
 import { CreateOrderFormStyled } from './CreateOrderForm.styled';
+import DeliveryInfo from './DeliveryInfo';
+import OrderInfo from './OrderInfo';
 
 const CreateOrderForm = () => {
   const {
@@ -19,6 +19,7 @@ const CreateOrderForm = () => {
     defaultValues: {
       phoneNumber: addSpacesToPhoneNumber('+38(066)3334433'),
       userName: 'Andrii Zaimak',
+      email: 'dev.andrii.zaimak@gmail.com',
       address: {
         country: 'Ukraine',
         city: 'Kyiv',
@@ -48,6 +49,7 @@ const CreateOrderForm = () => {
       const result = await createOrder({
         // phoneNumber: removeSpacesFromPhoneNumber(data.phoneNumber),
         // userName: data.userName,
+        // email: data.email,
         // additionalInfo: data.additionalInfo,
         address: data.address,
         items: orderItems,
@@ -63,7 +65,7 @@ const CreateOrderForm = () => {
   return (
     <>
       <CreateOrderFormStyled onSubmit={handleSubmit(formSubmitHandler)}>
-        <DeliveryInfo control={control} />
+        <DeliveryInfo control={control} errors={errors} />
         <OrderInfo isSubmitting={isSubmitting} />
       </CreateOrderFormStyled>
       {payment && (

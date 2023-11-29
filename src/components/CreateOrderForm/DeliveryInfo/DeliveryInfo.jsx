@@ -1,3 +1,4 @@
+import React from 'react';
 import { Controller } from 'react-hook-form';
 
 import { Box, Typography } from '@mui/material';
@@ -9,8 +10,28 @@ import {
   DeliveryInfoSectionStyled,
   DividerStyled,
 } from './DeliveryInfo.styled';
+import DeliveryInfoFormItem from './DeliveryInfoFormItem';
 
-const DeliveryInfo = ({ control }) => {
+const fields = [
+  {
+    label: 'Phone number',
+    name: 'phoneNumber',
+    component: <AppPhoneInput label="" autoComplete="tel" />,
+    sx: { width: '250px' },
+  },
+  {
+    label: 'Name',
+    name: 'userName',
+    component: <AppTextInput label="" autoComplete="name" />,
+  },
+  {
+    label: 'Email',
+    name: 'email',
+    component: <AppTextInput label="" type="email" autoComplete="email" />,
+  },
+];
+
+const DeliveryInfo = ({ control, errors }) => {
   return (
     <DeliveryInfoSectionStyled>
       <Typography component="h2" variant="h4">
@@ -18,34 +39,17 @@ const DeliveryInfo = ({ control }) => {
       </Typography>
 
       <Box sx={{ marginTop: '20px' }}>
-        <Box sx={{ width: '250px' }}>
-          <Typography component="h3" variant="h6">
-            Phone number
-          </Typography>
-          <Controller
-            name="phoneNumber"
-            control={control}
-            render={({ field }) => (
-              <AppPhoneInput label="" autoComplete="tel" {...field} />
-            )}
-          />
-          {/* <AppPhoneInput label="" name="phone" autoComplete="tel" /> */}
-        </Box>
-        <DividerStyled />
-        <Box>
-          <Typography component="h3" variant="h6">
-            Name
-          </Typography>
-          <Controller
-            name="userName"
-            control={control}
-            render={({ field }) => (
-              <AppTextInput label="" autoComplete="name" {...field} />
-            )}
-          />
-          {/* <AppTextInput label="" name="name" autoComplete="name" /> */}
-        </Box>
-        <DividerStyled />
+        {fields.map((field) => (
+          <React.Fragment key={field.name}>
+            <DeliveryInfoFormItem
+              info={field}
+              control={control}
+              error={errors[field.name]}
+            />
+            <DividerStyled />
+          </React.Fragment>
+        ))}
+
         <Box>
           <Typography component="h3" variant="h6">
             Address
@@ -57,7 +61,13 @@ const DeliveryInfo = ({ control }) => {
             name="address.country"
             control={control}
             render={({ field }) => (
-              <AppTextInput label="" autoComplete="country" {...field} />
+              <AppTextInput
+                label=""
+                autoComplete="country"
+                error={!!errors['address']?.country}
+                helperText={errors['address']?.country?.message}
+                {...field}
+              />
             )}
           />
 
@@ -68,7 +78,13 @@ const DeliveryInfo = ({ control }) => {
             name="address.city"
             control={control}
             render={({ field }) => (
-              <AppTextInput label="" autoComplete="street-address" {...field} />
+              <AppTextInput
+                label=""
+                autoComplete="street-address"
+                error={!!errors['address']?.city}
+                helperText={errors['address']?.city?.message}
+                {...field}
+              />
             )}
           />
           <Typography component="h4" variant="subtitle1">
@@ -78,7 +94,13 @@ const DeliveryInfo = ({ control }) => {
             name="address.street"
             control={control}
             render={({ field }) => (
-              <AppTextInput label="" autoComplete="street-address" {...field} />
+              <AppTextInput
+                label=""
+                autoComplete="street-address"
+                error={!!errors['address']?.street}
+                helperText={errors['address']?.street?.message}
+                {...field}
+              />
             )}
           />
         </Box>
@@ -90,7 +112,9 @@ const DeliveryInfo = ({ control }) => {
           <Controller
             name="additionalInfo"
             control={control}
-            render={({ field }) => <AppTextArea label="" {...field} />}
+            render={({ field }) => (
+              <AppTextArea label="" maxLength={400} {...field} />
+            )}
           />
         </Box>
       </Box>

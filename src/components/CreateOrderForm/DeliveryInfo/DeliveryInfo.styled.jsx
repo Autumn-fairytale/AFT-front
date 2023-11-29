@@ -9,5 +9,5 @@ export const DividerStyled = styled(Divider)(() => ({
   height: '2px',
 
   marginTop: '20px',
-  marginBottom: '20px',
+  marginBottom: '10px',
 }));

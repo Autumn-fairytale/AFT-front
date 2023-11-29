@@ -4,8 +4,9 @@ const phoneRegExp = /^\+38\(0[0-9]{2}\) [0-9]{3} [0-9]{2} [0-9]{2}$/;
 const addressRegExp = /^[a-zA-Z\s'-]+$/;
 
 export const createOrderSchema = z.object({
-  phoneNumber: z.string().trim().regex(phoneRegExp),
+  phoneNumber: z.string().trim().regex(phoneRegExp, 'Invalid number format'),
   userName: z.string().trim().min(3),
+  email: z.string().email(),
   address: z.object({
     country: z
       .string()

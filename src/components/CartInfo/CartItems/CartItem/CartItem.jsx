@@ -1,11 +1,12 @@
 import { useCallback, useState } from 'react';
 
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 
 import debounce from 'lodash.debounce';
 
 import { convertToMoney } from '@/helpers';
 import { AppNumberInput } from '@/shared';
+import { CartItemPropTypes } from './CartItem.props';
 import {
   CartItemBodyStyled,
   CartItemStyled,
@@ -17,8 +18,8 @@ const fetch = debounce(async () => {
   console.log('Fetch');
 }, 500);
 
-const CartItem = ({ item = {}, ...props }) => {
-  const { dish, count } = item;
+const CartItem = ({ data, ...props }) => {
+  const { dish, count } = data;
   const [itemCount, setItemCount] = useState(() => count);
 
   const changeCount = useCallback(
@@ -52,6 +53,6 @@ const CartItem = ({ item = {}, ...props }) => {
   );
 };
 
-CartItem.propTypes = Box.propTypes;
+CartItem.propTypes = CartItemPropTypes;
 
 export default CartItem;

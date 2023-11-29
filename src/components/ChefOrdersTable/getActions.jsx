@@ -21,16 +21,14 @@ export const getActions = (
   if (isInEditMode) {
     return [
       <GridActionsCellItem
-        icon={<SaveIcon />}
-        sx={{
-          color: 'primary.main',
-        }}
+        icon={<SaveIcon sx={{ fontSize: 24 }} />}
         key={'save'}
         label="Save"
         onClick={handleSaveClick(id)}
+        color="primary"
       />,
       <GridActionsCellItem
-        icon={<CancelIcon />}
+        icon={<CancelIcon sx={{ fontSize: 24 }} />}
         key={'cancel'}
         label="Cancel"
         onClick={handleCancelClick(id)}
@@ -40,11 +38,12 @@ export const getActions = (
 
   return [
     <GridActionsCellItem
-      icon={<EditOutlinedIcon />}
+      icon={<EditOutlinedIcon sx={{ fontSize: 24 }} />}
       key={'edit'}
       label="Edit"
       onClick={handleEditClick(id)}
       disabled={!isEditableStatus}
+      color="primary"
     />,
   ];
 };

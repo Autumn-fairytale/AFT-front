@@ -34,9 +34,16 @@ const AppDataGridTable = ({
         disableColumnFilter
         disableColumnMenu={disableColumnMenu}
         disableRowSelectionOnClick={true}
+        getRowClassName={(params) =>
+          params.indexRelativeToCurrentPage % 2 !== 0 ? 'even-row' : ''
+        }
         sx={{
           '& .MuiDataGrid-columnHeaderTitle': {
             fontWeight: 'bold',
+          },
+          '& .even-row': {
+            backgroundColor: (theme) => theme.palette.primary.light,
+            transition: 'background-color 0.3s ease',
           },
           ...sx,
         }}

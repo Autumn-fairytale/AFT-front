@@ -55,6 +55,13 @@ export const UserOrdersTable = () => {
       {
         field: 'totalPrice',
         headerName: 'Total Price',
+        cellClassName: 'boldCell',
+        valueGetter: ({ value }) => {
+          if (!value) {
+            return value;
+          }
+          return value + ' ₴';
+        },
       },
       {
         field: 'address',

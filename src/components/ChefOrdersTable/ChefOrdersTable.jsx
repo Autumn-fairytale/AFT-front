@@ -112,14 +112,16 @@ export const ChefOrdersTable = () => {
           if (!value) {
             return value;
           }
-          return chefsAmountAfterFee(value);
+          return chefsAmountAfterFee(value) + ' ₴';
         },
+        cellClassName: 'boldCell',
+        width: 200,
       },
 
       {
         field: 'items',
         headerName: 'Order items',
-        flex: 1,
+        width: 250,
         renderCell: OrderItemsCell,
       },
     ],

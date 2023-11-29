@@ -1,17 +1,19 @@
 // import AppRouter from './routes/AppRouter';
 
-import { AddDishForm } from './components/AddDishForm/AddDishForm';
+// import { AddDishForm } from './components/AddDishForm/AddDishForm';
 
 // import { ChefOrdersTable } from './components/ChefOrdersTable/ChefOrdersTable';
-// import { UserOrdersTable } from './components/UserOrdersTable/UserOrdersTable';
+import { Container } from '@mui/material';
+
+import { UserOrdersTable } from './components/UserOrdersTable/UserOrdersTable';
 
 function App() {
   return (
-    <>
-      {/* <UserOrdersTable /> */}
+    <Container maxWidth="xl">
+      <UserOrdersTable />
       {/* <ChefOrdersTable /> */}
-      <AddDishForm />
-    </>
+      {/* <AddDishForm /> */}
+    </Container>
   );
 
   // return <AppRouter />;

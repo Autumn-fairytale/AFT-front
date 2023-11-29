@@ -16,10 +16,11 @@ import { StatusCell } from './StatusCell';
 export const ChefOrdersTable = () => {
   const chefID = '6557219bccbbbbc3695bc8b2';
   const { data, isLoading, error } = useChefOrder(chefID);
+
   // console.log(data, 'data');
   // const orders = data ?? [];
   const orders = data ? data : [];
-
+  // console.log(orders);
   const [rowModesModel, setRowModesModel] = useState({});
 
   const handleRowEditStop = (params, event) => {

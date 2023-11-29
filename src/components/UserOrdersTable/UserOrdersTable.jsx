@@ -13,7 +13,7 @@ import { CustomFooter } from './CustomFooter';
 import { UserOrderDetails } from './UserOrderDetails';
 
 export const UserOrdersTable = () => {
-  const mockUserId = '655a051fb7cc813b6007220b';
+  const mockUserId = '6566e859a48ddb482e9ab846';
   const { data, isLoading, error } = useUserOrders(mockUserId);
 
   const [openModal, setOpenModal] = useState(false);

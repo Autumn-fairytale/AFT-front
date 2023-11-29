@@ -11,7 +11,7 @@ export const CustomFooter = ({ totalSum = 0, rowCount = 0 }) => {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 2,
+        padding: 1,
       }}
     >
       <Box>

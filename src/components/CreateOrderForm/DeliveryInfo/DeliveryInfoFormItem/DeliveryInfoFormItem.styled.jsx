@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 
 export const DeliveryInfoFormItemPropTypes = {
   info: PropTypes.shape({
-    label: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    label: PropTypes.string,
     name: PropTypes.string.isRequired,
     component: PropTypes.node.isRequired,
     sx: PropTypes.object,

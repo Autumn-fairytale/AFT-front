@@ -31,7 +31,7 @@ const items = [
       image:
         'https://res.cloudinary.com/ddbvbv5sp/image/upload/v1678560401/huqdxgwkvbhsfjqtexsm.jpg',
       description: 'A tasty kotleta with fresh  ingredients.',
-      price: 11.99,
+      price: 11000.99,
       isVegan: false,
       cuisine: 'Ukrainian',
       category: 'Main',
@@ -77,12 +77,6 @@ const OrderInfo = (/*{ isSubmitting }*/) => {
         <Typography>Choose any dishes</Typography>
       ) : (
         <>
-          {/* <OrderInfoChefStyled>
-            <Avatar />
-            <Link href={`${route.CHEFS}/id`}>Chef Info</Link>
-          </OrderInfoChefStyled>
-
-          <OrderItemsList data={items} /> */}
           <CartInfo data={data} />
 
           <OrderSummary

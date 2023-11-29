@@ -4,6 +4,8 @@ export const OrderInfoSectionStyled = styled(Paper)({
   position: 'sticky',
   top: 0,
 
+  flexShrink: 0,
+
   height: '100%',
   width: '450px',
   padding: '10px',

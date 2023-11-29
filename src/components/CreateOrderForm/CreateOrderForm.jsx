@@ -23,7 +23,9 @@ const CreateOrderForm = () => {
       address: {
         country: 'Ukraine',
         city: 'Kyiv',
-        street: 'Street 52, 32',
+        street: 'Street',
+        houseNumber: '12',
+        apartment: '1',
       },
       additionalInfo: '',
     },

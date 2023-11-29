@@ -3,6 +3,7 @@ import { Controller } from 'react-hook-form';
 
 import { Box, Typography } from '@mui/material';
 
+import AddressForm from '@/components/AddressForm/AddressForm';
 import { AppPhoneInput, AppTextInput } from '@/shared';
 import AutocompletePlaces from '@/shared/AppMap/AutocompletePlaces/AutocompletePlaces';
 import { AppTextArea } from '@/shared/AppTextArea/AppTextArea';
@@ -15,20 +16,23 @@ import DeliveryInfoFormItem from './DeliveryInfoFormItem';
 
 const fields = [
   {
-    label: 'Phone number',
+    title: 'Phone number',
     name: 'phoneNumber',
-    component: <AppPhoneInput label="" autoComplete="tel" />,
+    component: <AppPhoneInput autoComplete="tel" />,
     sx: { width: '250px' },
+    required: true,
   },
   {
-    label: 'Name',
+    title: 'Name',
     name: 'userName',
-    component: <AppTextInput label="" autoComplete="name" />,
+    component: <AppTextInput autoComplete="name" />,
+    required: true,
   },
   {
-    label: 'Email',
+    title: 'Email',
     name: 'email',
-    component: <AppTextInput label="" type="email" autoComplete="email" />,
+    component: <AppTextInput type="email" autoComplete="email" />,
+    required: true,
   },
 ];
 
@@ -38,11 +42,10 @@ const DeliveryInfo = ({ control, errors }) => {
       <Typography component="h2" variant="h4">
         Delivery information
       </Typography>
+
       <AutocompletePlaces
-        onSelect={(evt) => {
-          console.log(evt);
-        }}
         autocompletePlacesProps={{ width: '300px' }}
+        onSelect={console.log}
       />
 
       <Box sx={{ marginTop: '20px' }}>
@@ -61,57 +64,12 @@ const DeliveryInfo = ({ control, errors }) => {
           <Typography component="h3" variant="h6">
             Address
           </Typography>
-          <Typography component="h4" variant="subtitle1">
-            Country
-          </Typography>
-          <Controller
-            name="address.country"
-            control={control}
-            render={({ field }) => (
-              <AppTextInput
-                label=""
-                autoComplete="country"
-                error={!!errors['address']?.country}
-                helperText={errors['address']?.country?.message}
-                {...field}
-              />
-            )}
-          />
 
-          <Typography component="h4" variant="subtitle1">
-            City
-          </Typography>
-          <Controller
-            name="address.city"
-            control={control}
-            render={({ field }) => (
-              <AppTextInput
-                label=""
-                autoComplete="street-address"
-                error={!!errors['address']?.city}
-                helperText={errors['address']?.city?.message}
-                {...field}
-              />
-            )}
-          />
-          <Typography component="h4" variant="subtitle1">
-            Street
-          </Typography>
-          <Controller
-            name="address.street"
-            control={control}
-            render={({ field }) => (
-              <AppTextInput
-                label=""
-                autoComplete="street-address"
-                error={!!errors['address']?.street}
-                helperText={errors['address']?.street?.message}
-                {...field}
-              />
-            )}
-          />
+          <AddressForm control={control} errors={errors} />
         </Box>
+
         <DividerStyled />
+
         <Box>
           <Typography component="h3" variant="h6">
             Additional info

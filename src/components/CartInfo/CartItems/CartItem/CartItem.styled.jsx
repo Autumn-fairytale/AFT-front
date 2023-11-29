@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import { Box, styled } from '@mui/material';
 
 export const CartItemStyled = styled(Box)({
@@ -7,18 +9,14 @@ export const CartItemStyled = styled(Box)({
   padding: '10px',
 });
 
-export const CartItemThumbStyled = styled('div')(({ theme }) => ({
-  width: '80px',
-  height: '80px',
-
-  overflow: 'auto',
-
-  backgroundColor: `${theme.palette.grey[400]}`,
-  borderRadius: '10px',
-}));
-
 export const CartItemBodyStyled = styled('div')({
   display: 'flex',
   flexDirection: 'column',
   flexGrow: 1,
+});
+
+export const CartItemLink = styled(Link)({
+  '&:hover': {
+    textDecoration: 'underline',
+  },
 });

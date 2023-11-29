@@ -4,14 +4,16 @@ import { Typography } from '@mui/material';
 
 import debounce from 'lodash.debounce';
 
+import { route } from '@/constants';
 import { convertToMoney } from '@/helpers';
 import { AppNumberInput } from '@/shared';
 import { CartItemPropTypes } from './CartItem.props';
 import {
   CartItemBodyStyled,
+  CartItemLink,
   CartItemStyled,
-  CartItemThumbStyled,
 } from './CartItem.styled';
+import CartItemImage from './CartItemImage';
 import SpiceLevel from './SpiceLevel';
 
 const fetch = debounce(async () => {
@@ -34,11 +36,11 @@ const CartItem = ({ data, ...props }) => {
 
   return (
     <CartItemStyled {...props}>
-      <CartItemThumbStyled>
-        <img src={dish.image} alt={dish.name} width={80} height={80} />
-      </CartItemThumbStyled>
+      <CartItemImage src={dish.image} alt={dish.name} />
       <CartItemBodyStyled>
-        <Typography sx={{ fontWeight: 600 }}>{dish.name}</Typography>
+        <CartItemLink to={`${route.DISHES}/${dish.id}`}>
+          <Typography sx={{ fontWeight: 600 }}>{dish.name}</Typography>
+        </CartItemLink>
         <Typography sx={{ fontStyle: 'italic' }}>
           {convertToMoney(dish.price)}
         </Typography>

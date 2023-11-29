@@ -7,7 +7,7 @@ import CartItems from './CartItems';
 const CartInfo = ({ data, ...props }) => {
   return (
     <Box {...props}>
-      <CartChefInfo data={data.chef} />
+      <CartChefInfo data={data.chef} sx={{ marginBottom: '10px' }} />
 
       <CartItems data={data.items} />
     </Box>

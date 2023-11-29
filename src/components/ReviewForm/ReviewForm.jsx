@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
@@ -12,6 +12,7 @@ import { ReviewFormProps } from './ReviewForm.props';
 import { ButtonWrapper, Form } from './ReviewForm.styled';
 
 export const ReviewForm = ({ existingReview, dishId, onClose }) => {
+  const queryClient = useQueryClient();
   const [rating, setRating] = useState(
     existingReview ? existingReview.rating : 0
   );
@@ -19,13 +20,23 @@ export const ReviewForm = ({ existingReview, dishId, onClose }) => {
     existingReview ? existingReview.review : ''
   );
 
-  const queryClient = useQueryClient();
+  useEffect(() => {
+    const savedRating = localStorage.getItem(`rating_${dishId}`);
+    const savedReview = localStorage.getItem(`review_${dishId}`);
+
+    if (!existingReview) {
+      setRating(savedRating ? parseInt(savedRating, 10) : 0);
+      setReview(savedReview || '');
+    }
+  }, [dishId, existingReview]);
+
   const addReviewMutate = useMutation({
     mutationFn: addReview,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reviews', dishId] });
     },
   });
+
   const editReviewMutate = useMutation({
     mutationFn: editReview,
     onSuccess: () => {
@@ -33,9 +44,13 @@ export const ReviewForm = ({ existingReview, dishId, onClose }) => {
     },
   });
 
-  const handleTextareaChange = useCallback((e) => {
-    setReview(e.target.value);
-  }, []);
+  const handleTextareaChange = useCallback(
+    (e) => {
+      setReview(e.target.value);
+      localStorage.setItem(`review_${dishId}`, review);
+    },
+    [dishId, review]
+  );
 
   const handleFeedbackSubmit = async (e) => {
     e.preventDefault();
@@ -68,6 +83,7 @@ export const ReviewForm = ({ existingReview, dishId, onClose }) => {
           value={rating}
           onChange={(event, newValue) => {
             setRating(newValue);
+            localStorage.setItem(`rating_${dishId}`, newValue);
           }}
           sx={{ maxWidth: '205px', fontSize: '40px' }}
         />

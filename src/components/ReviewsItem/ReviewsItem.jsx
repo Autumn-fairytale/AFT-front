@@ -1,13 +1,18 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { GrEdit } from 'react-icons/gr';
+import { RiDeleteBin5Line } from 'react-icons/ri';
 
 import StarIcon from '@mui/icons-material/Star';
+import { IconButton } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Rating from '@mui/material/Rating';
 
 import { format } from 'date-fns';
 
+import styled from '@emotion/styled';
 import {
   AvatarBox,
+  ButtonWrapper,
   Item,
   RatingBox,
   ReviewBox,
@@ -15,7 +20,17 @@ import {
 } from './ReviewItem.styled';
 import { ReviewsItemProps } from './ReviewsItem.props';
 
+const ColorButton = styled(IconButton)`
+  &:hover {
+    color: #ff7622;
+  }
+`;
+
 export const ReviewsItem = ({ review }) => {
+  // Test with userId
+  const userId = '6561f42ef5c506ec5f36dbba';
+
+  //
   const [expanded, setExpanded] = useState(false);
   const maxLength = 150;
 
@@ -53,10 +68,38 @@ export const ReviewsItem = ({ review }) => {
       </AvatarBox>
 
       <RatingBox>
-        <p>{`${review.owner.firstName} ${review.owner.lastName}`}</p>
+        {userId === review.owner.id ? (
+          <p>{`${review.owner.firstName} ${review.owner.lastName}`} (your)</p>
+        ) : (
+          <p>{`${review.owner.firstName} ${review.owner.lastName}`}</p>
+        )}
         <p style={{ fontSize: '12px', color: 'grey' }}>
           {format(new Date(review.createdAt), 'MM.yyyy')}
         </p>
+        {userId === review.owner.id && (
+          <ButtonWrapper>
+            <ColorButton
+              aria-label="edit"
+              size="small"
+              onClick={() => {
+                console.log('Edit');
+              }}
+            >
+              <GrEdit />
+            </ColorButton>
+
+            <ColorButton
+              aria-label="delete"
+              size="small"
+              onClick={() => {
+                console.log('Delete');
+              }}
+            >
+              <RiDeleteBin5Line />
+            </ColorButton>
+          </ButtonWrapper>
+        )}
+
         <Rating
           name="text-feedback"
           size="small"

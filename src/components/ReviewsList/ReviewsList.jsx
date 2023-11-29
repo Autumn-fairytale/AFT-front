@@ -51,7 +51,7 @@ export const ReviewsList = ({ id }) => {
           Reviews
         </Typography>
       </TitleWrapper>
-      {data ? (
+      {qtyReviews && (
         <InfiniteScroll
           dataLength={qtyReviews}
           scrollThreshold={0.9}
@@ -68,13 +68,11 @@ export const ReviewsList = ({ id }) => {
           <ReviewsListStyled>
             {data?.pages?.map((item) =>
               item.reviews.map((review, index) => (
-                <ReviewsItem key={index} review={review} />
+                <ReviewsItem key={review.id} review={review} />
               ))
             )}
           </ReviewsListStyled>
         </InfiniteScroll>
-      ) : (
-        <p>There is no reviews</p>
       )}
     </>
   );

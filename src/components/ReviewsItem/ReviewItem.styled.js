@@ -6,6 +6,7 @@ export const Item = styled.li`
   grid-template-rows: 40px, 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
+  position: relative;
 `;
 
 export const AvatarBox = styled.div`
@@ -32,4 +33,12 @@ export const ReviewBox = styled.div`
 
 export const ReviewText = styled.p`
   cursor: ${(props) => (props.possibleExpand ? 'pointer' : 'auto')};
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 5px;
+  position: absolute;
+  top: 8px;
+  right: 8px;
 `;

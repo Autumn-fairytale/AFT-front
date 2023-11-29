@@ -29,24 +29,18 @@ export const UserOrdersTable = () => {
   const columns = useMemo(
     () => [
       {
-        field: 'details',
-        headerName: 'Details',
-        renderCell: ({ row }) => (
-          <IconButton onClick={() => handleOpenModal(row)}>
-            <LaunchIcon />
-          </IconButton>
-        ),
-        width: 100,
+        field: 'orderNumber',
+        headerName: 'Order-number',
+        flex: 0.5,
       },
-      { field: 'orderNumber', headerName: 'Order-number', width: 150 },
       {
         field: 'createdAt',
         headerName: 'Date',
-        width: 150,
         valueGetter: ({ value }) => {
           return formatDateForDataGrid(value);
         },
         type: 'Date',
+        flex: 0.5,
       },
       {
         field: 'status',
@@ -58,18 +52,22 @@ export const UserOrdersTable = () => {
           return <AppChip status={statusToShow} sx={{ width: 110 }} />;
         },
       },
-      { field: 'totalPrice', headerName: 'Total Price', type: 'number' },
+      {
+        field: 'totalPrice',
+        headerName: 'Total Price',
+      },
       {
         field: 'address',
         valueGetter: ({ value }) => {
           if (!value) {
             return value;
           }
-          const address = `${value.country},${value.city},${value.street}`;
+          const address = `${value.country}, ${value.city}, ${value.street}`;
           return address;
         },
         headerName: 'Address',
-        width: 200,
+
+        flex: 0.5,
       },
       {
         field: 'items',
@@ -77,16 +75,30 @@ export const UserOrdersTable = () => {
           if (!value) {
             return value;
           }
+
           return value
             .map(
               (item, index) =>
-                `${index + 1}: ${item.name},  psc: ${item.count} `
+                `${index + 1}. ${item.name} (quantity: ${item.count})`
             )
-            .join(';');
+            .join('\n');
         },
         headerName: 'Order items',
-        flex: 0.5,
         type: 'string',
+        flex: 1,
+      },
+      {
+        field: 'details',
+        headerName: 'Details',
+        renderCell: ({ row }) => (
+          <IconButton
+            sx={{ color: 'primary.main' }}
+            onClick={() => handleOpenModal(row)}
+          >
+            <LaunchIcon />
+          </IconButton>
+        ),
+        width: 100,
       },
     ],
     [handleOpenModal]
@@ -101,6 +113,7 @@ export const UserOrdersTable = () => {
         rows={orders}
         loading={isLoading}
         error={error}
+        pageSize={10}
         slots={{
           footer: () => (
             <CustomFooter

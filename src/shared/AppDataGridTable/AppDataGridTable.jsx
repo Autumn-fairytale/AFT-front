@@ -17,11 +17,12 @@ const AppDataGridTable = ({
   slots = {},
   sx = {},
   error,
+  tableWidth = '100%',
   initialState = {},
   ...otherProps
 }) => {
   return (
-    <Box sx={{ height: tableHeight, width: '100%' }}>
+    <Box sx={{ height: tableHeight, width: tableWidth }}>
       <DataGrid
         rows={rows}
         columns={columns}

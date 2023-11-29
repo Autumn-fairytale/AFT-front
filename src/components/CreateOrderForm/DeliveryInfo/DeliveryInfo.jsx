@@ -4,6 +4,7 @@ import { Controller } from 'react-hook-form';
 import { Box, Typography } from '@mui/material';
 
 import { AppPhoneInput, AppTextInput } from '@/shared';
+import AutocompletePlaces from '@/shared/AppMap/AutocompletePlaces/AutocompletePlaces';
 import { AppTextArea } from '@/shared/AppTextArea/AppTextArea';
 import { DeliveryInfoPropTypes } from './DeliveryInfo.props';
 import {
@@ -37,6 +38,12 @@ const DeliveryInfo = ({ control, errors }) => {
       <Typography component="h2" variant="h4">
         Delivery information
       </Typography>
+      <AutocompletePlaces
+        onSelect={(evt) => {
+          console.log(evt);
+        }}
+        autocompletePlacesProps={{ width: '300px' }}
+      />
 
       <Box sx={{ marginTop: '20px' }}>
         {fields.map((field) => (

@@ -28,7 +28,8 @@ const items = [
     dish: {
       id: '655f6f7f9da6654a23460baf',
       name: 'Available Kotleta',
-      image: 'https://site/url_to_image.jpg',
+      image:
+        'https://res.cloudinary.com/ddbvbv5sp/image/upload/v1678560401/huqdxgwkvbhsfjqtexsm.jpg',
       description: 'A tasty kotleta with fresh  ingredients.',
       price: 11.99,
       isVegan: false,

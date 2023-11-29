@@ -6,14 +6,13 @@ import debounce from 'lodash.debounce';
 
 import { route } from '@/constants';
 import { convertToMoney } from '@/helpers';
-import { AppNumberInput } from '@/shared';
+import { AppImage, AppNumberInput } from '@/shared';
 import { CartItemPropTypes } from './CartItem.props';
 import {
   CartItemBodyStyled,
   CartItemLink,
   CartItemStyled,
 } from './CartItem.styled';
-import CartItemImage from './CartItemImage';
 import SpiceLevel from './SpiceLevel';
 
 const fetch = debounce(async () => {
@@ -36,7 +35,7 @@ const CartItem = ({ data, ...props }) => {
 
   return (
     <CartItemStyled {...props}>
-      <CartItemImage src={dish.image} alt={dish.name} />
+      <AppImage src={dish.image} alt={dish.name} />
       <CartItemBodyStyled>
         <CartItemLink to={`${route.DISHES}/${dish.id}`}>
           <Typography sx={{ fontWeight: 600 }}>{dish.name}</Typography>

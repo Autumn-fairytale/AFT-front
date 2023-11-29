@@ -10,6 +10,8 @@ import Rating from '@mui/material/Rating';
 import { format } from 'date-fns';
 
 import styled from '@emotion/styled';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteByReviewId } from '../../api/deleteByReviewId';
 import {
   AvatarBox,
   ButtonWrapper,
@@ -26,11 +28,12 @@ const ColorButton = styled(IconButton)`
   }
 `;
 
-export const ReviewsItem = ({ review }) => {
+export const ReviewsItem = ({ review, path, id }) => {
   // Test with userId
   const userId = '6561f42ef5c506ec5f36dbba';
 
   //
+  const queryClient = useQueryClient();
   const [expanded, setExpanded] = useState(false);
   const maxLength = 150;
 
@@ -45,6 +48,23 @@ export const ReviewsItem = ({ review }) => {
       setExpanded(false);
     }
   }, []);
+
+  // Mutations functions
+  const deleteReview = useMutation({
+    mutationFn: deleteByReviewId,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['reviews', path, id] });
+    },
+  });
+
+  const handleDeleteButton = async (reviewId) => {
+    try {
+      console.log('reviewId:', reviewId);
+      await deleteReview.mutate(reviewId);
+    } catch (error) {
+      console.error('Error deleting review:', error);
+    }
+  };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -91,9 +111,7 @@ export const ReviewsItem = ({ review }) => {
             <ColorButton
               aria-label="delete"
               size="small"
-              onClick={() => {
-                console.log('Delete');
-              }}
+              onClick={() => handleDeleteButton(review.id)}
             >
               <RiDeleteBin5Line />
             </ColorButton>

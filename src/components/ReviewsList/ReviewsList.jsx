@@ -68,7 +68,12 @@ export const ReviewsList = ({ id }) => {
           <ReviewsListStyled>
             {data?.pages?.map((item) =>
               item.reviews.map((review, index) => (
-                <ReviewsItem key={review.id} review={review} />
+                <ReviewsItem
+                  key={review.id}
+                  review={review}
+                  path={path}
+                  id={id}
+                />
               ))
             )}
           </ReviewsListStyled>

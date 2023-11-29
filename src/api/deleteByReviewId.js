@@ -1,5 +1,5 @@
 import { publicInstance } from './axios';
 
-export const getReviewsByDishId = async (id) => {
+export const deleteByReviewId = async (id) => {
   await publicInstance.delete(`reviews/${id}`);
 };

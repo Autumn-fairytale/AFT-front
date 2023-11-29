@@ -5,7 +5,7 @@ import {
   CartItemImageThumbStyled,
 } from './CartItemImage.styled';
 
-const CartItemImage = ({ src, alt, ...props }) => {
+const CartItemImage = ({ src, alt, defaultSrc, ...props }) => {
   const imageSrc = src || defaultSrc;
 
   const errorHandler = (evt) => {
@@ -29,6 +29,7 @@ CartItemImage.defaultProps = {
   width: 80,
   height: 80,
   borderRadius: '10px',
+  defaultSrc,
 };
 
 export default CartItemImage;

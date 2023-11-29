@@ -12,11 +12,6 @@ import { ReviewFormProps } from './ReviewForm.props';
 import { ButtonWrapper, Form } from './ReviewForm.styled';
 
 export const ReviewForm = ({ existingReview, dishId, onClose }) => {
-  console.log('onClose:', onClose);
-
-  // Test with userId
-  // const userId = '6561f42ef5c506ec5f36dbba';
-  // ==================
   const queryClient = useQueryClient();
   const addReviewMutate = useMutation({
     mutationFn: addReview,
@@ -30,7 +25,6 @@ export const ReviewForm = ({ existingReview, dishId, onClose }) => {
       queryClient.invalidateQueries({ queryKey: ['reviews', dishId] });
     },
   });
-  // ================
 
   const [rating, setRating] = useState(
     existingReview ? existingReview.rating : 0
@@ -45,7 +39,6 @@ export const ReviewForm = ({ existingReview, dishId, onClose }) => {
 
   const handleFeedbackSubmit = async (e) => {
     e.preventDefault();
-    console.log('id:', dishId);
 
     existingReview
       ? await editReviewMutate.mutate({
@@ -56,7 +49,11 @@ export const ReviewForm = ({ existingReview, dishId, onClose }) => {
         })
       : await addReviewMutate.mutate({ rating, review, dishId });
 
-    console.log('onClose:', onClose);
+    if (!existingReview) {
+      setRating(0);
+      setReview('');
+    }
+
     onClose();
   };
 

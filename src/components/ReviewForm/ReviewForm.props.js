@@ -6,6 +6,4 @@ export const ReviewFormProps = {
     review: PropTypes.string.isRequired,
   }),
   dishId: PropTypes.string.isRequired,
-  path: PropTypes.string,
-  id: PropTypes.string,
 };

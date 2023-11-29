@@ -12,6 +12,7 @@ import { format } from 'date-fns';
 import styled from '@emotion/styled';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteByReviewId } from '../../api/deleteByReviewId';
+import { useModal } from '../../hooks/useModal';
 import { AppModal } from '../../shared/AppModal/AppModal';
 import { ReviewForm } from '../ReviewForm/ReviewForm';
 import {
@@ -33,12 +34,8 @@ const ColorButton = styled(IconButton)`
 export const ReviewsItem = ({ review, id }) => {
   // Test with userId
   const userId = '6561f42ef5c506ec5f36dbba';
-  // Open modal
-  const [isOpen, setIsOpen] = useState(false);
 
-  const onClose = () => {
-    setIsOpen(false);
-  };
+  const { isOpen, onClose, openModal } = useModal();
 
   //
   const queryClient = useQueryClient();
@@ -67,7 +64,6 @@ export const ReviewsItem = ({ review, id }) => {
 
   const handleDeleteButton = async (reviewId) => {
     try {
-      console.log('reviewId:', reviewId);
       await deleteReview.mutate(reviewId);
     } catch (error) {
       console.error('Error deleting review:', error);
@@ -75,7 +71,7 @@ export const ReviewsItem = ({ review, id }) => {
   };
 
   const handleEditButton = () => {
-    setIsOpen(true);
+    openModal();
   };
 
   useEffect(() => {

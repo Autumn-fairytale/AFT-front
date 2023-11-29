@@ -17,6 +17,6 @@ export const ReviewsItemProps = {
     review: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
   }).isRequired,
-  path: PropTypes.string.isRequired,
+
   id: PropTypes.string.isRequired,
 };

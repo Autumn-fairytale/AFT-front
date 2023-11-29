@@ -1,16 +1,33 @@
 /* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useLocation } from 'react-router-dom';
 
 import Typography from '@mui/material/Typography';
 
+import styled from '@emotion/styled';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { getReviewsByChefId } from '../../api/getReviewsByChefId';
 import { getReviewsByDishId } from '../../api/getReviewsByDishId';
 import ReviewsItem from '../ReviewsItem/ReviewsItem';
 import { ReviewsListProps } from './ReviewsList.props';
 import { ReviewsListStyled, TitleWrapper } from './ReviewsList.styled';
+
+const InfiniteScrollStyled = styled(InfiniteScroll)`
+  ::-webkit-scrollbar {
+    width: 15px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #e4dcdc;
+    border-radius: 8px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #ff7622;
+    border-radius: 8px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
+  }
+`;
 
 export const ReviewsList = ({ id }) => {
   // const path = location.pathname;
@@ -50,18 +67,12 @@ export const ReviewsList = ({ id }) => {
         </Typography>
       </TitleWrapper>
       {qtyReviews && (
-        <InfiniteScroll
+        <InfiniteScrollStyled
           dataLength={qtyReviews}
-          scrollThreshold={0.9}
+          scrollThreshold={0.8}
           next={() => fetchNextPage()}
           hasMore={hasNextPage}
-          // loader={<h4>Loading...</h4>}
           height={500}
-          endMessage={
-            <p style={{ textAlign: 'center' }}>
-              <b>Yay! You have seen it all</b>
-            </p>
-          }
         >
           <ReviewsListStyled>
             {data?.pages?.map((item) =>
@@ -70,7 +81,7 @@ export const ReviewsList = ({ id }) => {
               ))
             )}
           </ReviewsListStyled>
-        </InfiniteScroll>
+        </InfiniteScrollStyled>
       )}
     </>
   );

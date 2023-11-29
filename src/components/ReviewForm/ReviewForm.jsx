@@ -13,12 +13,8 @@ import { ButtonWrapper, Form } from './ReviewForm.styled';
 
 export const ReviewForm = ({ existingReview, dishId, onClose }) => {
   const queryClient = useQueryClient();
-  const [rating, setRating] = useState(
-    existingReview ? existingReview.rating : 0
-  );
-  const [review, setReview] = useState(
-    existingReview ? existingReview.review : ''
-  );
+  const [rating, setRating] = useState(0);
+  const [review, setReview] = useState('');
 
   useEffect(() => {
     const savedRating = localStorage.getItem(`rating_${dishId}`);
@@ -27,6 +23,13 @@ export const ReviewForm = ({ existingReview, dishId, onClose }) => {
     if (!existingReview) {
       setRating(savedRating ? parseInt(savedRating, 10) : 0);
       setReview(savedReview || '');
+    } else {
+      const savedRating = localStorage.getItem(`rating_${existingReview.id}`);
+      const savedReview = localStorage.getItem(`review_${existingReview.id}`);
+      setRating(
+        savedRating ? parseInt(savedRating, 10) : existingReview.rating
+      );
+      setReview(savedReview || existingReview.review);
     }
   }, [dishId, existingReview]);
 
@@ -47,9 +50,13 @@ export const ReviewForm = ({ existingReview, dishId, onClose }) => {
   const handleTextareaChange = useCallback(
     (e) => {
       setReview(e.target.value);
-      localStorage.setItem(`review_${dishId}`, review);
+      if (!existingReview) {
+        localStorage.setItem(`review_${dishId}`, e.target.value);
+      } else {
+        localStorage.setItem(`review_${existingReview.id}`, e.target.value);
+      }
     },
-    [dishId, review]
+    [dishId, existingReview]
   );
 
   const handleFeedbackSubmit = async (e) => {
@@ -67,6 +74,11 @@ export const ReviewForm = ({ existingReview, dishId, onClose }) => {
     if (!existingReview) {
       setRating(0);
       setReview('');
+      localStorage.removeItem(`rating_${dishId}`);
+      localStorage.removeItem(`review_${dishId}`);
+    } else {
+      localStorage.removeItem(`rating_${existingReview.id}`);
+      localStorage.removeItem(`review_${existingReview.id}`);
     }
 
     onClose();
@@ -83,7 +95,11 @@ export const ReviewForm = ({ existingReview, dishId, onClose }) => {
           value={rating}
           onChange={(event, newValue) => {
             setRating(newValue);
-            localStorage.setItem(`rating_${dishId}`, newValue);
+            if (!existingReview) {
+              localStorage.setItem(`rating_${dishId}`, newValue);
+            } else {
+              localStorage.setItem(`rating_${existingReview.id}`, newValue);
+            }
           }}
           sx={{ maxWidth: '205px', fontSize: '40px' }}
         />

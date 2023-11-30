@@ -5,7 +5,6 @@ import { Box, Typography } from '@mui/material';
 
 import AddressForm from '@/components/AddressForm/AddressForm';
 import { AppPhoneInput, AppTextInput } from '@/shared';
-import AutocompletePlaces from '@/shared/AppMap/AutocompletePlaces/AutocompletePlaces';
 import { AppTextArea } from '@/shared/AppTextArea/AppTextArea';
 import { DeliveryInfoPropTypes } from './DeliveryInfo.props';
 import {
@@ -42,11 +41,6 @@ const DeliveryInfo = ({ control, errors }) => {
       <Typography component="h2" variant="h4">
         Delivery information
       </Typography>
-
-      <AutocompletePlaces
-        autocompletePlacesProps={{ width: '300px' }}
-        onSelect={console.log}
-      />
 
       <Box sx={{ marginTop: '20px' }}>
         {fields.map((field) => (

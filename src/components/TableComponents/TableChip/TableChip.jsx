@@ -1,20 +1,19 @@
 import { Chip } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import { AppChipProps } from './AppChip.props';
+import { chipStatusColors } from './chipStatusColors';
+import { TableChipProps } from './TableChip.props';
 
-export const toDelivery = '→ delivery';
-
-const AppChip = ({ status, sx }) => {
+const TableChip = ({ status, sx }) => {
   const theme = useTheme();
   const statusKey = status.toLowerCase();
   let chipColor = 'default';
 
-  if (statusKey in statusColors) {
+  if (statusKey in chipStatusColors) {
     chipColor =
-      statusColors[statusKey] === 'pending'
+      chipStatusColors[statusKey] === 'pending'
         ? 'default'
-        : statusColors[statusKey];
+        : chipStatusColors[statusKey];
   }
 
   const chipSx = {
@@ -39,17 +38,6 @@ const AppChip = ({ status, sx }) => {
   );
 };
 
-export default AppChip;
+export default TableChip;
 
-AppChip.propTypes = AppChipProps;
-
-const statusColors = {
-  pending: 'pending',
-  accepted: 'primary',
-  cooking: 'secondary',
-  '→ delivery': 'info',
-  readyToDelivery: 'info',
-  delivering: 'warning',
-  completed: 'success',
-  canceled: 'error',
-};
+TableChip.propTypes = TableChipProps;

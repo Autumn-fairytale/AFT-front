@@ -6,9 +6,9 @@ import { IconButton } from '@mui/material';
 import { calculateTotalOrdersSum } from '@/helpers/calculateTotalOrdersSum';
 import { formatDateForDataGrid } from '@/helpers/formatDateForDataGrid';
 import useUserOrders from '@/hooks/useUserOrders ';
-import AppChip from '@/shared/AppChip/AppChip';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { AppModal } from '@/shared/AppModal/AppModal';
+import { StatusCell } from '../TableComponents/StatusCell';
 import { CustomFooter } from './CustomFooter';
 import { UserOrderDetails } from './UserOrderDetails/';
 
@@ -21,6 +21,7 @@ export const UserOrdersTable = () => {
 
   const handleOpenModal = useCallback((order) => {
     setSelectedOrder(order);
+
     setOpenModal(true);
   }, []);
 
@@ -37,6 +38,9 @@ export const UserOrdersTable = () => {
         field: 'createdAt',
         headerName: 'Date',
         valueGetter: ({ value }) => {
+          if (!value) {
+            return value;
+          }
           return formatDateForDataGrid(value);
         },
         type: 'Date',
@@ -46,11 +50,7 @@ export const UserOrdersTable = () => {
         field: 'status',
         headerName: 'Status',
         width: 150,
-        renderCell: ({ value }) => {
-          const statusToShow =
-            value === 'readyToDelivery' ? '→ delivery' : value;
-          return <AppChip status={statusToShow} sx={{ width: 110 }} />;
-        },
+        renderCell: StatusCell,
       },
       {
         field: 'totalPrice',
@@ -70,6 +70,7 @@ export const UserOrdersTable = () => {
             return value;
           }
           const address = `${value.country}, ${value.city}, ${value.street}`;
+
           return address;
         },
         headerName: 'Address',

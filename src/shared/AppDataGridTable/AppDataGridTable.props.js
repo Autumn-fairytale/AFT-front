@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-export const AppChipProps = {
+export const TableChipProps = {
   rows: PropTypes.arrayOf(PropTypes.object).isRequired,
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   onRowClick: PropTypes.func,

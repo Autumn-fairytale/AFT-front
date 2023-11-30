@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-export const AppChipProps = {
+export const TableChipProps = {
   status: PropTypes.oneOf([
     'pending',
     'accepted',

@@ -20,6 +20,7 @@ export const UserOrderDetails = ({ order }) => {
     <StyledUserOrderDetailsPaper elevation={3}>
       <StyledUserOrderDetailsBox>
         <ReceiptIcon sx={{ mr: 1 }} />
+
         <StyledUserOrderDetailsTypography>
           Order Receipt
         </StyledUserOrderDetailsTypography>
@@ -30,6 +31,7 @@ export const UserOrderDetails = ({ order }) => {
         <Typography variant="subtitle1" sx={{ flexGrow: 1 }}>
           Order Number: {order.orderNumber}
         </Typography>
+
         <Typography variant="subtitle2">
           Date: {formatDateForDataGrid(order.createdAt)}
         </Typography>
@@ -38,6 +40,7 @@ export const UserOrderDetails = ({ order }) => {
       <Divider sx={{ my: 1 }} />
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
         <FastfoodIcon sx={{ mr: 1 }} />
+
         <Typography variant="subtitle2">Dishes:</Typography>
       </Box>
 
@@ -45,6 +48,7 @@ export const UserOrderDetails = ({ order }) => {
         {order.items.map((item, index) => (
           <StyledUserOrderDetailsListItem key={index}>
             <ImageWithSpinner src={item.dish.image} alt={item.name} />
+
             <Typography variant="body1" sx={{ mt: 1 }}>
               {item.name} - {item.count} pcs
             </Typography>
@@ -54,6 +58,7 @@ export const UserOrderDetails = ({ order }) => {
 
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
         <HryvniaIcon sx={{ mr: 1, fontSize: 20 }} />
+
         <Typography
           variant="subtitle1"
           sx={{ color: 'primary.main', fontWeight: 'bold' }}
@@ -65,6 +70,7 @@ export const UserOrderDetails = ({ order }) => {
       <Divider sx={{ my: 1 }} />
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
         <HomeIcon sx={{ mr: 1 }} />
+
         <Typography variant="body1">
           Address: {order.address?.street}, {order.address?.city},
           {order.address?.country}

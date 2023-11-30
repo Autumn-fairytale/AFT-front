@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import LinearProgress from '@mui/material/LinearProgress';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
-import { AppChipProps } from './AppDataGridTable.props';
+import { TableChipProps } from './AppDataGridTable.props';
 
 const AppDataGridTable = ({
   rows,
@@ -76,4 +76,4 @@ const AppDataGridTable = ({
 
 export default AppDataGridTable;
 
-AppDataGridTable.propTypes = AppChipProps;
+AppDataGridTable.propTypes = TableChipProps;

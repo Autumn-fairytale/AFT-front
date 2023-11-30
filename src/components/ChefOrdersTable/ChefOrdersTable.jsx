@@ -6,19 +6,17 @@ import { chefsAmountAfterFee } from '@/helpers';
 import useChefOrder from '@/hooks/useChefOrders';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { formatDateForDataGrid } from '../../helpers/formatDateForDataGrid';
-import { CustomPagination } from '../UserOrdersTable/Pagination';
+import { CustomPagination } from '../TableComponents/Pagination';
+import { StatusCell } from '../TableComponents/StatusCell';
 import { getActions } from './getActions';
 import { getStatusOptions } from './getChefStatusOptions';
 import { OrderItemsCell } from './OrderItemsCell';
 import { processRowUpdate } from './processRowUpdate';
-import { StatusCell } from './StatusCell';
 
 export const ChefOrdersTable = () => {
   const chefID = '6557219bccbbbbc3695bc8b2';
   const { data, isLoading, error } = useChefOrder(chefID);
 
-  // console.log(data, 'data');
-  // const orders = data ?? [];
   const orders = data ? data : [];
   // console.log(orders);
   const [rowModesModel, setRowModesModel] = useState({});
@@ -85,8 +83,11 @@ export const ChefOrdersTable = () => {
         width: 150,
         editable: true,
         type: 'singleSelect',
-        valueOptions: (params) => {
-          return getStatusOptions(params.row.status);
+        valueOptions: ({ row }) => {
+          if (!row) {
+            return row;
+          }
+          return getStatusOptions(row.status);
         },
         renderCell: StatusCell,
       },
@@ -109,9 +110,6 @@ export const ChefOrdersTable = () => {
         field: 'totalPrice',
         headerName: 'Your Profit',
         valueGetter: ({ value }) => {
-          if (!value) {
-            return value;
-          }
           return chefsAmountAfterFee(value) + ' ₴';
         },
         cellClassName: 'boldCell',

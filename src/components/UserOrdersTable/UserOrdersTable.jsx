@@ -10,7 +10,7 @@ import AppChip from '@/shared/AppChip/AppChip';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { AppModal } from '@/shared/AppModal/AppModal';
 import { CustomFooter } from './CustomFooter';
-import { UserOrderDetails } from './UserOrderDetails';
+import { UserOrderDetails } from './UserOrderDetails/';
 
 export const UserOrdersTable = () => {
   const mockUserId = '6566e859a48ddb482e9ab846';

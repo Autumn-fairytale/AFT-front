@@ -33,6 +33,9 @@ export const theme = createTheme({
     success: {
       main: '#1B7A04',
     },
+    pending: {
+      main: '#B0BEC5', //Chip
+    },
   },
   typography: {
     fontFamily: ['Montserrat', 'Inter', 'sans-serif'].join(','),

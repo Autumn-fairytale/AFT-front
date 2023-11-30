@@ -20,7 +20,7 @@ const ChefCard = ({ chefInfo, isCarousel }) => {
   return (
     <ChefCardWrapper isCarousel={isCarousel}>
       <ChefImageWrapper>
-        <ChefImage src={chefInfo.avatar} alt={chefInfo.name} component="img" />
+        <ChefImage src={chefInfo.image} alt={chefInfo.name} component="img" />
         <FavoriteButton>
           <IconButton onClick={() => setFavorite(!favorite)}>
             <PiHeart

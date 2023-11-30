@@ -2,13 +2,40 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { createOrder } from '@/api/createOrder';
-import { addSpacesToPhoneNumber } from '@/helpers';
+import { addSpacesToPhoneNumber, removeSpacesFromPhoneNumber } from '@/helpers';
 import { createOrderSchema } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import PaymentButton from '../PaymentButton';
 import { CreateOrderFormStyled } from './CreateOrderForm.styled';
 import DeliveryInfo from './DeliveryInfo';
 import OrderInfo from './OrderInfo';
+
+const items = [
+  {
+    dish: {
+      id: '655f6f7f9da6654a23460bad',
+      name: 'Available Kotleta',
+      image: 'https://site/url_to_image.jpg',
+      description: 'A tasty kotleta with fresh  ingredients.',
+      price: 11.99,
+      isVegan: false,
+      cuisine: 'Ukrainian',
+      category: 'Main',
+      isAvailable: true,
+      spiceLevel: 1,
+    },
+    count: 2,
+  },
+];
+
+const data = {
+  chef: {
+    id: '23nj23jnNJ34JK2',
+    avatar: 'image.jpg',
+    name: 'Andrii Zaimak',
+  },
+  items,
+};
 
 const CreateOrderForm = () => {
   const {
@@ -34,30 +61,24 @@ const CreateOrderForm = () => {
 
   if (Object.keys(errors).length) console.log('errors: ', errors);
 
-  const orderItems = [
-    {
-      dish: '65572415cf191a7f14e8e423',
-      count: 1,
-      name: 'Test dish',
-    },
-  ];
-
-  const [payment, setPayment] = useState(null);
+  const [orderId, setOrderId] = useState(null);
 
   const formSubmitHandler = async (data) => {
-    console.log('Form data', data, setPayment(null));
-
+    console.log();
     try {
       const result = await createOrder({
-        // phoneNumber: removeSpacesFromPhoneNumber(data.phoneNumber),
-        // userName: data.userName,
-        // email: data.email,
-        // additionalInfo: data.additionalInfo,
+        phoneNumber: removeSpacesFromPhoneNumber(data.phoneNumber),
+        name: data.userName,
+        email: data.email,
+        additionalInfo: data.additionalInfo.length || null,
         address: data.address,
-        items: orderItems,
+        items: items.map((item) => ({
+          count: item.count,
+          dishId: item.dish.id,
+        })),
       });
 
-      setPayment(result.data.payment);
+      setOrderId(result.data.order.id);
 
       console.log(result.data);
     } catch (err) {
@@ -68,15 +89,9 @@ const CreateOrderForm = () => {
     <>
       <CreateOrderFormStyled onSubmit={handleSubmit(formSubmitHandler)}>
         <DeliveryInfo control={control} errors={errors} />
-        <OrderInfo isSubmitting={isSubmitting} />
+        <OrderInfo data={data} isSubmitting={isSubmitting} />
       </CreateOrderFormStyled>
-      {payment && (
-        <PaymentButton
-          data={payment.data}
-          signature={payment.signature}
-          isAutoSubmit={true}
-        />
-      )}
+      {orderId && <PaymentButton orderId={orderId} isAutoSubmit={true} />}
     </>
   );
 };

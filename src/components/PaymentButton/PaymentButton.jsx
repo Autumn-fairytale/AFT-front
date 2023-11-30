@@ -1,19 +1,16 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
+import { useGetOrderPaymentSignature } from '@/hooks';
 import { PaymentButtonPropTypes } from './PaymentButton.props';
 import {
   PaymentButtonPayStyled,
   PaymentButtonStyled,
 } from './PaymentButton.styled';
 
-const PaymentButton = ({ data, signature, isAutoSubmit, ...props }) => {
-  const [payment, setPayment] = useState(null);
+const PaymentButton = ({ orderId, isAutoSubmit, ...props }) => {
+  const { data } = useGetOrderPaymentSignature(orderId);
+  const payment = data?.data.payment;
   const ref = useRef(null);
-
-  useEffect(() => {
-    // TODO: Fetch order to get data and signature
-    setPayment({ data, signature });
-  }, [data, signature]);
 
   useEffect(() => {
     if (isAutoSubmit && payment) ref.current.submit();

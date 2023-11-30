@@ -28,7 +28,7 @@ export const createOrderSchema = z.object({
       ),
     street: z.string().trim().min(1).max(255),
     houseNumber: z.string().trim().min(1).max(10),
-    apartment: z.string().optional(),
+    apartment: z.string().nullable().optional(),
     coordinate: z
       .object({
         lat: z.number().min(-90).max(90),

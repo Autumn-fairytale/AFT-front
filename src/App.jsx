@@ -1,16 +1,19 @@
 // import AppRouter from './routes/AppRouter';
+import { ToastContainer } from 'react-toastify';
 
-import { DishOrderCard } from './components/DishOrderCard/DishOrderCard';
+import { AddDishForm } from './components/AddDishForm/AddDishForm';
 
-// import { ChefOrdersTable } from './components/ChefOrdersTable/ChefOrdersTable';
-// import { UserOrdersTable } from './components/UserOrdersTable/UserOrdersTable';
+// import { ChefOrdersTable } from './components/ChefOrdersTable';
+import 'react-toastify/dist/ReactToastify.css';
+// import { DishOrderCard } from './components/DishOrderCard/DishOrderCard';
 
 function App() {
   return (
     <>
-      {/* <UserOrdersTable />
-      <ChefOrdersTable /> */}
-      <DishOrderCard />
+      <AddDishForm />
+      {/* <ChefOrdersTable /> */}
+      {/* <DishOrderCard /> */}
+      <ToastContainer autoClose={1500} closeOnClick />
     </>
   );
 }

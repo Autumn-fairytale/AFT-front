@@ -2,6 +2,7 @@ import { red } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
 
 import { customColors } from '../constants';
+import { muiAdditionalStyles } from './muiAdditionalStyles';
 import { muiButtonStyles } from './muiButtonStyles';
 import { muiOutlinedInputStyles } from './muiOutlinedInputStyles';
 
@@ -36,6 +37,7 @@ export const theme = createTheme({
     pending: {
       main: '#B0BEC5', //Chip
     },
+    ...muiAdditionalStyles,
   },
   typography: {
     fontFamily: ['Montserrat', 'Inter', 'sans-serif'].join(','),

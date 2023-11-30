@@ -1,15 +1,15 @@
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import { Paper, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 export const DishOrderCardRating = () => {
   return (
-    <Paper
+    <Box
       elevation={1}
       sx={{
         display: 'flex',
         alignItems: 'center',
         p: '2px 8px',
-        bgcolor: 'background',
+        bgcolor: 'primary.light',
         borderRadius: 0.5,
         my: 1,
         width: 110,
@@ -19,6 +19,6 @@ export const DishOrderCardRating = () => {
       <Typography variant="body2" component="span" sx={{ mx: 'auto' }}>
         100% (3)
       </Typography>
-    </Paper>
+    </Box>
   );
 };

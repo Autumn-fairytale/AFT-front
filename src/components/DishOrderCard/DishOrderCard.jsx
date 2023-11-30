@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-// import LeafIcon from '@mui/icons-material/Leaf';
 import {
   Box,
   Card,
@@ -8,7 +7,6 @@ import {
   CardMedia,
   Divider,
   LinearProgress,
-  Link,
   Stack,
   Typography,
 } from '@mui/material';
@@ -18,6 +16,7 @@ import { VeganIcon } from '@/assets/images/veganIcon';
 import { useFetchDish } from '@/hooks/useFetchDish';
 import { AppModal } from '@/shared/AppModal/AppModal';
 import { DishOrderCardButtonsGroup } from './DishOrderCardButtonsGroup';
+import { DishOrderCardChefLink } from './DishOrderCardChefLink';
 import { DishOrderCardDescription } from './DishOrderCardDescription';
 import { DishOrderCardIngredients } from './DishOrderCardIngredients';
 import { DishOrderCardRating } from './DishOrderCardRating';
@@ -55,7 +54,7 @@ export const DishOrderCard = () => {
     const totalPrice = dish.price * quantity;
 
     return (
-      <Card raised sx={{ maxWidth: 345, maxHeight: '80vh' }}>
+      <Card raised sx={{ maxWidth: 345, maxHeight: '85vh' }}>
         {isLoading && <LinearProgress />}
         <CardMedia component="img" image={mockImg} alt={dish.name} />
         <CardContent>
@@ -94,28 +93,7 @@ export const DishOrderCard = () => {
             </Stack>
           </Box>
 
-          <Typography
-            variant="body2"
-            component="span"
-            sx={{ textDecoration: 'underline', color: 'primary.main' }}
-          >
-            <Link
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-              }}
-              sx={{
-                cursor: 'pointer',
-                transition: 'background-color 0.3s',
-                '&:hover': {
-                  backgroundColor: 'primary.light',
-                },
-              }}
-            >
-              by Chef Boris J.
-            </Link>
-          </Typography>
-
+          <DishOrderCardChefLink />
           <Typography
             variant="body2"
             color="text.primary"
@@ -188,7 +166,7 @@ export const DishOrderCard = () => {
   // console.log(dish);
 
   return (
-    <AppModal open={openModal} onClose={() => setOpenModal(true)}>
+    <AppModal open={openModal} onClose={() => setOpenModal(!openModal)}>
       {dish && <ProductCard />}
     </AppModal>
   );

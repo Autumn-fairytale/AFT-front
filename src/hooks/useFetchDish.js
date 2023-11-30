@@ -1,7 +1,8 @@
-import { useQuery } from 'react-query';
 import { toast } from 'react-toastify';
 
 import axios from 'axios';
+
+import { useQuery } from '@tanstack/react-query';
 
 export const useFetchDish = (id) => {
   const url = `http://localhost:4000/api/dishes/${id}`;
@@ -16,8 +17,12 @@ export const useFetchDish = (id) => {
     }
   };
 
-  return useQuery(['dish', url], fetchData, {
-    refetchOnWindowFocus: false,
-    staleTime: 5 * 60 * 1000,
+  return useQuery({
+    queryKey: ['dish', url],
+    queryFn: fetchData,
+    options: {
+      refetchOnWindowFocus: false,
+      staleTime: 5 * 60 * 1000,
+    },
   });
 };

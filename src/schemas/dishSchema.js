@@ -1,6 +1,6 @@
 import * as zod from 'zod';
 
-export const chefSchema = zod.object({
+export const dishSchema = zod.object({
   name: zod.string().trim().min(1, { message: 'Dish name required' }),
 
   price: zod

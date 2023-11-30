@@ -1,0 +1,42 @@
+
+.header-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  position: sticky;
+}
+
+.logo-container {
+  margin-right: auto;
+}
+
+.logo-container img {
+  max-width: 100%;
+}
+
+.navbar {
+  display: flex;
+  padding-right: 25px;
+}
+
+.nav-link {
+  padding-right: 15px;
+  text-decoration: none;
+}
+
+.nav-link:last-child {
+  padding-right: 0;
+}
+
+.search-bar {
+  padding-right: 20px;
+}
+
+.user-cart-icons .icon {
+  margin-right: 10px; 
+}
+
+.user-cart-icons .icon:last-child {
+  margin-right: 0px; 
+}

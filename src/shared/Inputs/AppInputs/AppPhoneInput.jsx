@@ -8,18 +8,19 @@ import BaseInput from '../BaseInput/BaseInput';
 import { baseInputPropTypes } from '../BaseInput/BaseInput.props';
 import { StyledPhoneInput } from './AppInputs.styled';
 
-const AppPhoneInput = forwardRef(({ wrapperStyle, ...props }, ref) => {
+const AppPhoneInput = forwardRef(({ wrapperStyle, label, ...props }, ref) => {
   const theme = useTheme();
 
   return (
     <StyledPhoneInput style={wrapperStyle} theme={theme}>
       <PatternFormat
         customInput={BaseInput}
-        format="+38 (0##) ### ## ##"
+        format="+38(0##) ### ## ##"
         mask="x"
         style={props.error ? { color: theme.palette.error.main } : {}}
         allowEmptyFormatting
         inputRef={ref}
+        label={label}
         {...props}
       />
     </StyledPhoneInput>
@@ -32,7 +33,6 @@ AppPhoneInput.propTypes = {
 };
 
 AppPhoneInput.defaultProps = {
-  label: 'Phone Number',
   type: 'tel',
   InputLabelProps: { shrink: true },
 };

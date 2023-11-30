@@ -11,7 +11,7 @@ import './AppCarouselStyles.css';
 export const AppCarousel = ({ children }) => {
   const settings = {
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 1500,
     slidesToShow: 5,
     slidesToScroll: 5,

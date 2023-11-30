@@ -13,8 +13,6 @@ function App() {
       <DishOrderCard />
     </>
   );
-
-  // return <AppRouter />;
 }
 
 export default App;

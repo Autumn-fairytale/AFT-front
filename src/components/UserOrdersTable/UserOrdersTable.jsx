@@ -4,15 +4,16 @@ import LaunchIcon from '@mui/icons-material/Launch';
 import { IconButton } from '@mui/material';
 
 import { calculateTotalOrdersSum } from '@/helpers/calculateTotalOrdersSum';
+import { formatDateForDataGrid } from '@/helpers/formatDateForDataGrid';
 import useUserOrders from '@/hooks/useUserOrders ';
-import AppChip from '@/shared/AppChip/AppChip';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { AppModal } from '@/shared/AppModal/AppModal';
+import { StatusCell } from '../TableComponents/StatusCell';
 import { CustomFooter } from './CustomFooter';
-import { UserOrderDetails } from './UserOrderDetails';
+import { UserOrderDetails } from './UserOrderDetails/';
 
 export const UserOrdersTable = () => {
-  const mockUserId = '655a051fb7cc813b6007220b';
+  const mockUserId = '6566e859a48ddb482e9ab846';
   const { data, isLoading, error } = useUserOrders(mockUserId);
 
   const [openModal, setOpenModal] = useState(false);
@@ -20,47 +21,61 @@ export const UserOrdersTable = () => {
 
   const handleOpenModal = useCallback((order) => {
     setSelectedOrder(order);
+
     setOpenModal(true);
   }, []);
 
   const orders = data ? data.data.orders : [];
-
+  // console.log(orders);
   const columns = useMemo(
     () => [
       {
-        field: 'details',
-        headerName: 'Details',
-        renderCell: (params) => (
-          <IconButton onClick={() => handleOpenModal(params.row)}>
-            <LaunchIcon />
-          </IconButton>
-        ),
-        width: 100,
+        field: 'orderNumber',
+        headerName: 'Order-number',
+        flex: 0.5,
       },
-      { field: 'orderNumber', headerName: 'Order-number', width: 150 },
-      { field: 'date', headerName: 'Created at', width: 150, type: 'Date' },
+      {
+        field: 'createdAt',
+        headerName: 'Date',
+        valueGetter: ({ value }) => {
+          if (!value) {
+            return value;
+          }
+          return formatDateForDataGrid(value);
+        },
+        type: 'Date',
+        flex: 0.5,
+      },
       {
         field: 'status',
         headerName: 'Status',
         width: 150,
-        renderCell: ({ value }) => {
-          const statusToShow =
-            value === 'readyToDelivery' ? '→ delivery' : value;
-          return <AppChip status={statusToShow} sx={{ width: 110 }} />;
+        renderCell: StatusCell,
+      },
+      {
+        field: 'totalPrice',
+        headerName: 'Total Price',
+        cellClassName: 'boldCell',
+        valueGetter: ({ value }) => {
+          if (!value) {
+            return value;
+          }
+          return value + ' ₴';
         },
       },
-      { field: 'totalPrice', headerName: 'Total Price', type: 'number' },
       {
         field: 'address',
         valueGetter: ({ value }) => {
           if (!value) {
             return value;
           }
-          const address = `${value.country},${value.city},${value.street}`;
+          const address = `${value.country}, ${value.city}, ${value.street}`;
+
           return address;
         },
         headerName: 'Address',
-        width: 200,
+
+        flex: 0.5,
       },
       {
         field: 'items',
@@ -68,15 +83,30 @@ export const UserOrdersTable = () => {
           if (!value) {
             return value;
           }
+
           return value
             .map(
               (item, index) =>
-                `${index + 1}: ${item.name},  psc: ${item.count} `
+                `${index + 1}. ${item.name} (quantity: ${item.count})`
             )
-            .join(';');
+            .join('\n');
         },
         headerName: 'Order items',
-        flex: 0.5,
+        type: 'string',
+        flex: 1,
+      },
+      {
+        field: 'details',
+        headerName: 'Details',
+        renderCell: ({ row }) => (
+          <IconButton
+            sx={{ color: 'primary.main' }}
+            onClick={() => handleOpenModal(row)}
+          >
+            <LaunchIcon />
+          </IconButton>
+        ),
+        width: 100,
       },
     ],
     [handleOpenModal]
@@ -91,6 +121,7 @@ export const UserOrdersTable = () => {
         rows={orders}
         loading={isLoading}
         error={error}
+        pageSize={10}
         slots={{
           footer: () => (
             <CustomFooter
@@ -99,6 +130,11 @@ export const UserOrdersTable = () => {
               rowCount={orders.length}
             />
           ),
+        }}
+        initialState={{
+          sorting: {
+            sortModel: [{ field: 'createdAt', sort: 'desc' }],
+          },
         }}
       />
       <AppModal open={openModal} onClose={() => setOpenModal(false)}>

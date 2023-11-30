@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
 import { FiShoppingCart } from 'react-icons/fi';
-import { MdFavoriteBorder } from 'react-icons/md';
+import { PiHeart } from 'react-icons/pi';
 
 import { IconButton } from '@mui/material';
 
 import { customColors } from '@/constants';
 import AppButton from '@/shared/Buttons/AppButton';
-import { DishCardPropTypes } from './DishCard.props';
+import { defaultDishCardPropTypes, DishCardPropTypes } from './DishCard.props';
 import {
   ButtonsWrapper,
   DishCardWrapper,
@@ -20,19 +20,21 @@ import {
   MainInfoWrapper,
 } from './DishCard.styled';
 
-const DishCard = ({ dishInfo }) => {
+const DishCard = ({ dishInfo, isCarousel }) => {
   const [favorite, setFavorite] = useState(false);
 
-  function handleClick() {
-    //Required function
-  }
   return (
-    <DishCardWrapper>
+    <DishCardWrapper isCarousel={isCarousel}>
       <DishImageWrapper>
-        <DishImage src={dishInfo.image} alt={dishInfo.name} component="img" />
-        <FavoriteButton>
+        <DishImage
+          isCarousel={isCarousel}
+          src={dishInfo.image}
+          alt={dishInfo.name}
+          component="img"
+        />
+        <FavoriteButton isCarousel={isCarousel}>
           <IconButton onClick={() => setFavorite(!favorite)}>
-            <MdFavoriteBorder
+            <PiHeart
               style={{ color: favorite ? customColors.primaryColor : '' }}
             />
           </IconButton>
@@ -40,24 +42,35 @@ const DishCard = ({ dishInfo }) => {
       </DishImageWrapper>
 
       <MainInfoWrapper>
-        <DishName>{dishInfo.name}</DishName>
-        <DishPrice>{dishInfo.price}$</DishPrice>
+        <DishName isCarousel={isCarousel}>{dishInfo.name}</DishName>
+        <DishPrice isCarousel={isCarousel}>{dishInfo.price}$</DishPrice>
       </MainInfoWrapper>
-      <DishDescription>
-        {dishInfo.description.slice(0, 90) + '...'}
+      <DishDescription isCarousel={isCarousel}>
+        {isCarousel
+          ? dishInfo.description.slice(0, 50) + '...'
+          : dishInfo.description.slice(0, 90) + '...'}
       </DishDescription>
-      <ButtonsWrapper>
+      <ButtonsWrapper isCarousel={isCarousel}>
         <AppButton
+          style={
+            isCarousel
+              ? { fontSize: '12px', height: '36px', whiteSpace: 'nowrap' }
+              : ''
+          }
           variant="outlined"
           label="Learn More"
-          endIcon={<FiChevronRight />}
-          onClick={handleClick}
+          endIcon={isCarousel ? '' : <FiChevronRight />}
         />
         <AppButton
+          style={
+            isCarousel
+              ? { fontSize: '12px', height: '36px', whiteSpace: 'nowrap' }
+              : ''
+          }
           variant="contained"
-          label="Add to Cart"
-          endIcon={<FiShoppingCart />}
-          onClick={handleClick}
+          label={<FiShoppingCart style={{ fontSize: '18px' }} />}
+          //"Add to Cart"
+          endIcon={isCarousel ? '' : <FiShoppingCart />}
         />
       </ButtonsWrapper>
     </DishCardWrapper>
@@ -65,5 +78,6 @@ const DishCard = ({ dishInfo }) => {
 };
 
 DishCard.propTypes = DishCardPropTypes;
+DishCard.defaultProps = defaultDishCardPropTypes;
 
 export default DishCard;

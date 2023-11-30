@@ -6,8 +6,8 @@ import axios from 'axios';
 const useUserOrders = (userId) => {
   const fetchUserOrders = async () => {
     try {
-      // const URI = `http://localhost:4000/api/orders/by-user/${userId}`;
-      const URI = 'http://localhost:4000/api/orders/';
+      const URI = `http://localhost:4000/api/orders/by-user/${userId}`;
+
       const { data } = await axios.get(URI);
       // console.log(data, 'users');
       return data;

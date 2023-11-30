@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 
 import PropTypes from 'prop-types';
 
-import { CustomPagination } from './Pagination';
+import { CustomPagination } from '../TableComponents/Pagination';
 
 export const CustomFooter = ({ totalSum = 0, rowCount = 0 }) => {
   return (
@@ -11,7 +11,7 @@ export const CustomFooter = ({ totalSum = 0, rowCount = 0 }) => {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 2,
+        padding: 1,
       }}
     >
       <Box>

@@ -40,7 +40,8 @@ const chefArray = [
   {
     name: 'Chef Luigi',
     rate: 4.3,
-    image: 'https://via.placeholder.com/300',
+    image:
+      'https://as1.ftcdn.net/v2/jpg/05/22/94/28/1000_F_522942801_qryQgMsfNALcpK4240TOrFzcqqsmnPX7.jpg',
   },
 ];
 export const getPopularChefs = async () => {

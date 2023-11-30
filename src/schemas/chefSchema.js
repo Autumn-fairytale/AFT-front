@@ -1,63 +1,69 @@
-import * as zod from 'zod';
+import { z } from 'zod';
 
-export const chefSchema = zod.object({
-  name: zod.string().trim().min(1, { message: 'Dish name required' }),
+const phoneRegExp = /^\+38\(0[0-9]{2}\) [0-9]{3} [0-9]{2} [0-9]{2}$/;
+const addressRegExp = /^[a-zA-Z\s'-]+$/;
 
-  price: zod
-    .number()
-    .positive('Price must be greater than zero')
-    .or(zod.string().min(1, 'Price is required')),
-
-  cuisine: zod.string().min(1, 'Cuisine is required'),
-
-  category: zod.string().min(1, 'Category is required'),
-
-  description: zod
-    .string()
-    .trim()
-    .min(10, 'Min 10 symbols')
-    .max(400, 'Max 400 symbols'),
-
-  ingredients: zod
-    .array(zod.string().min(1, 'Ingredient cannot be empty'))
-    .min(1, 'At least one ingredient is required'),
-
-  isVegan: zod.boolean(),
-
-  // image: zod.string().url('Must be a valid URL'),
-
-  cookTimeInMinutes: zod
-    .number()
-    .positive('Cooking time must be positive')
-    .or(zod.string().min(1, 'Cooking time is required')),
-
-  nutrition: zod
-    .object({
-      calories: zod
-        .union([zod.number().nonnegative(), zod.string().length(0)])
-        .optional()
-        .nullable(),
-      protein: zod
-        .union([zod.number().nonnegative(), zod.string().length(0)])
-        .optional()
-        .nullable(),
-      fats: zod
-        .union([zod.number().nonnegative(), zod.string().length(0)])
-        .optional()
-        .nullable(),
-      carbohydrates: zod
-        .union([zod.number().nonnegative(), zod.string().length(0)])
-        .optional()
-        .nullable(),
-    })
-    .optional(),
-
-  spiceLevel: zod.number().min(0).max(3),
-  weight: zod
-    .number()
-    .min(0, 'Weight must be non-negative')
-    .max(100000, 'Really more than 100kg ? ')
-    .or(zod.string().min(1, 'Weight must id required')),
-
-  isAvailable: zod.boolean(),
+// const MAX_FILE_SIZE = 500000;
+// const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
+export const chefSchema = z.object({
+  // avatar: z
+  //   .any()
+  //   .refine((files) => files?.length == 1, 'Image is required.')
+  //   .refine(
+  //     (files) => files?.[0]?.size <= MAX_FILE_SIZE,
+  //     `Max file size is 5MB.`
+  //   )
+  //   .refine(
+  //     (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+  //     '.jpg, .jpeg, .png files are accepted.'
+  //   ),
+  phoneNumber: z.string().trim().regex(phoneRegExp, 'Invalid number format'),
+  address: z.object({
+    country: z
+      .string()
+      .trim()
+      .min(1)
+      .max(255)
+      .regex(
+        addressRegExp,
+        'Country include letters, spaces, hyphens, and apostrophes'
+      ),
+    city: z
+      .string()
+      .trim()
+      .min(1)
+      .max(255)
+      .regex(
+        addressRegExp,
+        'City include letters, spaces, hyphens, and apostrophes'
+      ),
+    street: z.string().trim().min(1).max(255),
+    houseNumber: z.string().trim().min(1).max(10),
+    apartment: z.string().optional(),
+    coordinate: z
+      .object({
+        lat: z.number().min(-90).max(90),
+        lng: z.number().min(-180).max(180),
+      })
+      .nullable()
+      .optional(),
+  }),
+  accountStatus: z.enum([
+    'pending',
+    'active',
+    'verified',
+    'rejected',
+    'blocked',
+  ]),
+  // certificate: z
+  //   .any()
+  //   .refine((files) => files?.length == 1, 'Image is required.')
+  //   .refine(
+  //     (files) => files?.[0]?.size <= MAX_FILE_SIZE,
+  //     `Max file size is 5MB.`
+  //   )
+  //   .refine(
+  //     (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+  //     '.jpg, .jpeg, .png files are accepted.'
+  //   ),
 });

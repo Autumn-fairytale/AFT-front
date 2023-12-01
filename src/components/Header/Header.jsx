@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import MenuIcon from '@mui/icons-material/Menu';
-import IconButton from '@mui/material/IconButton';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Toolbar from '@mui/material/Toolbar';
 
@@ -10,6 +9,7 @@ import { route } from '@/constants/route.js';
 import { NavigateMenu } from '../NavigateMenu/NavigateMenu.jsx';
 import { NotAuthUserMenu } from '../NotAuthUserMenu/NotAuthUserMenu.jsx';
 import { UserMenu } from '../UserMenu/UserMenu.jsx';
+import { IconButtonStyled } from '../UserMenu/UserMenu.slyled.js';
 import { AppBarStyled, AppContainerStyled } from './Header.styled.js';
 
 // import SearchBar from './searchBar.jsx';
@@ -19,11 +19,9 @@ import Logo from '../../assets/images/logo.svg';
 const user = { isAuth: true, roles: ['user', 'chef', 'admin', ''] };
 
 const Header = () => {
-  const [state, setState] = useState({
-    left: false,
-  });
+  const [isOpen, setIsOpen] = useState(false);
 
-  const toggleDrawer = (open) => (event) => {
+  const toggleDrawer = () => (event) => {
     if (
       event &&
       event.type === 'keydown' &&
@@ -32,7 +30,7 @@ const Header = () => {
       return;
     }
 
-    setState({ left: open });
+    setIsOpen(!isOpen);
   };
 
   return (
@@ -46,16 +44,16 @@ const Header = () => {
           {!user.isAuth && <NotAuthUserMenu />}
           {user.isAuth && <UserMenu />}
 
-          <IconButton aria-label="menu" onClick={toggleDrawer(true)}>
+          <IconButtonStyled aria-label="menu" onClick={toggleDrawer(true)}>
             <MenuIcon sx={{ width: 35, height: 35 }} />
-          </IconButton>
+          </IconButtonStyled>
         </Toolbar>
       </AppContainerStyled>
       <SwipeableDrawer
         anchor={'left'}
-        open={state.left}
-        onClose={toggleDrawer(false)}
-        onOpen={toggleDrawer(true)}
+        open={isOpen}
+        onClose={toggleDrawer()}
+        onOpen={toggleDrawer()}
       >
         <NavigateMenu />
       </SwipeableDrawer>

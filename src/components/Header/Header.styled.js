@@ -11,4 +11,5 @@ export const AppContainerStyled = styled(AppContainer)`
 
 export const AppBarStyled = styled(AppBar)`
   background: ${({ theme }) => theme.palette.background.default};
+  /* background-color: #0f0f0f; */
 `;

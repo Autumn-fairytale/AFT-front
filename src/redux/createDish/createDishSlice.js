@@ -11,12 +11,17 @@ export const createDishSlice = createSlice({
   initialState,
   reducers: {
     updateFormData: (state, action) => {
-      state.dishFormData = { ...state.dishFormData, ...action.payload };
+      const newData = structuredClone(action.payload);
+
+      state.dishFormData = { ...state.dishFormData, ...newData };
     },
     updateCurrentStep: (state, action) => {
       state.currentStep = action.payload;
     },
-    resetFormData: () => initialState,
+    resetFormData: (state) => {
+      state.dishFormData = initialState.dishFormData;
+      state.currentStep = initialState.currentStep;
+    },
   },
 });
 

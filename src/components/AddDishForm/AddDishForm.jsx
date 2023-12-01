@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
-import debounce from 'lodash.debounce';
-
 import { dishFormDefaultValues as defaultValues } from '@/constants/defaultValues';
 import {
   resetFormData,
@@ -32,8 +30,8 @@ export const FIELD_WIDTH = '400px';
 
 export const AddDishForm = () => {
   const dispatch = useDispatch();
-  const savedCurrentStep = useSelector(selectCurrentStep);
 
+  const savedCurrentStep = useSelector(selectCurrentStep);
   const [step, setStep] = useState(savedCurrentStep || 1);
   const totalSteps = 4;
 
@@ -46,32 +44,13 @@ export const AddDishForm = () => {
     getValues,
     formState: { errors },
     control,
-    watch,
   } = useForm({
     resolver: zodResolver(dishSchema),
     defaultValues,
     mode: 'onChange',
   });
-
+  console.log(errors);
   const savedFormData = useSelector(selectSavedFormData);
-
-  const watchedFields = watch();
-
-  // console.log(errors);
-
-  useEffect(() => {
-    const debouncedUpdate = debounce((newData) => {
-      dispatch(updateFormData(newData));
-    }, 300);
-
-    if (JSON.stringify(watchedFields) !== JSON.stringify(savedFormData)) {
-      debouncedUpdate(watchedFields);
-    }
-
-    return () => {
-      debouncedUpdate.cancel();
-    };
-  }, [watchedFields, dispatch, savedFormData]);
 
   useEffect(() => {
     if (savedFormData) {
@@ -107,7 +86,6 @@ export const AddDishForm = () => {
     console.log(data);
 
     dispatch(resetFormData());
-
     reset();
   };
 

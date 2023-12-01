@@ -1,12 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Box, Container } from '@mui/material';
+import debounce from 'lodash.debounce';
 
 import { dishFormDefaultValues as defaultValues } from '@/constants/defaultValues';
+import {
+  selectCurrentStep,
+  selectSavedFormData,
+  updateCurrentStep,
+  updateFormData,
+} from '@/redux/createDish';
 import { dishSchema } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddDishFormNavButtons } from '../AddDishForm';
+import {
+  StyledAddDishContainer,
+  StyledAddDishFormBox,
+} from './AddDishFormStyled';
 import { AddDishFormStepper } from './AddDishFromStepper/AddDishFromStepper';
 import {
   AddDishFormStepFour,
@@ -18,9 +29,15 @@ import {
 export const FIELD_WIDTH = '400px';
 
 export const AddDishForm = () => {
-  const [step, setStep] = useState(1);
+  const dispatch = useDispatch();
+
+  const savedCurrentStep = useSelector(selectCurrentStep);
+
+  const [step, setStep] = useState(savedCurrentStep || 1);
 
   const totalSteps = 4;
+
+  const savedFormData = useSelector(selectSavedFormData);
 
   const {
     register,
@@ -28,13 +45,41 @@ export const AddDishForm = () => {
     reset,
     setValue,
     handleSubmit,
+    getValues,
     formState: { errors },
     control,
+    watch,
   } = useForm({
     resolver: zodResolver(dishSchema),
     defaultValues,
     mode: 'onChange',
   });
+
+  const watchedFields = watch();
+
+  const debouncedUpdateFormData = debounce((newData) => {
+    dispatch(updateFormData(newData));
+  }, 500);
+
+  useEffect(() => {
+    if (watchedFields) {
+      debouncedUpdateFormData(watchedFields);
+    }
+
+    return () => {
+      debouncedUpdateFormData.cancel();
+    };
+  }, [watchedFields, dispatch, debouncedUpdateFormData]);
+
+  useEffect(() => {
+    if (savedFormData) {
+      reset(savedFormData);
+    }
+  }, [reset, savedFormData]);
+
+  useEffect(() => {
+    dispatch(updateCurrentStep(step));
+  }, [step, dispatch]);
 
   const onNextStep = async () => {
     let fieldsToValidate = [];
@@ -60,6 +105,10 @@ export const AddDishForm = () => {
     const isFormValid = await trigger(fieldsToValidate);
 
     if (isFormValid) {
+      const currentFormData = getValues();
+
+      dispatch(updateFormData(currentFormData));
+
       setStep((prevStep) => prevStep + 1);
     }
   };
@@ -69,34 +118,17 @@ export const AddDishForm = () => {
   };
 
   const Submit = (data) => {
+    dispatch(updateFormData(data));
+
     console.log(data);
+
     reset();
   };
 
   return (
-    <Container
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        mt: 5,
-        mb: 2,
-        height: '585px',
-        maxHeight: '85vh',
-      }}
-    >
+    <StyledAddDishContainer>
       <AddDishFormStepper step={step} />
-      <Box
-        component={'form'}
-        onSubmit={handleSubmit(Submit)}
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          mt: 3,
-          flexGrow: 1,
-        }}
-      >
+      <StyledAddDishFormBox component={'form'} onSubmit={handleSubmit(Submit)}>
         {step === 1 && (
           <AddDishFromStepOne
             control={control}
@@ -126,7 +158,7 @@ export const AddDishForm = () => {
           onNextStep={onNextStep}
           totalSteps={totalSteps}
         />
-      </Box>
-    </Container>
+      </StyledAddDishFormBox>
+    </StyledAddDishContainer>
   );
 };

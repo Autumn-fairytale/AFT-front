@@ -1,13 +1,16 @@
 import { ToastContainer } from 'react-toastify';
 
-import AppRouter from './routes/AppRouter';
+import { AddDishForm } from './components/AddDishForm';
 
+// import AppRouter from './routes/AppRouter';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <>
-      <AppRouter />
+      {/* <AppRouter /> */}
+
+      <AddDishForm />
 
       <ToastContainer autoClose={1500} closeOnClick />
     </>

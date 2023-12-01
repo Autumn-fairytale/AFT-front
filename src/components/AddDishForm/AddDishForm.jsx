@@ -49,7 +49,7 @@ export const AddDishForm = () => {
     defaultValues,
     mode: 'onChange',
   });
-  console.log(errors);
+
   const savedFormData = useSelector(selectSavedFormData);
 
   useEffect(() => {
@@ -58,9 +58,15 @@ export const AddDishForm = () => {
     }
   }, [reset, savedFormData]);
 
+  // useEffect(() => {
+  //   setStep(savedCurrentStep);
+  // }, [savedCurrentStep]);
+
   useEffect(() => {
-    dispatch(updateCurrentStep(step));
-  }, [step, dispatch]);
+    if (step !== savedCurrentStep) {
+      dispatch(updateCurrentStep(step));
+    }
+  }, [step, savedCurrentStep, dispatch]);
 
   const onNextStep = async () => {
     const fieldsToValidate = stepValidationFields[step] || [];

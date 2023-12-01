@@ -6,6 +6,7 @@ import debounce from 'lodash.debounce';
 
 import { dishFormDefaultValues as defaultValues } from '@/constants/defaultValues';
 import {
+  resetFormData,
   selectCurrentStep,
   selectSavedFormData,
   updateCurrentStep,
@@ -14,6 +15,7 @@ import {
 import { dishSchema } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddDishFormNavButtons } from '../AddDishForm';
+import { stepValidationFields } from './addDishFormHelpers';
 import {
   StyledAddDishContainer,
   StyledAddDishFormBox,
@@ -57,19 +59,19 @@ export const AddDishForm = () => {
 
   const watchedFields = watch();
 
-  const debouncedUpdateFormData = debounce((newData) => {
-    dispatch(updateFormData(newData));
-  }, 500);
-
   useEffect(() => {
+    const debouncedUpdate = debounce((newData) => {
+      dispatch(updateFormData(newData));
+    }, 300);
+
     if (watchedFields) {
-      debouncedUpdateFormData(watchedFields);
+      debouncedUpdate(watchedFields);
     }
 
     return () => {
-      debouncedUpdateFormData.cancel();
+      debouncedUpdate.cancel();
     };
-  }, [watchedFields, dispatch, debouncedUpdateFormData]);
+  }, [watchedFields, dispatch]);
 
   useEffect(() => {
     if (savedFormData) {
@@ -82,25 +84,7 @@ export const AddDishForm = () => {
   }, [step, dispatch]);
 
   const onNextStep = async () => {
-    let fieldsToValidate = [];
-    switch (step) {
-      case 1:
-        fieldsToValidate = ['name', 'price', 'cuisine', 'category'];
-        break;
-      case 2:
-        fieldsToValidate = [
-          'ingredients',
-          'isVegan',
-          'spiceLevel',
-          'isAvailable',
-        ];
-        break;
-      case 3:
-        fieldsToValidate = ['description', 'image'];
-        break;
-      case 4:
-        fieldsToValidate = ['weight', 'cookTimeInMinutes', 'nutrition'];
-    }
+    const fieldsToValidate = stepValidationFields[step] || [];
 
     const isFormValid = await trigger(fieldsToValidate);
 
@@ -121,6 +105,8 @@ export const AddDishForm = () => {
     dispatch(updateFormData(data));
 
     console.log(data);
+
+    dispatch(resetFormData());
 
     reset();
   };

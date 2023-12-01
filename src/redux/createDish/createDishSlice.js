@@ -16,9 +16,11 @@ export const createDishSlice = createSlice({
     updateCurrentStep: (state, action) => {
       state.currentStep = action.payload;
     },
+    resetFormData: () => initialState,
   },
 });
 
-export const { updateFormData, updateCurrentStep } = createDishSlice.actions;
+export const { updateFormData, updateCurrentStep, resetFormData } =
+  createDishSlice.actions;
 
 export default createDishSlice.reducer;

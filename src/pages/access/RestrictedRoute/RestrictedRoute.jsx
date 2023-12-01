@@ -10,7 +10,8 @@ const RestrictedRoute = ({ redirectLink, role }) => {
   const to = location.state?.from || redirectLink;
 
   // Mock user data
-  const user = { isAuth: true, roles: ['user', 'chef', 'admin', ''] };
+  // const user = { isAuth: true, roles: ['user', 'chef', 'admin', ''] };
+  const user = { isAuth: true, roles: ['user', '', '', ''] };
 
   const isAuth = user.isAuth;
   const isAccessRole = user.roles.includes(role);

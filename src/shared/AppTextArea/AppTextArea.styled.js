@@ -8,6 +8,7 @@ export const TextAreaStyled = styled(TextareaAutosize)`
   max-width: 100%;
   min-height: 100px;
   max-height: 200px;
+  resize: none;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;

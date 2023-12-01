@@ -1,3 +1,5 @@
+import { forwardRef } from 'react';
+
 import { defaultTexAreaProps, texAreaProps } from './AppTextArea.props';
 import { TextAreaStyled } from './AppTextArea.styled';
 
@@ -14,32 +16,65 @@ import { TextAreaStyled } from './AppTextArea.styled';
  * @returns {JSX.Element}
  */
 
-export const AppTextArea = ({
-  value,
-  onChange,
-  placeholder,
-  name,
-  minRows,
-  maxRows,
-  maxLength,
-  ...otherProps
-}) => {
-  const isError = value.length > maxLength;
+// export const AppTextArea = ({
+//   value,
+//   onChange,
+//   placeholder,
+//   name,
+//   minRows,
+//   maxRows,
+//   maxLength,
+//   ...otherProps
+// }) => {
+//   const isError = value.length > maxLength;
 
-  return (
-    <TextAreaStyled
-      minRows={minRows}
-      maxRows={maxRows}
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      error={isError ? 'error' : null}
-      name={name}
-      {...otherProps}
-    />
-  );
-};
+//   return (
+//     <TextAreaStyled
+//       minRows={minRows}
+//       maxRows={maxRows}
+//       value={value}
+//       onChange={onChange}
+//       placeholder={placeholder}
+//       error={isError ? 'error' : null}
+//       name={name}
+//       {...otherProps}
+//     />
+//   );
+// };
+
+export const AppTextArea = forwardRef(
+  (
+    {
+      value,
+      onChange,
+      placeholder,
+      name,
+      minRows,
+      maxRows,
+      maxLength,
+      ...otherProps
+    },
+    ref
+  ) => {
+    const isError = value.length > maxLength;
+
+    return (
+      <TextAreaStyled
+        minRows={minRows}
+        maxRows={maxRows}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        error={isError ? 'error' : null}
+        name={name}
+        ref={ref}
+        {...otherProps}
+      />
+    );
+  }
+);
 
 AppTextArea.propTypes = texAreaProps;
 
 AppTextArea.defaultProps = defaultTexAreaProps;
+AppTextArea.displayName = 'AppTextArea';

@@ -19,3 +19,5 @@ export const CATEGORIES = [
   'Drink',
   'Breakfast',
 ];
+
+export const toDelivery = '→ delivery';

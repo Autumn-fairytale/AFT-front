@@ -32,14 +32,10 @@ export const FIELD_WIDTH = '400px';
 
 export const AddDishForm = () => {
   const dispatch = useDispatch();
-
   const savedCurrentStep = useSelector(selectCurrentStep);
 
   const [step, setStep] = useState(savedCurrentStep || 1);
-
   const totalSteps = 4;
-
-  const savedFormData = useSelector(selectSavedFormData);
 
   const {
     register,
@@ -57,21 +53,25 @@ export const AddDishForm = () => {
     mode: 'onChange',
   });
 
+  const savedFormData = useSelector(selectSavedFormData);
+
   const watchedFields = watch();
+
+  // console.log(errors);
 
   useEffect(() => {
     const debouncedUpdate = debounce((newData) => {
       dispatch(updateFormData(newData));
     }, 300);
 
-    if (watchedFields) {
+    if (JSON.stringify(watchedFields) !== JSON.stringify(savedFormData)) {
       debouncedUpdate(watchedFields);
     }
 
     return () => {
       debouncedUpdate.cancel();
     };
-  }, [watchedFields, dispatch]);
+  }, [watchedFields, dispatch, savedFormData]);
 
   useEffect(() => {
     if (savedFormData) {

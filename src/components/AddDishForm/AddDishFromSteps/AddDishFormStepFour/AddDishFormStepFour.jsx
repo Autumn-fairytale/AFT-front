@@ -48,25 +48,26 @@ export const AddDishFormStepFour = ({ control, errors }) => {
           control={control}
           name="nutrition.calories"
           label="Calories"
-          error={!!errors['nutrition.calories']}
+          error={!!errors.nutrition?.calories}
           helperText={
             <HelperText
-              text={errors['nutrition.calories']?.message}
-              isError={!!errors['nutrition.calories']}
+              text={errors.nutrition?.calories?.message}
+              isError={!!errors.nutrition?.calories}
             />
           }
           thousandSeparator={true}
           endAdornment={<AddDishFormFieldEndAdornment text="cal" />}
         />
+
         <FormattedNumberInput
           control={control}
           name="nutrition.protein"
-          label="Protein  (g)"
-          error={!!errors['nutrition.protein']}
+          label="Protein (g)"
+          error={!!errors.nutrition?.protein}
           helperText={
             <HelperText
-              text={errors['nutrition.protein']?.message}
-              isError={!!errors['nutrition.protein']}
+              text={errors.nutrition?.protein?.message}
+              isError={!!errors.nutrition?.protein}
             />
           }
           endAdornment={GramEndAdornment}
@@ -79,24 +80,25 @@ export const AddDishFormStepFour = ({ control, errors }) => {
           control={control}
           name="nutrition.fats"
           label="Fats (g)"
-          error={!!errors['nutrition.fats']}
+          error={!!errors.nutrition?.fats}
           helperText={
             <HelperText
-              text={errors['nutrition.fats']?.message}
-              isError={!!errors['nutrition.fats']}
+              text={errors.nutrition?.fats?.message}
+              isError={!!errors.nutrition?.fats}
             />
           }
           endAdornment={GramEndAdornment}
         />
+
         <FormattedNumberInput
           control={control}
           name="nutrition.carbohydrates"
           label="Carbohydrates (g)"
-          error={!!errors['nutrition.carbohydrates']}
+          error={!!errors.nutrition?.carbohydrates}
           helperText={
             <HelperText
-              text={errors['nutrition.carbohydrates']?.message}
-              isError={!!errors['nutrition.carbohydrates']}
+              text={errors.nutrition?.carbohydrates?.message}
+              isError={!!errors.nutrition?.carbohydrates}
             />
           }
           endAdornment={GramEndAdornment}

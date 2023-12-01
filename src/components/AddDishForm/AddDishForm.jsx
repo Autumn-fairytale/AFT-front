@@ -82,7 +82,7 @@ export const AddDishForm = () => {
         mt: 5,
         mb: 2,
         height: '585px',
-        maxHeight: '80vh',
+        maxHeight: '85vh',
       }}
     >
       <AddDishFormStepper step={step} />

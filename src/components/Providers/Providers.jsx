@@ -17,6 +17,7 @@ const Providers = ({ children }) => {
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider theme={theme}>{children}</ThemeProvider>
+
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </BrowserRouter>

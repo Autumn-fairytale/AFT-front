@@ -1,6 +1,6 @@
 import * as zod from 'zod';
 
-export const chefSchema = zod.object({
+export const dishSchema = zod.object({
   name: zod.string().trim().min(1, { message: 'Dish name required' }),
 
   price: zod
@@ -57,7 +57,7 @@ export const chefSchema = zod.object({
     .number()
     .min(0, 'Weight must be non-negative')
     .max(100000, 'Really more than 100kg ? ')
-    .or(zod.string().min(1, 'Weight must id required')),
+    .or(zod.string().min(0.01, 'Weight required')),
 
   isAvailable: zod.boolean(),
 });

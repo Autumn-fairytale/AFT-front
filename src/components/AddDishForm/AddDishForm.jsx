@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Box, Container } from '@mui/material';
 
 import { dishFormDefaultValues as defaultValues } from '@/constants/defaultValues';
-import { dishSchema } from '@/schemas/dishSchema';
+import { dishSchema } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddDishFormNavButtons } from '../AddDishForm';
 import { AddDishFormStepper } from './AddDishFromStepper/AddDishFromStepper';

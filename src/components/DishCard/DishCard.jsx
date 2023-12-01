@@ -26,8 +26,13 @@ const DishCard = ({ dishInfo, isCarousel }) => {
   return (
     <DishCardWrapper isCarousel={isCarousel}>
       <DishImageWrapper>
-        <DishImage src={dishInfo.image} alt={dishInfo.name} component="img" />
-        <FavoriteButton>
+        <DishImage
+          isCarousel={isCarousel}
+          src={dishInfo.image}
+          alt={dishInfo.name}
+          component="img"
+        />
+        <FavoriteButton isCarousel={isCarousel}>
           <IconButton onClick={() => setFavorite(!favorite)}>
             <PiHeart
               style={{ color: favorite ? customColors.primaryColor : '' }}
@@ -37,22 +42,35 @@ const DishCard = ({ dishInfo, isCarousel }) => {
       </DishImageWrapper>
 
       <MainInfoWrapper>
-        <DishName>{dishInfo.name}</DishName>
-        <DishPrice>{dishInfo.price}$</DishPrice>
+        <DishName isCarousel={isCarousel}>{dishInfo.name}</DishName>
+        <DishPrice isCarousel={isCarousel}>{dishInfo.price}$</DishPrice>
       </MainInfoWrapper>
-      <DishDescription>
-        {dishInfo.description.slice(0, 90) + '...'}
+      <DishDescription isCarousel={isCarousel}>
+        {isCarousel
+          ? dishInfo.description.slice(0, 50) + '...'
+          : dishInfo.description.slice(0, 90) + '...'}
       </DishDescription>
-      <ButtonsWrapper>
+      <ButtonsWrapper isCarousel={isCarousel}>
         <AppButton
+          style={
+            isCarousel
+              ? { fontSize: '12px', height: '36px', whiteSpace: 'nowrap' }
+              : ''
+          }
           variant="outlined"
           label="Learn More"
-          endIcon={<FiChevronRight />}
+          endIcon={isCarousel ? '' : <FiChevronRight />}
         />
         <AppButton
+          style={
+            isCarousel
+              ? { fontSize: '12px', height: '36px', whiteSpace: 'nowrap' }
+              : ''
+          }
           variant="contained"
-          label="Add to Cart"
-          endIcon={<FiShoppingCart />}
+          label={<FiShoppingCart style={{ fontSize: '18px' }} />}
+          //"Add to Cart"
+          endIcon={isCarousel ? '' : <FiShoppingCart />}
         />
       </ButtonsWrapper>
     </DishCardWrapper>

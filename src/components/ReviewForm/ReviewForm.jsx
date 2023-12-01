@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
@@ -38,12 +39,36 @@ export const ReviewForm = ({ existingReview, dishId, onClose }) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reviews', dishId] });
     },
+    onError: () => {
+      toast.error('Something went wrong', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'colored',
+      });
+    },
   });
 
   const editReviewMutate = useMutation({
     mutationFn: editReview,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reviews', dishId] });
+    },
+    onError: () => {
+      toast.error('Something went wrong', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'colored',
+      });
     },
   });
 
@@ -62,14 +87,16 @@ export const ReviewForm = ({ existingReview, dishId, onClose }) => {
   const handleFeedbackSubmit = async (e) => {
     e.preventDefault();
 
-    existingReview
-      ? await editReviewMutate.mutate({
-          rating,
-          review,
-          dishId,
-          reviewId: existingReview.id,
-        })
-      : await addReviewMutate.mutate({ rating, review, dishId });
+    if (existingReview) {
+      await editReviewMutate.mutate({
+        rating,
+        review,
+        dishId,
+        reviewId: existingReview.id,
+      });
+    } else {
+      await addReviewMutate.mutate({ rating, review, dishId });
+    }
 
     if (!existingReview) {
       setRating(0);
@@ -120,7 +147,12 @@ export const ReviewForm = ({ existingReview, dishId, onClose }) => {
         />
       </label>
       <ButtonWrapper>
-        <AppButton variant="contained" label="Send" type="submit" />
+        <AppButton
+          variant="contained"
+          label="Send"
+          type="submit"
+          disabled={!review.length || review.length > 400 || !rating}
+        />
       </ButtonWrapper>
     </Form>
   );

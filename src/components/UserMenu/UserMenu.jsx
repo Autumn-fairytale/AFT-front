@@ -21,31 +21,41 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
+// const user = { isAuth: true, roles: ['user', 'chef', 'admin', 'courier'] };
+const user = { isAuth: true, roles: ['user', '', '', ''] };
+
 const favDishes = 6;
 const dishesInCart = 3;
 
 export const UserMenu = () => {
   return (
     <>
-      <Avatar
-        src="/static/images/avatar/1.jpg"
-        sx={{ width: 35, height: 35, mr: 1 }}
-      />
+      {!user.roles.includes('admin') && (
+        <Avatar
+          src="/static/images/avatar/1.jpg"
+          sx={{ width: 35, height: 35, mr: 1 }}
+        />
+      )}
       <ListStyled>
-        <ListItemStyled>
-          <IconButtonStyled>
-            <StyledBadge badgeContent={favDishes} color="success">
-              <FavoriteIcon sx={{ width: 30, height: 30 }} />
-            </StyledBadge>
-          </IconButtonStyled>
-        </ListItemStyled>
-        <ListItemStyled>
-          <IconButtonStyled>
-            <StyledBadge badgeContent={dishesInCart} color="success">
-              <ShoppingCartIcon sx={{ width: 30, height: 30 }} />
-            </StyledBadge>
-          </IconButtonStyled>
-        </ListItemStyled>
+        {!user.roles.includes('admin') && (
+          <>
+            <ListItemStyled>
+              <IconButtonStyled>
+                <StyledBadge badgeContent={favDishes} color="success">
+                  <FavoriteIcon sx={{ width: 30, height: 30 }} />
+                </StyledBadge>
+              </IconButtonStyled>
+            </ListItemStyled>
+            <ListItemStyled>
+              <IconButtonStyled>
+                <StyledBadge badgeContent={dishesInCart} color="success">
+                  <ShoppingCartIcon sx={{ width: 30, height: 30 }} />
+                </StyledBadge>
+              </IconButtonStyled>
+            </ListItemStyled>
+          </>
+        )}
+
         <ListItemStyled>
           <IconButtonStyled
             onClick={() => {

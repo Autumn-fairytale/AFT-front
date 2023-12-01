@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 import { useMatch } from 'react-router-dom';
 
+import { customLinkProps } from './CustomLink.props';
 import { LinkStyled } from './CustomLink.styled';
 
-// eslint-disable-next-line react/prop-types, no-unused-vars
 export const CustomLink = ({ children, to, ...props }) => {
   const match = useMatch(to);
   return (
@@ -11,3 +12,5 @@ export const CustomLink = ({ children, to, ...props }) => {
     </LinkStyled>
   );
 };
+
+CustomLink.propTypes = customLinkProps;

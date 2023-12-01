@@ -1,4 +1,4 @@
-import { Divider } from '@mui/material';
+import { Divider, List, ListItem, Typography } from '@mui/material';
 
 import { route } from '@/constants/route';
 import { CustomLink } from '../CustomLink/CustomLink';
@@ -10,54 +10,107 @@ const user = { isAuth: true, roles: ['user', 'chef', 'courier', ''] };
 export const NavigateMenu = () => {
   return (
     <Navigation>
-      {!user.roles.includes('admin') && (
-        <>
-          <CustomLink to={'/'}>Home</CustomLink>
-          <CustomLink to={route.DISHES}>Dishes</CustomLink>
-          <CustomLink to={route.CHEFS}>Chefs</CustomLink>
-        </>
-      )}
-      {user.isAuth && (
-        <CustomLink to={route.CREATE_ORDER}>Create order</CustomLink>
-      )}
+      <List>
+        {!user.roles.includes('admin') && (
+          <>
+            <ListItem>
+              <CustomLink to={'/'}>Home</CustomLink>
+            </ListItem>
+            <ListItem>
+              <CustomLink to={route.DISHES}>Dishes</CustomLink>
+            </ListItem>
+            <ListItem>
+              <CustomLink to={route.CHEFS}>Chefs</CustomLink>
+            </ListItem>
+          </>
+        )}
+        {user.isAuth && !user.roles.includes('admin') && (
+          <ListItem>
+            <CustomLink to={route.CREATE_ORDER}>Create order</CustomLink>
+          </ListItem>
+        )}
 
-      {user.isAuth &&
-        !user.roles.includes('chef') &&
-        !user.roles.includes('admin') && (
-          <CustomLink to={route.CHEF_SIGN_UP}>Become a chef</CustomLink>
-        )}
-      {user.isAuth &&
-        !user.roles.includes('courier') &&
-        !user.roles.includes('admin') && (
-          <CustomLink to={route.COURIER_SIGN_UP}>Become a courier</CustomLink>
-        )}
+        {user.isAuth &&
+          !user.roles.includes('chef') &&
+          !user.roles.includes('admin') && (
+            <ListItem>
+              <CustomLink to={route.CHEF_SIGN_UP}>Become a chef</CustomLink>
+            </ListItem>
+          )}
+        {user.isAuth &&
+          !user.roles.includes('courier') &&
+          !user.roles.includes('admin') && (
+            <ListItem>
+              <CustomLink to={route.COURIER_SIGN_UP}>
+                Become a courier
+              </CustomLink>
+            </ListItem>
+          )}
+      </List>
       {user.isAuth && user.roles.includes('chef') && (
         <>
           <Divider />
 
-          <h5>CHEF</h5>
-          <CustomLink to={route.CHEF_ACCOUNT}>Dashboard</CustomLink>
-          <CustomLink to={route.CHEF_PROFILE}>Profile</CustomLink>
-          <CustomLink to={route.CHEF_ORDERS}>Orders</CustomLink>
-          <CustomLink to={route.CHEF_DISHES}>Dishes</CustomLink>
-          <CustomLink to={route.CHEF_CREATE_DISH}>Create dish</CustomLink>
+          <Typography variant="h6" align="center" sx={{ fontWeight: '600' }}>
+            CHEF
+          </Typography>
+          <List>
+            <ListItem>
+              <CustomLink to={route.CHEF_ACCOUNT}>Dashboard</CustomLink>
+            </ListItem>
+            <ListItem>
+              <CustomLink to={route.CHEF_PROFILE}>Profile</CustomLink>
+            </ListItem>
+            <ListItem>
+              <CustomLink to={route.CHEF_ORDERS}>Orders</CustomLink>
+            </ListItem>
+            <ListItem>
+              <CustomLink to={route.CHEF_DISHES}>Dishes</CustomLink>
+            </ListItem>
+            <ListItem>
+              <CustomLink to={route.CHEF_CREATE_DISH}>Create dish</CustomLink>
+            </ListItem>
+          </List>
         </>
       )}
       {user.isAuth && user.roles.includes('courier') && (
         <>
           <Divider />
-          <h5>COURIER</h5>
-          <CustomLink to={route.COURIER_ACCOUNT}>Dashboard</CustomLink>
-          <CustomLink to={route.COURIER_PROFILE}>Profile</CustomLink>
-          <CustomLink to={route.COURIER_ORDERS}>Orders</CustomLink>
+          <Typography variant="h6" align="center" sx={{ fontWeight: '600' }}>
+            COURIER
+          </Typography>
+          <List>
+            <ListItem>
+              <CustomLink to={route.COURIER_ACCOUNT}>Dashboard</CustomLink>
+            </ListItem>
+            <ListItem>
+              <CustomLink to={route.COURIER_PROFILE}>Profile</CustomLink>
+            </ListItem>
+            <ListItem>
+              <CustomLink to={route.COURIER_ORDERS}>Orders</CustomLink>
+            </ListItem>
+          </List>
         </>
       )}
       {user.isAuth && user.roles.includes('admin') && (
         <>
-          <CustomLink to={route.ADMIN}>Dashboard</CustomLink>
-          <CustomLink to={route.ADMIN_CHEFS}>Chefs</CustomLink>
-          <CustomLink to={route.ADMIN_DISHES}>Dishes</CustomLink>
-          <CustomLink to={route.ADMIN_ORDERS}>Orders</CustomLink>
+          <Typography variant="h6" align="center" sx={{ fontWeight: '600' }}>
+            ADMIN
+          </Typography>
+          <List>
+            <ListItem>
+              <CustomLink to={route.ADMIN}>Dashboard</CustomLink>
+            </ListItem>
+            <ListItem>
+              <CustomLink to={route.ADMIN_CHEFS}>Chefs</CustomLink>
+            </ListItem>
+            <ListItem>
+              <CustomLink to={route.ADMIN_DISHES}>Dishes</CustomLink>
+            </ListItem>
+            <ListItem>
+              <CustomLink to={route.ADMIN_ORDERS}>Orders</CustomLink>
+            </ListItem>
+          </List>
         </>
       )}
     </Navigation>

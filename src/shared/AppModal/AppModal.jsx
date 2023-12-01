@@ -10,7 +10,7 @@ import { BoxStyled, IconButtonStyled } from './AppModal.styled';
  *
  * @component
  * @param {function} onClose - The callback function to handle modal close.
- * @param {boolean} open - A boolean indicating whether the modal is open or closed.
+ * @param {boolean} isOpen - A boolean indicating whether the modal is open or closed.
  * @param {React.ReactNode} children - The content to be displayed within the modal.
  * @returns {JSX.Element}
  */

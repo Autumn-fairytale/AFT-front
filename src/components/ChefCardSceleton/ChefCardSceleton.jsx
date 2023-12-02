@@ -15,7 +15,7 @@ export const ChefCardSceleton = ({ isCarousel }) => {
   return (
     <ChefCardWrapper isCarousel={isCarousel}>
       <CircleWrapper>
-        <Skeleton variant="circular" sx={{ bgcolor: '#ffd28b' }}>
+        <Skeleton variant="circular" sx={{ bgcolor: '#e2e2e2' }}>
           <Avatar />
         </Skeleton>
       </CircleWrapper>
@@ -24,7 +24,7 @@ export const ChefCardSceleton = ({ isCarousel }) => {
           variant="rectangular"
           width="100%"
           height="100%"
-          sx={{ bgcolor: '#ffd28b' }}
+          sx={{ bgcolor: '#e2e2e2' }}
         ></Skeleton>
       </RectangularWrapper>
 

@@ -6,7 +6,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Avatar, Badge } from '@mui/material';
 
-import { selectIsAuth } from '@/redux/auth/selectors';
+import { selectIsAuth, selectUser } from '@/redux/auth/selectors';
 import { signOut } from '@/redux/auth/slice';
 import styled from '@emotion/styled';
 import {
@@ -27,7 +27,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 // const user = { isAuth: true, roles: ['user', 'chef', 'admin', 'courier'] };
-const user = { isAuth: true, roles: ['user', '', '', ''] };
+// const user = { isAuth: true, roles: ['user', '', '', ''] };
 
 const favDishes = 6;
 const dishesInCart = 3;
@@ -35,6 +35,8 @@ const dishesInCart = 3;
 export const UserMenu = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
+  const user = useSelector(selectUser);
+  console.log('user:', user);
 
   return (
     <>

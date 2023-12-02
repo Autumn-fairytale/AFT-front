@@ -20,8 +20,6 @@ const HomePage = () => {
     //error: popularChefsError,
   } = usePopularChefs();
 
-  console.log('isLoading:', popularChefsIsLoading);
-  console.log('popularChefs:', popularChefs);
   return (
     <Main>
       <Hero />

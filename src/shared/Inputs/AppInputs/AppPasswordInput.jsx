@@ -12,7 +12,7 @@ const AppPasswordInput = forwardRef(({ wrapperStyle, ...props }, ref) => {
   const { ...toggleProps } = usePasswordShow();
 
   return (
-    <StyledPasswordInput style={wrapperStyle}>
+    <StyledPasswordInput style={wrapperStyle} value={props.value}>
       <BaseInput
         type={toggleProps.showPassword ? 'text' : 'password'}
         InputProps={{

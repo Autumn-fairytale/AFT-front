@@ -1,7 +1,9 @@
 import { Suspense } from 'react';
+import { useSelector } from 'react-redux';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import { route } from '@/constants';
+import { selectIsAuth, selectRoles } from '@/redux/auth/selectors';
 import { RestrictedRoutePropTypes } from './RestrictedRoute.props';
 
 const RestrictedRoute = ({ redirectLink, role }) => {
@@ -9,12 +11,15 @@ const RestrictedRoute = ({ redirectLink, role }) => {
   const state = { from: location.state?.from || location };
   const to = location.state?.from || redirectLink;
 
-  // Mock user data
-  // const user = { isAuth: true, roles: ['user', 'chef', 'admin', ''] };
-  const user = { isAuth: true, roles: ['user', '', '', ''] };
+  const isAuth = useSelector(selectIsAuth);
+  const roles = useSelector(selectRoles);
 
-  const isAuth = user.isAuth;
-  const isAccessRole = user.roles.includes(role);
+  // Mock user data
+  // const user = { isAuth: false, roles: ['user', 'chef', 'admin', ''] };
+
+  // const isAuth = user.isAuth;
+  // const isAccessRole = user.roles.includes(role);
+  const isAccessRole = roles.includes(role);
 
   if (!isAuth && role)
     return <Navigate to={route.SIGN_IN} state={state} replace={true} />;

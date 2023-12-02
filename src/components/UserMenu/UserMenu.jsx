@@ -1,8 +1,13 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Avatar, Badge } from '@mui/material';
 
+import { selectIsAuth } from '@/redux/auth/selectors';
+import { signOut } from '@/redux/auth/slice';
 import styled from '@emotion/styled';
 import {
   IconButtonStyled,
@@ -28,6 +33,9 @@ const favDishes = 6;
 const dishesInCart = 3;
 
 export const UserMenu = () => {
+  const dispatch = useDispatch();
+  const isAuth = useSelector(selectIsAuth);
+
   return (
     <>
       {!user.roles.includes('admin') && (
@@ -59,7 +67,10 @@ export const UserMenu = () => {
         <ListItemStyled>
           <IconButtonStyled
             onClick={() => {
-              console.log('Logout');
+              if (isAuth) {
+                dispatch(signOut());
+                toast.success('You have successfully signed out');
+              }
             }}
           >
             <LogoutIcon sx={{ width: 30, height: 30 }} />

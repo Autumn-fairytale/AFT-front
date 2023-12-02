@@ -1,3 +1,5 @@
+import { forwardRef } from 'react';
+
 import { FormHelperText, InputLabel, Select } from '@mui/material';
 
 import { useTheme } from '@emotion/react';
@@ -22,55 +24,61 @@ import { renderOptions, renderPlaceholder } from './utils/selectHelpers';
  * @returns {React.Component} The rendered AppSelect component.
  */
 
-const AppSelect = ({
-  label,
-  value,
-  onChange,
-  options,
-  error,
-  helperText,
-  placeholder,
-  wrapperStyle,
-  ...other
-}) => {
-  const theme = useTheme();
+const AppSelect = forwardRef(
+  (
+    {
+      label,
+      value,
+      onChange,
+      options,
+      error,
+      helperText,
+      placeholder,
+      wrapperStyle,
+      ...other
+    },
+    ref
+  ) => {
+    const theme = useTheme();
 
-  return (
-    <StyledFormControl
-      fullWidth
-      error={error}
-      placeholder={placeholder}
-      value={value}
-      style={wrapperStyle}
-    >
-      <InputLabel
-        id="basic-select-label"
-        shrink={!!value || (placeholder && value === '')}
-      >
-        {label}
-      </InputLabel>
-      <Select
-        labelId="basic-select-label"
-        id="app-basic-select"
-        displayEmpty
+    return (
+      <StyledFormControl
+        fullWidth
+        error={error}
+        placeholder={placeholder}
         value={value}
-        label={label}
-        MenuProps={{
-          autoFocus: false,
-        }}
-        onChange={onChange}
-        {...other}
+        style={wrapperStyle}
       >
-        {placeholder && renderPlaceholder(placeholder)}
-        {renderOptions(options, theme)}
-      </Select>
-      {helperText && <FormHelperText>{helperText}</FormHelperText>}
-    </StyledFormControl>
-  );
-};
+        <InputLabel
+          id="basic-select-label"
+          shrink={!!value || (placeholder && value === '')}
+        >
+          {label}
+        </InputLabel>
+        <Select
+          labelId="basic-select-label"
+          id="app-basic-select"
+          displayEmpty
+          value={value}
+          label={label}
+          MenuProps={{
+            autoFocus: false,
+          }}
+          onChange={onChange}
+          ref={ref}
+          {...other}
+        >
+          {placeholder && renderPlaceholder(placeholder)}
+          {renderOptions(options, theme)}
+        </Select>
+        {helperText && <FormHelperText>{helperText}</FormHelperText>}
+      </StyledFormControl>
+    );
+  }
+);
 
 AppSelect.propTypes = basicSelectPropTypes;
-
+AppSelect.displayName = 'AppSelected';
 AppSelect.defaultProps = {
   error: false,
 };

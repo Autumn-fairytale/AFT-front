@@ -89,7 +89,7 @@ export default async function getCroppedImg(
   );
 
   // As Base64 string
-  return croppedCanvas.toDataURL('image/jpeg');
+  return croppedCanvas.toDataURL('image/jpeg', 0.9);
 
   // As a blob
   // eslint-disable-next-line no-unused-vars

@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Cropper from 'react-easy-crop';
 import { Controller } from 'react-hook-form';
 
@@ -13,6 +13,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 
@@ -23,10 +24,10 @@ import { HelperText } from '../HelperText';
 
 export const AddDishFormImageUpload = ({ control, setValue }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
   const [imageSrc, setImageSrc] = useState(null);
   const [croppedArea, setCroppedArea] = useState(null);
   const [showCropper, setShowCropper] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fileInputRef = useRef();
 
@@ -37,11 +38,11 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
   const handleImageChange = (e, onChange) => {
     const file = e.target.files[0];
     if (file) {
+      setIsLoading(true);
       const reader = new FileReader();
 
       reader.onloadend = () => {
         setImageSrc(reader.result);
-
         setShowCropper(true);
       };
       reader.readAsDataURL(file);
@@ -51,6 +52,7 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
   };
 
   const handleSave = async () => {
+    setIsLoading(true);
     try {
       let croppedImageURL = await getCroppedImg(imageSrc, croppedArea);
       // console.log(croppedImageURL);
@@ -60,7 +62,12 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
     } catch (e) {
       console.error('Error', e);
     }
+    setIsLoading(false);
   };
+
+  useEffect(() => {
+    console.log(isLoading), [isLoading];
+  });
 
   const handleDelete = (image, onChange) => {
     if (image) {
@@ -87,7 +94,7 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
     setImageSrc(null);
 
     setValue('image', '');
-
+    setIsLoading(false);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -121,31 +128,44 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                maxHeight: 225,
+                maxHeight: 255,
                 minWidth: 300,
-                width: 300,
-                height: 225,
+                width: 400,
+                height: 266,
               }}
             >
+              {isLoading && (
+                <Box
+                  sx={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <CircularProgress />
+                </Box>
+              )}
               {!image && (
                 <label htmlFor="image-upload">
                   <IconButton
                     color="primary"
                     aria-label="upload picture"
                     component="span"
-                    sx={{ width: 200, height: 200 }}
+                    sx={{ width: 300, height: 250 }}
                   >
-                    <AddPhotoAlternateIcon style={{ fontSize: 70 }} />
+                    <AddPhotoAlternateIcon style={{ fontSize: 80 }} />
                   </IconButton>
                 </label>
               )}
-              {image && (
+              {image && !isLoading && (
                 <>
                   <Card
                     component="img"
                     src={image}
                     alt="Image Preview"
-                    sx={{ maxWidth: 230, maxHeight: 200 }}
+                    sx={{ width: 300, height: 200 }}
                   />
                   <IconButton
                     color="secondary"
@@ -178,22 +198,29 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
                 open={showCropper}
                 onClose={() => setShowCropper(false)}
                 maxWidth="lg"
-                fullWidth
-                fullScreen
               >
                 <DialogContent>
-                  <Cropper
-                    image={imageSrc}
-                    crop={crop}
-                    zoom={zoom}
-                    aspect={3 / 2}
-                    onCropChange={setCrop}
-                    onZoomChange={setZoom}
-                    onCropComplete={onCropComplete}
-                    minZoom={0.3}
-                    objectFit="vertical-cover"
-                  />
-                  <Stack direction="row" spacing={1}>
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      height: 400,
+                      width: '600px',
+                      maxWidth: '90vw',
+                    }}
+                  >
+                    <Cropper
+                      image={imageSrc}
+                      crop={crop}
+                      aspect={3 / 2}
+                      onCropChange={setCrop}
+                      onCropComplete={onCropComplete}
+                    />
+                  </Box>
+                  <Stack
+                    direction="row"
+                    justifyContent="space-around"
+                    sx={{ marginTop: 2 }}
+                  >
                     <Button variant="contained" onClick={handleSave}>
                       Save
                     </Button>

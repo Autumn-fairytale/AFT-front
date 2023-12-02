@@ -15,7 +15,7 @@ const AppButton = ({ variant, label, ...props }) => {
 
 AppButton.propTypes = {
   variant: PropTypes.oneOf(['contained', 'text', 'outlined']),
-  label: PropTypes.string,
+  label: PropTypes.node,
 };
 
 AppButton.defaultProps = {

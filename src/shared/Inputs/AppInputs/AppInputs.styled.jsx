@@ -1,12 +1,15 @@
 import { styled } from '@mui/material';
 import { Box } from '@mui/material';
 
-export const StyledPasswordInput = styled(Box)(({ style }) => ({
+export const StyledPasswordInput = styled(Box)(({ style, value }) => ({
   ...style,
   "input[type='password']": {
-    fontFamily: 'Verdana',
+    fontFamily: value ? 'Verdana' : 'Montserrat',
     letterSpacing: '0.1em',
     opacity: 0.9,
+  },
+  "input[type='password']::placeholder": {
+    letterSpacing: 'normal',
   },
 }));
 

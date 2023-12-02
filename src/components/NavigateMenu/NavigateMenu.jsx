@@ -1,17 +1,25 @@
+import { useSelector } from 'react-redux';
+
 import { Divider, List, ListItem, Typography } from '@mui/material';
 
 import { route } from '@/constants/route';
+import { selectIsAuth, selectUser } from '@/redux/auth/selectors';
 import { CustomLink } from '../CustomLink/CustomLink';
 import { Navigation } from './NavigateMenu.styled';
 
 // const user = { isAuth: true, roles: ['user', 'chef', 'admin', 'courier'] };
-const user = { isAuth: true, roles: ['user', 'chef', 'courier', ''] };
+// const user = { isAuth: true, roles: ['user', 'chef', 'courier', ''] };
 
 export const NavigateMenu = () => {
+  const user = useSelector(selectUser);
+  console.log('user:', user);
+  const isAuth = useSelector(selectIsAuth);
+  console.log('isAuth:', isAuth);
+
   return (
     <Navigation>
       <List>
-        {!user.roles.includes('admin') && (
+        {(!user || !user.roles.includes('admin')) && (
           <>
             <ListItem>
               <CustomLink to={'/'}>Home</CustomLink>
@@ -24,20 +32,22 @@ export const NavigateMenu = () => {
             </ListItem>
           </>
         )}
-        {user.isAuth && !user.roles.includes('admin') && (
+        {user && isAuth && !user.roles.includes('admin') && (
           <ListItem>
             <CustomLink to={route.CREATE_ORDER}>Create order</CustomLink>
           </ListItem>
         )}
 
-        {user.isAuth &&
+        {user &&
+          isAuth &&
           !user.roles.includes('chef') &&
           !user.roles.includes('admin') && (
             <ListItem>
               <CustomLink to={route.CHEF_SIGN_UP}>Become a chef</CustomLink>
             </ListItem>
           )}
-        {user.isAuth &&
+        {user &&
+          isAuth &&
           !user.roles.includes('courier') &&
           !user.roles.includes('admin') && (
             <ListItem>
@@ -47,7 +57,7 @@ export const NavigateMenu = () => {
             </ListItem>
           )}
       </List>
-      {user.isAuth && user.roles.includes('chef') && (
+      {user && isAuth && user.roles.includes('chef') && (
         <>
           <Divider />
 
@@ -73,7 +83,7 @@ export const NavigateMenu = () => {
           </List>
         </>
       )}
-      {user.isAuth && user.roles.includes('courier') && (
+      {user && isAuth && user.roles.includes('courier') && (
         <>
           <Divider />
           <Typography variant="h6" align="center" sx={{ fontWeight: '600' }}>
@@ -92,7 +102,7 @@ export const NavigateMenu = () => {
           </List>
         </>
       )}
-      {user.isAuth && user.roles.includes('admin') && (
+      {user && isAuth && user.roles.includes('admin') && (
         <>
           <Typography variant="h6" align="center" sx={{ fontWeight: '600' }}>
             ADMIN

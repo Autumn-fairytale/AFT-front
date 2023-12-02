@@ -55,6 +55,8 @@ export const chefSchema = z.object({
     'rejected',
     'blocked',
   ]),
+  // accountStatus: z.enum(accountStatus),
+  liqpayKey: z.string().trim(),
   // certificate: z
   //   .any()
   //   .refine((files) => files?.length == 1, 'Image is required.')

@@ -23,6 +23,7 @@ const CreateChefForm = () => {
         address: data.address,
         certificate: data.certificate,
         accountStatus: data.accountStatus,
+        liqpayKey: data.liqpayKey,
       };
       console.log(result);
     } catch (err) {

@@ -4,7 +4,7 @@ import { Box, Typography } from '@mui/material';
 
 import AddressForm from '@/components/AddressForm/AddressForm';
 import { ChefInfoWrapper } from '@/components/Profiles/ChefProfile.styled';
-import { AppPhoneInput, AppSelect } from '@/shared';
+import { AppPhoneInput, AppSelect, AppTextInput } from '@/shared';
 import { UploadChefFiles } from '../UploadChefFiles/UploadChefFiles';
 import { ChefInfoPropTypes } from './ChefInfo.props';
 import {
@@ -13,6 +13,8 @@ import {
   InfoWrapper,
 } from './ChefInfo.styled';
 import ChefInfoField from './ChefInfoField/ChefInfoField';
+
+import LiqPayLogo from '../../../assets/images/liqpay.png';
 
 const ChefInfo = ({ control, errors }) => {
   const [, setAvatar] = useState();
@@ -25,9 +27,12 @@ const ChefInfo = ({ control, errors }) => {
     'blocked',
   ];
 
-  const [selectedOption, setSelectedOption] = useState(accountStatus[0]);
+  const [selectedOption, setSelectedOption] = useState('pending');
+
   const handleSelect = (e) => {
+    console.log(e);
     setSelectedOption(e.target.value);
+    console.log(selectedOption);
   };
 
   return (
@@ -51,21 +56,17 @@ const ChefInfo = ({ control, errors }) => {
 
       <InfoWrapper>
         <ChefFieldsWrapper>
-          <ChefInfoField
-            info={{
-              title: 'Phone number',
-              name: 'phoneNumber',
-              component: <AppPhoneInput />,
-              required: true,
-            }}
-            control={control}
-            error={errors['phoneNumber']?.phoneNumber}
-          />
-          <Typography component="h3" variant="h6" marginTop="5px">
-            Address
-          </Typography>
-          <AddressForm control={control} errors={errors} />
           <FieldWrapper>
+            <ChefInfoField
+              info={{
+                title: 'Phone number',
+                name: 'phoneNumber',
+                component: <AppPhoneInput wrapperStyle={{ width: '300px' }} />,
+                required: true,
+              }}
+              control={control}
+              error={errors['phoneNumber']?.phoneNumber}
+            />
             <ChefInfoField
               info={{
                 title: 'Account status',
@@ -74,7 +75,10 @@ const ChefInfo = ({ control, errors }) => {
                   <AppSelect
                     options={accountStatus}
                     onChange={handleSelect}
-                    value={selectedOption || accountStatus[1]}
+                    value={selectedOption}
+                    wrapperStyle={{ width: '300px' }}
+                    placeholder="Account status"
+                    defaultValue={accountStatus[0]}
                   />
                 ),
                 required: true,
@@ -82,6 +86,38 @@ const ChefInfo = ({ control, errors }) => {
               control={control}
               error={errors['accountStatus']?.accountStatus}
             />
+          </FieldWrapper>
+
+          <Typography component="h3" variant="h6" marginTop="5px">
+            Address
+          </Typography>
+          <AddressForm control={control} errors={errors} />
+          <FieldWrapper>
+            <ChefInfoField
+              info={{
+                title: 'LiqPay public key',
+                name: 'liqpayKey',
+                sx: { marginTop: '20px' },
+                component: <AppTextInput style={{ width: '400px' }} />,
+                required: true,
+              }}
+              control={control}
+              error={errors['liqpayKey']?.liqpayKey}
+            />
+            <a
+              to="https://www.liqpay.ua/documentation/start"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: 'flex', alignItems: 'flex-end' }}
+            >
+              <img
+                src={LiqPayLogo}
+                alt="Description of the image"
+                style={{
+                  width: '200px',
+                }}
+              />
+            </a>
           </FieldWrapper>
         </ChefFieldsWrapper>
         <Box>

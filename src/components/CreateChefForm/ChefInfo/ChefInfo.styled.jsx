@@ -21,5 +21,6 @@ export const ChefFieldsWrapper = styled('div')(() => ({
 }));
 
 export const FieldWrapper = styled('div')(() => ({
-  marginTop: '20px',
+  display: 'flex',
+  gap: '20px',
 }));

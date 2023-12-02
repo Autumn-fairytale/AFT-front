@@ -7,7 +7,7 @@ import {
   resetFormData,
   selectCurrentStep,
   selectSavedFormData,
-  submitFormData,
+  submitDishData,
   updateCurrentStep,
   updateFormData,
 } from '@/redux/createDish';
@@ -89,7 +89,7 @@ export const AddDishForm = () => {
 
   const Submit = () => {
     const formData = getValues();
-    dispatch(submitFormData(formData));
+    dispatch(submitDishData(formData));
 
     dispatch(resetFormData());
 

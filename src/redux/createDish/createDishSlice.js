@@ -1,19 +1,38 @@
 import { dishFormDefaultValues } from '@/constants/defaultValues';
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   dishFormData: dishFormDefaultValues,
   currentStep: 1,
+  loading: false,
+  error: null,
+  success: false,
 };
+
+export const submitDishData = createAsyncThunk(
+  'createDish/submitDishData',
+  async (dishData, thunkAPI) => {
+    try {
+      // Do something like
+      // const response = await api.submitDish(dishData);
+      // return response.data;
+      console.log('Data sent to server:', dishData);
+      return dishData;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const createDishSlice = createSlice({
   name: 'createDish',
   initialState,
   reducers: {
     updateFormData: (state, action) => {
-      const newData = structuredClone(action.payload);
-
-      state.dishFormData = { ...state.dishFormData, ...newData };
+      state.dishFormData = {
+        ...state.dishFormData,
+        ...structuredClone(action.payload),
+      };
     },
     updateCurrentStep: (state, action) => {
       state.currentStep = action.payload;
@@ -21,18 +40,35 @@ export const createDishSlice = createSlice({
     resetFormData: (state) => {
       state.dishFormData = initialState.dishFormData;
       state.currentStep = initialState.currentStep;
+      state.loading = false;
+      state.error = null;
+      state.success = false;
     },
-    submitFormData: (state, action) => {
-      console.log('Submitting form data:', action.payload);
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(submitDishData.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(submitDishData.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        console.log('Submit successful:', action.payload);
+
+        state.dishFormData = initialState.dishFormData;
+        state.currentStep = initialState.currentStep;
+      })
+      .addCase(submitDishData.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        console.error('Submit failed:', action.payload);
+      });
   },
 });
 
-export const {
-  updateFormData,
-  updateCurrentStep,
-  resetFormData,
-  submitFormData,
-} = createDishSlice.actions;
+export const { updateFormData, updateCurrentStep, resetFormData } =
+  createDishSlice.actions;
 
 export default createDishSlice.reducer;

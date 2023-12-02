@@ -195,17 +195,23 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
                   <Stack
                     direction="row"
                     justifyContent="space-around"
+                    alignItems="center"
                     sx={{ marginTop: 2 }}
                   >
-                    <Button variant="contained" onClick={handleSave}>
-                      Save
-                    </Button>
                     <Button
                       variant="contained"
                       color="secondary"
                       onClick={handleCancel}
+                      sx={{ width: 75 }}
                     >
                       Cancel
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={handleSave}
+                      sx={{ width: 100 }}
+                    >
+                      Save
                     </Button>
                   </Stack>
                 </DialogContent>

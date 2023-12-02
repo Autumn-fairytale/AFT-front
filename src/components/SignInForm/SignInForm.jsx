@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import { Alert } from '@mui/material';
-import CircularProgress from '@mui/material/CircularProgress';
 
 import { route } from '@/constants';
 import { signIn } from '@/redux/auth/operations';
@@ -21,7 +20,7 @@ import {
   TitleStyled,
   UnderButtonTextStyled,
 } from './SignInForm.styled';
-import { getError } from './utils';
+import { getError, LabelOrLoader, useIsSameData } from './utils';
 
 const defaultValues = {
   email: '',
@@ -32,17 +31,18 @@ const SigInForm = () => {
   const [formError, setFormError] = useState('');
   const isLoading = useSelector(selectAuthLoading);
   const theme = useTheme();
+  const isSameData = useIsSameData();
 
   const dispatch = useDispatch();
   const { handleSubmit, control, reset } = useForm({
     resolver: zodResolver(singInSchema),
     defaultValues,
   });
-  const { errors } = useFormState({
-    control,
-  });
+  const { errors } = useFormState({ control });
 
   const onSubmit = async (data) => {
+    if (isSameData(data)) return;
+
     await dispatch(signIn(data))
       .unwrap()
       .then(() => {
@@ -56,12 +56,6 @@ const SigInForm = () => {
         setFormError(errorText);
       });
   };
-
-  const ButtonLabel = isLoading ? (
-    <CircularProgress sx={{ color: 'white', padding: '0.3em' }} />
-  ) : (
-    'Submit'
-  );
 
   return (
     <FormWrapperStyled className="sign-in-form" theme={theme}>
@@ -110,7 +104,7 @@ const SigInForm = () => {
 
         <AppButton
           type="submit"
-          label={ButtonLabel}
+          label={<LabelOrLoader isLoading={isLoading} />}
           variant="contained"
           disableElevation={true}
           sx={{ ...submitButtonStyles }}

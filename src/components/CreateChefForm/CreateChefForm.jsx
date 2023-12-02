@@ -12,12 +12,25 @@ const CreateChefForm = () => {
     control,
   } = useForm({
     resolver: zodResolver(chefSchema),
+    defaultValues: {
+      avatar: '',
+      phoneNumber: '',
+      accountStatus: 'pending',
+      address: {
+        country: '',
+        city: '',
+        street: '',
+        houseNumber: '',
+        apartment: '',
+      },
+      liqpayKey: '',
+      certificate: '',
+    },
   });
 
   const formSubmitHandler = async (data) => {
     try {
       const result = {
-        //userId:
         avatar: data.avatar,
         phoneNumber: data.phoneNumber,
         address: data.address,

@@ -22,10 +22,17 @@ export const createDishSlice = createSlice({
       state.dishFormData = initialState.dishFormData;
       state.currentStep = initialState.currentStep;
     },
+    submitFormData: (state, action) => {
+      console.log('Submitting form data:', action.payload);
+    },
   },
 });
 
-export const { updateFormData, updateCurrentStep, resetFormData } =
-  createDishSlice.actions;
+export const {
+  updateFormData,
+  updateCurrentStep,
+  resetFormData,
+  submitFormData,
+} = createDishSlice.actions;
 
 export default createDishSlice.reducer;

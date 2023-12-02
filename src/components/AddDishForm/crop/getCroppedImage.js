@@ -89,13 +89,13 @@ export default async function getCroppedImg(
   );
 
   // As Base64 string
-  return croppedCanvas.toDataURL('image/jpeg', 0.9);
+  // return croppedCanvas.toDataURL('image/jpeg', 0.9);
 
   // As a blob
   // eslint-disable-next-line no-unused-vars
-  //   return new Promise((resolve, _reject) => {
-  //     croppedCanvas.toBlob((file) => {
-  //       resolve(URL.createObjectURL(file));
-  //     }, 'image/jpeg');
-  //   });
+  return new Promise((resolve, _reject) => {
+    croppedCanvas.toBlob((file) => {
+      resolve(URL.createObjectURL(file));
+    }, 'image/jpeg');
+  });
 }

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import Cropper from 'react-easy-crop';
 import { Controller } from 'react-hook-form';
 
@@ -8,12 +8,11 @@ import {
   Box,
   Button,
   Card,
+  CircularProgress,
   IconButton,
-  Paper,
   Stack,
   Typography,
 } from '@mui/material';
-import { CircularProgress } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 
@@ -21,6 +20,11 @@ import PropTypes from 'prop-types';
 
 import getCroppedImg from '../crop/getCroppedImage';
 import { HelperText } from '../HelperText';
+import {
+  SpinnerImageUploadContainer,
+  StyledCropperBox,
+  StyledImageUploadPaper,
+} from './AddDishFormImageUpload.styled';
 
 export const AddDishFormImageUpload = ({ control, setValue }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -39,10 +43,12 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
     const file = e.target.files[0];
     if (file) {
       setIsLoading(true);
+
       const reader = new FileReader();
 
       reader.onloadend = () => {
         setImageSrc(reader.result);
+
         setShowCropper(true);
       };
       reader.readAsDataURL(file);
@@ -65,10 +71,6 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    console.log(isLoading), [isLoading];
-  });
-
   const handleDelete = (image, onChange) => {
     if (image) {
       URL.revokeObjectURL(image);
@@ -88,12 +90,14 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
 
   const handleCancel = () => {
     setShowCropper(false);
+
     if (imageSrc) {
       URL.revokeObjectURL(imageSrc);
     }
     setImageSrc(null);
 
     setValue('image', '');
+
     setIsLoading(false);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
@@ -120,32 +124,11 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
             }}
           />
           <Box>
-            <Paper
-              variant="outlined"
-              sx={{
-                position: 'relative',
-                p: 2,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                maxHeight: 255,
-                minWidth: 300,
-                width: 400,
-                height: 266,
-              }}
-            >
+            <StyledImageUploadPaper>
               {isLoading && (
-                <Box
-                  sx={{
-                    width: '100%',
-                    height: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
+                <SpinnerImageUploadContainer>
                   <CircularProgress />
-                </Box>
+                </SpinnerImageUploadContainer>
               )}
               {!image && (
                 <label htmlFor="image-upload">
@@ -153,7 +136,7 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
                     color="primary"
                     aria-label="upload picture"
                     component="span"
-                    sx={{ width: 300, height: 250 }}
+                    sx={{ width: 250, height: 250 }}
                   >
                     <AddPhotoAlternateIcon style={{ fontSize: 80 }} />
                   </IconButton>
@@ -185,7 +168,7 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
                   </label>
                 </>
               )}
-            </Paper>
+            </StyledImageUploadPaper>
             <Typography
               color="error"
               variant="caption"
@@ -200,14 +183,7 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
                 maxWidth="lg"
               >
                 <DialogContent>
-                  <Box
-                    sx={{
-                      position: 'relative',
-                      height: 400,
-                      width: '600px',
-                      maxWidth: '90vw',
-                    }}
-                  >
+                  <StyledCropperBox>
                     <Cropper
                       image={imageSrc}
                       crop={crop}
@@ -215,7 +191,7 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
                       onCropChange={setCrop}
                       onCropComplete={onCropComplete}
                     />
-                  </Box>
+                  </StyledCropperBox>
                   <Stack
                     direction="row"
                     justifyContent="space-around"

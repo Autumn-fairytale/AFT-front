@@ -11,6 +11,7 @@ function App() {
       {/* <AppRouter /> */}
 
       <AddDishForm />
+      {/* <UserOrdersTable /> */}
 
       <ToastContainer autoClose={1500} closeOnClick />
     </>

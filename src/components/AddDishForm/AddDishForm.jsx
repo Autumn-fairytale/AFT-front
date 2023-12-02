@@ -59,9 +59,9 @@ export const AddDishForm = () => {
     }
   }, [reset, savedFormData]);
 
-  // useEffect(() => {
-  //   setStep(savedCurrentStep);
-  // }, [savedCurrentStep]);
+  useEffect(() => {
+    setStep(savedCurrentStep);
+  }, [savedCurrentStep]);
 
   useEffect(() => {
     if (step !== savedCurrentStep) {
@@ -87,13 +87,17 @@ export const AddDishForm = () => {
     setStep((prevStep) => prevStep - 1);
   };
 
-  const Submit = () => {
+  const Submit = async () => {
     const formData = getValues();
-    dispatch(submitDishData(formData));
+    try {
+      await dispatch(submitDishData(formData)).unwrap();
 
-    dispatch(resetFormData());
-
-    reset();
+      dispatch(resetFormData());
+      setStep(1);
+      reset();
+    } catch (error) {
+      console.error('Submission failed:', error);
+    }
   };
 
   return (

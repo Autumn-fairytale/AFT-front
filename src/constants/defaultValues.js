@@ -17,4 +17,5 @@ export const dishFormDefaultValues = Object.freeze({
     carbohydrates: '',
   },
   isAvailable: true,
+  presignedUrl: '',
 });

@@ -16,6 +16,7 @@ import {
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 
+import axios from 'axios';
 import PropTypes from 'prop-types';
 
 import getCroppedImg from '../crop/getCroppedImage';
@@ -27,11 +28,48 @@ import {
 } from './AddDishFormImageUpload.styled';
 
 export const AddDishFormImageUpload = ({ control, setValue }) => {
+  const getPresignedUrl = async (fileName, fileType) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/api/s3/s3-presigned-url`,
+        {
+          params: { fileName, fileType },
+        }
+      );
+
+      return response.data.url;
+    } catch (error) {
+      console.error('Error getting pre-signed URL:', error);
+      throw error;
+    }
+  };
+
+  const fetchBlobFromUrl = async (url) => {
+    const response = await axios.get(url, { responseType: 'blob' });
+    if (response.status !== 200) {
+      throw new Error('Error fetching Blob');
+    }
+    return response.data;
+  };
+
+  const uploadBlobToS3 = async (blob, presignedUrl) => {
+    const response = await axios.put(presignedUrl, blob, {
+      headers: {
+        'Content-Type': 'image/png',
+      },
+    });
+    if (response.status !== 200) {
+      throw new Error('Error uploading image to S3');
+    }
+    console.log('Image successfully uploaded to S3');
+  };
+
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [imageSrc, setImageSrc] = useState(null);
   const [croppedArea, setCroppedArea] = useState(null);
   const [showCropper, setShowCropper] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [presignedUrl, setPresignedUrl] = useState(null);
 
   const fileInputRef = useRef();
 
@@ -39,36 +77,56 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
     setCroppedArea(croppedAreaPixels);
   }, []);
 
-  const handleImageChange = (e, onChange) => {
+  const handleImageChange = async (e, onChange) => {
     const file = e.target.files[0];
     if (file) {
+      if (file.size > 5000000) {
+        console.log('too big');
+        return;
+      }
+      if (!file.type.startsWith('image/')) {
+        console.log('not an image');
+        return;
+      }
+
       setIsLoading(true);
 
-      const reader = new FileReader();
+      try {
+        const signedUrl = await getPresignedUrl(file.name, file.type);
+        console.log('Received presigned URL:', signedUrl);
 
-      reader.onloadend = () => {
-        setImageSrc(reader.result);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImageSrc(reader.result);
+          setShowCropper(true);
+        };
+        reader.readAsDataURL(file);
 
-        setShowCropper(true);
-      };
-      reader.readAsDataURL(file);
-
-      onChange(file);
+        setPresignedUrl(signedUrl);
+        console.log('File for upload:', file);
+        onChange(file);
+      } catch (error) {
+        console.error('Error pre-signed URL:', error);
+        setIsLoading(false);
+      }
     }
   };
 
   const handleSave = async () => {
     setIsLoading(true);
-    try {
-      let croppedImageURL = await getCroppedImg(imageSrc, croppedArea);
-      // console.log(croppedImageURL);
-      setValue('image', croppedImageURL);
 
+    try {
+      let croppedImageBlob = await getCroppedImg(imageSrc, croppedArea);
+      setValue('image', croppedImageBlob);
+
+      const blob = await fetchBlobFromUrl(croppedImageBlob);
+      await uploadBlobToS3(blob, presignedUrl);
+    } catch (error) {
+      console.error(error.message || 'Error during image processing');
+    } finally {
       setShowCropper(false);
-    } catch (e) {
-      console.error('Error', e);
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const handleDelete = (image, onChange) => {

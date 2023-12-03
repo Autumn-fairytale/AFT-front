@@ -18,6 +18,7 @@ import DialogContent from '@mui/material/DialogContent';
 
 import { usePresignedURL, useUploadToS3 } from '@/hooks';
 import { fetchBlobFromUrl } from '../addDishHelpers/fetchBlobFromUrl';
+import { validateFile } from '../addDishHelpers/validateFile';
 import getCroppedImg from '../crop/getCroppedImage';
 import { HelperText } from '../HelperText';
 import { AddDishFormImageUploadProps } from './AddDishFormImageUpload.props';
@@ -33,10 +34,9 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
   const [croppedArea, setCroppedArea] = useState(null);
   const [showCropper, setShowCropper] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [fileName, setFileName] = useState(null);
-  const [fileType, setFileType] = useState(null);
+  const [fileInfo, setFileInfo] = useState({ name: null, type: null });
 
-  const { url: presignedUrl } = usePresignedURL(fileName, fileType);
+  const { url: presignedUrl } = usePresignedURL(fileInfo.name, fileInfo.type);
 
   const { uploadToS3, isUploading } = useUploadToS3();
 
@@ -49,19 +49,19 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
   const handleImageChange = async (e, onChange) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 5000000) {
-        console.log('too big');
-        return;
-      }
-      if (!file.type.startsWith('image/')) {
-        console.log('not an image');
+      const validation = validateFile(file, {
+        maxSize: 5000000,
+        validTypes: ['image/'],
+      });
+
+      if (!validation.isValid) {
+        console.log(validation.error);
         return;
       }
 
       setIsLoading(true);
 
-      setFileName(file.name);
-      setFileType(file.type);
+      setFileInfo({ name: file.name, type: file.type });
 
       const reader = new FileReader();
       reader.onloadend = () => {

@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import Cropper from 'react-easy-crop';
 import { Controller } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -17,6 +18,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 
 import { usePresignedURL, useUploadToS3 } from '@/hooks';
+import { updateFormData } from '@/redux/createDish';
 import { fetchBlobFromUrl } from '../addDishHelpers/fetchBlobFromUrl';
 import { validateFile } from '../addDishHelpers/validateFile';
 import getCroppedImg from '../crop/getCroppedImage';
@@ -35,6 +37,8 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
   const [showCropper, setShowCropper] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [fileInfo, setFileInfo] = useState({ name: null, type: null });
+
+  const dispatch = useDispatch();
 
   const { url: presignedUrl } = usePresignedURL(fileInfo.name, fileInfo.type);
 
@@ -85,6 +89,8 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
 
       const uploadedImageURL = url.request.responseURL.split('?')[0];
 
+      dispatch(updateFormData({ image: uploadedImageURL }));
+
       setValue('image', uploadedImageURL);
     } catch (error) {
       console.error(error.message || 'Error during image processing');
@@ -102,6 +108,8 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
     setImageSrc(null);
 
     setValue('image', '');
+
+    dispatch(updateFormData({ image: '' }));
 
     setShowCropper(false);
 

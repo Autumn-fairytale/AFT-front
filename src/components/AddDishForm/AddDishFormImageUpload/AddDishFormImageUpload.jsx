@@ -16,11 +16,11 @@ import {
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 
-import axios from 'axios';
-import PropTypes from 'prop-types';
-
+import { usePresignedURL, useUploadToS3 } from '@/hooks';
+import { fetchBlobFromUrl } from '../addDishHelpers/fetchBlobFromUrl';
 import getCroppedImg from '../crop/getCroppedImage';
 import { HelperText } from '../HelperText';
+import { AddDishFormImageUploadProps } from './AddDishFormImageUpload.props';
 import {
   SpinnerImageUploadContainer,
   StyledCropperBox,
@@ -28,48 +28,17 @@ import {
 } from './AddDishFormImageUpload.styled';
 
 export const AddDishFormImageUpload = ({ control, setValue }) => {
-  const getPresignedUrl = async (fileName, fileType) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:4000/api/s3/s3-presigned-url`,
-        {
-          params: { fileName, fileType },
-        }
-      );
-
-      return response.data.url;
-    } catch (error) {
-      console.error('Error getting pre-signed URL:', error);
-      throw error;
-    }
-  };
-
-  const fetchBlobFromUrl = async (url) => {
-    const response = await axios.get(url, { responseType: 'blob' });
-    if (response.status !== 200) {
-      throw new Error('Error fetching Blob');
-    }
-    return response.data;
-  };
-
-  const uploadBlobToS3 = async (blob, presignedUrl) => {
-    const response = await axios.put(presignedUrl, blob, {
-      headers: {
-        'Content-Type': 'image/png',
-      },
-    });
-    if (response.status !== 200) {
-      throw new Error('Error uploading image to S3');
-    }
-    console.log('Image successfully uploaded to S3');
-  };
-
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [imageSrc, setImageSrc] = useState(null);
   const [croppedArea, setCroppedArea] = useState(null);
   const [showCropper, setShowCropper] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [presignedUrl, setPresignedUrl] = useState(null);
+  const [fileName, setFileName] = useState(null);
+  const [fileType, setFileType] = useState(null);
+
+  const { url: presignedUrl } = usePresignedURL(fileName, fileType);
+
+  const { uploadToS3, isUploading } = useUploadToS3();
 
   const fileInputRef = useRef();
 
@@ -91,40 +60,37 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
 
       setIsLoading(true);
 
-      try {
-        const signedUrl = await getPresignedUrl(file.name, file.type);
-        console.log('Received presigned URL:', signedUrl);
+      setFileName(file.name);
+      setFileType(file.type);
 
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImageSrc(reader.result);
-          setShowCropper(true);
-        };
-        reader.readAsDataURL(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageSrc(reader.result);
 
-        setPresignedUrl(signedUrl);
-        console.log('File for upload:', file);
-        onChange(file);
-      } catch (error) {
-        console.error('Error pre-signed URL:', error);
-        setIsLoading(false);
-      }
+        setShowCropper(true);
+      };
+      reader.readAsDataURL(file);
+
+      onChange(file);
     }
   };
 
   const handleSave = async () => {
-    setIsLoading(true);
-
     try {
       let croppedImageBlob = await getCroppedImg(imageSrc, croppedArea);
-      setValue('image', croppedImageBlob);
 
       const blob = await fetchBlobFromUrl(croppedImageBlob);
-      await uploadBlobToS3(blob, presignedUrl);
+
+      const url = await uploadToS3(blob, presignedUrl);
+
+      const uploadedImageURL = url.request.responseURL.split('?')[0];
+
+      setValue('image', uploadedImageURL);
     } catch (error) {
       console.error(error.message || 'Error during image processing');
     } finally {
       setShowCropper(false);
+
       setIsLoading(false);
     }
   };
@@ -183,7 +149,7 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
           />
           <Box>
             <StyledImageUploadPaper>
-              {isLoading && (
+              {isUploading && isLoading && (
                 <SpinnerImageUploadContainer>
                   <CircularProgress />
                 </SpinnerImageUploadContainer>
@@ -282,7 +248,4 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
   );
 };
 
-AddDishFormImageUpload.propTypes = {
-  control: PropTypes.object.isRequired,
-  setValue: PropTypes.func.isRequired,
-};
+AddDishFormImageUpload.propTypes = AddDishFormImageUploadProps;

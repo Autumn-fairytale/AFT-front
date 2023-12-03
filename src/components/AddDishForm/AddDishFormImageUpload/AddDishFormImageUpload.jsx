@@ -17,7 +17,7 @@ import {
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 
-import { usePresignedURL, useUploadToS3 } from '@/hooks';
+import { usePresignedDeleteURL, useS3ImageUploader } from '@/hooks';
 import { updateFormData } from '@/redux/createDish';
 import { fetchBlobFromUrl } from '../addDishHelpers/fetchBlobFromUrl';
 import { validateFile } from '../addDishHelpers/validateFile';
@@ -40,9 +40,12 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
 
   const dispatch = useDispatch();
 
-  const { url: presignedUrl } = usePresignedURL(fileInfo.name, fileInfo.type);
+  const { uploadToS3, isUploading } = useS3ImageUploader(
+    fileInfo.name,
+    fileInfo.type
+  );
 
-  const { uploadToS3, isUploading } = useUploadToS3();
+  const { deleteFile } = usePresignedDeleteURL(fileInfo.name);
 
   const fileInputRef = useRef();
 
@@ -85,7 +88,7 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
 
       const blob = await fetchBlobFromUrl(croppedImageBlob);
 
-      const url = await uploadToS3(blob, presignedUrl);
+      const url = await uploadToS3(blob);
 
       const uploadedImageURL = url.request.responseURL.split('?')[0];
 
@@ -101,7 +104,11 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
     }
   };
 
-  const handleDelete = (image, onChange) => {
+  const handleDelete = async (image, onChange) => {
+    if (fileInfo?.name) {
+      await deleteFile();
+    }
+
     if (image) {
       URL.revokeObjectURL(image);
     }

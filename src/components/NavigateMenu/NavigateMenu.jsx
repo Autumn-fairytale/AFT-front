@@ -150,6 +150,17 @@ export const NavigateMenu = () => {
             </List>
           </>
         )}
+        <Divider />
+        {!isAuth && (
+          <List>
+            <ListItem>
+              <CustomLink to={route.SIGN_UP}>Sign up</CustomLink>
+            </ListItem>
+            <ListItem>
+              <CustomLink to={route.SIGN_IN}>Sign in</CustomLink>
+            </ListItem>
+          </List>
+        )}
       </Navigation>
     </NavigationWrapper>
   );

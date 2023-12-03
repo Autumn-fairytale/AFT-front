@@ -45,8 +45,9 @@ const chefArray = [
   },
 ];
 export const getPopularChefs = async () => {
-  //const { data } = await publicInstance.get('/chefs/popular');
-  //return data;
-
-  return chefArray;
+  return new Promise((res) => {
+    setTimeout(() => {
+      res(chefArray);
+    }, 3000);
+  });
 };

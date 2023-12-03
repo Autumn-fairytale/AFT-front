@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import MenuIcon from '@mui/icons-material/Menu';
@@ -6,6 +7,7 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Toolbar from '@mui/material/Toolbar';
 
 import { route } from '@/constants/route.js';
+import { selectIsAuth, selectUser } from '@/redux/auth/selectors.js';
 import { NavigateMenu } from '../NavigateMenu/NavigateMenu.jsx';
 import { NotAuthUserMenu } from '../NotAuthUserMenu/NotAuthUserMenu.jsx';
 import { UserMenu } from '../UserMenu/UserMenu.jsx';
@@ -16,10 +18,14 @@ import { AppBarStyled, AppContainerStyled } from './Header.styled.js';
 import Logo from '../../assets/images/logo.svg';
 
 // Mock user data
-const user = { isAuth: true, roles: ['user', 'chef', 'admin', ''] };
+// const user = { isAuth: true, roles: ['user', 'chef', 'admin', ''] };
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const user = useSelector(selectUser);
+  console.log('user:', user);
+  const isAuth = useSelector(selectIsAuth);
+  console.log('isAuth:', isAuth);
 
   const toggleDrawer = () => (event) => {
     if (
@@ -41,8 +47,8 @@ const Header = () => {
         </Link>
 
         <Toolbar>
-          {!user.isAuth && <NotAuthUserMenu />}
-          {user.isAuth && <UserMenu />}
+          {!isAuth && <NotAuthUserMenu />}
+          {isAuth && <UserMenu />}
 
           <IconButtonStyled aria-label="menu" onClick={toggleDrawer(true)}>
             <MenuIcon sx={{ width: 35, height: 35 }} />

@@ -1,119 +1,168 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+
+import LogoutIcon from '@mui/icons-material/Logout';
 import { Divider, List, ListItem, Typography } from '@mui/material';
 
 import { route } from '@/constants/route';
+import { selectIsAuth, selectUser } from '@/redux/auth/selectors';
+import { signOut } from '@/redux/auth/slice';
 import { CustomLink } from '../CustomLink/CustomLink';
-import { Navigation } from './NavigateMenu.styled';
+import { IconButtonStyled } from '../UserMenu/UserMenu.slyled';
+import {
+  LogoAndButtonWrapper,
+  Navigation,
+  NavigationWrapper,
+} from './NavigateMenu.styled';
+
+import Logo from '../../assets/images/logo.svg';
 
 // const user = { isAuth: true, roles: ['user', 'chef', 'admin', 'courier'] };
-const user = { isAuth: true, roles: ['user', 'chef', 'courier', ''] };
+// const user = { isAuth: true, roles: ['user', 'chef', 'courier', ''] };
 
 export const NavigateMenu = () => {
+  const dispatch = useDispatch();
+
+  const user = useSelector(selectUser);
+
+  const isAuth = useSelector(selectIsAuth);
+
   return (
-    <Navigation>
-      <List>
-        {!user.roles.includes('admin') && (
+    <NavigationWrapper>
+      <LogoAndButtonWrapper>
+        <img src={Logo} alt="logo" style={{ maxWidth: 100 }} />
+        {isAuth && (
+          <IconButtonStyled
+            onClick={() => {
+              if (isAuth) {
+                dispatch(signOut());
+                toast.success('You have successfully signed out');
+              }
+            }}
+          >
+            <LogoutIcon sx={{ width: 30, height: 30 }} />
+          </IconButtonStyled>
+        )}
+      </LogoAndButtonWrapper>
+      <Navigation>
+        <List>
+          {(!user || !user.roles.includes('admin')) && (
+            <>
+              <ListItem>
+                <CustomLink to={'/'}>Home</CustomLink>
+              </ListItem>
+              <ListItem>
+                <CustomLink to={route.DISHES}>Dishes</CustomLink>
+              </ListItem>
+              <ListItem>
+                <CustomLink to={route.CHEFS}>Chefs</CustomLink>
+              </ListItem>
+            </>
+          )}
+          {/* {user && isAuth && !user.roles.includes('admin') && (
+            <ListItem>
+              <CustomLink to={route.CREATE_ORDER}>Create order</CustomLink>
+            </ListItem>
+          )} */}
+
+          {user &&
+            isAuth &&
+            !user.roles.includes('chef') &&
+            !user.roles.includes('admin') && (
+              <ListItem>
+                <CustomLink to={route.CHEF_SIGN_UP}>Become a chef</CustomLink>
+              </ListItem>
+            )}
+          {user &&
+            isAuth &&
+            !user.roles.includes('courier') &&
+            !user.roles.includes('admin') && (
+              <ListItem>
+                <CustomLink to={route.COURIER_SIGN_UP}>
+                  Become a courier
+                </CustomLink>
+              </ListItem>
+            )}
+        </List>
+        {user && isAuth && user.roles.includes('chef') && (
           <>
-            <ListItem>
-              <CustomLink to={'/'}>Home</CustomLink>
-            </ListItem>
-            <ListItem>
-              <CustomLink to={route.DISHES}>Dishes</CustomLink>
-            </ListItem>
-            <ListItem>
-              <CustomLink to={route.CHEFS}>Chefs</CustomLink>
-            </ListItem>
+            <Divider />
+
+            <Typography variant="h6" align="center" sx={{ fontWeight: '600' }}>
+              CHEF
+            </Typography>
+            <List>
+              <ListItem>
+                <CustomLink to={route.CHEF_ACCOUNT}>Dashboard</CustomLink>
+              </ListItem>
+              <ListItem>
+                <CustomLink to={route.CHEF_PROFILE}>Profile</CustomLink>
+              </ListItem>
+              <ListItem>
+                <CustomLink to={route.CHEF_ORDERS}>Orders</CustomLink>
+              </ListItem>
+              <ListItem>
+                <CustomLink to={route.CHEF_DISHES}>Dishes</CustomLink>
+              </ListItem>
+              <ListItem>
+                <CustomLink to={route.CHEF_CREATE_DISH}>Create dish</CustomLink>
+              </ListItem>
+            </List>
           </>
         )}
-        {user.isAuth && !user.roles.includes('admin') && (
-          <ListItem>
-            <CustomLink to={route.CREATE_ORDER}>Create order</CustomLink>
-          </ListItem>
+        {user && isAuth && user.roles.includes('courier') && (
+          <>
+            <Divider />
+            <Typography variant="h6" align="center" sx={{ fontWeight: '600' }}>
+              COURIER
+            </Typography>
+            <List>
+              <ListItem>
+                <CustomLink to={route.COURIER_ACCOUNT}>Dashboard</CustomLink>
+              </ListItem>
+              <ListItem>
+                <CustomLink to={route.COURIER_PROFILE}>Profile</CustomLink>
+              </ListItem>
+              <ListItem>
+                <CustomLink to={route.COURIER_ORDERS}>Orders</CustomLink>
+              </ListItem>
+            </List>
+          </>
         )}
-
-        {user.isAuth &&
-          !user.roles.includes('chef') &&
-          !user.roles.includes('admin') && (
-            <ListItem>
-              <CustomLink to={route.CHEF_SIGN_UP}>Become a chef</CustomLink>
-            </ListItem>
-          )}
-        {user.isAuth &&
-          !user.roles.includes('courier') &&
-          !user.roles.includes('admin') && (
-            <ListItem>
-              <CustomLink to={route.COURIER_SIGN_UP}>
-                Become a courier
-              </CustomLink>
-            </ListItem>
-          )}
-      </List>
-      {user.isAuth && user.roles.includes('chef') && (
-        <>
-          <Divider />
-
-          <Typography variant="h6" align="center" sx={{ fontWeight: '600' }}>
-            CHEF
-          </Typography>
+        {user && isAuth && user.roles.includes('admin') && (
+          <>
+            <Typography variant="h6" align="center" sx={{ fontWeight: '600' }}>
+              ADMIN
+            </Typography>
+            <List>
+              <ListItem>
+                <CustomLink to={route.ADMIN}>Dashboard</CustomLink>
+              </ListItem>
+              <ListItem>
+                <CustomLink to={route.ADMIN_CHEFS}>Chefs</CustomLink>
+              </ListItem>
+              <ListItem>
+                <CustomLink to={route.ADMIN_DISHES}>Dishes</CustomLink>
+              </ListItem>
+              <ListItem>
+                <CustomLink to={route.ADMIN_ORDERS}>Orders</CustomLink>
+              </ListItem>
+            </List>
+          </>
+        )}
+        <Divider />
+        {!isAuth && (
           <List>
             <ListItem>
-              <CustomLink to={route.CHEF_ACCOUNT}>Dashboard</CustomLink>
+              <CustomLink to={route.SIGN_UP}>Sign up</CustomLink>
             </ListItem>
             <ListItem>
-              <CustomLink to={route.CHEF_PROFILE}>Profile</CustomLink>
-            </ListItem>
-            <ListItem>
-              <CustomLink to={route.CHEF_ORDERS}>Orders</CustomLink>
-            </ListItem>
-            <ListItem>
-              <CustomLink to={route.CHEF_DISHES}>Dishes</CustomLink>
-            </ListItem>
-            <ListItem>
-              <CustomLink to={route.CHEF_CREATE_DISH}>Create dish</CustomLink>
+              <CustomLink to={route.SIGN_IN}>Sign in</CustomLink>
             </ListItem>
           </List>
-        </>
-      )}
-      {user.isAuth && user.roles.includes('courier') && (
-        <>
-          <Divider />
-          <Typography variant="h6" align="center" sx={{ fontWeight: '600' }}>
-            COURIER
-          </Typography>
-          <List>
-            <ListItem>
-              <CustomLink to={route.COURIER_ACCOUNT}>Dashboard</CustomLink>
-            </ListItem>
-            <ListItem>
-              <CustomLink to={route.COURIER_PROFILE}>Profile</CustomLink>
-            </ListItem>
-            <ListItem>
-              <CustomLink to={route.COURIER_ORDERS}>Orders</CustomLink>
-            </ListItem>
-          </List>
-        </>
-      )}
-      {user.isAuth && user.roles.includes('admin') && (
-        <>
-          <Typography variant="h6" align="center" sx={{ fontWeight: '600' }}>
-            ADMIN
-          </Typography>
-          <List>
-            <ListItem>
-              <CustomLink to={route.ADMIN}>Dashboard</CustomLink>
-            </ListItem>
-            <ListItem>
-              <CustomLink to={route.ADMIN_CHEFS}>Chefs</CustomLink>
-            </ListItem>
-            <ListItem>
-              <CustomLink to={route.ADMIN_DISHES}>Dishes</CustomLink>
-            </ListItem>
-            <ListItem>
-              <CustomLink to={route.ADMIN_ORDERS}>Orders</CustomLink>
-            </ListItem>
-          </List>
-        </>
-      )}
-    </Navigation>
+        )}
+      </Navigation>
+    </NavigationWrapper>
   );
 };
 

@@ -33,18 +33,18 @@ const InfiniteScrollStyled = styled(InfiniteScroll)`
   }
 `;
 
-export const ReviewsList = ({ id }) => {
+export const ReviewsList = ({ dishId }) => {
   const [totalPages, setTotalPage] = useState(null);
   const LIMIT = 5;
 
   const fetchReviews = async ({ pageParam }) => {
-    const res = await getReviewsByDishId(id, pageParam, LIMIT);
+    const res = await getReviewsByDishId(dishId, pageParam, LIMIT);
     setTotalPage(Math.ceil(res.totalReviews / LIMIT));
     return res;
   };
 
   const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
-    queryKey: ['reviews', id],
+    queryKey: ['reviews', dishId],
     queryFn: fetchReviews,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
@@ -99,7 +99,7 @@ export const ReviewsList = ({ id }) => {
           <ReviewsListStyled>
             {data?.pages?.map((item) =>
               item.reviews.map((review, index) => (
-                <ReviewsItem key={review.id} review={review} id={id} />
+                <ReviewsItem key={review.id} review={review} />
               ))
             )}
           </ReviewsListStyled>

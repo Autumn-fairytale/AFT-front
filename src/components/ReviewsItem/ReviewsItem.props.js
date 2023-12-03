@@ -18,5 +18,5 @@ export const ReviewsItemProps = {
     createdAt: PropTypes.string.isRequired,
   }).isRequired,
 
-  id: PropTypes.string.isRequired,
+  // dishId: PropTypes.string.isRequired,
 };

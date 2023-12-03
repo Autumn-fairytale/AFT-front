@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { GrEdit } from 'react-icons/gr';
 import { RiDeleteBin5Line } from 'react-icons/ri';
+import { useSelector } from 'react-redux';
 
 import StarIcon from '@mui/icons-material/Star';
 import { IconButton } from '@mui/material';
@@ -9,6 +10,7 @@ import Rating from '@mui/material/Rating';
 
 import { format } from 'date-fns';
 
+import { selectUser } from '@/redux/auth/selectors';
 import styled from '@emotion/styled';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteByReviewId } from '../../api/deleteByReviewId';
@@ -31,9 +33,9 @@ const ColorButton = styled(IconButton)`
   }
 `;
 
-export const ReviewsItem = ({ review, id }) => {
-  // Test with userId
-  const userId = '6561f42ef5c506ec5f36dbba';
+export const ReviewsItem = ({ review }) => {
+  const user = useSelector(selectUser);
+  // const user = { id: '6561f42ef5c506ec5f36dbba' };
 
   const { isOpen, onClose, openModal } = useModal();
 
@@ -58,7 +60,7 @@ export const ReviewsItem = ({ review, id }) => {
   const deleteReview = useMutation({
     mutationFn: deleteByReviewId,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['reviews', id] });
+      queryClient.invalidateQueries({ queryKey: ['reviews', review.dish.id] });
     },
   });
 
@@ -97,7 +99,7 @@ export const ReviewsItem = ({ review, id }) => {
         </AvatarBox>
 
         <RatingBox>
-          {userId === review.owner.id ? (
+          {user && user.id === review.owner.id ? (
             <p>{`${review.owner.firstName} ${review.owner.lastName}`} (your)</p>
           ) : (
             <p>{`${review.owner.firstName} ${review.owner.lastName}`}</p>
@@ -105,7 +107,7 @@ export const ReviewsItem = ({ review, id }) => {
           <p style={{ fontSize: '12px', color: 'grey' }}>
             {format(new Date(review.createdAt), 'MM.yyyy')}
           </p>
-          {userId === review.owner.id && (
+          {user && user.id === review.owner.id && (
             <ButtonWrapper>
               <ColorButton
                 aria-label="edit"
@@ -152,7 +154,7 @@ export const ReviewsItem = ({ review, id }) => {
         <ReviewForm
           existingReview={review}
           dishId={review.dish.id}
-          id={id}
+          // id={id}
           onClose={onClose}
         />
       </AppModal>

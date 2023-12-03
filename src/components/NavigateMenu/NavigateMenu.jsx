@@ -31,19 +31,19 @@ export const NavigateMenu = () => {
     <NavigationWrapper>
       <LogoAndButtonWrapper>
         <img src={Logo} alt="logo" style={{ maxWidth: 100 }} />
+        {isAuth && (
+          <IconButtonStyled
+            onClick={() => {
+              if (isAuth) {
+                dispatch(signOut());
+                toast.success('You have successfully signed out');
+              }
+            }}
+          >
+            <LogoutIcon sx={{ width: 30, height: 30 }} />
+          </IconButtonStyled>
+        )}
       </LogoAndButtonWrapper>
-      {isAuth && (
-        <IconButtonStyled
-          onClick={() => {
-            if (isAuth) {
-              dispatch(signOut());
-              toast.success('You have successfully signed out');
-            }
-          }}
-        >
-          <LogoutIcon sx={{ width: 30, height: 30 }} />
-        </IconButtonStyled>
-      )}
       <Navigation>
         <List>
           {(!user || !user.roles.includes('admin')) && (
@@ -59,11 +59,11 @@ export const NavigateMenu = () => {
               </ListItem>
             </>
           )}
-          {user && isAuth && !user.roles.includes('admin') && (
+          {/* {user && isAuth && !user.roles.includes('admin') && (
             <ListItem>
               <CustomLink to={route.CREATE_ORDER}>Create order</CustomLink>
             </ListItem>
-          )}
+          )} */}
 
           {user &&
             isAuth &&

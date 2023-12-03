@@ -21,7 +21,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     top: 13,
     border: `2px solid ${theme.palette.background.paper}`,
     padding: '0 4px',
-    backgroundColor: '#004710',
+    backgroundColor: '#363945',
     color: 'white',
   },
 }));

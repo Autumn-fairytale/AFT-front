@@ -92,6 +92,7 @@ const SigUpForm = () => {
           control={control}
           errors={errors}
           className="sign-up-form__input"
+          autoComplete="new-password"
           onFocus={() => setShowPasswordHints(true)}
           onBlur={() => setShowPasswordHints(false)}
         />

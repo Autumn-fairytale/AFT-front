@@ -2,7 +2,12 @@ import { Controller } from 'react-hook-form';
 
 import PropTypes from 'prop-types';
 
-import { AppTextInput } from '@/shared';
+import { AppPasswordInput, AppTextInput } from '@/shared';
+
+const componentMap = {
+  text: AppTextInput,
+  password: AppPasswordInput,
+};
 
 export const ReusedFormController = ({
   control,
@@ -14,6 +19,8 @@ export const ReusedFormController = ({
   errors,
   error,
   helperText,
+  autoComplete,
+  type,
   ...other
 }) => {
   let defaultError, defaultHelperText;
@@ -26,12 +33,14 @@ export const ReusedFormController = ({
     defaultHelperText = errors[name]?.message;
   }
 
+  const Component = componentMap[type] || AppTextInput; // Select the component based on type
+
   return (
     <Controller
       control={control}
       name={name}
       render={({ field }) => (
-        <AppTextInput
+        <Component
           label={label}
           placeholder={placeholder}
           onChange={(e) => field.onChange(e)}
@@ -40,6 +49,7 @@ export const ReusedFormController = ({
           className={className}
           error={defaultError || error}
           helperText={defaultHelperText || helperText}
+          autoComplete={autoComplete}
           {...field}
           {...other}
         />
@@ -51,6 +61,7 @@ export const ReusedFormController = ({
 
 ReusedFormController.defaultProps = {
   margin: 'normal',
+  type: 'text',
 };
 
 ReusedFormController.propTypes = {
@@ -63,4 +74,6 @@ ReusedFormController.propTypes = {
   errors: PropTypes.object,
   error: PropTypes.bool,
   helperText: PropTypes.string,
+  autoComplete: PropTypes.string,
+  type: PropTypes.oneOf(['text', 'password']),
 };

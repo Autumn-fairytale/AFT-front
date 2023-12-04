@@ -69,6 +69,7 @@ const SigInForm = () => {
           control={control}
           errors={errors}
           className="sign-in-form__input"
+          autoComplete="current-password"
         />
         {/* error from server */}
         {formError && <Alert severity="error">{formError}</Alert>}{' '}

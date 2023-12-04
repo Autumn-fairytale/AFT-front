@@ -22,6 +22,7 @@ export const FirstNameController = ({
       placeholder={'Enter your first name' || other.placeholder}
       className={className}
       errors={errors}
+      autoComplete="given-name"
       {...other}
     />
   );
@@ -45,6 +46,7 @@ export const LastNameController = ({
       placeholder={'Enter your last name' || other.placeholder}
       className={className}
       errors={errors}
+      autoComplete="family-name"
       {...other}
     />
   );
@@ -63,6 +65,7 @@ export const EmailController = ({ control, errors, className, ...other }) => {
       placeholder={'e.g., email@example.com' || other.placeholder}
       className={className}
       errors={errors}
+      autoComplete="email"
       {...other}
     />
   );
@@ -83,6 +86,7 @@ export const PasswordController = ({
       control={control}
       name="password"
       label="Password"
+      type="password"
       placeholder={'e.g., Qwerty1!' || other.placeholder}
       className={className}
       errors={errors}

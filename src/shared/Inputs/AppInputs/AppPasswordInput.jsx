@@ -32,7 +32,6 @@ AppPasswordInput.propTypes = {
 
 AppPasswordInput.defaultProps = {
   label: 'Password',
-  autoComplete: 'off',
 };
 
 AppPasswordInput.displayName = 'AppPasswordInput';

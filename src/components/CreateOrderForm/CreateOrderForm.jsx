@@ -6,38 +6,12 @@ import { addSpacesToPhoneNumber, removeSpacesFromPhoneNumber } from '@/helpers';
 import { createOrderSchema } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import PaymentButton from '../PaymentButton';
+import { CreateOrderFormPropTypes } from './CreateOrderForm.props';
 import { CreateOrderFormStyled } from './CreateOrderForm.styled';
 import DeliveryInfo from './DeliveryInfo';
 import OrderInfo from './OrderInfo';
 
-const items = [
-  {
-    dish: {
-      id: '655f6f7f9da6654a23460bad',
-      name: 'Available Kotleta',
-      image: 'https://site/url_to_image.jpg',
-      description: 'A tasty kotleta with fresh  ingredients.',
-      price: 11.99,
-      isVegan: false,
-      cuisine: 'Ukrainian',
-      category: 'Main',
-      isAvailable: true,
-      spiceLevel: 1,
-    },
-    count: 2,
-  },
-];
-
-const data = {
-  chef: {
-    id: '23nj23jnNJ34JK2',
-    avatar: 'image.jpg',
-    name: 'Andrii Zaimak',
-  },
-  items,
-};
-
-const CreateOrderForm = () => {
+const CreateOrderForm = ({ data: cart }) => {
   const {
     control,
     handleSubmit,
@@ -72,7 +46,7 @@ const CreateOrderForm = () => {
         email: data.email,
         additionalInfo: data.additionalInfo.length || null,
         address: data.address,
-        items: items.map((item) => ({
+        items: cart.items.map((item) => ({
           count: item.count,
           dishId: item.dish.id,
         })),
@@ -89,11 +63,13 @@ const CreateOrderForm = () => {
     <>
       <CreateOrderFormStyled onSubmit={handleSubmit(formSubmitHandler)}>
         <DeliveryInfo control={control} errors={errors} />
-        <OrderInfo data={data} isSubmitting={isSubmitting} />
+        <OrderInfo data={cart} isSubmitting={isSubmitting} />
       </CreateOrderFormStyled>
       {orderId && <PaymentButton orderId={orderId} isAutoSubmit={true} />}
     </>
   );
 };
+
+CreateOrderForm.propTypes = CreateOrderFormPropTypes;
 
 export default CreateOrderForm;

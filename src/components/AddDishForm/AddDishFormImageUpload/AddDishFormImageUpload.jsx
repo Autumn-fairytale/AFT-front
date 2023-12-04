@@ -18,6 +18,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 
 import { deleteFile } from '@/helpers/deleteFile';
+import { extractFileNameFromUrl } from '@/helpers/extractFileNameFromUrl';
 import { useS3ImageUploader } from '@/hooks';
 import { updateFormData } from '@/redux/createDish';
 import { fetchBlobFromUrl } from '../addDishHelpers/fetchBlobFromUrl';
@@ -38,6 +39,7 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
   const [showCropper, setShowCropper] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [fileInfo, setFileInfo] = useState({ name: null, type: null });
+  const [currentFileName, setCurrentFileName] = useState('');
 
   const dispatch = useDispatch();
   const imagesCategory = 'dishes';
@@ -85,13 +87,23 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
 
   const handleSave = async () => {
     try {
+      if (currentFileName) {
+        await deleteFile(currentFileName, imagesCategory);
+      }
+
       let croppedImageBlob = await getCroppedImg(imageSrc, croppedArea);
 
       const blob = await fetchBlobFromUrl(croppedImageBlob);
 
       const url = await uploadToS3(blob);
 
-      const uploadedImageURL = url.request.responseURL.split('?')[0];
+      const fullResponseURL = url.request.responseURL;
+
+      const newFileName = extractFileNameFromUrl(fullResponseURL);
+
+      setCurrentFileName(newFileName);
+
+      const uploadedImageURL = fullResponseURL.split('?')[0];
 
       dispatch(updateFormData({ image: uploadedImageURL }));
 

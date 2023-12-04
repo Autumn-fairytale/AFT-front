@@ -39,13 +39,15 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
   const [fileInfo, setFileInfo] = useState({ name: null, type: null });
 
   const dispatch = useDispatch();
+  const imagesCategory = 'dishes';
 
   const { uploadToS3, isUploading } = useS3ImageUploader(
     fileInfo.name,
-    fileInfo.type
+    fileInfo.type,
+    imagesCategory
   );
 
-  const { deleteFile } = usePresignedDeleteURL(fileInfo.name);
+  const { deleteFile } = usePresignedDeleteURL(fileInfo.name, imagesCategory);
 
   const fileInputRef = useRef();
 

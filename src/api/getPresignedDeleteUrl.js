@@ -1,9 +1,9 @@
 import { publicInstance } from './axios';
 
-export const getPresignedDeleteURL = async (fileName) => {
+export const getPresignedDeleteURL = async (fileName, category) => {
   try {
     const response = await publicInstance.get(`/s3/s3-presigned-delete-url`, {
-      params: { fileName },
+      params: { fileName, category },
     });
     return response.data.url;
   } catch (error) {

@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { getPresignedURL } from '@/api';
 
-export const useS3ImageUploader = (fileName, fileType) => {
+export const useS3ImageUploader = (fileName, fileType, category) => {
   const [presignedUrl, setPresignedUrl] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [loadingUrl, setLoadingUrl] = useState(false);
@@ -13,11 +13,11 @@ export const useS3ImageUploader = (fileName, fileType) => {
   // Fetching presigned url
   useEffect(() => {
     const fetchURL = async () => {
-      if (!fileName || !fileType) return;
+      if (!fileName || !fileType || !category) return;
 
       setLoadingUrl(true);
       try {
-        const url = await getPresignedURL(fileName, fileType);
+        const url = await getPresignedURL(fileName, fileType, category);
         setPresignedUrl(url);
       } catch (error) {
         setError(error);
@@ -27,7 +27,7 @@ export const useS3ImageUploader = (fileName, fileType) => {
     };
 
     fetchURL();
-  }, [fileName, fileType]);
+  }, [fileName, fileType, category]);
 
   // Upload
   const uploadToS3 = async (blob) => {

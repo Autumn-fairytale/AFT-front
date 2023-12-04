@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { getPresignedDeleteURL } from '@/api/getPresignedDeleteUrl';
 
-export const usePresignedDeleteURL = (fileName) => {
+export const usePresignedDeleteURL = (fileName, category) => {
   const [url, setUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -16,7 +16,7 @@ export const usePresignedDeleteURL = (fileName) => {
 
       setLoading(true);
       try {
-        const presignedUrl = await getPresignedDeleteURL(fileName);
+        const presignedUrl = await getPresignedDeleteURL(fileName, category);
 
         setUrl(presignedUrl);
         setDeleted(false);
@@ -28,7 +28,7 @@ export const usePresignedDeleteURL = (fileName) => {
     };
 
     fetchDeleteURL();
-  }, [fileName]);
+  }, [fileName, category]);
 
   const deleteFile = async () => {
     if (!url) return;

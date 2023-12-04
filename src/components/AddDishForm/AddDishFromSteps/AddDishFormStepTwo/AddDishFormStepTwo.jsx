@@ -24,7 +24,6 @@ export const AddDishFormStepTwo = ({ errors, control }) => {
   error && console.log(error);
 
   const isOptionExist = options && options.length > 0;
-
   return (
     <>
       <Controller
@@ -36,11 +35,13 @@ export const AddDishFormStepTwo = ({ errors, control }) => {
               <Autocomplete
                 multiple
                 loading={loading}
-                options={options.map((option) => option.name)}
-                getOptionLabel={(option) => option}
-                value={field.value}
+                options={options}
+                getOptionLabel={(option) => option.name}
+                value={options.filter((option) =>
+                  field.value.includes(option.id)
+                )}
                 onChange={(_, newValue) => {
-                  field.onChange(newValue);
+                  field.onChange(newValue.map((option) => option.id));
                 }}
                 renderTags={() => null}
                 renderInput={(params) => (
@@ -81,21 +82,27 @@ export const AddDishFormStepTwo = ({ errors, control }) => {
                   backgroundColor: 'inherit',
                 }}
               >
-                {field.value.map((ingredient) => (
-                  <Chip
-                    key={ingredient}
-                    label={ingredient}
-                    sx={{
-                      bgcolor: 'primary.light',
-                    }}
-                    onDelete={() => {
-                      const newValues = field.value.filter(
-                        (chip) => chip !== ingredient
-                      );
-                      field.onChange(newValues);
-                    }}
-                  />
-                ))}
+                {field.value.map((ingredientId) => {
+                  const ingredient = options.find(
+                    (opt) => opt.id === ingredientId
+                  );
+
+                  return (
+                    <Chip
+                      key={ingredientId}
+                      label={ingredient?.name ?? ''}
+                      sx={{
+                        bgcolor: 'primary.light',
+                      }}
+                      onDelete={() => {
+                        const newValues = field.value.filter(
+                          (id) => id !== ingredientId
+                        );
+                        field.onChange(newValues);
+                      }}
+                    />
+                  );
+                })}
               </Card>
             </Box>
           )

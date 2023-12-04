@@ -9,6 +9,7 @@ import { selectIsAuth, selectRoles, selectUser } from '@/redux/auth/selectors';
 import { signOut } from '@/redux/auth/slice';
 import { CustomLink } from '../CustomLink/CustomLink';
 import { IconButtonStyled } from '../UserMenu/UserMenu.slyled';
+import { NavigateMenuPropTypes } from './NavigateMenu.props';
 import {
   LogoAndButtonWrapper,
   Navigation,
@@ -20,7 +21,7 @@ import Logo from '../../assets/images/logo.svg';
 // const user = { isAuth: true, roles: ['user', 'chef', 'admin', 'courier'] };
 // const user = { isAuth: true, roles: ['user', 'chef', 'courier', ''] };
 
-export const NavigateMenu = () => {
+export const NavigateMenu = ({ onClose, onOpen }) => {
   const dispatch = useDispatch();
 
   const user = useSelector(selectUser);
@@ -30,7 +31,7 @@ export const NavigateMenu = () => {
   const roles = useSelector(selectRoles);
 
   return (
-    <NavigationWrapper>
+    <NavigationWrapper onClick={onClose()} onKeyDown={onOpen()}>
       <LogoAndButtonWrapper>
         <img src={Logo} alt="logo" style={{ maxWidth: 100 }} />
         {isAuth && (
@@ -163,6 +164,8 @@ export const NavigateMenu = () => {
     </NavigationWrapper>
   );
 };
+
+NavigateMenu.propTypes = NavigateMenuPropTypes;
 
 // export const route = Object.freeze({
 //   SIGN_IN: '/sign-in', done!!!!!!

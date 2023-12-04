@@ -21,8 +21,7 @@ import { FormWrapperStyled } from '@/shared/AuthFormComponents/styles';
 import { getError, useIsSameData } from '@/shared/AuthFormComponents/utils';
 import { useTheme } from '@emotion/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { PasswordHints } from './utils/PasswordHints';
-import { PrivacyPolicies } from './utils/PrivacyPolicies';
+import { PasswordHints, PrivacyPolicies, useShowPasswordHints } from './utils';
 
 const defaultValues = {
   firstName: '',
@@ -33,7 +32,6 @@ const defaultValues = {
 
 const SigUpForm = () => {
   const [formError, setFormError] = useState(''); // an error from server that is shown in alert
-  const [showPasswordHints, setShowPasswordHints] = useState(false); // are password hints displayed?
   const isLoading = useSelector(selectAuthLoading);
   const theme = useTheme();
   const isSameData = useIsSameData(); // did user change field data after unsuccessful submission?
@@ -51,6 +49,7 @@ const SigUpForm = () => {
   });
 
   const { errors } = useFormState({ control });
+  const showPasswordHints = useShowPasswordHints(errors); // show password hints
 
   const onSubmit = async (data) => {
     if (isSameData(data)) return;
@@ -93,8 +92,6 @@ const SigUpForm = () => {
           errors={errors}
           className="sign-up-form__input"
           autoComplete="new-password"
-          onFocus={() => setShowPasswordHints(true)}
-          onBlur={() => setShowPasswordHints(false)}
         />
         <PasswordHints
           passwordValue={passwordValue}

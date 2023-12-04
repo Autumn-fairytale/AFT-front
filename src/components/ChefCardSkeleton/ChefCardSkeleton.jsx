@@ -4,14 +4,14 @@ import Skeleton from '@mui/material/Skeleton';
 import {
   ChefCardPropTypes,
   defaultChefCardPropTypes,
-} from './ChefCardSceleton.props';
+} from './ChefCardSkeleton.props';
 import {
   ChefCardWrapper,
   CircleWrapper,
   RectangularWrapper,
-} from './ChefCardSceleton.styled';
+} from './ChefCardSkeleton.styled';
 
-export const ChefCardSceleton = ({ isCarousel }) => {
+export const ChefCardSkeleton = ({ isCarousel }) => {
   return (
     <ChefCardWrapper isCarousel={isCarousel}>
       <CircleWrapper>
@@ -33,5 +33,5 @@ export const ChefCardSceleton = ({ isCarousel }) => {
   );
 };
 
-ChefCardSceleton.propTypes = ChefCardPropTypes;
-ChefCardSceleton.defaultProps = defaultChefCardPropTypes;
+ChefCardSkeleton.propTypes = ChefCardPropTypes;
+ChefCardSkeleton.defaultProps = defaultChefCardPropTypes;

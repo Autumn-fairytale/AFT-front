@@ -1,12 +1,12 @@
 import { CarouselChefs } from '@/components/CarouselChefs/CarouselChefs';
-import { CarouselChefsSceleton } from '@/components/CarouselChefsSceleton/CarouselDishesSceleton';
+import { CarouselChefsSkeleton } from '@/components/CarouselChefsSkeleton/CarouselDishesSkeleton';
 import { CarouselDishes } from '@/components/CarouselDishes/CarouselDishes';
-import { CarouselDishesSceleton } from '@/components/CarouselDishesSceleton/CarouselDishesSceleton';
+import { CarouselDishesSkeleton } from '@/components/CarouselDishesSkeleton/CarouselDishesSkeleton';
 import Hero from '@/components/Hero';
 import Overview from '@/components/Overview';
 import { route } from '@/constants';
 import { usePopularChefs, usePopularDishes } from '@/hooks';
-import { Main } from '@/shared/Main/Main';
+import { HomePageStyled } from './Homepage.styled';
 
 const HomePage = () => {
   const {
@@ -21,14 +21,14 @@ const HomePage = () => {
   } = usePopularChefs();
 
   return (
-    <Main>
+    <HomePageStyled>
       <Hero />
       <Overview
         title="Popular dishes"
         redirectTo={route.DISHES}
         component={
           popularDishesIsLoading ? (
-            <CarouselDishesSceleton />
+            <CarouselDishesSkeleton />
           ) : (
             <CarouselDishes data={popularDishes} />
           )
@@ -39,13 +39,13 @@ const HomePage = () => {
         redirectTo={route.CHEFS}
         component={
           popularChefsIsLoading ? (
-            <CarouselChefsSceleton />
+            <CarouselChefsSkeleton />
           ) : (
             <CarouselChefs data={popularChefs} />
           )
         }
       />
-    </Main>
+    </HomePageStyled>
   );
 };
 

@@ -24,7 +24,7 @@ export const dishSchema = zod.object({
 
   isVegan: zod.boolean(),
 
-  // image: zod.string().url('Must be a valid URL'),
+  image: zod.string().url('Please add your image'),
 
   cookTimeInMinutes: zod
     .number()

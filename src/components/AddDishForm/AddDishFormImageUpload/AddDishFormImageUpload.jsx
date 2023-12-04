@@ -1,7 +1,7 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Cropper from 'react-easy-crop';
 import { Controller } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -21,7 +21,7 @@ import { FOLDERS } from '@/constants/mocks';
 import { deleteFile } from '@/helpers/deleteFile';
 import { extractFileNameFromUrl } from '@/helpers/extractFileNameFromUrl';
 import { useS3ImageUploader } from '@/hooks';
-import { updateFormData } from '@/redux/createDish';
+import { selectDishImage, updateFormData } from '@/redux/createDish';
 import { fetchBlobFromUrl } from '../addDishHelpers/fetchBlobFromUrl';
 import { validateFile } from '../addDishHelpers/validateFile';
 import getCroppedImg from '../crop/getCroppedImage';
@@ -43,6 +43,14 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
   const [currentFileName, setCurrentFileName] = useState('');
 
   const dispatch = useDispatch();
+  const dishImageURL = useSelector(selectDishImage);
+
+  useEffect(() => {
+    if (dishImageURL) {
+      const fileName = extractFileNameFromUrl(dishImageURL);
+      setCurrentFileName(fileName);
+    }
+  }, [dishImageURL]);
 
   const { uploadToS3, isUploading } = useS3ImageUploader(
     fileInfo.name,
@@ -118,6 +126,7 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
   };
 
   const handleDelete = async (image, onChange) => {
+    console.log(currentFileName);
     if (currentFileName) {
       await deleteFile(currentFileName, FOLDERS.DISHES);
     }

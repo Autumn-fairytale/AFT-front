@@ -3,6 +3,7 @@ import { Controller } from 'react-hook-form';
 import {
   Autocomplete,
   Box,
+  Card,
   Chip,
   CircularProgress,
   FormControlLabel,
@@ -18,16 +19,11 @@ import { FIELD_WIDTH } from '../../AddDishForm';
 import { HelperText } from '../../HelperText';
 
 export const AddDishFormStepTwo = ({ errors, control }) => {
-  const {
-    data: options,
-    loading,
-    error,
-  } = useFetchIngredients('data/ingredients.json');
+  const { data: options, loading, error } = useFetchIngredients();
 
   error && console.log(error);
 
   const isOptionExist = options && options.length > 0;
-
   return (
     <>
       <Controller
@@ -35,25 +31,20 @@ export const AddDishFormStepTwo = ({ errors, control }) => {
         control={control}
         render={({ field }) =>
           isOptionExist && (
-            <Autocomplete
-              sx={{ width: FIELD_WIDTH }}
-              multiple
-              loading={loading}
-              options={options.map((option) => option.name)}
-              getOptionLabel={(option) => option}
-              value={field.value}
-              onChange={(_, newValue) => {
-                field.onChange(newValue);
-              }}
-              renderInput={(params) => {
-                const handleDelete = (chipToDelete) => {
-                  const newValues = field.value.filter(
-                    (chip) => chip !== chipToDelete
-                  );
-                  field.onChange(newValues);
-                };
-
-                return (
+            <Box sx={{ width: FIELD_WIDTH }}>
+              <Autocomplete
+                multiple
+                loading={loading}
+                options={options}
+                getOptionLabel={(option) => option.name}
+                value={options.filter((option) =>
+                  field.value.includes(option.id)
+                )}
+                onChange={(_, newValue) => {
+                  field.onChange(newValue.map((option) => option.id));
+                }}
+                renderTags={() => null}
+                renderInput={(params) => (
                   <TextField
                     {...params}
                     label="Ingredients"
@@ -67,40 +58,56 @@ export const AddDishFormStepTwo = ({ errors, control }) => {
                     }
                     InputProps={{
                       ...params.InputProps,
-                      startAdornment: field.value.length > 0 && (
-                        <Box
-                          sx={{
-                            display: 'flex',
-                            flexWrap: 'wrap',
-                            gap: 1,
-                          }}
-                        >
-                          {field.value.map((ingredient) => (
-                            <Chip
-                              key={ingredient}
-                              label={ingredient}
-                              onDelete={() => handleDelete(ingredient)}
-                            />
-                          ))}
-                        </Box>
-                      ),
                       endAdornment: (
                         <>
-                          {loading ? (
+                          {loading && (
                             <CircularProgress color="inherit" size={20} />
-                          ) : null}
+                          )}
                           {params.InputProps.endAdornment}
                         </>
                       ),
                     }}
                   />
-                );
-              }}
-            />
+                )}
+              />
+              <Card
+                elevation={3}
+                sx={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: 1.5,
+                  p: 1,
+                  minHeight: 250,
+                  alignContent: 'flex-start',
+                  backgroundColor: 'inherit',
+                }}
+              >
+                {field.value.map((ingredientId) => {
+                  const ingredient = options.find(
+                    (opt) => opt.id === ingredientId
+                  );
+
+                  return (
+                    <Chip
+                      key={ingredientId}
+                      label={ingredient?.name ?? ''}
+                      sx={{
+                        bgcolor: 'primary.light',
+                      }}
+                      onDelete={() => {
+                        const newValues = field.value.filter(
+                          (id) => id !== ingredientId
+                        );
+                        field.onChange(newValues);
+                      }}
+                    />
+                  );
+                })}
+              </Card>
+            </Box>
           )
         }
       />
-
       <AddDishFormSpiceLevel
         control={control}
         name="spiceLevel"

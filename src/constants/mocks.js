@@ -21,3 +21,10 @@ export const CATEGORIES = [
 ];
 
 export const toDelivery = '→ delivery';
+
+export const FOLDERS = {
+  DISHES: 'dishes',
+  CHEFS: 'chef-certificates',
+  DELIVERY: 'delivery-certificates',
+  AVATARS: 'user-avatars',
+};

@@ -67,3 +67,16 @@ export const signUp = createAsyncThunk(
     }
   }
 );
+
+export const getCurrentUser = createAsyncThunk(
+  'auth/getCurrentUser',
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await privateInstance.get('/users/current-user');
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);

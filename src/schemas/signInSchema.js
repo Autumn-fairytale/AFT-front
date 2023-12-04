@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const singInSchema = z.object({
+const signInSchema = z.object({
   email: z
     .string()
     .min(1, { message: 'Email is required' })
@@ -8,4 +8,4 @@ const singInSchema = z.object({
   password: z.string().min(1, { message: 'Password is required' }),
 });
 
-export default singInSchema;
+export default signInSchema;

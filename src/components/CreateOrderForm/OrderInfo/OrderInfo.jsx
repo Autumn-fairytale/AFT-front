@@ -16,8 +16,11 @@ const OrderInfo = ({ data /*, isSubmitting*/ }) => {
       (acc, item) => acc + item.dish.price * item.count,
       0
     );
-    const tax = subtotal * (config.taxPercent / 100);
     const delivery = 50;
+    const tax =
+      (subtotal + delivery) / (1 - config.taxPercent / 100) -
+      (subtotal + delivery);
+
     return {
       subtotal,
       tax,

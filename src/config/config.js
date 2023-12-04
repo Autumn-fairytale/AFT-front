@@ -1,5 +1,5 @@
 const config = {
-  taxPercent: 15,
+  taxPercent: 1.5,
 };
 
 export default config;

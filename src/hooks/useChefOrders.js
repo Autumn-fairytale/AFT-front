@@ -1,7 +1,8 @@
-import { useQuery } from 'react-query';
 import { toast } from 'react-toastify';
 
 import axios from 'axios';
+
+import { useQuery } from '@tanstack/react-query';
 
 const useChefOrder = (chefID) => {
   const fetchUserOrders = async () => {
@@ -17,9 +18,13 @@ const useChefOrder = (chefID) => {
     }
   };
 
-  return useQuery(['orders', chefID], fetchUserOrders, {
-    refetchOnWindowFocus: false,
-    staleTime: 3 * 60 * 1000,
+  return useQuery({
+    queryKey: ['orders', chefID],
+    queryFn: fetchUserOrders,
+    options: {
+      refetchOnWindowFocus: false,
+      staleTime: 3 * 60 * 1000,
+    },
   });
 };
 

@@ -1,5 +1,7 @@
 import { CarouselChefs } from '@/components/CarouselChefs/CarouselChefs';
+import { CarouselChefsSceleton } from '@/components/CarouselChefsSceleton/CarouselDishesSceleton';
 import { CarouselDishes } from '@/components/CarouselDishes/CarouselDishes';
+import { CarouselDishesSceleton } from '@/components/CarouselDishesSceleton/CarouselDishesSceleton';
 import Hero from '@/components/Hero';
 import Overview from '@/components/Overview';
 import { route } from '@/constants';
@@ -9,12 +11,12 @@ import { Main } from '@/shared/Main/Main';
 const HomePage = () => {
   const {
     data: popularDishes = [],
-    //isLoading: popularDishesIsLoading,
+    isLoading: popularDishesIsLoading,
     //error: popularDishesError,
   } = usePopularDishes();
   const {
     data: popularChefs = [],
-    //isLoading: popularChefsIsLoading,
+    isLoading: popularChefsIsLoading,
     //error: popularChefsError,
   } = usePopularChefs();
 
@@ -24,12 +26,24 @@ const HomePage = () => {
       <Overview
         title="Popular dishes"
         redirectTo={route.DISHES}
-        component={<CarouselDishes data={popularDishes} />}
+        component={
+          popularDishesIsLoading ? (
+            <CarouselDishesSceleton />
+          ) : (
+            <CarouselDishes data={popularDishes} />
+          )
+        }
       />
       <Overview
         title="Popular chefs"
         redirectTo={route.CHEFS}
-        component={<CarouselChefs data={popularChefs} />}
+        component={
+          popularChefsIsLoading ? (
+            <CarouselChefsSceleton />
+          ) : (
+            <CarouselChefs data={popularChefs} />
+          )
+        }
       />
     </Main>
   );

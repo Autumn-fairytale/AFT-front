@@ -1,11 +1,16 @@
-import Header from './components/Header/Header';
+// import AppRouter from './routes/AppRouter';
+import { ToastContainer } from 'react-toastify';
+
 import AppRouter from './routes/AppRouter';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <>
-      <Header />
       <AppRouter />
+
+      <ToastContainer autoClose={1500} closeOnClick />
     </>
   );
 }

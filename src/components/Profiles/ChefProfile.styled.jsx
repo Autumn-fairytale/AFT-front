@@ -37,7 +37,7 @@ export const RateValue = styled('h4')(() => ({
   alignItems: 'center',
 }));
 
-export const ChefCertifaicate = styled('img')(() => ({
+export const ChefCertificate = styled('img')(() => ({
   width: '600px',
   height: '400px',
   objectFit: 'cover',

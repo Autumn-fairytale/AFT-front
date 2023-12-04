@@ -18,7 +18,7 @@ import { AppButton } from '@/shared';
 import { AppModal } from '@/shared/AppModal/AppModal';
 import {
   ChefButtonsWrapper,
-  ChefCertifaicate,
+  ChefCertificate,
   ChefInfoWrapper,
   ChefLocation,
   ChefName,
@@ -95,9 +95,9 @@ const ChefProfile = ({ chefInfo }) => {
               onClose={() => setIsModalOpen(!isModalOpen)}
               isOpen={isModalOpen}
             >
-              <ChefCertifaicate
+              <ChefCertificate
                 src={chefInfo.certificate}
-                alt={`${chefInfo.name}-certifaicate`}
+                alt={`${chefInfo.name}-certificate`}
               />
             </AppModal>
           </Link>

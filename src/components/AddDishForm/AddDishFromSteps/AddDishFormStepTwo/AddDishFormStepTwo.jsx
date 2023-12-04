@@ -19,11 +19,7 @@ import { FIELD_WIDTH } from '../../AddDishForm';
 import { HelperText } from '../../HelperText';
 
 export const AddDishFormStepTwo = ({ errors, control }) => {
-  const {
-    data: options,
-    loading,
-    error,
-  } = useFetchIngredients('data/ingredients.json');
+  const { data: options, loading, error } = useFetchIngredients();
 
   error && console.log(error);
 

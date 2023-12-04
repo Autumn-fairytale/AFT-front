@@ -21,8 +21,10 @@ import {
 const CartItem = ({ data, ...props }) => {
   const { dish, count } = data;
   const [itemCount, setItemCount] = useState(count);
+
   const { mutate: updateCart } = useUpdateCartItemById();
   const { mutate: deleteCart } = useDeleteCartItem();
+
   const fetch = useCallback(
     debounce(async (newCount) => {
       if (newCount === 0) {

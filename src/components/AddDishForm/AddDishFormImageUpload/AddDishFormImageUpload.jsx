@@ -17,7 +17,8 @@ import {
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 
-import { usePresignedDeleteURL, useS3ImageUploader } from '@/hooks';
+import { deleteFile } from '@/helpers/deleteFile';
+import { useS3ImageUploader } from '@/hooks';
 import { updateFormData } from '@/redux/createDish';
 import { fetchBlobFromUrl } from '../addDishHelpers/fetchBlobFromUrl';
 import { validateFile } from '../addDishHelpers/validateFile';
@@ -46,8 +47,6 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
     fileInfo.type,
     imagesCategory
   );
-
-  const { deleteFile } = usePresignedDeleteURL(fileInfo.name, imagesCategory);
 
   const fileInputRef = useRef();
 
@@ -108,7 +107,7 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
 
   const handleDelete = async (image, onChange) => {
     if (fileInfo?.name) {
-      await deleteFile();
+      await deleteFile(fileInfo.name, imagesCategory);
     }
 
     if (image) {

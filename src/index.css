@@ -30,10 +30,18 @@ p {
 }
 
 /* Links */
-a,
-a:link,
-a:visited {
+a {
   color: inherit;
+}
+a:focus,
+a:active {
+  outline: none;
+}
+a,
+a:visited {
+  text-decoration: none;
+}
+a:hover {
   text-decoration: none;
 }
 

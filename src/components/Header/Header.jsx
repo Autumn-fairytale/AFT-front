@@ -1,118 +1,68 @@
 import { useState } from 'react';
-import { FaShoppingCart, FaUser } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import AppBar from '@mui/material/AppBar';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import MenuIcon from '@mui/icons-material/Menu';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 
-import { theme } from '@/theme/theme';
-import { ThemeProvider } from '@emotion/react';
-import SearchBar from './searchBar.jsx';
+import { route } from '@/constants/route.js';
+import { selectIsAuth } from '@/redux/auth/selectors.js';
+import { NavigateMenu } from '../NavigateMenu/NavigateMenu.jsx';
+import { NotAuthUserMenu } from '../NotAuthUserMenu/NotAuthUserMenu.jsx';
+import { UserMenu } from '../UserMenu/UserMenu.jsx';
+import { IconButtonStyled } from '../UserMenu/UserMenu.slyled.js';
+import { AppBarStyled, AppContainerStyled } from './Header.styled.js';
 
+// import SearchBar from './searchBar.jsx';
 import Logo from '../../assets/images/logo.svg';
 
-import './header.styled.css';
+// Mock user data
+// const user = { isAuth: true, roles: ['user', 'chef', 'admin', ''] };
 
-function Header() {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
+  const isAuth = useSelector(selectIsAuth);
+
+  const toggleDrawer = () => (event) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+
+    setIsOpen(!isOpen);
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <AppBar
-        position="static"
-        style={{ background: theme.palette.background.default }}
+    <AppBarStyled position="static">
+      <AppContainerStyled>
+        <Link to={route.HOME}>
+          <img src={Logo} alt="logo" style={{ maxWidth: 100 }} />
+        </Link>
+
+        <Toolbar>
+          {!isAuth && <NotAuthUserMenu />}
+          {isAuth && <UserMenu />}
+
+          <IconButtonStyled aria-label="menu" onClick={toggleDrawer(true)}>
+            <MenuIcon sx={{ width: 35, height: 35 }} />
+          </IconButtonStyled>
+        </Toolbar>
+      </AppContainerStyled>
+      <SwipeableDrawer
+        anchor={'left'}
+        open={isOpen}
+        onClose={toggleDrawer()}
+        onOpen={toggleDrawer()}
       >
-        <div className="header-layout">
-          <div className="logo-container">
-            <Link to="#">
-              <img src={Logo} alt="logo" style={{ maxWidth: 100 }} />
-            </Link>
-          </div>
-          <Toolbar style={{ padding: '0 ' }}>
-            <div className="search-bar">
-              <SearchBar />
-            </div>
-
-            <div className="navbar">
-              <Link to="#" className="nav-link">
-                <Typography
-                  variant="h6"
-                  style={{
-                    fontFamily: theme.typography.fontFamily,
-                    color: theme.palette.secondary.main,
-                  }}
-                >
-                  Home
-                </Typography>
-              </Link>
-              <Link to="#" className="nav-link">
-                <Typography
-                  variant="h6"
-                  style={{
-                    fontFamily: theme.typography.fontFamily,
-                    color: theme.palette.secondary.main,
-                  }}
-                >
-                  About
-                </Typography>
-              </Link>
-              <Link to="#" className="nav-link">
-                <Typography
-                  variant="h6"
-                  style={{
-                    fontFamily: theme.typography.fontFamily,
-                    color: theme.palette.secondary.main,
-                  }}
-                >
-                  Contact
-                </Typography>
-              </Link>
-            </div>
-
-            <div className="user-cart-icons">
-              <IconButton
-                className="icon"
-                size="small"
-                edge="end"
-                color="inherit"
-                onClick={handleMenuOpen}
-              >
-                <FaUser />
-              </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleMenuClose}
-              >
-                <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-                <MenuItem onClick={handleMenuClose}>Log in</MenuItem>
-              </Menu>
-
-              <IconButton
-                className="icon"
-                size="small"
-                edge="end"
-                color="inherit"
-              >
-                <FaShoppingCart />
-              </IconButton>
-            </div>
-          </Toolbar>
-        </div>
-      </AppBar>
-    </ThemeProvider>
+        <NavigateMenu />
+      </SwipeableDrawer>
+    </AppBarStyled>
   );
-}
+};
 
 export default Header;

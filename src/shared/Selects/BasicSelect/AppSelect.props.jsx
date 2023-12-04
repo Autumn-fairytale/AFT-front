@@ -15,8 +15,8 @@ const optionTypes = PropTypes.oneOfType([
 
 export const basicSelectPropTypes = {
   label: PropTypes.string,
-  value: valueTypes.isRequired,
-  onChange: PropTypes.func.isRequired,
+  value: valueTypes, //.isRequired,
+  onChange: PropTypes.func, //.isRequired,
   options: optionTypes.isRequired,
   error: PropTypes.bool,
   helperText: PropTypes.string,

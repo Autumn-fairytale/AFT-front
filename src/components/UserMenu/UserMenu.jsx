@@ -6,8 +6,10 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Avatar, Badge } from '@mui/material';
 
+
 import { signOut } from '@/redux/auth/operations';
-import { selectIsAuth, selectUser } from '@/redux/auth/selectors';
+import { selectIsAuth, selectRoles } from '@/redux/auth/selectors';
+
 import styled from '@emotion/styled';
 import {
   IconButtonStyled,
@@ -35,19 +37,19 @@ const dishesInCart = 3;
 export const UserMenu = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
-  const user = useSelector(selectUser);
-  console.log('user:', user);
+
+  const roles = useSelector(selectRoles);
 
   return (
     <>
-      {!user.roles.includes('admin') && (
+      {!roles.includes('admin') && (
         <Avatar
           src="/static/images/avatar/1.jpg"
           sx={{ width: 35, height: 35, mr: 1 }}
         />
       )}
       <ListStyled>
-        {!user.roles.includes('admin') && (
+        {!roles.includes('admin') && (
           <>
             <ListItemStyled>
               <IconButtonStyled>

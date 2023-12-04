@@ -7,6 +7,7 @@ import debounce from 'lodash.debounce';
 
 import { route } from '@/constants';
 import { convertToMoney } from '@/helpers';
+import { useDeleteCartItem, useUpdateCartItemById } from '@/hooks';
 import { AppImage, AppNumberInput } from '@/shared';
 import { AppSpiceLevel } from '@/shared/AppSpiceLevel/AppSpiceLevel';
 import { CartItemPropTypes } from './CartItem.props';
@@ -17,27 +18,42 @@ import {
   CartItemStyled,
 } from './CartItem.styled';
 
-const fetch = debounce(async () => {
-  console.log('Fetch');
-}, 500);
-
 const CartItem = ({ data, ...props }) => {
   const { dish, count } = data;
-  const [itemCount, setItemCount] = useState(() => count);
+  const [itemCount, setItemCount] = useState(count);
+  const { mutate: updateCart } = useUpdateCartItemById();
+  const { mutate: deleteCart } = useDeleteCartItem();
+  const fetch = useCallback(
+    debounce(async (newCount) => {
+      if (newCount === 0) {
+        deleteCart(dish.id);
+      } else {
+        updateCart({ item: { dishId: dish.id, count: newCount } });
+      }
+    }, 500),
+    []
+  );
 
   const changeCount = useCallback(
     async (value) => {
       setItemCount(value);
 
-      await fetch();
+      await fetch(value);
     },
+    [fetch]
+  );
 
-    []
+  const deleteCartHandler = useCallback(
+    () => deleteCart(dish.id),
+    [deleteCart, dish.id]
   );
 
   return (
     <CartItemStyled isAvailable={dish.isAvailable} {...props}>
-      <CartItemRemoveStyled aria-label={`delete ${dish.name}`}>
+      <CartItemRemoveStyled
+        aria-label={`delete ${dish.name}`}
+        onClick={deleteCartHandler}
+      >
         <MdClose />
       </CartItemRemoveStyled>
       <AppImage src={dish.image} alt={dish.name} />

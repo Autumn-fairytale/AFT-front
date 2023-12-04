@@ -1,8 +1,10 @@
 import CreateOrderForm from '@/components/CreateOrderForm';
+import FetchError from '@/components/FetchError';
 import NoData from '@/components/NoData';
 import { useGetCartItems } from '@/hooks';
-import { AppContainer, AppLoader } from '@/shared';
+import { AppLoader } from '@/shared';
 import { Main } from '@/shared/Main/Main';
+import { CreateOrderPageContainer } from './CreateOrderPage.styled';
 
 const CreateOrderPage = () => {
   const { data, isLoading, error } = useGetCartItems();
@@ -11,7 +13,7 @@ const CreateOrderPage = () => {
   if (isLoading) {
     render = <AppLoader />;
   } else if (error) {
-    render = 'Error';
+    render = <FetchError message={error.message} />;
   } else if (data?.success) {
     render =
       data.cart.items.length > 0 ? (
@@ -22,11 +24,7 @@ const CreateOrderPage = () => {
   }
   return (
     <Main>
-      <AppContainer
-        sx={{ display: 'flex', flexDirection: 'column', flexGrow: '1' }}
-      >
-        {render}
-      </AppContainer>
+      <CreateOrderPageContainer>{render}</CreateOrderPageContainer>
     </Main>
   );
 };

@@ -6,7 +6,7 @@ import { NoDataStyled } from './NoData.styled';
 
 const NoData = ({ message, ...props }) => {
   return (
-    <NoDataStyled sx={{}} {...props}>
+    <NoDataStyled {...props}>
       <img src={image} width={400} height={400} />
       <Typography>{message}</Typography>
     </NoDataStyled>

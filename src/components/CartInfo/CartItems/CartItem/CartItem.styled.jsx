@@ -18,8 +18,8 @@ export const CartItemStyled = styled(Box, {
 
 export const CartItemRemoveStyled = styled(IconButton)(({ theme }) => ({
   position: 'absolute',
-  right: 0,
-  top: 0,
+  right: '10px',
+  top: '10px',
 
   pointerEvents: 'auto',
 

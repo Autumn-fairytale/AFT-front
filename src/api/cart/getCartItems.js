@@ -1,4 +1,4 @@
-import { privateInstance } from './axios';
+import { privateInstance } from '../axios';
 
 export const getCartItems = async (userId) => {
   const { data } = await privateInstance(`/users/${userId}/cart`);

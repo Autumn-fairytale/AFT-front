@@ -25,7 +25,6 @@ const Header = () => {
   const user = useSelector(selectUser);
   console.log('user:', user);
   const isAuth = useSelector(selectIsAuth);
-  console.log('isAuth:', isAuth);
 
   const toggleDrawer = () => (event) => {
     if (
@@ -46,6 +45,7 @@ const Header = () => {
           <img src={Logo} alt="logo" style={{ maxWidth: 100 }} />
         </Link>
 
+        {/*// TODO: DELETE mock route */}
         <Link to={route.CREATE_ORDER}>Create order</Link>
 
         <Toolbar>

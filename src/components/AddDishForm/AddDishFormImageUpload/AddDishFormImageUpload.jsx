@@ -118,8 +118,8 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
   };
 
   const handleDelete = async (image, onChange) => {
-    if (fileInfo?.name) {
-      await deleteFile(fileInfo.name, FOLDERS.DISHES);
+    if (currentFileName) {
+      await deleteFile(currentFileName, FOLDERS.DISHES);
     }
 
     if (image) {

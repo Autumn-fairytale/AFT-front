@@ -17,13 +17,14 @@ import {
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 
+import { FileType, MAX_FILE_SIZE } from '@/constants';
 import { FOLDERS } from '@/constants/mocks';
 import { deleteFile } from '@/helpers/deleteFile';
 import { extractFileNameFromUrl } from '@/helpers/extractFileNameFromUrl';
+import { validateFile } from '@/helpers/validateFile';
 import { useS3ImageUploader } from '@/hooks';
 import { selectDishImage, updateFormData } from '@/redux/createDish';
 import { fetchBlobFromUrl } from '../addDishHelpers/fetchBlobFromUrl';
-import { validateFile } from '../addDishHelpers/validateFile';
 import getCroppedImg from '../crop/getCroppedImage';
 import { HelperText } from '../HelperText';
 import { AddDishFormImageUploadProps } from './AddDishFormImageUpload.props';
@@ -68,12 +69,11 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
     const file = e.target.files[0];
     if (file) {
       const validation = validateFile(file, {
-        maxSize: 5000000,
-        validTypes: ['image/'],
+        maxSize: MAX_FILE_SIZE,
+        validTypes: [FileType.IMAGE],
       });
 
       if (!validation.isValid) {
-        console.log(validation.error);
         return;
       }
 
@@ -126,7 +126,6 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
   };
 
   const handleDelete = async (image, onChange) => {
-    console.log(currentFileName);
     if (currentFileName) {
       await deleteFile(currentFileName, FOLDERS.DISHES);
     }

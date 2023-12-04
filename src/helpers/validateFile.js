@@ -1,9 +1,13 @@
+import { toast } from 'react-toastify';
+
 export const validateFile = (file, { maxSize, validTypes }) => {
   if (maxSize && file.size > maxSize) {
-    return { isValid: false, error: 'The file is too big' };
+    toast.error(`The file is too big. Maximum size is 5 MB`);
+    return { isValid: false };
   }
   if (validTypes && !validTypes.some((type) => file.type.startsWith(type))) {
-    return { isValid: false, error: 'Bad file format' };
+    toast.error('Bad file format');
+    return { isValid: false };
   }
   return { isValid: true };
 };

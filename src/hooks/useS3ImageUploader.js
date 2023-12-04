@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import axios from 'axios';
 
@@ -18,6 +19,7 @@ export const useS3ImageUploader = (fileName, fileType, category) => {
       setLoadingUrl(true);
       try {
         const url = await getPresignedURL(fileName, fileType, category);
+
         setPresignedUrl(url);
       } catch (error) {
         setError(error);
@@ -49,11 +51,14 @@ export const useS3ImageUploader = (fileName, fileType, category) => {
       if (response.status !== 200) {
         throw new Error('Error uploading image to S3');
       }
-
-      console.log('Image successfully uploaded to S3');
+      toast.success('Image successfully uploaded');
+      // console.log('Image successfully uploaded to S3');
       return response;
     } catch (uploadError) {
       setError(uploadError);
+
+      toast.error('Error uploading image');
+
       throw uploadError;
     } finally {
       setIsUploading(false);

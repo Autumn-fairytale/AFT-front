@@ -6,8 +6,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Avatar, Badge } from '@mui/material';
 
+import { signOut } from '@/redux/auth/operations';
 import { selectIsAuth, selectUser } from '@/redux/auth/selectors';
-import { signOut } from '@/redux/auth/slice';
 import styled from '@emotion/styled';
 import {
   IconButtonStyled,

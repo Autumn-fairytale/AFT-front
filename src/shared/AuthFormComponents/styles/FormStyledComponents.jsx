@@ -3,6 +3,16 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/system/Box';
 import styled from '@mui/system/styled';
 
+import { AppContainer } from '@/shared';
+
+const navBarHeight = '64px';
+const footerHeight = '89px';
+export const AuthContainerStyled = styled(AppContainer)({
+  display: 'grid',
+  placeItems: 'center',
+  height: `calc(100vh - ${navBarHeight} - ${footerHeight})`,
+});
+
 export const FormWrapperStyled = styled(Box)(({ theme }) => ({
   margin: '0 auto',
   width: 400,
@@ -37,10 +47,19 @@ export const RedirectLinkStyled = styled(Link)(({ theme }) => ({
   },
 }));
 
-export const submitButtonStyles = {
+const summitButtonStyles = {
   width: '100%',
-  marginTop: '24px',
   marginBottom: '0.5rem',
   letterSpacing: '0.1rem',
   textTransform: 'uppercase',
+};
+
+export const signInButtonStyles = {
+  marginTop: '1.5rem',
+  ...summitButtonStyles,
+};
+
+export const singUpButtonStyles = {
+  marginTop: '1.2rem',
+  ...summitButtonStyles,
 };

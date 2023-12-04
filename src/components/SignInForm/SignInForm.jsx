@@ -1,26 +1,24 @@
 import { useState } from 'react';
-import { Controller, useForm, useFormState } from 'react-hook-form';
+import { useForm, useFormState } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import { Alert } from '@mui/material';
 
-import { route } from '@/constants';
 import { signIn } from '@/redux/auth/operations';
 import { selectAuthLoading } from '@/redux/auth/selectors';
 import singInSchema from '@/schemas/singInSchema';
-import { AppButton, AppPasswordInput, AppTextInput } from '@/shared';
+import {
+  EmailController,
+  PasswordController,
+  SignInFooter,
+  SignInHeader,
+  SignInSubmitButton,
+} from '@/shared/AuthFormComponents/readyComponents';
+import { FormWrapperStyled } from '@/shared/AuthFormComponents/styles';
+import { getError, useIsSameData } from '@/shared/AuthFormComponents/utils';
 import { useTheme } from '@emotion/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  FormWrapperStyled,
-  RedirectLinkStyled,
-  submitButtonStyles,
-  SubtitleStyled,
-  TitleStyled,
-  UnderButtonTextStyled,
-} from './SignInForm.styled';
-import { getError, LabelOrLoader, useIsSameData } from './utils';
 
 const defaultValues = {
   email: '',
@@ -28,11 +26,12 @@ const defaultValues = {
 };
 
 const SigInForm = () => {
-  const [formError, setFormError] = useState('');
+  const [formError, setFormError] = useState(''); // an error from server that is shown in alert
   const isLoading = useSelector(selectAuthLoading);
   const theme = useTheme();
-  const isSameData = useIsSameData();
+  const isSameData = useIsSameData(); // did the user change field data after unsuccessful submission?
 
+  // react-hook-form settings
   const dispatch = useDispatch();
   const { handleSubmit, control, reset } = useForm({
     resolver: zodResolver(singInSchema),
@@ -59,66 +58,24 @@ const SigInForm = () => {
 
   return (
     <FormWrapperStyled className="sign-in-form" theme={theme}>
-      <TitleStyled variant="h4">SIGN IN</TitleStyled>
-      <SubtitleStyled
-        theme={theme}
-        variant="subtitle1"
-        className="sign-in-form__subtitle"
-      >
-        to your account on IDLO
-      </SubtitleStyled>
-
+      <SignInHeader />
       <form className="sign-in-form__form" onSubmit={handleSubmit(onSubmit)}>
-        <Controller
+        <EmailController
           control={control}
-          name="email"
-          render={({ field }) => (
-            <AppTextInput
-              label="Email"
-              placeholder="e.g., email@example.com"
-              onChange={(e) => field.onChange(e)}
-              value={field.value}
-              margin="normal"
-              className="sign-in-form__input"
-              error={!!errors.email?.message}
-              helperText={errors?.email?.message}
-            />
-          )}
+          errors={errors}
+          className="sign-in-form__input"
         />
-        <Controller
+        <PasswordController
           control={control}
-          name="password"
-          render={({ field }) => (
-            <AppPasswordInput
-              placeholder="e.g., p@ssWord_1"
-              onChange={(e) => field.onChange(e)}
-              value={field.value}
-              margin="normal"
-              className="sign-in-form__input"
-              error={!!errors?.password?.message}
-              helperText={errors?.password?.message}
-            />
-          )}
+          errors={errors}
+          className="sign-in-form__input"
         />
-        {formError && <Alert severity="error">{formError}</Alert>}
-
-        <AppButton
-          type="submit"
-          label={<LabelOrLoader isLoading={isLoading} />}
-          variant="contained"
-          disableElevation={true}
-          sx={{ ...submitButtonStyles }}
-        />
+        {/* error from server */}
+        {formError && <Alert severity="error">{formError}</Alert>}{' '}
+        <SignInSubmitButton isLoading={isLoading} />
+        {/* redirect to Sign Up page */}
+        <SignInFooter />
       </form>
-
-      <div className="sign-in-form__footer">
-        <UnderButtonTextStyled variant="subtitle1" component="span">
-          Don`t have an account?
-        </UnderButtonTextStyled>
-        <RedirectLinkStyled href={route.SIGN_UP} underline="hover">
-          Sign Up
-        </RedirectLinkStyled>
-      </div>
     </FormWrapperStyled>
   );
 };

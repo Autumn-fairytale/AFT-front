@@ -9,6 +9,12 @@ export const muiOutlinedInputStyles = {
         borderColor: lighten(customColors.primaryColor, 0.2),
       },
     },
+    input: {
+      '&:-webkit-autofill': {
+        transitionDelay: '9999s',
+        transitionProperty: 'background-color, color',
+      },
+    },
     notchedOutline: {
       borderColor: customColors.outlineColor,
     },

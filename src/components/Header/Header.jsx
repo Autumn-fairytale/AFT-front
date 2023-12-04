@@ -59,7 +59,7 @@ const Header = () => {
         onClose={toggleDrawer()}
         onOpen={toggleDrawer()}
       >
-        <NavigateMenu />
+        <NavigateMenu onClose={toggleDrawer} onOpen={toggleDrawer} />
       </SwipeableDrawer>
     </AppBarStyled>
   );

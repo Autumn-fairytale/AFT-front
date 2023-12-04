@@ -47,7 +47,7 @@ export const RedirectLinkStyled = styled(Link)(({ theme }) => ({
   },
 }));
 
-const summitButtonStyles = {
+const submitButtonStyles = {
   width: '100%',
   marginBottom: '0.5rem',
   letterSpacing: '0.1rem',
@@ -56,10 +56,10 @@ const summitButtonStyles = {
 
 export const signInButtonStyles = {
   marginTop: '1.5rem',
-  ...summitButtonStyles,
+  ...submitButtonStyles,
 };
 
 export const singUpButtonStyles = {
   marginTop: '1.2rem',
-  ...summitButtonStyles,
+  ...submitButtonStyles,
 };

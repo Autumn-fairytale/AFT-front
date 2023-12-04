@@ -1,17 +1,17 @@
 import { Suspense } from 'react';
+import { useSelector } from 'react-redux';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
+import { selectIsAuth, selectRoles } from '@/redux/auth/selectors';
 import { ProtectedRoutePropTypes } from './ProtectedRoute.props';
 
 const ProtectedRoute = ({ authRedirectLink, accessRedirectLink, role }) => {
   // Stores the URL of the current route. This variable is intended to redirect to the current page after login or registration.
   const location = useLocation();
+  const isAuth = useSelector(selectIsAuth);
+  const roles = useSelector(selectRoles);
 
-  // Mock user data
-  const user = { isAuth: true, roles: ['user', 'chef', 'admin', 'courier'] };
-
-  const isAuth = user.isAuth;
-  const isAccessByRole = user.roles.includes(role);
+  const isAccessByRole = roles.includes(role);
 
   if (!isAuth)
     return (

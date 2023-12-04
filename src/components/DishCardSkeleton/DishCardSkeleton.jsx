@@ -4,16 +4,16 @@ import Skeleton from '@mui/material/Skeleton';
 import {
   defaultDishCardPropTypes,
   DishCardPropTypes,
-} from './DishCardSceleton.props';
+} from './DishCardSkeleton.props';
 import {
-  ButtonsSceletonWrapper,
+  ButtonsSkeletonWrapper,
   CircleWrapper,
   DishCardWrapper,
   RectangularWrapper,
-  TitleSceletonWrapper,
-} from './DishCardSceleton.styled';
+  TitleSkeletonWrapper,
+} from './DishCardSkeleton.styled';
 
-export const DishCardSceleton = ({ isCarousel }) => {
+export const DishCardSkeleton = ({ isCarousel }) => {
   return (
     <DishCardWrapper isCarousel={isCarousel}>
       <CircleWrapper>
@@ -22,13 +22,13 @@ export const DishCardSceleton = ({ isCarousel }) => {
         </Skeleton>
       </CircleWrapper>
       <RectangularWrapper>
-        <TitleSceletonWrapper>
+        <TitleSkeletonWrapper>
           <Typography variant="h3" width="85%">
             <Skeleton sx={{ bgcolor: '#e2e2e2' }} />
           </Typography>
-        </TitleSceletonWrapper>
+        </TitleSkeletonWrapper>
 
-        <ButtonsSceletonWrapper>
+        <ButtonsSkeletonWrapper>
           <Skeleton
             variant="rectangular"
             width="50%"
@@ -41,7 +41,7 @@ export const DishCardSceleton = ({ isCarousel }) => {
             height="100%"
             sx={{ bgcolor: '#e2e2e2', borderRadius: '5px' }}
           ></Skeleton>
-        </ButtonsSceletonWrapper>
+        </ButtonsSkeletonWrapper>
       </RectangularWrapper>
 
       <Skeleton variant="rectangular" width="100%" height="100%"></Skeleton>
@@ -49,5 +49,5 @@ export const DishCardSceleton = ({ isCarousel }) => {
   );
 };
 
-DishCardSceleton.propTypes = DishCardPropTypes;
-DishCardSceleton.defaultProps = defaultDishCardPropTypes;
+DishCardSkeleton.propTypes = DishCardPropTypes;
+DishCardSkeleton.defaultProps = defaultDishCardPropTypes;

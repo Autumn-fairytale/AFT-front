@@ -15,11 +15,6 @@ const RestrictedRoute = ({ redirectLink, role }) => {
   const isAuth = useSelector(selectIsAuth);
   const roles = useSelector(selectRoles);
 
-  // Mock user data
-  // const user = { isAuth: false, roles: ['user', 'chef', 'admin', ''] };
-
-  // const isAuth = user.isAuth;
-  // const isAccessRole = user.roles.includes(role);
   const isAccessRole = roles.includes(role);
 
   if (!isAuth && role)

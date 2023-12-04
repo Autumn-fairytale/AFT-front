@@ -1,11 +1,11 @@
 import { AppCarousel } from '@/shared/AppCarousel/AppCarousel';
-import { DishCardSceleton } from '../DishCardSceleton/DishCardSceleton';
+import { DishCardSkeleton } from '../DishCardSkeleton/DishCardSkeleton';
 
-export const CarouselDishesSceleton = () => {
+export const CarouselDishesSkeleton = () => {
   return (
     <AppCarousel>
       {Array.from({ length: 5 }).map((item, index) => (
-        <DishCardSceleton key={index} isCarousel={true} />
+        <DishCardSkeleton key={index} isCarousel={true} />
       ))}
     </AppCarousel>
   );

@@ -17,6 +17,7 @@ import {
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 
+import { FOLDERS } from '@/constants/mocks';
 import { deleteFile } from '@/helpers/deleteFile';
 import { extractFileNameFromUrl } from '@/helpers/extractFileNameFromUrl';
 import { useS3ImageUploader } from '@/hooks';
@@ -42,12 +43,11 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
   const [currentFileName, setCurrentFileName] = useState('');
 
   const dispatch = useDispatch();
-  const imagesCategory = 'dishes';
 
   const { uploadToS3, isUploading } = useS3ImageUploader(
     fileInfo.name,
     fileInfo.type,
-    imagesCategory
+    FOLDERS.DISHES
   );
 
   const fileInputRef = useRef();
@@ -88,7 +88,7 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
   const handleSave = async () => {
     try {
       if (currentFileName) {
-        await deleteFile(currentFileName, imagesCategory);
+        await deleteFile(currentFileName, FOLDERS.DISHES);
       }
 
       let croppedImageBlob = await getCroppedImg(imageSrc, croppedArea);
@@ -119,7 +119,7 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
 
   const handleDelete = async (image, onChange) => {
     if (fileInfo?.name) {
-      await deleteFile(fileInfo.name, imagesCategory);
+      await deleteFile(fileInfo.name, FOLDERS.DISHES);
     }
 
     if (image) {

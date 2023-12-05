@@ -1,7 +1,14 @@
+import { AddDishForm } from '@/components/AddDishForm';
 import { Main } from '@/shared/Main/Main';
 
 const ChefCreateDishPage = () => {
-  return <Main>Chef Create Dish</Main>;
+  return (
+    <>
+      <Main>
+        <AddDishForm />
+      </Main>
+    </>
+  );
 };
 
 export default ChefCreateDishPage;

@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { dishFormDefaultValues as defaultValues } from '@/constants/defaultValues';
+import { selectUser } from '@/redux/auth/selectors';
 import {
   resetFormData,
   selectCurrentStep,
@@ -35,6 +36,8 @@ export const AddDishForm = () => {
   const savedCurrentStep = useSelector(selectCurrentStep);
   const [step, setStep] = useState(savedCurrentStep || 1);
   const totalSteps = 4;
+  const user = useSelector(selectUser);
+  const chefId = user?.roles[1].id;
 
   const {
     register,
@@ -89,8 +92,13 @@ export const AddDishForm = () => {
 
   const Submit = async () => {
     const formData = getValues();
+    const dishData = {
+      ...formData,
+      owner: chefId,
+    };
+
     try {
-      await dispatch(submitDishData(formData)).unwrap();
+      await dispatch(submitDishData(dishData)).unwrap();
 
       dispatch(resetFormData());
       setStep(1);

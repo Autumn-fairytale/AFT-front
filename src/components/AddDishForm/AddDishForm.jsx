@@ -7,7 +7,6 @@ import { dishFormDefaultValues as defaultValues } from '@/constants/defaultValue
 import { FOLDERS } from '@/constants/mocks';
 import { deleteFile } from '@/helpers/deleteFile';
 import { extractFileNameFromUrl } from '@/helpers/extractFileNameFromUrl';
-import { selectUser } from '@/redux/auth/selectors';
 import {
   resetFormData,
   selectCurrentStep,
@@ -41,8 +40,6 @@ export const AddDishForm = () => {
   const savedCurrentStep = useSelector(selectCurrentStep);
   const [step, setStep] = useState(savedCurrentStep || 1);
   const totalSteps = 4;
-  const user = useSelector(selectUser);
-  const chefId = user?.roles[1].id;
 
   const {
     register,
@@ -98,13 +95,9 @@ export const AddDishForm = () => {
 
   const Submit = async () => {
     const formData = getValues();
-    const dishData = {
-      ...formData,
-      owner: chefId,
-    };
 
     try {
-      await dispatch(submitDishData(dishData)).unwrap();
+      await dispatch(submitDishData(formData)).unwrap();
       toast.success('Dish created successfully!');
 
       dispatch(resetFormData());

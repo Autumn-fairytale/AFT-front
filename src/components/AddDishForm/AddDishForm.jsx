@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import { dishFormDefaultValues as defaultValues } from '@/constants/defaultValues';
 import { selectUser } from '@/redux/auth/selectors';
@@ -99,6 +100,7 @@ export const AddDishForm = () => {
 
     try {
       await dispatch(submitDishData(dishData)).unwrap();
+      toast.success('Dish created successfully!');
 
       dispatch(resetFormData());
       setStep(1);

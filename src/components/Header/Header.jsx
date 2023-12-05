@@ -44,9 +44,6 @@ const Header = () => {
           <img src={Logo} alt="logo" style={{ maxWidth: 100 }} />
         </Link>
 
-        {/*// TODO: DELETE mock route */}
-        <Link to={route.CREATE_ORDER}>Create order</Link>
-
         <Toolbar>
           {!isAuth && <NotAuthUserMenu />}
           {isAuth && <UserMenu />}

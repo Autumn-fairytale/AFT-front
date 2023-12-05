@@ -33,12 +33,13 @@ const CartItem = ({ data, ...props }) => {
   const fetch = useMemo(
     () =>
       debounce(async (newCount) => {
+        console.log('Debounce');
         if (newCount === 0) {
           deleteCart(dish.id);
         } else {
           updateCart({ item: { dishId: dish.id, count: newCount } });
         }
-      }, 300),
+      }, 400),
     [deleteCart, dish.id, updateCart]
   );
 

@@ -23,7 +23,7 @@ export const useUpdateCartItemById = () => {
 
       return { previousCart };
     },
-    onError: (error, cart, ctx) => {
+    onError: (_error, _cart, ctx) => {
       if (!ctx) return;
 
       queryClient.setQueryData(key, ctx.previousCart);

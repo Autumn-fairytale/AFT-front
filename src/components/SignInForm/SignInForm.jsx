@@ -7,7 +7,7 @@ import { Alert } from '@mui/material';
 
 import { signIn } from '@/redux/auth/operations';
 import { selectAuthLoading } from '@/redux/auth/selectors';
-import singInSchema from '@/schemas/singInSchema';
+import signInSchema from '@/schemas/signInSchema';
 import {
   EmailController,
   PasswordController,
@@ -21,8 +21,8 @@ import { useTheme } from '@emotion/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 const defaultValues = {
-  email: 'dev.andrii.zaimak@gmail.com',
-  password: 'SecurePass_123',
+  email: '',
+  password: '',
 };
 
 const SigInForm = () => {
@@ -34,7 +34,7 @@ const SigInForm = () => {
   // react-hook-form settings
   const dispatch = useDispatch();
   const { handleSubmit, control, reset } = useForm({
-    resolver: zodResolver(singInSchema),
+    resolver: zodResolver(signInSchema),
     defaultValues,
   });
   const { errors } = useFormState({ control });

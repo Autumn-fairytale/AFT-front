@@ -6,6 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 
 import { CATEGORIES, CUISINES } from '@/constants';
 import { AppSelect } from '@/shared';
+import { AppSpiceLevel } from '@/shared/AppSpiceLevel/AppSpiceLevel';
 import { useTheme } from '@emotion/react';
 
 export const DishesFilter = () => {
@@ -64,6 +65,10 @@ export const DishesFilter = () => {
           }
           label="Vegan"
         />
+        <div style={{ border: '1px solid red' }}>
+          <AppSpiceLevel />
+          <p>Spice level</p>
+        </div>
       </div>
     </div>
   );

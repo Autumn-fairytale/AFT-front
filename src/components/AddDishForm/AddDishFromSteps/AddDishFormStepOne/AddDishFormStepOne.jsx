@@ -8,6 +8,7 @@ import { CATEGORIES, CUISINES } from '@/constants';
 import { FIELD_WIDTH } from '../../AddDishForm';
 import { FormattedNumberInput } from '../../FormattedNumberInput';
 import { HelperText } from '../../HelperText';
+import { AddDishFormGuidance } from './AddDishFormGuidance';
 
 const isOptionEqual = (option, value) => {
   return option === value || value === '';
@@ -97,6 +98,7 @@ export const AddDishFromStepOne = ({ register, errors, control }) => {
             />
           )}
         />
+        <AddDishFormGuidance />
       </Stack>
     </>
   );

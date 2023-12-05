@@ -38,5 +38,4 @@ AddDishFormStepThree.propTypes = {
   errors: PropTypes.object.isRequired,
   control: PropTypes.object.isRequired,
   setValue: PropTypes.func.isRequired,
-  clearErrors: PropTypes.func.isRequired,
 };

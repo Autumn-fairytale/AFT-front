@@ -1,17 +1,16 @@
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import PepperIcon from '@mui/icons-material/Whatshot';
 
 import { CATEGORIES, CUISINES } from '@/constants';
 import { AppSelect } from '@/shared';
-import { AppSpiceLevel } from '@/shared/AppSpiceLevel/AppSpiceLevel';
+import { AppSpiceLevelStyled } from '@/shared/AppSpiceLevel/AppSpiceLevelStyled';
 import { useTheme } from '@emotion/react';
+import { SearchWrapper, SpiceLevelWrapper } from './DishesFilter.styled';
 
 export const DishesFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  console.log('searchParams:', searchParams);
 
   const theme = useTheme();
 
@@ -24,52 +23,51 @@ export const DishesFilter = () => {
     setSearchParams({ ...params, [e.target.name]: e.target.value });
   };
 
-  const handleCheckboxChange = (e) => {
-    setSearchParams({
-      ...params,
-      [e.target.name]: !JSON.parse(params?.isVegan || 'false'),
-    });
-  };
-
   return (
     <div>
-      <h5>DishesFilter</h5>
-      <div style={{ display: 'flex', gap: '15px' }}>
+      <SearchWrapper>
         <AppSelect
-          options={CATEGORIES}
+          options={[...CATEGORIES, 'All']}
           label={'Category'}
-          name="categories"
+          name="category"
           onChange={handleInputChange}
-          value={params.categories || ''}
+          value={params.category || ''}
         />
         <AppSelect
-          options={CUISINES}
+          options={[...CUISINES, 'All']}
           label={'Cuisine'}
-          name="cuisines"
+          name="cuisine"
           onChange={handleInputChange}
-          value={params.cuisines || ''}
+          value={params.cuisine || ''}
         />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={JSON.parse(params?.isVegan || false)}
-              onChange={handleCheckboxChange}
-              name="isVegan"
-              sx={{
-                color: theme.palette.primary.main,
-                '&.Mui-checked': {
-                  color: theme.palette.primary.main,
-                },
-              }}
-            />
-          }
-          label="Vegan"
+        <AppSelect
+          options={['Vegan', 'Not vegan', 'All']}
+          label={'Vegan type'}
+          name="type"
+          onChange={handleInputChange}
+          value={params.type || ''}
         />
-        <div style={{ border: '1px solid red' }}>
-          <AppSpiceLevel />
+        <SpiceLevelWrapper>
+          <AppSpiceLevelStyled
+            name="spiceLevel"
+            value={Number(params.spiceLevel)}
+            precision={1}
+            max={3}
+            color={theme.palette.primary.main}
+            icon={<PepperIcon />}
+            emptyIcon={<PepperIcon />}
+            onChange={(event, newValue) => {
+              console.log('newValue:', newValue);
+              console.log('event:', event.target.name);
+              setSearchParams({
+                ...params,
+                [event.target.name]: newValue,
+              });
+            }}
+          />
           <p>Spice level</p>
-        </div>
-      </div>
+        </SpiceLevelWrapper>
+      </SearchWrapper>
     </div>
   );
 };

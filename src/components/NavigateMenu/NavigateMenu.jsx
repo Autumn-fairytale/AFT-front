@@ -5,10 +5,11 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Divider, List, ListItem, Typography } from '@mui/material';
 
 import { route } from '@/constants/route';
-import { selectIsAuth, selectUser } from '@/redux/auth/selectors';
-import { signOut } from '@/redux/auth/slice';
+import { signOut } from '@/redux/auth/operations';
+import { selectIsAuth, selectRoles, selectUser } from '@/redux/auth/selectors';
 import { CustomLink } from '../CustomLink/CustomLink';
 import { IconButtonStyled } from '../UserMenu/UserMenu.slyled';
+import { NavigateMenuPropTypes } from './NavigateMenu.props';
 import {
   LogoAndButtonWrapper,
   Navigation,
@@ -20,15 +21,17 @@ import Logo from '../../assets/images/logo.svg';
 // const user = { isAuth: true, roles: ['user', 'chef', 'admin', 'courier'] };
 // const user = { isAuth: true, roles: ['user', 'chef', 'courier', ''] };
 
-export const NavigateMenu = () => {
+export const NavigateMenu = ({ onClose, onOpen }) => {
   const dispatch = useDispatch();
 
   const user = useSelector(selectUser);
 
   const isAuth = useSelector(selectIsAuth);
 
+  const roles = useSelector(selectRoles);
+
   return (
-    <NavigationWrapper>
+    <NavigationWrapper onClick={onClose()} onKeyDown={onOpen()}>
       <LogoAndButtonWrapper>
         <img src={Logo} alt="logo" style={{ maxWidth: 100 }} />
         {isAuth && (
@@ -46,7 +49,7 @@ export const NavigateMenu = () => {
       </LogoAndButtonWrapper>
       <Navigation>
         <List>
-          {(!user || !user.roles.includes('admin')) && (
+          {(!user || !roles.includes('admin')) && (
             <>
               <ListItem>
                 <CustomLink to={'/'}>Home</CustomLink>
@@ -59,24 +62,19 @@ export const NavigateMenu = () => {
               </ListItem>
             </>
           )}
-          {/* {user && isAuth && !user.roles.includes('admin') && (
-            <ListItem>
-              <CustomLink to={route.CREATE_ORDER}>Create order</CustomLink>
-            </ListItem>
-          )} */}
 
           {user &&
             isAuth &&
-            !user.roles.includes('chef') &&
-            !user.roles.includes('admin') && (
+            !roles.includes('chef') &&
+            !roles.includes('admin') && (
               <ListItem>
                 <CustomLink to={route.CHEF_SIGN_UP}>Become a chef</CustomLink>
               </ListItem>
             )}
           {user &&
             isAuth &&
-            !user.roles.includes('courier') &&
-            !user.roles.includes('admin') && (
+            !roles.includes('courier') &&
+            !roles.includes('admin') && (
               <ListItem>
                 <CustomLink to={route.COURIER_SIGN_UP}>
                   Become a courier
@@ -84,7 +82,8 @@ export const NavigateMenu = () => {
               </ListItem>
             )}
         </List>
-        {user && isAuth && user.roles.includes('chef') && (
+
+        {user && isAuth && roles.includes('chef') && (
           <>
             <Divider />
 
@@ -110,7 +109,7 @@ export const NavigateMenu = () => {
             </List>
           </>
         )}
-        {user && isAuth && user.roles.includes('courier') && (
+        {user && isAuth && roles.includes('courier') && (
           <>
             <Divider />
             <Typography variant="h6" align="center" sx={{ fontWeight: '600' }}>
@@ -129,7 +128,7 @@ export const NavigateMenu = () => {
             </List>
           </>
         )}
-        {user && isAuth && user.roles.includes('admin') && (
+        {user && isAuth && roles.includes('admin') && (
           <>
             <Typography variant="h6" align="center" sx={{ fontWeight: '600' }}>
               ADMIN
@@ -165,6 +164,8 @@ export const NavigateMenu = () => {
     </NavigationWrapper>
   );
 };
+
+NavigateMenu.propTypes = NavigateMenuPropTypes;
 
 // export const route = Object.freeze({
 //   SIGN_IN: '/sign-in', done!!!!!!

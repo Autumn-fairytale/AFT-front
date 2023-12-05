@@ -1,12 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-
-import { Box, Container } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { dishFormDefaultValues as defaultValues } from '@/constants/defaultValues';
+import {
+  resetFormData,
+  selectCurrentStep,
+  selectSavedFormData,
+  submitDishData,
+  updateCurrentStep,
+  updateFormData,
+} from '@/redux/createDish';
 import { dishSchema } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddDishFormNavButtons } from '../AddDishForm';
+import { stepValidationFields } from './addDishFormHelpers';
+import {
+  StyledAddDishContainer,
+  StyledAddDishFormBox,
+} from './AddDishFormStyled';
 import { AddDishFormStepper } from './AddDishFromStepper/AddDishFromStepper';
 import {
   AddDishFormStepFour,
@@ -18,8 +30,10 @@ import {
 export const FIELD_WIDTH = '400px';
 
 export const AddDishForm = () => {
-  const [step, setStep] = useState(1);
+  const dispatch = useDispatch();
 
+  const savedCurrentStep = useSelector(selectCurrentStep);
+  const [step, setStep] = useState(savedCurrentStep || 1);
   const totalSteps = 4;
 
   const {
@@ -28,6 +42,7 @@ export const AddDishForm = () => {
     reset,
     setValue,
     handleSubmit,
+    getValues,
     formState: { errors },
     control,
   } = useForm({
@@ -36,30 +51,34 @@ export const AddDishForm = () => {
     mode: 'onChange',
   });
 
-  const onNextStep = async () => {
-    let fieldsToValidate = [];
-    switch (step) {
-      case 1:
-        fieldsToValidate = ['name', 'price', 'cuisine', 'category'];
-        break;
-      case 2:
-        fieldsToValidate = [
-          'ingredients',
-          'isVegan',
-          'spiceLevel',
-          'isAvailable',
-        ];
-        break;
-      case 3:
-        fieldsToValidate = ['description', 'image'];
-        break;
-      case 4:
-        fieldsToValidate = ['weight', 'cookTimeInMinutes', 'nutrition'];
+  const savedFormData = useSelector(selectSavedFormData);
+
+  useEffect(() => {
+    if (savedFormData) {
+      reset(savedFormData);
     }
+  }, [reset, savedFormData]);
+
+  useEffect(() => {
+    setStep(savedCurrentStep);
+  }, [savedCurrentStep]);
+
+  useEffect(() => {
+    if (step !== savedCurrentStep) {
+      dispatch(updateCurrentStep(step));
+    }
+  }, [step, savedCurrentStep, dispatch]);
+
+  const onNextStep = async () => {
+    const fieldsToValidate = stepValidationFields[step] || [];
 
     const isFormValid = await trigger(fieldsToValidate);
 
     if (isFormValid) {
+      const currentFormData = getValues();
+
+      dispatch(updateFormData(currentFormData));
+
       setStep((prevStep) => prevStep + 1);
     }
   };
@@ -68,35 +87,23 @@ export const AddDishForm = () => {
     setStep((prevStep) => prevStep - 1);
   };
 
-  const Submit = (data) => {
-    console.log(data);
-    reset();
+  const Submit = async () => {
+    const formData = getValues();
+    try {
+      await dispatch(submitDishData(formData)).unwrap();
+
+      dispatch(resetFormData());
+      setStep(1);
+      reset();
+    } catch (error) {
+      console.error('Submission failed:', error);
+    }
   };
 
   return (
-    <Container
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        mt: 5,
-        mb: 2,
-        height: '585px',
-        maxHeight: '80vh',
-      }}
-    >
+    <StyledAddDishContainer>
       <AddDishFormStepper step={step} />
-      <Box
-        component={'form'}
-        onSubmit={handleSubmit(Submit)}
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          mt: 3,
-          flexGrow: 1,
-        }}
-      >
+      <StyledAddDishFormBox component={'form'} onSubmit={handleSubmit(Submit)}>
         {step === 1 && (
           <AddDishFromStepOne
             control={control}
@@ -126,7 +133,7 @@ export const AddDishForm = () => {
           onNextStep={onNextStep}
           totalSteps={totalSteps}
         />
-      </Box>
-    </Container>
+      </StyledAddDishFormBox>
+    </StyledAddDishContainer>
   );
 };

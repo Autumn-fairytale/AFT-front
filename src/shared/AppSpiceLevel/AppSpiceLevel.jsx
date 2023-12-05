@@ -40,7 +40,6 @@ export const AppSpiceLevel = ({
       <AppSpiceLevelStyled
         value={value}
         onChange={(_e, newValue) => {
-          console.log(newValue);
           onChange(newValue);
         }}
         precision={1}

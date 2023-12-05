@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import axios from 'axios';
+import { getIngredients } from '@/api';
 
-export const useFetchIngredients = (url) => {
+export const useFetchIngredients = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -11,9 +11,9 @@ export const useFetchIngredients = (url) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get(url);
+        const ingredients = await getIngredients();
 
-        setData(data);
+        setData(ingredients);
       } catch (err) {
         setError(err);
       } finally {
@@ -22,7 +22,7 @@ export const useFetchIngredients = (url) => {
     };
 
     fetchData();
-  }, [url]);
+  }, []);
 
   return { data, loading, error };
 };

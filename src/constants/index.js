@@ -1,3 +1,4 @@
 export { customColors } from './customColors';
+export * from './files';
 export { CATEGORIES, CUISINES } from './mocks';
 export * from './route';

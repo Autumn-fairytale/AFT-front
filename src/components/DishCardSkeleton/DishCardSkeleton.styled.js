@@ -34,7 +34,7 @@ export const RectangularWrapper = styled('div')(() => {
     height: '40%',
   };
 });
-export const ButtonsSceletonWrapper = styled('div')(() => {
+export const ButtonsSkeletonWrapper = styled('div')(() => {
   return {
     width: '100%',
     height: '30%',
@@ -43,7 +43,7 @@ export const ButtonsSceletonWrapper = styled('div')(() => {
     gap: '10px',
   };
 });
-export const TitleSceletonWrapper = styled('div')(() => {
+export const TitleSkeletonWrapper = styled('div')(() => {
   return {
     display: 'flex',
     justifyContent: 'center',

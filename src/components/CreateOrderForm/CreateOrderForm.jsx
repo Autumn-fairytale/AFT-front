@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 
 import { createOrder } from '@/api/createOrder';
 import { addSpacesToPhoneNumber, removeSpacesFromPhoneNumber } from '@/helpers';
+import { selectUser } from '@/redux/auth/selectors';
 import { createOrderSchema } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import PaymentButton from '../PaymentButton';
@@ -12,21 +14,24 @@ import DeliveryInfo from './DeliveryInfo';
 import OrderInfo from './OrderInfo';
 
 const CreateOrderForm = ({ data: cart }) => {
+  const user = useSelector(selectUser);
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
-      phoneNumber: addSpacesToPhoneNumber('+38(066)3334433'),
-      userName: 'Andrii Zaimak',
-      email: 'dev.andrii.zaimak@gmail.com',
+      phoneNumber: user?.phoneNumber
+        ? addSpacesToPhoneNumber('+38(066)3334433')
+        : '',
+      userName: user ? `${user?.firstName} ${user.lastName}` : '',
+      email: user ? user.email : '',
       address: {
-        country: 'Ukraine',
-        city: 'Kyiv',
-        street: 'Street',
-        houseNumber: '12',
-        apartment: '1',
+        country: user?.address ? user.address.country : '',
+        city: user?.address ? user.address.city : '',
+        street: user?.address ? user.address.street : '',
+        houseNumber: user?.address ? user.address.houseNumber : '',
+        apartment: user?.address?.apartment ? user.address.apartment : '',
       },
       additionalInfo: '',
     },
@@ -38,7 +43,6 @@ const CreateOrderForm = ({ data: cart }) => {
   const [orderId, setOrderId] = useState(null);
 
   const formSubmitHandler = async (data) => {
-    console.log();
     try {
       const result = await createOrder({
         phoneNumber: removeSpacesFromPhoneNumber(data.phoneNumber),
@@ -53,8 +57,6 @@ const CreateOrderForm = ({ data: cart }) => {
       });
 
       setOrderId(result.data.order.id);
-
-      console.log(result.data);
     } catch (err) {
       console.log(err);
     }

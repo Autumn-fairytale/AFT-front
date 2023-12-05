@@ -8,7 +8,7 @@ export const OrderInfoSectionStyled = styled(Paper)({
 
   height: '100%',
   width: '450px',
-  padding: '10px',
+  padding: '20px',
 });
 
 Paper.defaultProps = { component: 'section' };

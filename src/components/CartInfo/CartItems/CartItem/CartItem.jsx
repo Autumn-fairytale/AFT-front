@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { MdClose } from 'react-icons/md';
 
 import { Box, Typography } from '@mui/material';
@@ -7,7 +7,11 @@ import debounce from 'lodash.debounce';
 
 import { route } from '@/constants';
 import { convertToMoney } from '@/helpers';
-import { useDeleteCartItem, useUpdateCartItemById } from '@/hooks';
+import {
+  useCartOptimisticUpdate,
+  useDeleteCartItem,
+  useUpdateCartItemById,
+} from '@/hooks';
 import { AppImage, AppNumberInput } from '@/shared';
 import { AppSpiceLevel } from '@/shared/AppSpiceLevel/AppSpiceLevel';
 import { CartItemPropTypes } from './CartItem.props';
@@ -24,31 +28,35 @@ const CartItem = ({ data, ...props }) => {
 
   const { mutate: updateCart } = useUpdateCartItemById();
   const { mutate: deleteCart } = useDeleteCartItem();
+  const optimisticUpdate = useCartOptimisticUpdate();
 
-  const fetch = useCallback(
-    debounce(async (newCount) => {
-      if (newCount === 0) {
-        deleteCart(dish.id);
-      } else {
-        updateCart({ item: { dishId: dish.id, count: newCount } });
-      }
-    }, 500),
-    []
+  const fetch = useMemo(
+    () =>
+      debounce(async (newCount) => {
+        if (newCount === 0) {
+          deleteCart(dish.id);
+        } else {
+          updateCart({ item: { dishId: dish.id, count: newCount } });
+        }
+      }, 300),
+    [deleteCart, dish.id, updateCart]
   );
 
   const changeCount = useCallback(
     async (value) => {
       setItemCount(value);
 
+      optimisticUpdate(dish.id, value);
+
       await fetch(value);
     },
-    [fetch]
+    [dish.id, fetch, optimisticUpdate]
   );
 
-  const deleteCartHandler = useCallback(
-    () => deleteCart(dish.id),
-    [deleteCart, dish.id]
-  );
+  const deleteCartHandler = useCallback(() => {
+    deleteCart(dish.id);
+    optimisticUpdate(dish.id, 0);
+  }, [deleteCart, dish.id, optimisticUpdate]);
 
   return (
     <CartItemStyled isAvailable={dish.isAvailable} {...props}>

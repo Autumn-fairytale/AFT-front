@@ -21,8 +21,8 @@ import { useTheme } from '@emotion/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 const defaultValues = {
-  email: '',
-  password: '',
+  email: 'dev.andrii.zaimak@gmail.com',
+  password: 'SecurePass_123',
 };
 
 const SigInForm = () => {

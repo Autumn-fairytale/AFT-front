@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { signIn, signOut, signUp } from './operations';
+import { getCurrentUser, signIn, signOut, signUp } from './operations';
 
 const initialState = {
   isAuth: false,
@@ -58,6 +58,17 @@ const authSlice = createSlice({
         handleEnterToSystem(state, action);
       })
       .addCase(signUp.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload.message;
+      })
+      // get user by token
+      .addCase(getCurrentUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getCurrentUser.fulfilled, (state, action) => {
+        handleEnterToSystem(state, action);
+      })
+      .addCase(getCurrentUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload.message;
       });

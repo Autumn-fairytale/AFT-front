@@ -5,10 +5,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Divider, List, ListItem, Typography } from '@mui/material';
 
 import { route } from '@/constants/route';
-
 import { signOut } from '@/redux/auth/operations';
 import { selectIsAuth, selectRoles, selectUser } from '@/redux/auth/selectors';
-
 import { CustomLink } from '../CustomLink/CustomLink';
 import { IconButtonStyled } from '../UserMenu/UserMenu.slyled';
 import { NavigateMenuPropTypes } from './NavigateMenu.props';

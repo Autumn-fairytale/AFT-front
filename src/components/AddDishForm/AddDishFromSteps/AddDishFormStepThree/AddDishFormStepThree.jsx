@@ -27,7 +27,7 @@ export const AddDishFormStepThree = ({
           />
         }
         multiline
-        rows={5}
+        rows={6}
       />
     </>
   );

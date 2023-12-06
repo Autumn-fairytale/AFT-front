@@ -1,40 +1,42 @@
-import { useCallback, useMemo, useState } from 'react';
-import { MdClose } from 'react-icons/md';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Typography } from '@mui/material';
+import { Box } from '@mui/material';
 
 import debounce from 'lodash.debounce';
 
-import { route } from '@/constants';
-import { useCartTypeContext } from '@/contexts/CartTypeContext';
+// import { useCartTypeContext } from '@/contexts/CartTypeContext';
 import { convertToMoney } from '@/helpers';
 import {
   useCartOptimisticUpdate,
   useDeleteCartItem,
   useUpdateCartItemById,
 } from '@/hooks';
+import { AppImage } from '@/shared';
 import { AppNumberInput } from '@/shared';
-import { useTheme } from '@emotion/react';
+import { AppSpiceLevel } from '@/shared/AppSpiceLevel/AppSpiceLevel';
+// import { useTheme } from '@emotion/react';
 import { CartItemPropTypes } from './CartItem.props';
 import {
   CartItemBodyStyled,
-  CartItemLink,
-  CartItemRemoveStyled,
+  CartItemContainer,
   CartItemStyled,
 } from './CartItem.styled';
-import {
-  CartChefAvatar,
-  CartItemDescription,
-  CartItemTags,
-} from './CartItemDetails';
+import CartItemRemoveButton from './CartItemRemoveButton';
+import CartItemTitle from './CartItemTitle';
+// import {
+//   CartChefAvatar,
+//   CartItemDescription,
+//   CartItemTags,
+// } from './CartItemDetails';
 
 const CartItem = ({ data, ...props }) => {
   const { dish, count } = data;
-  const { name, price, description, isAvailable } = dish;
+  // const { name, price, description, isAvailable } = dish;
   const [itemCount, setItemCount] = useState(count);
 
-  const { isDefault } = useCartTypeContext();
-  const theme = useTheme();
+  // const { isDefault } = useCartTypeContext();
+  // const theme = useTheme();
 
   const { mutate: updateCart } = useUpdateCartItemById();
   const { mutate: deleteCart } = useDeleteCartItem();
@@ -43,7 +45,6 @@ const CartItem = ({ data, ...props }) => {
   const fetch = useMemo(
     () =>
       debounce(async (newCount) => {
-        console.log('Debounce');
         if (newCount === 0) {
           deleteCart(dish.id);
         } else {
@@ -54,50 +55,41 @@ const CartItem = ({ data, ...props }) => {
   );
 
   const changeCount = useCallback(
-    async (value) => {
+    (value) => {
       setItemCount(value);
-
       optimisticUpdate(dish.id, value);
-
-      await fetch(value);
+      fetch(value);
     },
     [dish.id, fetch, optimisticUpdate]
   );
 
-  const deleteCartHandler = useCallback(() => {
-    deleteCart(dish.id);
-    optimisticUpdate(dish.id, 0);
-  }, [deleteCart, dish.id, optimisticUpdate]);
+  useEffect(() => {
+    setItemCount(count);
+  }, [count]);
 
   return (
-    <CartItemStyled isAvailable={isAvailable} isDefault={isDefault} {...props}>
-      <CartItemRemoveStyled
-        aria-label={`delete ${name}`}
-        onClick={deleteCartHandler}
-      >
-        <MdClose />
-      </CartItemRemoveStyled>
+    <CartItemStyled {...props}>
+      <CartItemRemoveButton name={dish.name} id={dish.id} />
+      <CartItemContainer isAvailable={dish.isAvailable}>
+        <AppImage src={dish.image} alt={dish.name} />
+        <CartItemBodyStyled>
+          <CartItemTitle title={dish.name} />
+          <Typography sx={{ fontStyle: 'italic' }}>
+            {convertToMoney(dish.price)}
+          </Typography>
 
-      <CartChefAvatar isDefault={isDefault} dish={dish} />
-
-      <CartItemBodyStyled>
-        <CartItemLink to={`${route.DISHES}/${dish.id}`}>
-          <Typography sx={{ fontWeight: 600 }}>{name}</Typography>
-        </CartItemLink>
-        <Typography sx={{ fontStyle: 'italic' }}>
-          {convertToMoney(price)}
-        </Typography>
-
-        <CartItemDescription isDefault={isDefault} description={description} />
-
-        <CartItemTags isDefault={isDefault} dish={dish} theme={theme} />
-      </CartItemBodyStyled>
-
-      <AppNumberInput
-        value={itemCount}
-        onChange={changeCount}
-        sx={{ alignSelf: 'center' }}
-      />
+          {dish.spiceLevel > 0 && (
+            <Box sx={{ marginTop: 'auto' }}>
+              <AppSpiceLevel value={dish.spiceLevel} />
+            </Box>
+          )}
+        </CartItemBodyStyled>
+        <AppNumberInput
+          value={itemCount}
+          onChange={changeCount}
+          sx={{ alignSelf: 'center' }}
+        />
+      </CartItemContainer>
     </CartItemStyled>
   );
 };

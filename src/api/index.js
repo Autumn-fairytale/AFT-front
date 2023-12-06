@@ -1,5 +1,6 @@
 // export * from './getDish';
 export * from './cart';
+export * from './createDish';
 export * from './getIngredients';
 export * from './getOrderPaymentSignature';
 export * from './getPopularChefs';

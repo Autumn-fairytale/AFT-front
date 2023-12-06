@@ -6,7 +6,7 @@ const steps = ['Basics ', 'Details', 'Media', 'Specs'];
 
 export const AddDishFormStepper = ({ step }) => {
   return (
-    <Stepper activeStep={step - 1}>
+    <Stepper activeStep={step - 1} sx={{ mb: 1 }}>
       {steps.map((label) => {
         const stepProps = {};
         const labelProps = {};

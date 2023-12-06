@@ -1,6 +1,6 @@
 import { Box, styled } from '@mui/material';
 
-export const NoDataStyled = styled(Box)({
+export const PageMessageStyled = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -9,6 +9,6 @@ export const NoDataStyled = styled(Box)({
   flexGrow: 1,
 });
 
-NoDataStyled.defaultProps = {
+PageMessageStyled.defaultProps = {
   component: 'section',
 };

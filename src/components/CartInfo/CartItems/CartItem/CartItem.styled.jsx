@@ -1,41 +1,48 @@
 import { Link } from 'react-router-dom';
 
-import { Box, IconButton, styled, Typography } from '@mui/material';
+import { Box, styled, Typography } from '@mui/material';
 
-export const CartItemStyled = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'isAvailable' && prop !== 'isDefault',
-})(({ isAvailable, isDefault }) => ({
+export const CartItemStyled = styled(Box)({
   position: 'relative',
-  opacity: `${isAvailable ? 1 : 0.4}`,
-  pointerEvents: `${isAvailable ? 'auto' : 'none'}`,
+
+  padding: '10px',
+});
+
+// export const CartItemContainer = styled(Box, {
+//   shouldForwardProp: (prop) => prop !== 'isAvailable',
+// })(({ isAvailable }) => ({
+//   display: 'flex',
+//   gap: '10px',
+
+//   opacity: `${isAvailable ? 1 : 0.3}`,
+// export const CartItemStyled = styled(Box, {
+//   shouldForwardProp: (prop) => prop !== 'isAvailable' && prop !== 'isDefault',
+// })(({ isAvailable, isDefault }) => ({
+//   position: 'relative',
+//   opacity: `${isAvailable ? 1 : 0.4}`,
+//   pointerEvents: `${isAvailable ? 'auto' : 'none'}`,
+//   display: 'flex',
+
+//   ...(isDefault
+//     ? {
+//         gap: '1rem',
+//         padding: '1.5rem 0.8rem',
+//       }
+//     : {
+//         gap: '10px',
+//         padding: '10px',
+//       }),
+// }));
+
+export const CartItemContainer = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isAvailable',
+})(({ isAvailable }) => ({
   display: 'flex',
+  gap: '10px',
 
-  ...(isDefault
-    ? {
-        gap: '1rem',
-        padding: '1.5rem 0.8rem',
-      }
-    : {
-        gap: '10px',
-        padding: '10px',
-      }),
+  opacity: `${isAvailable ? 1 : 0.3}`,
+  pointerEvents: `${isAvailable ? 'auto' : 'none'}`,
 }));
-
-export const CartItemRemoveStyled = styled(IconButton)(({ theme }) => ({
-  position: 'absolute',
-  right: '10px',
-  top: '10px',
-
-  pointerEvents: 'auto',
-
-  '&:hover': {
-    color: `${theme.palette.primary.main}`,
-  },
-}));
-
-CartItemRemoveStyled.defaultProps = {
-  size: 'small',
-};
 
 export const CartItemBodyStyled = styled('div')({
   display: 'flex',

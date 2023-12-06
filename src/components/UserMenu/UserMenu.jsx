@@ -68,26 +68,31 @@ export const UserMenu = () => {
                 </StyledBadge>
               </LinkStyled>
             </ListItemStyled>
-            <ListItemStyled>
-              <LinkStyled>
-                <StyledBadge badgeContent={cart.length} color="success">
-                  <ShoppingCartIcon sx={{ width: 30, height: 30 }} />
-                </StyledBadge>
-              </LinkStyled>
-            </ListItemStyled>
           </>
         )}
       </ListStyled>
-      <IconButtonStyled
-        onClick={() => {
-          if (isAuth) {
-            dispatch(signOut());
-            toast.success('You have successfully signed out');
-          }
-        }}
-      >
-        <LogoutIcon sx={{ width: 30, height: 30 }} />
-      </IconButtonStyled>
+      <ListStyled></ListStyled>
+      <ListItemStyled>
+        <IconButtonStyled
+          onClick={() => console.log('Повинна відкриватися корзина')}
+        >
+          <StyledBadge badgeContent={cart.length} color="success">
+            <ShoppingCartIcon sx={{ width: 30, height: 30 }} />
+          </StyledBadge>
+        </IconButtonStyled>
+      </ListItemStyled>
+      <ListItemStyled>
+        <IconButtonStyled
+          onClick={() => {
+            if (isAuth) {
+              dispatch(signOut());
+              toast.success('You have successfully signed out');
+            }
+          }}
+        >
+          <LogoutIcon sx={{ width: 30, height: 30 }} />
+        </IconButtonStyled>
+      </ListItemStyled>
     </>
   );
 };

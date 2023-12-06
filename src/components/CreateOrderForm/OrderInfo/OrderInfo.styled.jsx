@@ -23,3 +23,12 @@ export const OrderInfoChefStyled = styled(Box)(({ theme }) => ({
   backgroundColor: `${theme.palette.grey[200]}`,
   borderRadius: '10px',
 }));
+
+export const OrderInfoFooter = styled(Box)({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+
+  width: '100%',
+  minHeight: '46px',
+});

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { MdClose } from 'react-icons/md';
 
 import { Box, Typography } from '@mui/material';
@@ -17,6 +17,7 @@ import { AppSpiceLevel } from '@/shared/AppSpiceLevel/AppSpiceLevel';
 import { CartItemPropTypes } from './CartItem.props';
 import {
   CartItemBodyStyled,
+  CartItemContainer,
   CartItemLink,
   CartItemRemoveStyled,
   CartItemStyled,
@@ -33,7 +34,6 @@ const CartItem = ({ data, ...props }) => {
   const fetch = useMemo(
     () =>
       debounce(async (newCount) => {
-        console.log('Debounce');
         if (newCount === 0) {
           deleteCart(dish.id);
         } else {
@@ -44,12 +44,10 @@ const CartItem = ({ data, ...props }) => {
   );
 
   const changeCount = useCallback(
-    async (value) => {
+    (value) => {
       setItemCount(value);
-
       optimisticUpdate(dish.id, value);
-
-      await fetch(value);
+      fetch(value);
     },
     [dish.id, fetch, optimisticUpdate]
   );
@@ -59,34 +57,42 @@ const CartItem = ({ data, ...props }) => {
     optimisticUpdate(dish.id, 0);
   }, [deleteCart, dish.id, optimisticUpdate]);
 
+  useEffect(() => {
+    setItemCount(count);
+  }, [count]);
+
   return (
-    <CartItemStyled isAvailable={dish.isAvailable} {...props}>
+    <CartItemStyled {...props}>
       <CartItemRemoveStyled
         aria-label={`delete ${dish.name}`}
         onClick={deleteCartHandler}
       >
         <MdClose />
       </CartItemRemoveStyled>
-      <AppImage src={dish.image} alt={dish.name} />
-      <CartItemBodyStyled>
-        <CartItemLink to={`${route.DISHES}/${dish.id}`}>
-          <Typography sx={{ fontWeight: 600 }}>{dish.name}</Typography>
-        </CartItemLink>
-        <Typography sx={{ fontStyle: 'italic' }}>
-          {convertToMoney(dish.price)}
-        </Typography>
+      <CartItemContainer isAvailable={dish.isAvailable}>
+        <AppImage src={dish.image} alt={dish.name} />
+        <CartItemBodyStyled>
+          <CartItemLink to={`${route.DISHES}/${dish.id}`}>
+            <Typography noWrap={true} sx={{ width: '170px', fontWeight: 600 }}>
+              {dish.name}
+            </Typography>
+          </CartItemLink>
+          <Typography sx={{ fontStyle: 'italic' }}>
+            {convertToMoney(dish.price)}
+          </Typography>
 
-        {dish.spiceLevel > 0 && (
-          <Box sx={{ marginTop: 'auto' }}>
-            <AppSpiceLevel value={dish.spiceLevel} />
-          </Box>
-        )}
-      </CartItemBodyStyled>
-      <AppNumberInput
-        value={itemCount}
-        onChange={changeCount}
-        sx={{ alignSelf: 'center' }}
-      />
+          {dish.spiceLevel > 0 && (
+            <Box sx={{ marginTop: 'auto' }}>
+              <AppSpiceLevel value={dish.spiceLevel} />
+            </Box>
+          )}
+        </CartItemBodyStyled>
+        <AppNumberInput
+          value={itemCount}
+          onChange={changeCount}
+          sx={{ alignSelf: 'center' }}
+        />
+      </CartItemContainer>
     </CartItemStyled>
   );
 };

@@ -4,6 +4,7 @@ export const route = Object.freeze({
   HOME: '/',
   DISHES: '/dishes',
   CHEFS: '/chefs',
+  ORDERS_PAYMENT: '/orders/payment',
   CREATE_ORDER: '/create-order',
   CHEF_ACCOUNT: '/chef-account',
   CHEF_SIGN_UP: '/chef-account/sign-up',

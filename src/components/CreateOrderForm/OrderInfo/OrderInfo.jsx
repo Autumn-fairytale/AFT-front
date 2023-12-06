@@ -1,31 +1,26 @@
 import { useMemo } from 'react';
 
-import { Typography } from '@mui/material';
+import { Alert, Box, LinearProgress, Typography } from '@mui/material';
 
 import CartInfo from '@/components/CartInfo';
 import config from '@/config';
+import { calcOrderSummary } from '@/helpers';
 import { AppButton } from '@/shared';
 import { OrderInfoPropTypes } from './OrderInfo.props';
-import { OrderInfoSectionStyled } from './OrderInfo.styled';
+import { OrderInfoFooter, OrderInfoSectionStyled } from './OrderInfo.styled';
 import OrderSummary from './OrderSummary';
 
-const OrderInfo = ({ data /*, isSubmitting*/ }) => {
+const OrderInfo = ({ data, isSubmitting }) => {
   const { items } = data;
-  const summary = useMemo(() => {
-    const subtotal = items.reduce(
-      (acc, item) => acc + item.dish.price * item.count,
-      0
-    );
-    const delivery = 50;
-    const tax =
-      (subtotal + delivery) / (1 - config.taxPercent / 100) -
-      (subtotal + delivery);
+
+  const info = useMemo(() => {
+    const summary = calcOrderSummary(items, config.deliveryService);
 
     return {
-      subtotal,
-      tax,
-      delivery,
-      total: subtotal + tax + delivery,
+      summary,
+      hasUnavailableItem: items.some(
+        ({ dish: { isAvailable } }) => !isAvailable
+      ),
     };
   }, [items]);
 
@@ -35,27 +30,44 @@ const OrderInfo = ({ data /*, isSubmitting*/ }) => {
         Order information
       </Typography>
 
-      {items.length === 0 ? (
-        <Typography>Choose any dishes</Typography>
-      ) : (
-        <>
-          <CartInfo data={data} />
+      <CartInfo data={data} />
 
-          <OrderSummary
-            summary={summary}
-            sx={{
-              marginTop: '20px',
-            }}
-          />
-          {/* {!isSubmitting && ( */}
-          <AppButton
-            type="submit"
-            label="Place order"
-            sx={{ width: '100%', marginTop: '20px' }}
-          />
-          {/* )} */}
-        </>
-      )}
+      <OrderSummary
+        summary={info.summary}
+        sx={{
+          marginTop: '10px',
+        }}
+      />
+
+      <OrderInfoFooter sx={{ mt: '10px' }}>
+        {info.hasUnavailableItem ? (
+          <Alert
+            severity="warning"
+            sx={{ display: 'flex', alignItems: 'center' }}
+          >
+            Some dishes are currently unavailable! Please delete them.
+          </Alert>
+        ) : (
+          <>
+            {!isSubmitting ? (
+              <AppButton
+                type="submit"
+                label="Place order"
+                sx={{ width: '100%' }}
+              />
+            ) : (
+              <Box sx={{ width: '100%' }}>
+                <LinearProgress />
+                <Typography
+                  sx={{ fontStyle: 'italic', textAlign: 'center', mt: '10px' }}
+                >
+                  Creating order...
+                </Typography>
+              </Box>
+            )}
+          </>
+        )}
+      </OrderInfoFooter>
     </OrderInfoSectionStyled>
   );
 };

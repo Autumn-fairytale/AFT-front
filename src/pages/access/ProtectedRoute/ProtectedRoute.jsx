@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import { selectIsAuth, selectRoles } from '@/redux/auth/selectors';
+import { AppLoader } from '@/shared';
 import { ProtectedRoutePropTypes } from './ProtectedRoute.props';
 
 const ProtectedRoute = ({ authRedirectLink, accessRedirectLink, role }) => {
@@ -32,7 +33,7 @@ const ProtectedRoute = ({ authRedirectLink, accessRedirectLink, role }) => {
     );
 
   return (
-    <Suspense fallback="Loading...">
+    <Suspense fallback={<AppLoader />}>
       <Outlet />
     </Suspense>
   );

@@ -1,6 +1,5 @@
 import CreateOrderForm from '@/components/CreateOrderForm';
-import FetchError from '@/components/FetchError';
-import NoData from '@/components/NoData';
+import PageMessage from '@/components/PageMessage';
 import { useGetCartItems } from '@/hooks';
 import { AppLoader } from '@/shared';
 import { Main } from '@/shared/Main/Main';
@@ -13,13 +12,16 @@ const CreateOrderPage = () => {
   if (isLoading) {
     render = <AppLoader />;
   } else if (error) {
-    render = <FetchError message={error.message} />;
+    render = <PageMessage variant="error" message={error.message} />;
   } else if (data?.success) {
     render =
       data.cart.items.length > 0 ? (
         <CreateOrderForm data={data.cart} />
       ) : (
-        <NoData message="Oops! No products were found in the cart!" />
+        <PageMessage
+          variant="no-data"
+          message="Oops! No products were found in the cart!"
+        />
       );
   }
   return (

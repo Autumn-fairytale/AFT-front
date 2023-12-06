@@ -7,9 +7,10 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useGetCartItems = () => {
   const userId = useSelector(selectUser)?.id;
+  const key = [queryKey.CART, userId];
 
   const result = useQuery({
-    queryKey: [queryKey.CART, userId],
+    queryKey: key,
     queryFn: async () => getCartItems(userId),
     enabled: !!userId,
   });

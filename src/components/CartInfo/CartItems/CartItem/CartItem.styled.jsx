@@ -2,17 +2,19 @@ import { Link } from 'react-router-dom';
 
 import { Box, IconButton, styled } from '@mui/material';
 
-export const CartItemStyled = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'isAvailable',
-})(({ isAvailable }) => ({
+export const CartItemStyled = styled(Box)({
   position: 'relative',
 
+  padding: '10px',
+});
+
+export const CartItemContainer = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isAvailable',
+})(({ isAvailable }) => ({
   display: 'flex',
   gap: '10px',
 
-  padding: '10px',
-
-  opacity: `${isAvailable ? 1 : 0.4}`,
+  opacity: `${isAvailable ? 1 : 0.3}`,
   pointerEvents: `${isAvailable ? 'auto' : 'none'}`,
 }));
 

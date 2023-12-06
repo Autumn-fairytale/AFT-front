@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+
 import { Box, Divider, Typography } from '@mui/material';
 
 import CartItem from './CartItem';
@@ -10,10 +12,10 @@ const CartItems = ({ data, ...props }) => {
         <Typography>{"You didn't choose any dishes"}</Typography>
       ) : (
         data.map((item, index, arr) => (
-          <li key={item.dish.id}>
-            <CartItem data={item} />
+          <Fragment key={item.dish.id}>
+            <CartItem component="li" data={item} />
             {index < arr.length - 1 && <Divider />}
-          </li>
+          </Fragment>
         ))
       )}
       {}

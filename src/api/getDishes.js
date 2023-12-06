@@ -15,7 +15,6 @@ export const getDishes = async ({ cuisine, isVegan, category, spiceLevel }) => {
     queryString += `category=${category}&`;
   }
 
-  console.log('spiceLevel:', spiceLevel);
   if (spiceLevel !== undefined && spiceLevel !== 'null') {
     queryString += `spiceLevel=${spiceLevel}&`;
   }

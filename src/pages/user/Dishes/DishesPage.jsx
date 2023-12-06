@@ -2,20 +2,22 @@ import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { getDishes } from '@/api/getDishes';
-import { DishesFilter } from '@/components/DishesFilter/DishesFilter';
+import DishesList from '@/components/DishesList/DishesList';
+import { DishesFilter } from '@/components/DishesSearchBar/DishesSearchBar';
 import { AppContainer } from '@/shared';
 import { Main } from '@/shared/Main/Main';
 import { useQuery } from '@tanstack/react-query';
+import { TypographyStyled } from './DishesPage.styled';
 
 const DishesPage = () => {
   const [searchParams] = useSearchParams();
-  console.log('searchParams:', searchParams);
+
   const { category, cuisine, type, spiceLevel } = useMemo(
     () => Object.fromEntries([...searchParams]),
     [searchParams]
   );
 
-  const query = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['dishesPage', category, cuisine, type, spiceLevel],
     queryFn: () =>
       getDishes({
@@ -25,17 +27,22 @@ const DishesPage = () => {
         spiceLevel: spiceLevel === 0 ? '' : spiceLevel,
       }),
   });
-  console.log('query:', query);
-  // console.log('query:', query);
 
   return (
     <Main>
       <AppContainer>
-        Dishes page
-        {/* Searchbar */}
-        <div>
-          <DishesFilter />
-        </div>
+        <TypographyStyled variant="h4">DISHES</TypographyStyled>
+
+        <DishesFilter />
+
+        {data?.length > 0 || isLoading ? (
+          <DishesList data={data} isLoading={isLoading} />
+        ) : (
+          <h1>
+            Uh-oh! It looks like the dish of your dreams is playing hide. No
+            luck this time. Maybe You need to tweak your search criteria.
+          </h1>
+        )}
       </AppContainer>
     </Main>
   );

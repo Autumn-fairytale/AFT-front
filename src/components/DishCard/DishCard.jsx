@@ -31,6 +31,8 @@ const DishCard = ({ dishInfo, isCarousel }) => {
           src={dishInfo.image}
           alt={dishInfo.name}
           component="img"
+          width="300"
+          height="300"
         />
         <FavoriteButton isCarousel={isCarousel}>
           <IconButton onClick={() => setFavorite(!favorite)}>

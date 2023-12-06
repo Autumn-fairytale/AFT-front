@@ -12,7 +12,7 @@ const DishesList = ({ data, isLoading }) => {
               <DishCardSkeleton />
             </SkeletonCardItem>
           ))
-        : data.map((dish) => (
+        : data?.map((dish) => (
             <li key={dish.id}>
               <DishCard dishInfo={dish} />
             </li>

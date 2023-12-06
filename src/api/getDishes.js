@@ -1,7 +1,19 @@
 import { publicInstance } from './axios';
 
-export const getDishes = async ({ cuisine, isVegan, category, spiceLevel }) => {
+export const getDishes = async ({
+  search,
+  cuisine,
+  isVegan,
+  category,
+  spiceLevel,
+}) => {
   let queryString = '';
+
+  console.log('search:', search);
+
+  if (search !== undefined && search !== '') {
+    queryString += `name=${search}&`;
+  }
 
   if (cuisine !== undefined && cuisine !== 'All') {
     queryString += `cuisine=${cuisine}&`;

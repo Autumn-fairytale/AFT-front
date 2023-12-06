@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { getDishes } from '@/api/getDishes';
@@ -12,21 +12,38 @@ import { TypographyStyled } from './DishesPage.styled';
 const DishesPage = () => {
   const [searchParams] = useSearchParams();
 
-  const { category, cuisine, type, spiceLevel } = useMemo(
+  const { search, category, cuisine, type, spiceLevel } = useMemo(
     () => Object.fromEntries([...searchParams]),
     [searchParams]
   );
 
+  const [searchTerm, setSearchTerm] = useState(search || '');
+  const debounceDelay = 500;
+
+  useEffect(() => {
+    const debounceTimeout = setTimeout(() => {
+      setSearchTerm(search);
+    }, debounceDelay);
+
+    return () => clearTimeout(debounceTimeout);
+  }, [searchTerm, searchParams, searchParams, search]);
+
   const { data, isLoading } = useQuery({
-    queryKey: ['dishesPage', category, cuisine, type, spiceLevel],
+    queryKey: ['dishesPage', searchTerm, category, cuisine, type, spiceLevel],
     queryFn: () =>
       getDishes({
+        search,
         cuisine: cuisine === 'All' ? '' : cuisine,
         isVegan: type === 'All' ? '' : type,
         category: category === 'All' ? '' : category,
         spiceLevel: spiceLevel === 0 ? '' : spiceLevel,
       }),
   });
+
+  let dishes;
+  if (data) {
+    dishes = data.dishes;
+  }
 
   return (
     <Main>
@@ -35,8 +52,8 @@ const DishesPage = () => {
 
         <DishesFilter />
 
-        {data?.length > 0 || isLoading ? (
-          <DishesList data={data} isLoading={isLoading} />
+        {dishes?.length > 0 || isLoading ? (
+          <DishesList data={dishes} isLoading={isLoading} />
         ) : (
           <h1>
             Uh-oh! It looks like the dish of your dreams is playing hide. No

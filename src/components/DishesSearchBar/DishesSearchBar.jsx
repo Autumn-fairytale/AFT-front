@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import PepperIcon from '@mui/icons-material/Whatshot';
+import TextField from '@mui/material/TextField';
 
 import { CATEGORIES, CUISINES } from '@/constants';
 import { AppSelect } from '@/shared';
@@ -25,6 +26,12 @@ export const DishesFilter = () => {
 
   return (
     <SearchWrapper>
+      <TextField
+        label="Name"
+        value={params.search || ''}
+        name="search"
+        onChange={handleInputChange}
+      />
       <AppSelect
         options={[...CATEGORIES, 'All']}
         label={'Category'}

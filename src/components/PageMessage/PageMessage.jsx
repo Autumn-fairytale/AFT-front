@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import imageError from '@/assets/images/error.svg';
 import imageNoData from '@/assets/images/no-data.svg';
@@ -15,7 +15,12 @@ const images = {
 const PageMessage = ({ image, message, variant, ...props }) => {
   return (
     <PageMessageStyled {...props}>
-      <img src={image ? image : images[variant]} width={400} height={400} />
+      <Box
+        component="img"
+        src={image ? image : images[variant]}
+        width={400}
+        height={400}
+      />
       <Typography>{message}</Typography>
     </PageMessageStyled>
   );

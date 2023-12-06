@@ -1,4 +1,3 @@
-import React from 'react';
 import { Controller } from 'react-hook-form';
 
 import { Box, Typography } from '@mui/material';
@@ -53,13 +52,12 @@ const DeliveryInfo = ({ control, errors }) => {
           }}
         >
           {fields.map((field) => (
-            <React.Fragment key={field.name}>
-              <DeliveryInfoFormItem
-                info={field}
-                control={control}
-                error={errors[field.name]}
-              />
-            </React.Fragment>
+            <DeliveryInfoFormItem
+              key={field.name}
+              info={field}
+              control={control}
+              error={errors[field.name]}
+            />
           ))}
         </Box>
 
@@ -87,5 +85,6 @@ const DeliveryInfo = ({ control, errors }) => {
 };
 
 DeliveryInfo.propTypes = DeliveryInfoPropTypes;
+DeliveryInfo.displayName = 'DeliveryInfo';
 
 export default DeliveryInfo;

@@ -42,8 +42,6 @@ const CreateOrderForm = ({ data: cart }) => {
     resolver: zodResolver(createOrderSchema),
   });
 
-  if (Object.keys(errors).length) console.log('errors: ', errors);
-
   const formSubmitHandler = async (data) => {
     try {
       const result = await createOrder({

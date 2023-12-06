@@ -4,7 +4,6 @@ import { Box, Typography } from '@mui/material';
 
 import debounce from 'lodash.debounce';
 
-import { route } from '@/constants';
 import { convertToMoney } from '@/helpers';
 import {
   useCartOptimisticUpdate,
@@ -17,10 +16,10 @@ import { CartItemPropTypes } from './CartItem.props';
 import {
   CartItemBodyStyled,
   CartItemContainer,
-  CartItemLink,
   CartItemStyled,
 } from './CartItem.styled';
 import CartItemRemoveButton from './CartItemRemoveButton';
+import CartItemTitle from './CartItemTitle';
 
 const CartItem = ({ data, ...props }) => {
   const { dish, count } = data;
@@ -61,11 +60,7 @@ const CartItem = ({ data, ...props }) => {
       <CartItemContainer isAvailable={dish.isAvailable}>
         <AppImage src={dish.image} alt={dish.name} />
         <CartItemBodyStyled>
-          <CartItemLink to={`${route.DISHES}/${dish.id}`}>
-            <Typography noWrap={true} sx={{ width: '170px', fontWeight: 600 }}>
-              {dish.name}
-            </Typography>
-          </CartItemLink>
+          <CartItemTitle title={dish.name} />
           <Typography sx={{ fontStyle: 'italic' }}>
             {convertToMoney(dish.price)}
           </Typography>

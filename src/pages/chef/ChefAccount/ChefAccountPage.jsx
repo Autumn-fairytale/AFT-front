@@ -32,7 +32,6 @@ const ChefAccountPage = () => {
           accountStatus: response.accountStatus.toUpperCase(),
         };
         setChefInfo(chef);
-        console.log(chef);
       } catch (error) {
         console.error('Error fetching chef data:', error);
       }
@@ -41,9 +40,6 @@ const ChefAccountPage = () => {
     fetchChefData();
   }, [chefId]);
 
-  // useEffect(() => {
-  //   console.log('chefId: ', chefId, 'chefInfo: ', chefInfo);
-  // }, [chefInfo]);
   return (
     <Main>
       <ChefProfile chefInfo={chefInfo} isChef={true} />
@@ -63,14 +59,25 @@ const ChefAccountPage = () => {
             margin: '15px 5px',
           }}
         >
-          <Typography
-            variant="h5"
-            component="h2"
-            fontSize="26px"
-            fontWeight="600"
-          >
-            New orders
-          </Typography>
+          <Box>
+            <Typography
+              variant="h5"
+              component="h2"
+              fontSize="26px"
+              fontWeight="600"
+            >
+              New orders
+            </Typography>
+            <Typography
+              variant="p"
+              component="h6"
+              fontSize="16px"
+              fontWeight="400"
+            >
+              Accepted orders display in all orders table
+            </Typography>
+          </Box>
+
           <Link
             to={`${route.CHEF_ORDERS}`}
             style={{

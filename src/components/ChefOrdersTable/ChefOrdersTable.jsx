@@ -21,11 +21,10 @@ export const ChefOrdersTable = ({ getOrders, status }) => {
   const chefID = user.roles.find((role) => role.name === 'chef').id;
   //'656cff4d4125411c58aec41d';
   //const { data, isLoading, error } = useChefOrder(chefID);
-
   const { data, isLoading, error } = getOrders(chefID, status);
 
   const orders = data ? data : [];
-  // console.log(orders);
+
   const [rowModesModel, setRowModesModel] = useState({});
 
   const handleRowEditStop = (params, event) => {
@@ -69,7 +68,7 @@ export const ChefOrdersTable = ({ getOrders, status }) => {
   };
 
   const updateRow = async (newRow, oldRow) => {
-    return processRowUpdate(newRow, oldRow, chefID);
+    return processRowUpdate(newRow, oldRow);
   };
 
   const columns = useMemo(

@@ -18,9 +18,7 @@ import ChefInfoField from './ChefInfoField/ChefInfoField';
 
 import LiqPayLogo from '../../../assets/images/liqpay.png';
 
-const ChefInfo = ({ control, errors, avatar, certificate }) => {
-  const [, setAvatar] = useState();
-  const [, setCertificate] = useState();
+const ChefInfo = ({ control, errors, avatar, certificate, setValue }) => {
   const accountStatus = [
     'pending',
     'active',
@@ -51,7 +49,7 @@ const ChefInfo = ({ control, errors, avatar, certificate }) => {
       </Typography>
       <UploadChefFiles
         control={control}
-        setValue={() => setAvatar()}
+        setValue={setValue}
         isAvatar={true}
         id="avatar"
         initialImage={avatar}
@@ -137,7 +135,7 @@ const ChefInfo = ({ control, errors, avatar, certificate }) => {
           </Typography>
           <UploadChefFiles
             control={control}
-            setValue={() => setCertificate()}
+            setValue={setValue}
             id="certificate"
             initialImage={certificate}
             folder={FOLDERS.CHEFS}

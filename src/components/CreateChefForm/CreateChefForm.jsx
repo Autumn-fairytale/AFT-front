@@ -19,6 +19,7 @@ const CreateChefForm = () => {
     formState: { errors },
     control,
     reset,
+    setValue,
   } = useForm({
     resolver: zodResolver(chefSchema),
     defaultValues: {
@@ -54,6 +55,7 @@ const CreateChefForm = () => {
             accountStatus: chefData.accountStatus,
             liqpayKey: chefData.liqpayKey,
           });
+
           setChef(chefData);
         } catch (error) {
           console.error('Error fetching chef data:', error);
@@ -75,6 +77,7 @@ const CreateChefForm = () => {
         accountStatus: data.accountStatus,
         liqpayKey: data.liqpayKey,
       };
+      console.log(result);
       if (user.roles.find((role) => role.name === 'chef')) {
         await updateChef(
           result,
@@ -96,6 +99,7 @@ const CreateChefForm = () => {
         errors={errors}
         avatar={chef?.avatar}
         certificate={chef?.certificate}
+        setValue={setValue}
       />
       <AppButton
         label="Submit"

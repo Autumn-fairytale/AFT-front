@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-//import axios from 'axios';
+import axios from 'axios';
+
 import { getPresignedURL } from '@/api';
-import { privateInstance } from '@/api/axios';
 
 export const useS3ImageUploader = (fileName, fileType, category) => {
   const [presignedUrl, setPresignedUrl] = useState(null);
@@ -42,13 +42,7 @@ export const useS3ImageUploader = (fileName, fileType, category) => {
     setError(null);
 
     try {
-      // const response = await axios.put(presignedUrl, blob, {
-      //   headers: {
-      //     'Content-Type': fileType || 'image/jpeg',
-      //   },
-      // });
-
-      const response = await privateInstance.put(presignedUrl, blob, {
+      const response = await axios.put(presignedUrl, blob, {
         headers: {
           'Content-Type': fileType || 'image/jpeg',
         },

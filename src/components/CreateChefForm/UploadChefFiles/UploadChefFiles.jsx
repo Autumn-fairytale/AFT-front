@@ -91,7 +91,10 @@ export const UploadChefFiles = ({
       const newFileName = extractFileNameFromUrl(fullResponseURL);
       setCurrentFileName(newFileName);
       const uploadedImageURL = fullResponseURL.split('?')[0];
+
       setValue(id, uploadedImageURL);
+
+      setImageSrc(uploadedImageURL);
     } catch (error) {
       console.error(error.message || 'Error during image processing');
     } finally {
@@ -128,38 +131,6 @@ export const UploadChefFiles = ({
       fileInputRef.current.value = '';
     }
   };
-
-  // const handleImageChange = (e, onChange) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setImageSrc(reader.result);
-  //       setShowImage(true);
-  //     };
-  //     reader.readAsDataURL(file);
-  //     onChange(file);
-  //   }
-  // };
-
-  // const handleSave = async () => {
-  //   setValue(imageSrc);
-  //   setShowImage(false);
-  // };
-
-  // const handleDelete = (image, onChange) => {
-  //   setImageSrc(null);
-  //   setValue({ id }, '');
-  //   setShowImage(false);
-  //   onChange('');
-  // };
-
-  // const handleCancel = () => {
-  //   setImageSrc(null);
-  //   setValue({ id }, '');
-  //   setShowImage(false);
-  // };
-
   return (
     <Controller
       control={control}

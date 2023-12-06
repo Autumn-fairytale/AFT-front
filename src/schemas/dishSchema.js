@@ -1,5 +1,10 @@
 import * as zod from 'zod';
 
+const ImageSchema = zod.union([
+  zod.string().url('Please add your image'),
+  zod.object({}),
+]);
+
 export const dishSchema = zod.object({
   name: zod.string().trim().min(1, { message: 'Dish name required' }),
 
@@ -24,7 +29,7 @@ export const dishSchema = zod.object({
 
   isVegan: zod.boolean(),
 
-  image: zod.string().url('Please add your image'),
+  image: ImageSchema,
 
   cookTimeInMinutes: zod
     .number()

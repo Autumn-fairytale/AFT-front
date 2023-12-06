@@ -29,7 +29,7 @@ const ChefOrdersPage = () => {
         style={{
           display: 'flex',
           justifyContent: 'center',
-          margin: '10px',
+          margin: '20px 60px',
         }}
       >
         <ChefOrdersTable getOrders={useChefOrder} />

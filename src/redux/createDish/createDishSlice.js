@@ -1,3 +1,4 @@
+import { createDish } from '@/api';
 import { dishFormDefaultValues } from '@/constants/defaultValues';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
@@ -13,11 +14,9 @@ export const submitDishData = createAsyncThunk(
   'createDish/submitDishData',
   async (dishData, thunkAPI) => {
     try {
-      // Do something like
-      // const response = await api.submitDish(dishData);
-      // return response.data;
-      console.log('Data sent to server:', dishData);
-      return dishData;
+      const response = await createDish(dishData);
+      // console.log('Data sent to server:', response);
+      return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
     }

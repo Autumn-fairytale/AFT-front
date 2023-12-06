@@ -72,10 +72,9 @@ export const NavigateMenu = ({ onClose, onOpen }) => {
                   Favorites chefs
                 </CustomLink>
               </ListItem>
+              <Divider />
             </>
           )}
-
-          <Divider />
 
           {user &&
             isAuth &&

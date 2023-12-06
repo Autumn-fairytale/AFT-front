@@ -23,8 +23,8 @@ const AppImage = ({ src, alt, defaultSrc, ...props }) => {
 
 AppImage.propTypes = AppImagePropTypes;
 AppImage.defaultProps = {
-  width: 80,
-  height: 80,
+  width: 90,
+  height: 90,
   borderRadius: '10px',
   defaultSrc,
 };

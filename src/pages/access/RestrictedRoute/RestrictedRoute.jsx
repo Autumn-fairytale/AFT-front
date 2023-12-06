@@ -4,7 +4,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import { route } from '@/constants';
 import { selectIsAuth, selectRoles } from '@/redux/auth/selectors';
-import { Main } from '@/shared/Main/Main';
+import { AppLoader } from '@/shared';
 import { RestrictedRoutePropTypes } from './RestrictedRoute.props';
 
 const RestrictedRoute = ({ redirectLink, role }) => {
@@ -24,7 +24,7 @@ const RestrictedRoute = ({ redirectLink, role }) => {
     return <Navigate to={to} state={state} replace={true} />;
 
   return (
-    <Suspense fallback={<Main>Loading...</Main>}>
+    <Suspense fallback={<AppLoader />}>
       <Outlet />
     </Suspense>
   );

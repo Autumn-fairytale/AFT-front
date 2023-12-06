@@ -1,19 +1,20 @@
 import { useCallback, useMemo, useState } from 'react';
 import { MdClose } from 'react-icons/md';
 
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 
 import debounce from 'lodash.debounce';
 
 import { route } from '@/constants';
+import { useCartTypeContext } from '@/contexts/CartTypeContext';
 import { convertToMoney } from '@/helpers';
 import {
   useCartOptimisticUpdate,
   useDeleteCartItem,
   useUpdateCartItemById,
 } from '@/hooks';
-import { AppImage, AppNumberInput } from '@/shared';
-import { AppSpiceLevel } from '@/shared/AppSpiceLevel/AppSpiceLevel';
+import { AppNumberInput } from '@/shared';
+import { useTheme } from '@emotion/react';
 import { CartItemPropTypes } from './CartItem.props';
 import {
   CartItemBodyStyled,
@@ -21,10 +22,19 @@ import {
   CartItemRemoveStyled,
   CartItemStyled,
 } from './CartItem.styled';
+import {
+  CartChefAvatar,
+  CartItemDescription,
+  CartItemTags,
+} from './CartItemDetails';
 
 const CartItem = ({ data, ...props }) => {
   const { dish, count } = data;
+  const { name, price, description, isAvailable } = dish;
   const [itemCount, setItemCount] = useState(count);
+
+  const { isDefault } = useCartTypeContext();
+  const theme = useTheme();
 
   const { mutate: updateCart } = useUpdateCartItemById();
   const { mutate: deleteCart } = useDeleteCartItem();
@@ -60,28 +70,29 @@ const CartItem = ({ data, ...props }) => {
   }, [deleteCart, dish.id, optimisticUpdate]);
 
   return (
-    <CartItemStyled isAvailable={dish.isAvailable} {...props}>
+    <CartItemStyled isAvailable={isAvailable} isDefault={isDefault} {...props}>
       <CartItemRemoveStyled
-        aria-label={`delete ${dish.name}`}
+        aria-label={`delete ${name}`}
         onClick={deleteCartHandler}
       >
         <MdClose />
       </CartItemRemoveStyled>
-      <AppImage src={dish.image} alt={dish.name} />
+
+      <CartChefAvatar isDefault={isDefault} dish={dish} />
+
       <CartItemBodyStyled>
         <CartItemLink to={`${route.DISHES}/${dish.id}`}>
-          <Typography sx={{ fontWeight: 600 }}>{dish.name}</Typography>
+          <Typography sx={{ fontWeight: 600 }}>{name}</Typography>
         </CartItemLink>
         <Typography sx={{ fontStyle: 'italic' }}>
-          {convertToMoney(dish.price)}
+          {convertToMoney(price)}
         </Typography>
 
-        {dish.spiceLevel > 0 && (
-          <Box sx={{ marginTop: 'auto' }}>
-            <AppSpiceLevel value={dish.spiceLevel} />
-          </Box>
-        )}
+        <CartItemDescription isDefault={isDefault} description={description} />
+
+        <CartItemTags isDefault={isDefault} dish={dish} theme={theme} />
       </CartItemBodyStyled>
+
       <AppNumberInput
         value={itemCount}
         onChange={changeCount}

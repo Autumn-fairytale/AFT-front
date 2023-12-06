@@ -1,4 +1,4 @@
-import { Box, IconButton } from '@mui/material';
+import { Box, IconButton, lighten } from '@mui/material';
 
 import styled from '@emotion/styled';
 
@@ -6,6 +6,7 @@ export const IconButtonStyled = styled(IconButton)`
   position: absolute;
   top: 12px;
   right: 12px;
+  color: ${({ theme }) => lighten(theme.palette.text.secondary, 0.4)};
   padding: 0;
   background-color: transparent;
   border-radius: 50%;
@@ -16,6 +17,7 @@ export const IconButtonStyled = styled(IconButton)`
     color: ${({ theme }) => theme.palette.primary.main};
     transform: rotate(180deg);
   }
+  z-index: 2;
 `;
 
 export const BoxStyled = styled(Box)`

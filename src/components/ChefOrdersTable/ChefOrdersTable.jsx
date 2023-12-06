@@ -14,11 +14,10 @@ import { OrderItemsCell } from './OrderItemsCell';
 import { processRowUpdate } from './processRowUpdate';
 
 export const ChefOrdersTable = () => {
-  const chefID = '6557219bccbbbbc3695bc8b2';
-  const { data, isLoading, error } = useChefOrder(chefID);
+  const { data, isLoading, error } = useChefOrder();
 
   const orders = data ? data : [];
-  // console.log(orders);
+
   const [rowModesModel, setRowModesModel] = useState({});
 
   const handleRowEditStop = (params, event) => {
@@ -62,7 +61,7 @@ export const ChefOrdersTable = () => {
   };
 
   const updateRow = async (newRow, oldRow) => {
-    return processRowUpdate(newRow, oldRow, chefID);
+    return processRowUpdate(newRow, oldRow);
   };
 
   const columns = useMemo(

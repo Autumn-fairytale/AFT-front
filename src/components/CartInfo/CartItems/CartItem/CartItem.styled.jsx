@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { Box, IconButton, styled } from '@mui/material';
+import { Box, styled } from '@mui/material';
 
 export const CartItemStyled = styled(Box)({
   position: 'relative',
@@ -17,22 +17,6 @@ export const CartItemContainer = styled(Box, {
   opacity: `${isAvailable ? 1 : 0.3}`,
   pointerEvents: `${isAvailable ? 'auto' : 'none'}`,
 }));
-
-export const CartItemRemoveStyled = styled(IconButton)(({ theme }) => ({
-  position: 'absolute',
-  right: '10px',
-  top: '10px',
-
-  pointerEvents: 'auto',
-
-  '&:hover': {
-    color: `${theme.palette.primary.main}`,
-  },
-}));
-
-CartItemRemoveStyled.defaultProps = {
-  size: 'small',
-};
 
 export const CartItemBodyStyled = styled('div')({
   display: 'flex',

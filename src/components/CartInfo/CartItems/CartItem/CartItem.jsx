@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { MdClose } from 'react-icons/md';
 
 import { Box, Typography } from '@mui/material';
 
@@ -19,9 +18,9 @@ import {
   CartItemBodyStyled,
   CartItemContainer,
   CartItemLink,
-  CartItemRemoveStyled,
   CartItemStyled,
 } from './CartItem.styled';
+import CartItemRemoveButton from './CartItemRemoveButton';
 
 const CartItem = ({ data, ...props }) => {
   const { dish, count } = data;
@@ -52,23 +51,13 @@ const CartItem = ({ data, ...props }) => {
     [dish.id, fetch, optimisticUpdate]
   );
 
-  const deleteCartHandler = useCallback(() => {
-    deleteCart(dish.id);
-    optimisticUpdate(dish.id, 0);
-  }, [deleteCart, dish.id, optimisticUpdate]);
-
   useEffect(() => {
     setItemCount(count);
   }, [count]);
 
   return (
     <CartItemStyled {...props}>
-      <CartItemRemoveStyled
-        aria-label={`delete ${dish.name}`}
-        onClick={deleteCartHandler}
-      >
-        <MdClose />
-      </CartItemRemoveStyled>
+      <CartItemRemoveButton name={dish.name} id={dish.id} />
       <CartItemContainer isAvailable={dish.isAvailable}>
         <AppImage src={dish.image} alt={dish.name} />
         <CartItemBodyStyled>

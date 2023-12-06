@@ -6,6 +6,12 @@ import { route } from '@/constants';
 import ProtectedRoute from '@/pages/access/ProtectedRoute';
 import RestrictedRoute from '@/pages/access/RestrictedRoute';
 
+const FavoriteDishes = lazy(
+  () => import('@/pages/user/FavoriteDishes/FavoriteDishes')
+);
+const FavoriteChefs = lazy(
+  () => import('@/pages/user/FavoriteChefs/FavoriteChefs')
+);
 const SignInPage = lazy(() => import('@/pages/auth/SignIn'));
 const SignUpPage = lazy(() => import('@/pages/auth/SignUp'));
 const HomePage = lazy(() => import('@/pages/user/Home'));
@@ -70,10 +76,37 @@ const AppRouter = () => {
         <Route path={route.DISHES}>
           <Route index element={<DishesPage />} />
           <Route path=":dishId" element={<DishesInfoPage />} />
+
+          <Route
+            path="favorites"
+            element={
+              <ProtectedRoute
+                authRedirectLink={route.SIGN_IN}
+                accessRedirectLink={route.SIGN_IN}
+                role={'user'}
+              />
+            }
+          >
+            <Route index element={<FavoriteDishes />} />
+          </Route>
         </Route>
+
         <Route path={route.CHEFS}>
           <Route index element={<ChefsPage />} />
           <Route path=":chefId" element={<ChefInfoPage />} />
+
+          <Route
+            path="favorites"
+            element={
+              <ProtectedRoute
+                authRedirectLink={route.SIGN_IN}
+                accessRedirectLink={route.SIGN_IN}
+                role={'user'}
+              />
+            }
+          >
+            <Route index element={<FavoriteChefs />} />
+          </Route>
         </Route>
 
         <Route

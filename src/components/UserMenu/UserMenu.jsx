@@ -7,6 +7,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Avatar, Badge } from '@mui/material';
 
+import { route } from '@/constants';
 import { signOut } from '@/redux/auth/operations';
 import { selectIsAuth, selectRoles, selectUser } from '@/redux/auth/selectors';
 import styled from '@emotion/styled';
@@ -48,7 +49,7 @@ export const UserMenu = () => {
         {!roles.includes('admin') && (
           <>
             <ListItemStyled>
-              <LinkStyled>
+              <LinkStyled to={route.FAVORITE_DISHES}>
                 <StyledBadge
                   badgeContent={favoriteDishes.length}
                   color="success"
@@ -58,7 +59,7 @@ export const UserMenu = () => {
               </LinkStyled>
             </ListItemStyled>
             <ListItemStyled>
-              <LinkStyled>
+              <LinkStyled to={route.FAVORITE_CHEFS}>
                 <StyledBadge
                   badgeContent={favoriteChefs.length}
                   color="success"

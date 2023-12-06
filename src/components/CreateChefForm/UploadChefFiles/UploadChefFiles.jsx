@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Controller } from 'react-hook-form';
 
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
@@ -16,18 +16,60 @@ import {
 
 import PropTypes from 'prop-types';
 
+import { fetchBlobFromUrl } from '@/components/AddDishForm/addDishHelpers/fetchBlobFromUrl';
+import { FileType, MAX_FILE_SIZE } from '@/constants';
+import { deleteFile } from '@/helpers/deleteFile';
+import { extractFileNameFromUrl } from '@/helpers/extractFileNameFromUrl';
+import { validateFile } from '@/helpers/validateFile';
+import { useS3ImageUploader } from '@/hooks';
 import { AppModal } from '@/shared/AppModal/AppModal';
 import { HelperText } from '../../AddDishForm/HelperText';
 
-export const UploadChefFiles = ({ control, setValue, isAvatar, id }) => {
+export const UploadChefFiles = ({
+  control,
+  setValue,
+  isAvatar,
+  id,
+  initialImage,
+  folder,
+}) => {
   const [imageSrc, setImageSrc] = useState(null);
   const [showImage, setShowImage] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentFileName, setCurrentFileName] = useState('');
+  const [fileInfo, setFileInfo] = useState({ name: null, type: null });
+  const { uploadToS3 } = useS3ImageUploader(
+    fileInfo.name,
+    fileInfo.type,
+    folder
+  );
   const fileInputRef = useRef();
+  useEffect(() => {
+    if (initialImage) {
+      const fileName = extractFileNameFromUrl(initialImage);
+      setCurrentFileName(fileName);
+    }
+  }, [initialImage]);
 
-  const handleImageChange = (e, onChange) => {
+  useEffect(() => {
+    if (initialImage) {
+      setImageSrc(initialImage);
+      setShowImage(false);
+    }
+  }, [initialImage]);
+
+  const handleImageChange = async (e, onChange) => {
     const file = e.target.files[0];
     if (file) {
+      const validation = validateFile(file, {
+        maxSize: MAX_FILE_SIZE,
+        validTypes: [FileType.IMAGE],
+      });
+      if (!validation.isValid) {
+        return;
+      }
+      setIsLoading(true);
+      setFileInfo({ name: file.name, type: file.type });
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageSrc(reader.result);
@@ -39,22 +81,84 @@ export const UploadChefFiles = ({ control, setValue, isAvatar, id }) => {
   };
 
   const handleSave = async () => {
-    setValue(imageSrc);
-    setShowImage(false);
+    try {
+      if (currentFileName) {
+        await deleteFile(currentFileName, folder);
+      }
+      const blob = await fetchBlobFromUrl(imageSrc);
+      const url = await uploadToS3(blob);
+      const fullResponseURL = url.request.responseURL;
+      const newFileName = extractFileNameFromUrl(fullResponseURL);
+      setCurrentFileName(newFileName);
+      const uploadedImageURL = fullResponseURL.split('?')[0];
+      setValue(id, uploadedImageURL);
+    } catch (error) {
+      console.error(error.message || 'Error during image processing');
+    } finally {
+      setShowImage(false);
+      setIsLoading(false);
+    }
   };
 
-  const handleDelete = (image, onChange) => {
+  const handleDelete = async (image, onChange) => {
+    if (currentFileName) {
+      await deleteFile(currentFileName, folder);
+    }
+    if (image) {
+      URL.revokeObjectURL(image);
+    }
     setImageSrc(null);
-    setValue({ id }, '');
+    setValue(id, '');
     setShowImage(false);
     onChange('');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const handleCancel = () => {
-    setImageSrc(null);
-    setValue({ id }, '');
     setShowImage(false);
+    if (imageSrc) {
+      URL.revokeObjectURL(imageSrc);
+    }
+    setImageSrc(null);
+    setValue(id, '');
+    setIsLoading(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
+
+  // const handleImageChange = (e, onChange) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setImageSrc(reader.result);
+  //       setShowImage(true);
+  //     };
+  //     reader.readAsDataURL(file);
+  //     onChange(file);
+  //   }
+  // };
+
+  // const handleSave = async () => {
+  //   setValue(imageSrc);
+  //   setShowImage(false);
+  // };
+
+  // const handleDelete = (image, onChange) => {
+  //   setImageSrc(null);
+  //   setValue({ id }, '');
+  //   setShowImage(false);
+  //   onChange('');
+  // };
+
+  // const handleCancel = () => {
+  //   setImageSrc(null);
+  //   setValue({ id }, '');
+  //   setShowImage(false);
+  // };
 
   return (
     <Controller
@@ -106,7 +210,7 @@ export const UploadChefFiles = ({ control, setValue, isAvatar, id }) => {
                   </IconButton>
                 </label>
               )}
-              {image && (
+              {image && !isLoading && (
                 <>
                   <Card
                     component="img"
@@ -197,39 +301,6 @@ export const UploadChefFiles = ({ control, setValue, isAvatar, id }) => {
                   </Stack>
                 </Box>
               </AppModal>
-              // <Dialog
-              //   open={showCropper}
-              //   onClose={() => setShowCropper(false)}
-              //   maxWidth="sm"
-              //   fullWidth
-              //   fullScreen
-              // >
-              //   <DialogContent>
-              //     <Cropper
-              //       image={imageSrc}
-              //       crop={crop}
-              //       zoom={zoom}
-              //       aspect={4 / 3}
-              //       onCropChange={setCrop}
-              //       onZoomChange={setZoom}
-              //       onCropComplete={onCropComplete}
-              //       minZoom={0.3}
-              //       objectFit="vertical-cover"
-              //     />
-              //     <Stack direction="row" spacing={1}>
-              //       <Button variant="contained" onClick={handleSave}>
-              //         Save
-              //       </Button>
-              //       <Button
-              //         variant="contained"
-              //         color="secondary"
-              //         onClick={handleCancel}
-              //       >
-              //         Cancel
-              //       </Button>
-              //     </Stack>
-              //   </DialogContent>
-              // </Dialog>
             )}
           </Box>
         </>
@@ -243,4 +314,6 @@ UploadChefFiles.propTypes = {
   setValue: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   isAvatar: PropTypes.bool,
+  initialImage: PropTypes.string,
+  folder: PropTypes.string,
 };

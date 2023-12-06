@@ -1,16 +1,18 @@
 import { toast } from 'react-toastify';
 
-import axios from 'axios';
-
+import { privateInstance } from '@/api/axios';
+//import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 
 const useChefOrder = (chefID) => {
   const fetchUserOrders = async () => {
     try {
       // const URI = `http://localhost:4000/api/chefs/${chefID}`;
-      const URI = `http://localhost:4000/api/chefs/${chefID}/orders`;
-      const { data } = await axios.get(URI);
-      // console.log(data);
+      //const URI = `http://localhost:4000/api/chefs/${chefID}/orders`;
+      const URI = `${import.meta.env.VITE_API_URL}/chefs/${chefID}/orders`;
+      //const { data } = await axios.get(URI);
+      const { data } = await privateInstance.get(URI);
+      //console.log(data);
       return data;
     } catch (error) {
       toast.error('Error fetching orders');

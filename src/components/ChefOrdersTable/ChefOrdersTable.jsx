@@ -2,7 +2,6 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { GridRowEditStopReasons, GridRowModes } from '@mui/x-data-grid';
 
-import { chefsAmountAfterFee } from '@/helpers';
 import useChefOrder from '@/hooks/useChefOrders';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { formatDateForDataGrid } from '../../helpers/formatDateForDataGrid';
@@ -106,10 +105,10 @@ export const ChefOrdersTable = () => {
           ),
       },
       {
-        field: 'totalPrice',
+        field: 'summaryPrice',
         headerName: 'Your Profit',
         valueGetter: ({ value }) => {
-          return chefsAmountAfterFee(value) + ' ₴';
+          return value.chef + ' ₴';
         },
         cellClassName: 'boldCell',
         width: 200,

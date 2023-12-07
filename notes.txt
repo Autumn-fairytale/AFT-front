@@ -1,22 +1,87 @@
-    <Card
-      ref={cardRef}
-      raised
-      sx={{
-        maxWidth: 400,
-        height: 685,
-        maxHeight: '85vh',
-        overflow: 'scroll',
-        position: 'relative',
-        overflowX: 'hidden',
+  {/* <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            sx={{ fontWeight: 'bold' }}
+          >
+            {dish.name}
+          </Typography>
 
-        '&::-webkit-scrollbar': {
-          width: '4px',
-          backgroundColor: 'primary.light',
-        },
-        '&::-webkit-scrollbar-thumb': {
-          backgroundColor: 'primary.main',
-        },
-        scrollbarWidth: 'thin',
-        scrollbarColor: 'primary.main primary.light',
-      }}
-    >
+          <Stack
+            direction="row"
+            alignItems="center"
+            alignSelf="flex-start"
+            gap={1}
+          >
+            <DishOrderCardRating />
+            {isVegan && <DishOrderCardVeganBadge />}
+          </Stack>
+        </Box>
+
+        <DishOrderCardChefLink />
+        <Typography
+          variant="body2"
+          color="text.primary"
+          sx={{ fontWeight: 'bold' }}
+        >
+          {`${dish.cuisine} · ${dish.category}`}
+        </Typography>
+
+        <Divider sx={{ my: 1 }} />
+
+        <Box sx={{ width: '100%' }}>
+          <DishOrderCardTabs
+            handleTabChange={handleTabChange}
+            tabValue={tabValue}
+          />
+          <Box sx={{ height: 130 }}>
+            {tabValue === 0 && (
+              <DishOrderCardDescription
+                expanded={expanded}
+                description={dish.description}
+                handleExpandClick={handleExpandClick}
+              />
+            )}
+            {tabValue === 1 && <DishOrderCardIngredients />}
+          </Box>
+        </Box>
+
+        <Divider sx={{ my: 1 }} />
+        <Stack direction="row" sx={{ justifyContent: 'space-around' }}>
+          <Box>
+            <Typography variant="subtitle2" fontWeight={'bold'}>
+              Portion size
+            </Typography>
+            <Typography variant="subtitle1">
+              {dish.weight}g - {dish.price}₴
+            </Typography>
+          </Box>
+
+          <Divider orientation="vertical" flexItem />
+          <Box>
+            <Typography variant="subtitle2" fontWeight={'bold'}>
+              Total
+            </Typography>
+            <Typography variant="subtitle1">
+              {totalWeight}g -{' '}
+              <Typography
+                component="span"
+                variant="subtitle1"
+                sx={{ fontWeight: 'bold' }}
+              >
+                {totalPrice.toFixed(2)}₴
+              </Typography>
+            </Typography>
+          </Box>
+        </Stack>
+
+        <Divider sx={{ my: 1 }} />
+        <DishOrderCardSpiceLevel spiceLevel={dish?.spiceLevel} /> */}

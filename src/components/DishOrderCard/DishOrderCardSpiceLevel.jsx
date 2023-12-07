@@ -1,15 +1,9 @@
 /* eslint-disable react/prop-types */
-import WhatshotIcon from '@mui/icons-material/Whatshot';
 import { Stack, Typography } from '@mui/material';
 
-const spiceLevelText = ['Not Spicy', 'A little Spicy', 'Spicy', 'Very Spicy'];
+import { AppSpiceLevel } from '@/shared/AppSpiceLevel/AppSpiceLevel';
 
-const spiceIcons = [
-  <WhatshotIcon color="disabled" key={'disabled'} />,
-  <WhatshotIcon color="success" key={'success'} />,
-  <WhatshotIcon color="warning" key={'warning'} />,
-  <WhatshotIcon color="error" key={'error'} />,
-];
+const spiceLevelText = ['Not Spicy', 'A little Spicy', 'Spicy', 'Very Spicy'];
 
 export const DishOrderCardSpiceLevel = ({ spiceLevel }) => {
   return (
@@ -18,7 +12,7 @@ export const DishOrderCardSpiceLevel = ({ spiceLevel }) => {
         Spice level
       </Typography>
       <Stack direction="row" spacing={1} alignItems="center">
-        {spiceIcons[spiceLevel]}
+        <AppSpiceLevel value={spiceLevel} />
         <Typography variant="body2">{spiceLevelText[spiceLevel]}</Typography>
       </Stack>
     </>

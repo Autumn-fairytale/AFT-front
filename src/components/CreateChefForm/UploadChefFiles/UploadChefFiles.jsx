@@ -196,6 +196,7 @@ export const UploadChefFiles = ({
                     sx={{
                       width: isAvatar ? 270 : 570,
                       height: isAvatar ? 270 : 370,
+                      objectFit: 'cover',
                       borderRadius: isAvatar ? '50%' : '20px',
                       margin: isAvatar ? 'auto' : 0,
                     }}

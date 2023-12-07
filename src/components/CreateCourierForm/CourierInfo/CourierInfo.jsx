@@ -4,21 +4,21 @@ import { Link } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 
 import AddressForm from '@/components/AddressForm/AddressForm';
-import { ChefInfoWrapper } from '@/components/Profiles/ChefProfile/ChefProfile.styled';
+import { UploadChefFiles } from '@/components/CreateChefForm/UploadChefFiles/UploadChefFiles';
 import { FOLDERS } from '@/constants/mocks';
 import { AppPhoneInput, AppSelect, AppTextInput } from '@/shared';
-import { UploadChefFiles } from '../UploadChefFiles/UploadChefFiles';
-import { ChefInfoPropTypes } from './ChefInfo.props';
+import { CourierInfoPropTypes } from './CourierInfo.props';
 import {
-  ChefFieldsWrapper,
+  CourierFieldsWrapper,
+  CourierInfoWrapper,
   FieldWrapper,
   InfoWrapper,
-} from './ChefInfo.styled';
-import ChefInfoField from './ChefInfoField/ChefInfoField';
+} from './CourierInfo.styled';
+import CourierInfoField from './CourierInfoField/CourierInfoField';
 
 import LiqPayLogo from '../../../assets/images/liqpay.png';
 
-const ChefInfo = ({ control, errors, avatar, certificate, setValue }) => {
+const CourierInfo = ({ control, errors, avatar, setValue }) => {
   const accountStatus = [
     'pending',
     'active',
@@ -26,11 +26,13 @@ const ChefInfo = ({ control, errors, avatar, certificate, setValue }) => {
     'rejected',
     'blocked',
   ];
+  const vehicleType = ['none', 'bicycle', 'motorcycle', 'car'];
 
-  const [selectedOption, setSelectedOption] = useState('pending');
+  const [selectedAccountStatus, setSelectedAccountStatus] = useState('pending');
+  const [selectedVehicleType, setSelectedVehicleType] = useState('none');
 
   return (
-    <ChefInfoWrapper>
+    <CourierInfoWrapper>
       <Typography
         component="h3"
         variant="subtitle1"
@@ -51,27 +53,27 @@ const ChefInfo = ({ control, errors, avatar, certificate, setValue }) => {
       />
 
       <InfoWrapper>
-        <ChefFieldsWrapper>
+        <CourierFieldsWrapper>
+          <CourierInfoField
+            info={{
+              title: 'Phone number',
+              name: 'phoneNumber',
+              component: <AppPhoneInput wrapperStyle={{ width: '620px' }} />,
+              required: true,
+            }}
+            control={control}
+            error={errors['phoneNumber']?.phoneNumber}
+          />
           <FieldWrapper>
-            <ChefInfoField
-              info={{
-                title: 'Phone number',
-                name: 'phoneNumber',
-                component: <AppPhoneInput wrapperStyle={{ width: '300px' }} />,
-                required: true,
-              }}
-              control={control}
-              error={errors['phoneNumber']?.phoneNumber}
-            />
-            <ChefInfoField
+            <CourierInfoField
               info={{
                 title: 'Account status',
                 name: 'accountStatus',
                 component: (
                   <AppSelect
                     options={accountStatus}
-                    onChange={(e) => setSelectedOption(e.target.value)}
-                    value={selectedOption}
+                    onChange={(e) => setSelectedAccountStatus(e.target.value)}
+                    value={selectedAccountStatus}
                     wrapperStyle={{ width: '300px' }}
                     placeholder="Account status"
                     defaultValue={accountStatus[0]}
@@ -82,14 +84,33 @@ const ChefInfo = ({ control, errors, avatar, certificate, setValue }) => {
               control={control}
               error={errors['accountStatus']?.accountStatus}
             />
+            <CourierInfoField
+              info={{
+                title: 'Vehicle type',
+                name: 'vehicleType',
+                component: (
+                  <AppSelect
+                    options={vehicleType}
+                    onChange={(e) => setSelectedVehicleType(e.target.value)}
+                    value={selectedVehicleType}
+                    wrapperStyle={{ width: '300px' }}
+                    placeholder="Vehicle type"
+                    defaultValue={vehicleType[0]}
+                  />
+                ),
+                required: true,
+              }}
+              control={control}
+              error={errors['vehicleType']?.vehicleType}
+            />
           </FieldWrapper>
 
-          <Typography component="h3" variant="h6" marginTop="5px">
+          <Typography component="h3" variant="h6" marginTop="10px">
             Address
           </Typography>
           <AddressForm control={control} errors={errors} />
           <FieldWrapper>
-            <ChefInfoField
+            <CourierInfoField
               info={{
                 title: 'LiqPay public key',
                 name: 'liqpayKey',
@@ -115,31 +136,12 @@ const ChefInfo = ({ control, errors, avatar, certificate, setValue }) => {
               />
             </Link>
           </FieldWrapper>
-        </ChefFieldsWrapper>
-        <Box>
-          <Typography
-            component="h3"
-            variant="subtitle1"
-            sx={{ fontSize: '18px' }}
-          >
-            Certificate
-            <Box component="span" sx={{ color: 'red' }}>
-              *
-            </Box>
-          </Typography>
-          <UploadChefFiles
-            control={control}
-            setValue={setValue}
-            id="certificate"
-            initialImage={certificate}
-            folder={FOLDERS.CHEFS}
-          />
-        </Box>
+        </CourierFieldsWrapper>
       </InfoWrapper>
-    </ChefInfoWrapper>
+    </CourierInfoWrapper>
   );
 };
 
-ChefInfo.propTypes = ChefInfoPropTypes;
+CourierInfo.propTypes = CourierInfoPropTypes;
 
-export default ChefInfo;
+export default CourierInfo;

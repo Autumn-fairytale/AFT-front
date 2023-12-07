@@ -90,7 +90,11 @@ const ChefAccountPage = () => {
             All orders
           </Link>
         </Box>
-        <ChefOrdersTable getOrders={useChefOrdersByStatus} status="pending" />
+        <ChefOrdersTable
+          getOrders={useChefOrdersByStatus}
+          status="pending"
+          tableHeight="auto"
+        />
       </Box>
     </Main>
   );

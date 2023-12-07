@@ -1,0 +1,114 @@
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+
+import { createCourier } from '@/api/courier/createCourier';
+import { getCourierById } from '@/api/courier/getCourierById';
+import { updateCourier } from '@/api/courier/updateCourier';
+import { route } from '@/constants';
+import { addSpacesToPhoneNumber, removeSpacesFromPhoneNumber } from '@/helpers';
+import { selectUser } from '@/redux/auth/selectors';
+import { courierSchema } from '@/schemas/courierSchema';
+import { AppButton } from '@/shared';
+import { zodResolver } from '@hookform/resolvers/zod';
+import CourierInfo from './CourierInfo/CourierInfo';
+
+const CreateCourierForm = () => {
+  const {
+    handleSubmit,
+    formState: { errors },
+    control,
+    reset,
+    setValue,
+  } = useForm({
+    resolver: zodResolver(courierSchema),
+    defaultValues: {
+      avatar: '',
+      phoneNumber: '',
+      accountStatus: 'pending',
+      vehicleType: 'none',
+      address: {
+        country: '',
+        city: '',
+        street: '',
+        houseNumber: '',
+        apartment: null,
+      },
+      liqpayKey: '',
+    },
+  });
+  const user = useSelector(selectUser);
+  const userId = user.id;
+  const [courier, setCourier] = useState();
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user.roles.find((role) => role.name === 'courier')) {
+        const courierId = user.roles.find((role) => role.name === 'courier').id;
+        try {
+          const courierData = await getCourierById(courierId);
+          reset({
+            userId: userId,
+            avatar: courierData.avatar,
+            phoneNumber: addSpacesToPhoneNumber(courierData.phoneNumber),
+            address: courierData.address,
+            certificate: courierData.certificate,
+            accountStatus: courierData.accountStatus,
+            vehicleType: courierData.vehicleType,
+            liqpayKey: courierData.liqpayKey,
+          });
+
+          setCourier(courierData);
+        } catch (error) {
+          console.error('Error fetching courier data:', error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [reset, user.roles, userId]);
+
+  const formSubmitHandler = async (data) => {
+    try {
+      const result = {
+        userId: userId,
+        avatar: data.avatar,
+        phoneNumber: removeSpacesFromPhoneNumber(data.phoneNumber),
+        address: data.address,
+        certificate: data.certificate,
+        accountStatus: data.accountStatus,
+        vehicleType: data.vehicleType,
+        liqpayKey: data.liqpayKey,
+      };
+      console.log(result);
+      if (user.roles.find((role) => role.name === 'courier')) {
+        await updateCourier(
+          result
+          // user.roles.find((role) => role.name === 'chef').id
+        );
+      } else {
+        await createCourier(result);
+      }
+      window.location.href = route.COURIER_ACCOUNT;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit(formSubmitHandler)}>
+      <CourierInfo
+        control={control}
+        errors={errors}
+        avatar={courier?.avatar}
+        setValue={setValue}
+      />
+      <AppButton
+        label="Submit"
+        type="submit"
+        sx={{ width: '400px', margin: '10px auto 50px auto', display: 'block' }}
+      />
+    </form>
+  );
+};
+
+export default CreateCourierForm;

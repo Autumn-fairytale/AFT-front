@@ -3,12 +3,12 @@ import { toast } from 'react-toastify';
 import { privateInstance } from '@/api/axios';
 import { useQuery } from '@tanstack/react-query';
 
-const useChefOrdersByStatus = (chefID, orderStatus) => {
+const useCouriersOrdersByStatus = (orderStatus) => {
   const fetchOrdersByStatus = async () => {
     try {
       const URI = `${
         import.meta.env.VITE_API_URL
-      }/chefs/${chefID}/orders/${orderStatus}`;
+      }/couriers/allorders/${orderStatus}`;
       const { data } = await privateInstance.get(URI);
       return data;
     } catch (error) {
@@ -18,7 +18,7 @@ const useChefOrdersByStatus = (chefID, orderStatus) => {
   };
 
   return useQuery({
-    queryKey: ['orders', chefID, orderStatus],
+    queryKey: ['allorders', orderStatus],
     queryFn: fetchOrdersByStatus,
     options: {
       refetchOnWindowFocus: false,
@@ -27,4 +27,4 @@ const useChefOrdersByStatus = (chefID, orderStatus) => {
   });
 };
 
-export default useChefOrdersByStatus;
+export default useCouriersOrdersByStatus;

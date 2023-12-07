@@ -2,15 +2,24 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { getDishes } from '@/api/getDishes';
+import { DishCardSkeleton } from '@/components/DishCardSkeleton/DishCardSkeleton';
 import DishesList from '@/components/DishesList/DishesList';
 import { DishesFilter } from '@/components/DishesSearchBar/DishesSearchBar';
 import { AppContainer } from '@/shared';
 import { Main } from '@/shared/Main/Main';
-import { useQuery } from '@tanstack/react-query';
-import { TypographyStyled } from './DishesPage.styled';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import {
+  InfiniteScrollStyled,
+  SkeletonCardItem,
+  SkeletonWrapper,
+  TypographyStyled,
+} from './DishesPage.styled';
 
 const DishesPage = () => {
   const [searchParams] = useSearchParams();
+  const [totalPages, setTotalPage] = useState(null);
+
+  const LIMIT = 10;
 
   const { search, category, cuisine, type, spiceLevel } = useMemo(
     () => Object.fromEntries([...searchParams]),
@@ -28,22 +37,42 @@ const DishesPage = () => {
     return () => clearTimeout(debounceTimeout);
   }, [searchTerm, searchParams, searchParams, search]);
 
-  const { data, isLoading } = useQuery({
+  const fetchDishes = async ({ pageParam }) => {
+    const res = await getDishes({
+      search,
+      cuisine: cuisine === 'All' ? '' : cuisine,
+      isVegan: type === 'All' ? '' : type,
+      category: category === 'All' ? '' : category,
+      spiceLevel: spiceLevel === 0 ? '' : spiceLevel,
+      pageParam,
+      LIMIT,
+    });
+
+    setTotalPage(res.pageInfo.totalPages);
+    return res;
+  };
+
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
     queryKey: ['dishesPage', searchTerm, category, cuisine, type, spiceLevel],
-    queryFn: () =>
-      getDishes({
-        search,
-        cuisine: cuisine === 'All' ? '' : cuisine,
-        isVegan: type === 'All' ? '' : type,
-        category: category === 'All' ? '' : category,
-        spiceLevel: spiceLevel === 0 ? '' : spiceLevel,
-      }),
+    queryFn: fetchDishes,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      const nextPage =
+        allPages.length !== totalPages ? allPages.length + 1 : undefined;
+      return nextPage;
+    },
   });
 
   let dishes;
   if (data) {
-    dishes = data.dishes;
+    dishes = data.pages
+      .map((item) => {
+        return item.dishes;
+      })
+      .reduce((acc, item) => [...acc, ...item], []);
   }
+
+  const qtyDishes = dishes?.length;
 
   return (
     <Main>
@@ -51,14 +80,30 @@ const DishesPage = () => {
         <TypographyStyled variant="h4">DISHES</TypographyStyled>
 
         <DishesFilter />
-
-        {dishes?.length > 0 || isLoading ? (
-          <DishesList data={dishes} isLoading={isLoading} />
-        ) : (
+        {isLoading ? (
+          <SkeletonWrapper>
+            {Array.from({ length: 3 }).map((_item, index) => (
+              <SkeletonCardItem SkeletonCardItem key={index}>
+                <DishCardSkeleton />
+              </SkeletonCardItem>
+            ))}
+          </SkeletonWrapper>
+        ) : qtyDishes === 0 ? (
           <h1>
             Uh-oh! It looks like the dish of your dreams is playing hide. No
             luck this time. Maybe You need to tweak your search criteria.
           </h1>
+        ) : (
+          <InfiniteScrollStyled
+            dataLength={qtyDishes}
+            scrollThreshold={0.8}
+            next={() => fetchNextPage()}
+            hasMore={hasNextPage}
+            height={800}
+            loader={<h3>Loading...</h3>}
+          >
+            <DishesList data={dishes} />
+          </InfiniteScrollStyled>
         )}
       </AppContainer>
     </Main>

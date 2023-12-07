@@ -1,15 +1,15 @@
 import { publicInstance } from './axios';
 
 export const getDishes = async ({
-  search,
-  cuisine,
-  isVegan,
-  category,
-  spiceLevel,
+  search = '',
+  cuisine = 'All',
+  isVegan = 'All',
+  category = 'All',
+  spiceLevel = 'null',
+  pageParam = 1,
+  limit = 10,
 }) => {
   let queryString = '';
-
-  console.log('search:', search);
 
   if (search !== undefined && search !== '') {
     queryString += `name=${search}&`;
@@ -33,7 +33,9 @@ export const getDishes = async ({
 
   queryString = queryString.replace(/&$/, '');
 
-  const { data } = await publicInstance.get(`/dishes?${queryString}`);
+  const { data } = await publicInstance.get(
+    `/dishes?page=${pageParam}&limit=${limit}&${queryString}`
+  );
 
   return data;
 };

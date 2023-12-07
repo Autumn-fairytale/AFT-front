@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -8,7 +7,6 @@ import Box from '@mui/material/Box';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 
-import styled from '@emotion/styled';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { getReviewsByDishId } from '../../api/getReviewsByDishId';
 import ReviewsItem from '../ReviewsItem/ReviewsItem';
@@ -45,6 +43,7 @@ export const ReviewsList = ({ dishId }) => {
     ?.map((item) => item.reviews.map((review) => review))
     .reduce((acc, item) => acc + item.length, 0);
 
+  console.log('qtyReviews:', qtyReviews);
   return (
     <>
       <TitleWrapper>

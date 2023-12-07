@@ -2,9 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import {
   Box,
-  Card,
   CardContent,
-  CardMedia,
   Divider,
   LinearProgress,
   Stack,
@@ -15,6 +13,11 @@ import PropTypes from 'prop-types';
 
 import mockImg from '@/assets/images/kotleta.png';
 import { useFetchDish } from '@/hooks/useFetchDish';
+import {
+  StyledAddDishOrderCardMedia,
+  StyledDishOrderCard,
+  StyledImageContainer,
+} from './DishOrderCard.styled';
 import { DishOrderCardButtonsGroup } from './DishOrderCardButtonsGroup';
 import { DishOrderCardChefLink } from './DishOrderCardChefLink';
 import { DishOrderCardDescription } from './DishOrderCardDescription';
@@ -79,57 +82,16 @@ export const DishOrderCard = ({ dishId = '6564a4646cac257b0edf57bb' }) => {
   const totalPrice = dish.price * quantity;
 
   return (
-    <Card
-      ref={cardRef}
-      raised
-      sx={{
-        maxWidth: 400,
-        height: 685,
-        maxHeight: '85vh',
-        overflow: 'scroll',
-        position: 'relative',
-        overflowX: 'hidden',
-
-        '&::-webkit-scrollbar': {
-          width: '4px',
-          backgroundColor: 'primary.light',
-        },
-        '&::-webkit-scrollbar-thumb': {
-          backgroundColor: 'primary.main',
-        },
-        scrollbarWidth: 'thin',
-        scrollbarColor: 'primary.main primary.light',
-      }}
-    >
+    <StyledDishOrderCard ref={cardRef} raised>
       {isLoading && <LinearProgress />}
 
-      <Box
-        sx={{
-          position: 'fixed',
-          top: `${overlayPosition.top}px`,
-          left: `${overlayPosition.left}px`,
-          width: '396px',
-          height: '130px',
-          backgroundColor: 'white',
-          overflow: 'hidden',
-          zIndex: 500,
-        }}
-      />
+      <StyledImageContainer overlayPosition={overlayPosition} />
 
-      <CardMedia
+      <StyledAddDishOrderCardMedia
         component="img"
         image={mockImg}
         alt={dish.name}
-        sx={{
-          position: 'sticky',
-          overflow: 'hidden',
-          top: 0,
-          maxHeight: '100%',
-          transform: `scale(${mediaScale})`,
-          transition: 'transform 0.3s ease-in-out',
-          transformOrigin: 'top',
-          zIndex: 600,
-        }}
+        mediaScale={mediaScale}
       />
 
       <CardContent>
@@ -227,7 +189,7 @@ export const DishOrderCard = ({ dishId = '6564a4646cac257b0edf57bb' }) => {
           handleQuantityChange={handleQuantityChange}
         />
       </CardContent>
-    </Card>
+    </StyledDishOrderCard>
   );
 
   // console.log(dish);

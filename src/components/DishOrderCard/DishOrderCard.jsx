@@ -85,13 +85,13 @@ export const DishOrderCard = ({ dishId = '6564a4646cac257b0edf57bb' }) => {
     <StyledDishOrderCard ref={cardRef} raised>
       {isLoading && <LinearProgress />}
 
-      <StyledImageContainer overlayPosition={overlayPosition} />
+      <StyledImageContainer overlayposition={overlayPosition} />
 
       <StyledAddDishOrderCardMedia
         component="img"
         image={mockImg}
         alt={dish.name}
-        mediaScale={mediaScale}
+        mediascale={mediaScale}
       />
 
       <CardContent>

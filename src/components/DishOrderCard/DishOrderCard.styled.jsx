@@ -21,10 +21,10 @@ export const StyledDishOrderCard = styled(Card)(({ theme }) => ({
   scrollbarColor: `${theme.palette.primary.main} ${theme.palette.primary.light}`,
 }));
 
-export const StyledImageContainer = styled(Box)(({ overlayPosition }) => ({
+export const StyledImageContainer = styled(Box)(({ overlayposition }) => ({
   position: 'fixed',
-  top: `${overlayPosition.top}px`,
-  left: `${overlayPosition.left}px`,
+  top: `${overlayposition.top}px`,
+  left: `${overlayposition.left}px`,
   width: '396px',
   height: '130px',
   backgroundColor: 'white',
@@ -33,12 +33,12 @@ export const StyledImageContainer = styled(Box)(({ overlayPosition }) => ({
 }));
 
 export const StyledAddDishOrderCardMedia = styled(CardMedia)(
-  ({ mediaScale }) => ({
+  ({ mediascale }) => ({
     position: 'sticky',
     overflow: 'hidden',
     top: 0,
     maxHeight: '100%',
-    transform: `scale(${mediaScale})`,
+    transform: `scale(${mediascale})`,
     transition: 'transform 0.3s ease-in-out',
     transformOrigin: 'top',
     zIndex: 600,

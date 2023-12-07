@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import {
   Box,
@@ -26,7 +26,7 @@ import { DishOrderCardVeganBadge } from './DishOrderCardVeganBadge';
 
 export const DishOrderCard = ({ dishId = '6564a4646cac257b0edf57bb' }) => {
   const { data: dish = {}, isLoading } = useFetchDish(dishId);
-  const cardContentRef = useRef();
+  const cardRef = useRef();
   // const isVegan = dish?.isVegan;
   const isVegan = true;
 
@@ -36,9 +36,23 @@ export const DishOrderCard = ({ dishId = '6564a4646cac257b0edf57bb' }) => {
   const [mediaScale, setMediaScale] = useState(1);
 
   const handleScroll = () => {
-    const scale = Math.max(0.5, 1 - cardContentRef.current.scrollTop / 400);
-    setMediaScale(scale);
+    if (cardRef.current) {
+      const scale = Math.max(0.5, 1 - cardRef.current.scrollTop / 200);
+      setMediaScale(scale);
+    }
   };
+
+  useEffect(() => {
+    const card = cardRef.current;
+    if (card) {
+      card.addEventListener('scroll', handleScroll);
+    }
+    return () => {
+      if (card) {
+        card.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, []);
 
   const handleTabChange = (_event, newValue) => {
     setTabValue(newValue);
@@ -56,7 +70,11 @@ export const DishOrderCard = ({ dishId = '6564a4646cac257b0edf57bb' }) => {
   const totalPrice = dish.price * quantity;
 
   return (
-    <Card raised sx={{ maxWidth: 400, maxHeight: '85vh' }}>
+    <Card
+      ref={cardRef}
+      raised
+      sx={{ maxWidth: 400, maxHeight: '85vh', overflow: 'auto' }}
+    >
       {isLoading && <LinearProgress />}
       <CardMedia
         component="img"
@@ -65,19 +83,10 @@ export const DishOrderCard = ({ dishId = '6564a4646cac257b0edf57bb' }) => {
         sx={{
           transform: `scale(${mediaScale})`,
           transition: 'transform 0.3s ease-in-out',
+          marginBottom: 2,
         }}
       />
-      <CardContent
-        ref={cardContentRef}
-        onScroll={handleScroll}
-        sx={{
-          overflowY: 'auto',
-          maxHeight: 'calc(85vh - 400px)',
-          // '&::-webkit-scrollbar': {
-          //   display: 'none',
-          // },
-        }}
-      >
+      <CardContent>
         <Box
           sx={{
             display: 'flex',

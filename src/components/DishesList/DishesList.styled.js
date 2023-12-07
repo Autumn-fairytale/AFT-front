@@ -6,6 +6,9 @@ export const DishesListStyled = styled.ul`
   grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: auto;
   gap: 24px;
+  max-height: calc(100vh - 300px);
+
+  overflow: auto;
 `;
 
 export const SkeletonCardItem = styled.li`

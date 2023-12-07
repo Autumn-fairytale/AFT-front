@@ -85,3 +85,6 @@
 
         <Divider sx={{ my: 1 }} />
         <DishOrderCardSpiceLevel spiceLevel={dish?.spiceLevel} /> */}
+
+//контент ленгт
+//проверять атрибуты в лямбде

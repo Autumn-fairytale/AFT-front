@@ -3,10 +3,17 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import { styled } from '@mui/material/styles';
 
-export const StyledDishOrderCard = styled(Card)(({ theme }) => ({
+export const StyledDishOrderCardWrapper = styled(Card)(() => ({
   maxWidth: 400,
   height: 685,
   maxHeight: '85vh',
+}));
+
+export const StyledDishOrderCard = styled(Card)(({ theme }) => ({
+  width: '100%',
+  height: 625,
+  mb: 46,
+  maxHeight: 'calc(85vh - 75px)',
   overflow: 'scroll',
   position: 'relative',
   overflowX: 'hidden',
@@ -44,3 +51,10 @@ export const StyledAddDishOrderCardMedia = styled(CardMedia)(
     zIndex: 600,
   })
 );
+
+export const StyledCenteredColumnBox = styled(Box)(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+}));

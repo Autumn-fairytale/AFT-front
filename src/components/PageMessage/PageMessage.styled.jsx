@@ -12,3 +12,9 @@ export const PageMessageStyled = styled(Box)({
 PageMessageStyled.defaultProps = {
   component: 'section',
 };
+
+export const PageMessageImage = styled(Box)({});
+
+PageMessageImage.defaultProps = {
+  component: 'img',
+};

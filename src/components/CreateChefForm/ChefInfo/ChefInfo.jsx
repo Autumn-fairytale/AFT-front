@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { Box, Typography } from '@mui/material';
 
 import AddressForm from '@/components/AddressForm/AddressForm';
-import { ChefInfoWrapper } from '@/components/Profiles/ChefProfile.styled';
+import { ChefInfoWrapper } from '@/components/Profiles/ChefProfile/ChefProfile.styled';
+import { FOLDERS } from '@/constants/mocks';
 import { AppPhoneInput, AppSelect, AppTextInput } from '@/shared';
 import { UploadChefFiles } from '../UploadChefFiles/UploadChefFiles';
 import { ChefInfoPropTypes } from './ChefInfo.props';
@@ -16,9 +18,7 @@ import ChefInfoField from './ChefInfoField/ChefInfoField';
 
 import LiqPayLogo from '../../../assets/images/liqpay.png';
 
-const ChefInfo = ({ control, errors }) => {
-  const [, setAvatar] = useState();
-  const [, setCertificate] = useState();
+const ChefInfo = ({ control, errors, avatar, certificate, setValue }) => {
   const accountStatus = [
     'pending',
     'active',
@@ -49,9 +49,11 @@ const ChefInfo = ({ control, errors }) => {
       </Typography>
       <UploadChefFiles
         control={control}
-        setValue={() => setAvatar()}
+        setValue={setValue}
         isAvatar={true}
         id="avatar"
+        initialImage={avatar}
+        folder={FOLDERS.AVATARS}
       />
 
       <InfoWrapper>
@@ -104,7 +106,7 @@ const ChefInfo = ({ control, errors }) => {
               control={control}
               error={errors['liqpayKey']?.liqpayKey}
             />
-            <a
+            <Link
               to="https://www.liqpay.ua/documentation/start"
               target="_blank"
               rel="noopener noreferrer"
@@ -117,7 +119,7 @@ const ChefInfo = ({ control, errors }) => {
                   width: '200px',
                 }}
               />
-            </a>
+            </Link>
           </FieldWrapper>
         </ChefFieldsWrapper>
         <Box>
@@ -133,8 +135,10 @@ const ChefInfo = ({ control, errors }) => {
           </Typography>
           <UploadChefFiles
             control={control}
-            setValue={() => setCertificate()}
+            setValue={setValue}
             id="certificate"
+            initialImage={certificate}
+            folder={FOLDERS.CHEFS}
           />
         </Box>
       </InfoWrapper>

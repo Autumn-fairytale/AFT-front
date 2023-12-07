@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
 import { FiShoppingCart } from 'react-icons/fi';
+import { IoSettingsOutline } from 'react-icons/io5';
 import { PiHeart } from 'react-icons/pi';
+import { Link } from 'react-router-dom';
 
 import { IconButton } from '@mui/material';
 
@@ -20,7 +22,7 @@ import {
   MainInfoWrapper,
 } from './DishCard.styled';
 
-const DishCard = ({ dishInfo, isCarousel }) => {
+const DishCard = ({ dishInfo, isCarousel, isChef }) => {
   const [favorite, setFavorite] = useState(false);
 
   return (
@@ -33,11 +35,19 @@ const DishCard = ({ dishInfo, isCarousel }) => {
           component="img"
         />
         <FavoriteButton isCarousel={isCarousel}>
-          <IconButton onClick={() => setFavorite(!favorite)}>
-            <PiHeart
-              style={{ color: favorite ? customColors.primaryColor : '' }}
-            />
-          </IconButton>
+          {isChef ? (
+            <Link to="/chef-account/dishes/create">
+              <IconButton>
+                <IoSettingsOutline />
+              </IconButton>
+            </Link>
+          ) : (
+            <IconButton onClick={() => setFavorite(!favorite)}>
+              <PiHeart
+                style={{ color: favorite ? customColors.primaryColor : '' }}
+              />
+            </IconButton>
+          )}
         </FavoriteButton>
       </DishImageWrapper>
 
@@ -48,11 +58,11 @@ const DishCard = ({ dishInfo, isCarousel }) => {
       <DishDescription isCarousel={isCarousel}>
         {isCarousel
           ? dishInfo.description.slice(0, 50) + '...'
-          : dishInfo.description.slice(0, 90) + '...'}
+          : dishInfo.description.slice(0, 80) + '...'}
       </DishDescription>
       <ButtonsWrapper isCarousel={isCarousel}>
         <AppButton
-          style={
+          sx={
             isCarousel
               ? { fontSize: '12px', height: '36px', whiteSpace: 'nowrap' }
               : ''
@@ -62,15 +72,21 @@ const DishCard = ({ dishInfo, isCarousel }) => {
           endIcon={isCarousel ? '' : <FiChevronRight />}
         />
         <AppButton
-          style={
+          sx={
             isCarousel
               ? { fontSize: '12px', height: '36px', whiteSpace: 'nowrap' }
               : ''
           }
           variant="contained"
-          label={<FiShoppingCart style={{ fontSize: '18px' }} />}
-          //"Add to Cart"
+          label={
+            isCarousel ? (
+              <FiShoppingCart style={{ fontSize: '18px' }} />
+            ) : (
+              'Add to Cart'
+            )
+          }
           endIcon={isCarousel ? '' : <FiShoppingCart />}
+          disable={isChef ? 'true' : 'false'}
         />
       </ButtonsWrapper>
     </DishCardWrapper>

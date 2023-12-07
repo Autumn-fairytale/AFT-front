@@ -1,14 +1,15 @@
 import { useMemo } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import CartInfo from '@/components/CartInfo';
 import { route } from '@/constants';
-import { useModalContext } from '@/contexts/useModalContext';
 import {
   calcTotalAmountOfCartItems,
   calcTotalQtyOfCartItems,
   convertToMoney,
 } from '@/helpers';
+import { closeUserCart } from '@/redux/cartStatus/slice';
 import { AppButton } from '@/shared';
 import { useTheme } from '@emotion/react';
 import {
@@ -22,12 +23,11 @@ import { CartSummaryPropTypes } from './CartSummary.props';
 
 const CartSummary = ({ data }) => {
   const navigate = useNavigate();
-
-  const { closeModal } = useModalContext();
+  const dispatch = useDispatch();
 
   const handleCheckoutClick = () => {
+    dispatch(closeUserCart());
     navigate(route.CREATE_ORDER);
-    closeModal();
   };
 
   const theme = useTheme();

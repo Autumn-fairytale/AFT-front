@@ -1,23 +1,29 @@
-import { ModalProvider } from '@/contexts/useModalContext';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { selectIsHidden, selectIsOpen } from '@/redux/cartStatus/selectors';
+import { closeUserCart } from '@/redux/cartStatus/slice';
 import { AppModal } from '@/shared';
 import ModalContent from './ModalContent/ModalContent';
-import { UserModalCartPropTypes } from './UserModalCart.props';
 import { modalStyles } from './UserModalCart.styled';
 
-const UserModalCart = ({ isOpen, closeModal }) => {
+const UserModalCart = () => {
+  const dispatch = useDispatch();
+  const isOpen = useSelector(selectIsOpen);
+  const isHidden = useSelector(selectIsHidden);
+
+  const onClose = () => {
+    dispatch(closeUserCart());
+  };
+
   return (
     <AppModal
-      onClose={closeModal}
       isOpen={isOpen}
-      contentProps={{ style: modalStyles }}
+      onClose={onClose}
+      contentProps={{ style: { ...modalStyles, opacity: isHidden ? 0 : 1 } }}
     >
-      <ModalProvider closeModal={closeModal}>
-        <ModalContent />
-      </ModalProvider>
+      <ModalContent />
     </AppModal>
   );
 };
-
-UserModalCart.propTypes = UserModalCartPropTypes;
 
 export default UserModalCart;

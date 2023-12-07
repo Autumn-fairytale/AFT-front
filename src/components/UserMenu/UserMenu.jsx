@@ -10,9 +10,9 @@ import { Avatar, Badge } from '@mui/material';
 import { route } from '@/constants';
 import { calcTotalQtyOfCartItems } from '@/helpers';
 import { useGetCartItems } from '@/hooks';
-import { useModal } from '@/hooks/useModal';
 import { signOut } from '@/redux/auth/operations';
 import { selectIsAuth, selectRoles, selectUser } from '@/redux/auth/selectors';
+import { openUserCart } from '@/redux/cartStatus/slice';
 import styled from '@emotion/styled';
 import UserModalCart from '../UserModalCart';
 import {
@@ -42,8 +42,6 @@ export const UserMenu = () => {
   const cartItemsQty = userCartItems
     ? calcTotalQtyOfCartItems(userCartItems)
     : null;
-  // func to open/close user's cart
-  const { isOpen, openModal, onClose: closeModal } = useModal();
 
   const roles = useSelector(selectRoles);
   const isAuth = useSelector(selectIsAuth);
@@ -86,7 +84,7 @@ export const UserMenu = () => {
       </ListStyled>
       <ListStyled></ListStyled>
       <ListItemStyled>
-        <IconButtonStyled onClick={openModal}>
+        <IconButtonStyled onClick={() => dispatch(openUserCart())}>
           <StyledBadge badgeContent={cartItemsQty} color="success">
             <ShoppingCartIcon sx={{ width: 30, height: 30 }} />
           </StyledBadge>
@@ -106,7 +104,7 @@ export const UserMenu = () => {
       </ListItemStyled>
 
       {/* USER CART MODAL */}
-      <UserModalCart isOpen={isOpen} closeModal={closeModal} />
+      <UserModalCart />
     </>
   );
 };

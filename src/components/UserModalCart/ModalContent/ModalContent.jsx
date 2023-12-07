@@ -7,6 +7,7 @@ import { cartLoaderStyles } from '../UserModalCart.styled';
 
 const ModalContent = () => {
   const { data, isLoading, error } = useGetCartItems();
+
   if (isLoading) {
     return <AppLoader style={cartLoaderStyles} />;
   } else if (error) {

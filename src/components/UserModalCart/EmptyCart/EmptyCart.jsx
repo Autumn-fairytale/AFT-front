@@ -1,21 +1,21 @@
+import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import PageMessage from '@/components/PageMessage';
 import { route } from '@/constants';
-import { useModalContext } from '@/contexts/useModalContext';
+import { closeUserCart } from '@/redux/cartStatus/slice';
 import { AppButton } from '@/shared';
 
 const EmptyCart = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const isNotDishesRoute = location.pathname !== route.DISHES;
 
-  const { closeModal } = useModalContext();
-
   const handleSearchDishClick = () => {
+    dispatch(closeUserCart());
     navigate(route.DISHES);
-    closeModal();
   };
 
   return (
@@ -37,9 +37,5 @@ const EmptyCart = () => {
     </>
   );
 };
-
-// EmptyCart.propTypes = {
-//   closeModal: PropTypes.func.isRequired,
-// };
 
 export default EmptyCart;

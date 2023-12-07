@@ -9,6 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 
+import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 
 import { useFetchDish } from '@/hooks/useFetchDish';
@@ -29,7 +30,7 @@ import { DishOrderCardSpiceLevel } from './DishOrderCardSpiceLevel';
 import { DishOrderCardTabs } from './DishOrderCardTabs';
 import { DishOrderCardVeganBadge } from './DishOrderCardVeganBadge';
 
-export const DishOrderCard = ({ dishId = '6571fb87d24ece5e6a7f23a4' }) => {
+const DishOrderCard = ({ dishId = '6571fb87d24ece5e6a7f23a4' }) => {
   const { data: dish = {}, isLoading } = useFetchDish(dishId);
   const owner = dish.owner;
 
@@ -51,26 +52,24 @@ export const DishOrderCard = ({ dishId = '6571fb87d24ece5e6a7f23a4' }) => {
   const [tabValue, setTabValue] = useState(0);
   const [mediaScale, setMediaScale] = useState(1);
 
-  const handleScroll = () => {
-    if (cardRef.current) {
-      const scale = Math.max(0.5, 1 - cardRef.current.scrollTop / 200);
-      setMediaScale(scale);
-    }
-  };
-
   useEffect(() => {
-    if (!isLoading) {
-      const card = cardRef.current;
-
-      if (card) {
-        card.addEventListener('scroll', handleScroll);
+    const handleScroll = debounce(() => {
+      if (cardRef.current) {
+        const scale = Math.max(0.5, 1 - cardRef.current.scrollTop / 200);
+        setMediaScale(scale);
       }
-      return () => {
-        if (card) {
-          card.removeEventListener('scroll', handleScroll);
-        }
-      };
+    }, 250);
+
+    const card = cardRef.current;
+    if (card) {
+      card.addEventListener('scroll', handleScroll);
     }
+    return () => {
+      if (card) {
+        card.removeEventListener('scroll', handleScroll);
+      }
+      handleScroll.cancel();
+    };
   }, [isLoading]);
 
   const handleTabChange = (_event, newValue) => {
@@ -89,7 +88,6 @@ export const DishOrderCard = ({ dishId = '6571fb87d24ece5e6a7f23a4' }) => {
   const totalPrice = dish.price * quantity;
 
   return (
-    dish &&
     dish.name &&
     dish.owner && (
       <StyledDishOrderCardWrapper raised>
@@ -207,5 +205,6 @@ export const DishOrderCard = ({ dishId = '6571fb87d24ece5e6a7f23a4' }) => {
     )
   );
 };
+export default DishOrderCard;
 
 DishOrderCard.propTypes = { dishId: PropTypes.string };

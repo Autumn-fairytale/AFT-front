@@ -1,4 +1,4 @@
-import { DishOrderCard } from '@/components/DishOrderCard/DishOrderCard';
+import DishOrderCard from '@/components/DishOrderCard/DishOrderCard';
 import { Main } from '@/shared/Main/Main';
 
 const ChefDishesPage = () => {

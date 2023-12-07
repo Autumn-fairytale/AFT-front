@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 
 export const StyledDishOrderCardWrapper = styled(Card)(() => ({
   maxWidth: 400,
-  height: 800,
+  height: 785,
   maxHeight: '85vh',
 }));
 

@@ -32,7 +32,7 @@ const ChefOrdersPage = () => {
           margin: '20px 60px',
         }}
       >
-        <ChefOrdersTable getOrders={useChefOrder} />
+        <ChefOrdersTable getOrders={useChefOrder} tableHeight="85vMin" />
       </Box>
     </Main>
   );

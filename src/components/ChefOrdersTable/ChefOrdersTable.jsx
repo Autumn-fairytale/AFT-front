@@ -16,7 +16,7 @@ import { getStatusOptions } from './getChefStatusOptions';
 import { OrderItemsCell } from './OrderItemsCell';
 import { processRowUpdate } from './processRowUpdate';
 
-export const ChefOrdersTable = ({ getOrders, status }) => {
+export const ChefOrdersTable = ({ getOrders, status, tableHeight }) => {
   const user = useSelector(selectUser);
   const chefID = user.roles.find((role) => role.name === 'chef').id;
   //'656cff4d4125411c58aec41d';
@@ -157,7 +157,7 @@ export const ChefOrdersTable = ({ getOrders, status }) => {
           },
         }}
         // tableHeight="85vMin"
-        tableHeight="auto"
+        tableHeight={tableHeight}
         pageSize={10}
       />
     </>

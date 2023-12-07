@@ -1,4 +1,4 @@
-import { Box, styled, Typography } from '@mui/material';
+import { Alert, Box, styled, Typography } from '@mui/material';
 
 export const UserCartFooterStyled = styled(Box)({
   position: 'absolute',
@@ -31,12 +31,22 @@ export const UserCartTotalStyled = styled(Typography)({
   fontFamily: 'Inter',
 });
 
+export const UserCartWarningStyled = styled(Alert)({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: '56px',
+});
+
 export const modalStyles = {
+  display: 'grid',
+  placeItems: 'center',
   padding: 0,
   paddingBottom: '56px',
   maxHeight: '80vh',
   minHeight: '320px',
   overflow: 'hidden',
+  width: '600px',
 };
 
 export const checkoutStyles = {
@@ -44,4 +54,11 @@ export const checkoutStyles = {
   borderRadius: '0',
   height: '56px',
   fontSize: '1.2rem',
+};
+
+export const cartLoaderStyles = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
 };

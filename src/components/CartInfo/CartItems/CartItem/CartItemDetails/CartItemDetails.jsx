@@ -1,14 +1,17 @@
-import PropTypes from 'prop-types';
-
 import { AppImage } from '@/shared';
 import { AppSpiceLevel } from '@/shared/AppSpiceLevel/AppSpiceLevel';
-import { CartItemPropTypes } from './CartItem.props';
+import {
+  CartChefAvatarPropTypes,
+  CartItemDescriptionPropTypes,
+  CartItemTagsPropTypes,
+} from './CartItemDetails.props';
 import {
   CartItemDescStyled,
   CartItemTagBlockStyled,
   CartItemTagStyled,
-} from './CartItem.styled';
+} from './CartItemDetails.styled';
 
+// CHEF AVATAR
 export const CartChefAvatar = ({ isDefault, dish }) => {
   const { image, name } = dish;
   return (
@@ -20,19 +23,15 @@ export const CartChefAvatar = ({ isDefault, dish }) => {
   );
 };
 
-CartChefAvatar.propTypes = {
-  isDefault: PropTypes.bool.isRequired,
-  dish: CartItemPropTypes.data.dish,
-};
+CartChefAvatar.propTypes = CartChefAvatarPropTypes;
 
+// DISH DESCRIPTION
 export const CartItemDescription = ({ isDefault, description }) =>
   isDefault ? <CartItemDescStyled>{description}</CartItemDescStyled> : null;
 
-CartItemDescription.propTypes = {
-  isDefault: PropTypes.bool.isRequired,
-  description: PropTypes.string.isRequired,
-};
+CartItemDescription.propTypes = CartItemDescriptionPropTypes;
 
+// SPICE LEVEL, CATEGORY, CUISINE
 export const CartItemTags = ({ isDefault, dish, theme }) => {
   const { spiceLevel, cuisine, category } = dish;
   return (
@@ -48,8 +47,4 @@ export const CartItemTags = ({ isDefault, dish, theme }) => {
   );
 };
 
-CartItemTags.propTypes = {
-  isDefault: PropTypes.bool.isRequired,
-  dish: CartItemPropTypes.data.dish,
-  theme: PropTypes.object.isRequired,
-};
+CartItemTags.propTypes = CartItemTagsPropTypes;

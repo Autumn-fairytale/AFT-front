@@ -36,15 +36,15 @@ export const UserCartWarningStyled = styled(Alert)({
   alignItems: 'center',
   justifyContent: 'center',
   height: '56px',
+  width: '100%',
 });
 
 export const modalStyles = {
   display: 'grid',
   placeItems: 'center',
   padding: 0,
-  paddingBottom: '56px',
   maxHeight: '80vh',
-  minHeight: '320px',
+  minHeight: '515px',
   overflow: 'hidden',
   width: '600px',
 };

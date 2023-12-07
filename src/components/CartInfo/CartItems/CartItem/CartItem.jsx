@@ -20,17 +20,12 @@ import {
   CartItemStyled,
 } from './CartItem.styled';
 import {
-  CartChefAvatar,
+  CartDishImage,
   CartItemDescription,
   CartItemTags,
 } from './CartItemDetails/CartItemDetails';
 import CartItemRemoveButton from './CartItemRemoveButton';
 import CartItemTitle from './CartItemTitle';
-// import {
-//   CartChefAvatar,
-//   CartItemDescription,
-//   CartItemTags,
-// } from './CartItemDetails';
 
 const CartItem = ({ data, ...props }) => {
   const { dish, count } = data;
@@ -71,31 +66,31 @@ const CartItem = ({ data, ...props }) => {
 
   return (
     <CartItemStyled {...props} isDefault={isDefault}>
+      {/* DELETE DISH */}
       <CartItemRemoveButton name={name} id={dish.id} />
-      <CartItemContainer isAvailable={isAvailable} isDefault={isDefault}>
-        <CartChefAvatar isDefault={isDefault} dish={dish} />
 
-        {/* <AppImage src={dish.image} alt={dish.name} /> */}
+      <CartItemContainer isAvailable={isAvailable} isDefault={isDefault}>
+        {/* DISH IMAGE */}
+        <CartDishImage isDefault={isDefault} dish={dish} />
 
         <CartItemBodyStyled>
+          {/* NAME AND PRICE */}
           <CartItemTitle title={name} />
           <Typography sx={{ fontStyle: 'italic' }}>
             {convertToMoney(price)}
           </Typography>
 
+          {/* DESCRIPTION */}
           <CartItemDescription
             isDefault={isDefault}
             description={description}
           />
-          <CartItemTags isDefault={isDefault} dish={dish} theme={theme} />
 
-          {/* {dish.spiceLevel > 0 && (
-            <Box sx={{ marginTop: 'auto' }}>
-              <AppSpiceLevel value={dish.spiceLevel} />
-            </Box>
-          )} */}
+          {/* SPICE LEVEL, CATEGORY, CUISINE */}
+          <CartItemTags isDefault={isDefault} dish={dish} theme={theme} />
         </CartItemBodyStyled>
 
+        {/* CHANGE QTY */}
         <AppNumberInput
           value={itemCount}
           onChange={changeCount}

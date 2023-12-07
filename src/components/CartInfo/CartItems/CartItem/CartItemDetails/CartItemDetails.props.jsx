@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-export const CartChefAvatarPropTypes = {
+export const CartDishImagePropTypes = {
   isDefault: PropTypes.bool.isRequired,
   dish: PropTypes.shape({
     name: PropTypes.string.isRequired,

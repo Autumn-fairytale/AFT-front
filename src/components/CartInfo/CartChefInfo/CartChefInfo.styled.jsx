@@ -24,8 +24,9 @@ export const CartChefInfoStyled = styled(Box, {
       }),
 }));
 
-export const CartChefInfoLink = styled(Link)({
+export const CartChefInfoLink = styled(Link)(({ theme }) => ({
   '&:hover': {
     textDecoration: 'underline ',
+    color: `${theme.palette.primary.main}`,
   },
-});
+}));

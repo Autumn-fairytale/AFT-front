@@ -1,7 +1,7 @@
 import { AppImage } from '@/shared';
 import { AppSpiceLevel } from '@/shared/AppSpiceLevel/AppSpiceLevel';
 import {
-  CartChefAvatarPropTypes,
+  CartDishImagePropTypes,
   CartItemDescriptionPropTypes,
   CartItemTagsPropTypes,
 } from './CartItemDetails.props';
@@ -12,7 +12,7 @@ import {
 } from './CartItemDetails.styled';
 
 // CHEF AVATAR
-export const CartChefAvatar = ({ isDefault, dish }) => {
+export const CartDishImage = ({ isDefault, dish }) => {
   const { image, name } = dish;
   return (
     <AppImage
@@ -23,7 +23,7 @@ export const CartChefAvatar = ({ isDefault, dish }) => {
   );
 };
 
-CartChefAvatar.propTypes = CartChefAvatarPropTypes;
+CartDishImage.propTypes = CartDishImagePropTypes;
 
 // DISH DESCRIPTION
 export const CartItemDescription = ({ isDefault, description }) =>

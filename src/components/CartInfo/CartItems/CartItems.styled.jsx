@@ -8,7 +8,9 @@ export const CartItemsBoxStyled = styled(Box, {
         padding: '0 28px',
         boxSizing: 'border-box',
         maxHeight: 'calc(80vh - 60px - 56px)',
-        overflow: 'scroll',
+        overflow: 'auto',
+        marginBottom: '56px',
+        minHeight: '400px',
       }
     : {}),
 }));

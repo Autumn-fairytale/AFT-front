@@ -5,6 +5,7 @@ import { useCartTypeContext } from '@/contexts/CartTypeContext';
 import { useTheme } from '@emotion/react';
 import { CartChefInfoPropTypes } from './CartChefInfo.props';
 import { CartChefInfoLink, CartChefInfoStyled } from './CartChefInfo.styled';
+// import { useModalContext } from '@/contexts/useModalContext';
 
 const CartChefInfo = ({ data, ...props }) => {
   const { isDefault } = useCartTypeContext();
@@ -13,7 +14,11 @@ const CartChefInfo = ({ data, ...props }) => {
   return (
     <CartChefInfoStyled {...props} isDefault={isDefault} theme={theme}>
       <Avatar src={data.avatar} />
-      <CartChefInfoLink to={`${route.CHEFS}/${data.id}`}>
+      <CartChefInfoLink
+        to={`${route.CHEFS}/${data.id}`}
+        theme={theme}
+        // onClick={isDefault && useModalContext().closeModal}
+      >
         {data.name}
       </CartChefInfoLink>
     </CartChefInfoStyled>

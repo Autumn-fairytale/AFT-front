@@ -26,9 +26,18 @@ import { DishOrderCardVeganBadge } from './DishOrderCardVeganBadge';
 
 export const DishOrderCard = ({ dishId = '6564a4646cac257b0edf57bb' }) => {
   const { data: dish = {}, isLoading } = useFetchDish(dishId);
+
   const cardRef = useRef();
   // const isVegan = dish?.isVegan;
   const isVegan = true;
+  const [overlayPosition, setOverlayPosition] = useState({ top: 0, left: 0 });
+
+  useEffect(() => {
+    if (cardRef.current) {
+      const rect = cardRef.current.getBoundingClientRect();
+      setOverlayPosition({ top: rect.top, left: rect.left });
+    }
+  }, []);
 
   const [expanded, setExpanded] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -73,19 +82,51 @@ export const DishOrderCard = ({ dishId = '6564a4646cac257b0edf57bb' }) => {
     <Card
       ref={cardRef}
       raised
-      sx={{ maxWidth: 400, maxHeight: '85vh', overflow: 'auto' }}
+      sx={{
+        maxWidth: 400,
+        height: 685,
+        maxHeight: '85vh',
+        overflow: 'scroll',
+        position: 'relative',
+
+        '::-webkit-scrollbar': {
+          display: 'none',
+        },
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
+      }}
     >
       {isLoading && <LinearProgress />}
+
+      <Box
+        sx={{
+          position: 'fixed',
+          top: `${overlayPosition.top}px`,
+          left: `${overlayPosition.left}px`,
+          width: '400px',
+          height: '130px',
+          backgroundColor: 'white',
+          overflow: 'hidden',
+          zIndex: 500,
+        }}
+      />
+
       <CardMedia
         component="img"
         image={mockImg}
         alt={dish.name}
         sx={{
+          position: 'sticky',
+          overflow: 'hidden',
+          top: 0,
+          maxHeight: '100%',
           transform: `scale(${mediaScale})`,
           transition: 'transform 0.3s ease-in-out',
-          marginBottom: 2,
+          transformOrigin: 'top',
+          zIndex: 600,
         }}
       />
+
       <CardContent>
         <Box
           sx={{

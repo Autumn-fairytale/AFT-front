@@ -20,8 +20,8 @@ import {
   CartItemStyled,
 } from './CartItem.styled';
 import {
-  CartDishImage,
   CartItemDescription,
+  CartItemImage,
   CartItemTags,
 } from './CartItemDetails/CartItemDetails';
 import CartItemRemoveButton from './CartItemRemoveButton';
@@ -71,7 +71,7 @@ const CartItem = ({ data, ...props }) => {
 
       <CartItemContainer isAvailable={isAvailable} isDefault={isDefault}>
         {/* DISH IMAGE */}
-        <CartDishImage isDefault={isDefault} dish={dish} />
+        <CartItemImage isDefault={isDefault} dish={dish} />
 
         <CartItemBodyStyled>
           {/* NAME AND PRICE */}

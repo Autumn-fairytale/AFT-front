@@ -10,5 +10,6 @@ export { default as AppContainer } from './AppContainer/AppContainer';
 export { default as AppAutocomplete } from './Selects/Autocomplete/AppAutocomplete';
 /* App container */
 export { default as AppImage } from './AppImage';
+export { default as AppLoader } from './AppLoader';
 export { default as AppNumberInput } from './AppNumberInput';
 export { default as AppSelect } from './Selects/BasicSelect/AppSelect';

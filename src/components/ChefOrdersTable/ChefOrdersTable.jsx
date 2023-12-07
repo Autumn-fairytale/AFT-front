@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 
+// import { useSelector } from 'react-redux';
 import { GridRowEditStopReasons, GridRowModes } from '@mui/x-data-grid';
 
 import useChefOrder from '@/hooks/useChefOrders';
@@ -7,13 +8,22 @@ import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { formatDateForDataGrid } from '../../helpers/formatDateForDataGrid';
 import { CustomPagination } from '../TableComponents/Pagination';
 import { StatusCell } from '../TableComponents/StatusCell';
+import { ChefOrdersTablePropTypes } from './ChefOrdersTable.props';
 import { getActions } from './getActions';
 import { getStatusOptions } from './getChefStatusOptions';
 import { OrderItemsCell } from './OrderItemsCell';
 import { processRowUpdate } from './processRowUpdate';
 
-export const ChefOrdersTable = () => {
+export const ChefOrdersTable = ({
+  // getOrders,
+  // status,
+  tableHeight,
+}) => {
+  // const user = useSelector(selectUser);
+  // const chefID = user.roles.find((role) => role.name === 'chef').id;
+  //'656cff4d4125411c58aec41d';
   const { data, isLoading, error } = useChefOrder();
+  // const { data, isLoading, error } = getOrders(chefID, status);
 
   const orders = data ? data : [];
 
@@ -148,9 +158,12 @@ export const ChefOrdersTable = () => {
             py: '15px',
           },
         }}
-        tableHeight="85vMin"
+        // tableHeight="85vMin"
+        tableHeight={tableHeight}
         pageSize={10}
       />
     </>
   );
 };
+
+ChefOrdersTable.propTypes = ChefOrdersTablePropTypes;

@@ -1,65 +1,63 @@
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { createOrder } from '@/api/createOrder';
-import { addSpacesToPhoneNumber } from '@/helpers';
+import { route } from '@/constants';
+import { addSpacesToPhoneNumber, removeSpacesFromPhoneNumber } from '@/helpers';
+import { useDeleteAllCartItems } from '@/hooks';
+import { selectUser } from '@/redux/auth/selectors';
 import { createOrderSchema } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
-import PaymentButton from '../PaymentButton';
+import { CreateOrderFormPropTypes } from './CreateOrderForm.props';
 import { CreateOrderFormStyled } from './CreateOrderForm.styled';
 import DeliveryInfo from './DeliveryInfo';
 import OrderInfo from './OrderInfo';
 
-const CreateOrderForm = () => {
+const CreateOrderForm = ({ data: cart }) => {
+  const user = useSelector(selectUser);
+  const navigate = useNavigate();
+  const { mutate: deleteAllCartItems } = useDeleteAllCartItems();
+
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm({
     defaultValues: {
-      phoneNumber: addSpacesToPhoneNumber('+38(066)3334433'),
-      userName: 'Andrii Zaimak',
-      email: 'dev.andrii.zaimak@gmail.com',
+      phoneNumber: user?.phoneNumber
+        ? addSpacesToPhoneNumber(user?.phoneNumber)
+        : '',
+      userName: user ? `${user?.firstName} ${user.lastName}` : '',
+      email: user ? user.email : '',
       address: {
-        country: 'Ukraine',
-        city: 'Kyiv',
-        street: 'Street',
-        houseNumber: '12',
-        apartment: '1',
+        country: user?.address ? user.address.country : '',
+        city: user?.address ? user.address.city : '',
+        street: user?.address ? user.address.street : '',
+        houseNumber: user?.address ? user.address.houseNumber : '',
+        apartment: user?.address?.apartment ? user.address.apartment : '',
       },
       additionalInfo: '',
     },
     resolver: zodResolver(createOrderSchema),
   });
 
-  if (Object.keys(errors).length) console.log('errors: ', errors);
-
-  const orderItems = [
-    {
-      dish: '65572415cf191a7f14e8e423',
-      count: 1,
-      name: 'Test dish',
-    },
-  ];
-
-  const [payment, setPayment] = useState(null);
-
   const formSubmitHandler = async (data) => {
-    console.log('Form data', data, setPayment(null));
-
     try {
       const result = await createOrder({
-        // phoneNumber: removeSpacesFromPhoneNumber(data.phoneNumber),
-        // userName: data.userName,
-        // email: data.email,
-        // additionalInfo: data.additionalInfo,
+        phoneNumber: removeSpacesFromPhoneNumber(data.phoneNumber),
+        name: data.userName,
+        email: data.email,
+        additionalInfo: data.additionalInfo.length || null,
         address: data.address,
-        items: orderItems,
+        items: cart.items.map((item) => ({
+          count: item.count,
+          dishId: item.dish.id,
+        })),
       });
 
-      setPayment(result.data.payment);
-
-      console.log(result.data);
+      await deleteAllCartItems();
+      navigate(`${route.ORDERS_PAYMENT}/${result.data.order.id}`);
     } catch (err) {
       console.log(err);
     }
@@ -67,18 +65,13 @@ const CreateOrderForm = () => {
   return (
     <>
       <CreateOrderFormStyled onSubmit={handleSubmit(formSubmitHandler)}>
-        <DeliveryInfo control={control} errors={errors} />
-        <OrderInfo isSubmitting={isSubmitting} />
+        <DeliveryInfo control={control} />
+        <OrderInfo data={cart} isSubmitting={isSubmitting} />
       </CreateOrderFormStyled>
-      {payment && (
-        <PaymentButton
-          data={payment.data}
-          signature={payment.signature}
-          isAutoSubmit={true}
-        />
-      )}
     </>
   );
 };
+
+CreateOrderForm.propTypes = CreateOrderFormPropTypes;
 
 export default CreateOrderForm;

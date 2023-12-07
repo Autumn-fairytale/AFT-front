@@ -1,22 +1,24 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
+import { Typography } from '@mui/material';
+
+import { useGetOrderPaymentSignature } from '@/hooks';
 import { PaymentButtonPropTypes } from './PaymentButton.props';
 import {
   PaymentButtonPayStyled,
   PaymentButtonStyled,
 } from './PaymentButton.styled';
 
-const PaymentButton = ({ data, signature, isAutoSubmit, ...props }) => {
-  const [payment, setPayment] = useState(null);
+const PaymentButton = ({ orderId, isAutoSubmit, ...props }) => {
+  const { data } = useGetOrderPaymentSignature(orderId);
+  const payment = data?.data.payment;
+  const status = data?.data.status;
   const ref = useRef(null);
 
   useEffect(() => {
-    // TODO: Fetch order to get data and signature
-    setPayment({ data, signature });
-  }, [data, signature]);
-
-  useEffect(() => {
-    if (isAutoSubmit && payment) ref.current.submit();
+    if (isAutoSubmit && payment) {
+      ref.current.submit();
+    }
   }, [isAutoSubmit, payment]);
 
   return (
@@ -27,11 +29,23 @@ const PaymentButton = ({ data, signature, isAutoSubmit, ...props }) => {
       acceptCharset="utf-8"
       {...props}
     >
-      {payment && (
+      {status && (
         <>
-          <input type="hidden" name="data" value={payment.data} />
-          <input type="hidden" name="signature" value={payment.signature} />
-          <PaymentButtonPayStyled type="submit" label="Pay" color="secondary" />
+          {status === 'pending' ? (
+            <>
+              <input type="hidden" name="data" value={payment.data} />
+              <input type="hidden" name="signature" value={payment.signature} />
+              {!isAutoSubmit && (
+                <PaymentButtonPayStyled
+                  type="submit"
+                  label="Pay"
+                  color="secondary"
+                />
+              )}
+            </>
+          ) : (
+            <>{!isAutoSubmit && <Typography>Paid</Typography>}</>
+          )}
         </>
       )}
     </PaymentButtonStyled>

@@ -2,10 +2,8 @@ import { styled } from '@mui/material';
 
 export const DishCardWrapper = styled('div')(({ theme, isCarousel }) => ({
   position: 'relative',
-  width: `${isCarousel ? '200px' : '100%'}`,
-  height: `${isCarousel ? '300px' : '100%'}`,
-  maxWidth: '376px',
-  maxHeight: '585px',
+  width: `${isCarousel ? '200px' : '336px'}`,
+  height: `${isCarousel ? '300px' : '495px'}`,
   borderRadius: '20px',
   background: `${theme.palette.background.paper}`,
 }));
@@ -15,8 +13,8 @@ export const DishImageWrapper = styled('div')(() => ({
 }));
 
 export const DishImage = styled('img')(({ isCarousel }) => ({
-  width: `${isCarousel ? '200px' : '100%'}`,
-  height: `${isCarousel ? '165px' : '100%'}`,
+  width: `${isCarousel ? '200px' : '336px'}`,
+  height: `${isCarousel ? '165px' : '336px'}`,
   display: 'block',
   maxWidth: '376px',
   maxHeight: '380px',
@@ -42,8 +40,7 @@ export const DishName = styled('h2')(({ theme, isCarousel }) => ({
   fontWeight: `${isCarousel ? '700' : '900'}`,
   letterSpacing: '-1px',
   color: `${theme.palette.text.primary}`,
-  marginLeft: `${isCarousel ? '10px' : '30px'}`,
-  marginTop: `${isCarousel ? '5px' : '0px'}`,
+  margin: `${isCarousel ? '5px 10px' : '10px 20px'}`,
 }));
 
 export const DishPrice = styled('h2')(({ theme, isCarousel }) => ({
@@ -51,8 +48,7 @@ export const DishPrice = styled('h2')(({ theme, isCarousel }) => ({
   fontWeight: '900',
   letterSpacing: '0em',
   color: `${theme.palette.primary.main}`,
-  marginRight: `${isCarousel ? '10px' : '30px'}`,
-  marginTop: `${isCarousel ? '5px' : '30px'}`,
+  margin: `${isCarousel ? '5px 10px' : '8px 20px'}`,
 }));
 
 export const DishDescription = styled('p')(({ isCarousel }) => ({
@@ -60,12 +56,12 @@ export const DishDescription = styled('p')(({ isCarousel }) => ({
   fontSize: `${isCarousel ? '12px' : '14px'}`,
   fontWeight: '500',
   textAlign: 'justify',
-  margin: `${isCarousel ? '-5px 10px 0 10px' : '-10px 30px 0 30px'}`,
+  margin: `${isCarousel ? '-5px 10px 0 10px' : '-10px 20px 0 20px'}`,
 }));
 
 export const ButtonsWrapper = styled('div')(({ isCarousel }) => ({
   display: 'flex',
   justifyContent: 'space-between',
-  margin: `${isCarousel ? '10px 10px 0 10px' : '10px 30px 0 30px'}`,
-  gap: `${isCarousel ? '10px' : '0px'}`,
+  margin: `${isCarousel ? '10px 10px 0 10px' : '10px 20px 0 20px'}`,
+  gap: `${isCarousel ? '10px' : '2px'}`,
 }));

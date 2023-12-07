@@ -1,5 +1,5 @@
-import React from 'react';
-import { Controller } from 'react-hook-form';
+import { memo } from 'react';
+import { Controller, useFormState } from 'react-hook-form';
 
 import { Box, Typography } from '@mui/material';
 
@@ -8,8 +8,8 @@ import { AppPhoneInput, AppTextInput } from '@/shared';
 import { AppTextArea } from '@/shared/AppTextArea/AppTextArea';
 import { DeliveryInfoPropTypes } from './DeliveryInfo.props';
 import {
+  DeliveryGroupTitle,
   DeliveryInfoSectionStyled,
-  DividerStyled,
 } from './DeliveryInfo.styled';
 import DeliveryInfoFormItem from './DeliveryInfoFormItem';
 
@@ -35,7 +35,9 @@ const fields = [
   },
 ];
 
-const DeliveryInfo = ({ control, errors }) => {
+const DeliveryInfo = memo(({ control }) => {
+  const { errors } = useFormState({ control });
+
   return (
     <DeliveryInfoSectionStyled>
       <Typography component="h2" variant="h4">
@@ -43,44 +45,49 @@ const DeliveryInfo = ({ control, errors }) => {
       </Typography>
 
       <Box sx={{ marginTop: '20px' }}>
-        {fields.map((field) => (
-          <React.Fragment key={field.name}>
+        <DeliveryGroupTitle>User info:</DeliveryGroupTitle>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
+            py: '20px',
+          }}
+        >
+          {fields.map((field) => (
             <DeliveryInfoFormItem
+              key={field.name}
               info={field}
               control={control}
               error={errors[field.name]}
             />
-            <DividerStyled />
-          </React.Fragment>
-        ))}
-
-        <Box>
-          <Typography component="h3" variant="h6">
-            Address
-          </Typography>
-
-          <AddressForm control={control} errors={errors} />
+          ))}
         </Box>
 
-        <DividerStyled />
+        <DeliveryGroupTitle>Address:</DeliveryGroupTitle>
 
-        <Box>
-          <Typography component="h3" variant="h6">
-            Additional info
-          </Typography>
-          <Controller
-            name="additionalInfo"
-            control={control}
-            render={({ field }) => (
-              <AppTextArea label="" maxLength={400} {...field} />
-            )}
-          />
-        </Box>
+        <AddressForm
+          control={control}
+          errors={errors}
+          sx={{ paddingTop: '20px', paddingBottom: '20px' }}
+        />
+
+        <DeliveryGroupTitle sx={{ marginBottom: '20px' }}>
+          Additional info:
+        </DeliveryGroupTitle>
+        <Controller
+          name="additionalInfo"
+          control={control}
+          render={({ field }) => (
+            <AppTextArea label="" maxLength={400} {...field} />
+          )}
+        />
       </Box>
     </DeliveryInfoSectionStyled>
   );
-};
+});
 
 DeliveryInfo.propTypes = DeliveryInfoPropTypes;
+DeliveryInfo.displayName = 'DeliveryInfo';
 
 export default DeliveryInfo;

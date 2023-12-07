@@ -12,7 +12,11 @@ import { NavigateMenu } from '../NavigateMenu/NavigateMenu.jsx';
 import { NotAuthUserMenu } from '../NotAuthUserMenu/NotAuthUserMenu.jsx';
 import { UserMenu } from '../UserMenu/UserMenu.jsx';
 import { IconButtonStyled } from '../UserMenu/UserMenu.slyled.js';
-import { AppBarStyled, AppContainerStyled } from './Header.styled.js';
+import {
+  AppBarStyled,
+  AppContainerStyled,
+  MenuWrapper,
+} from './Header.styled.js';
 
 // import SearchBar from './searchBar.jsx';
 import Logo from '../../assets/images/logo.svg';
@@ -45,8 +49,10 @@ const Header = () => {
         </Link>
 
         <Toolbar>
-          {!isAuth && <NotAuthUserMenu />}
-          {isAuth && <UserMenu />}
+          <MenuWrapper>
+            {!isAuth && <NotAuthUserMenu />}
+            {isAuth && <UserMenu />}
+          </MenuWrapper>
 
           <IconButtonStyled aria-label="menu" onClick={toggleDrawer(true)}>
             <MenuIcon sx={{ width: 35, height: 35 }} />

@@ -8,8 +8,10 @@ export const DishCardPropTypes = {
     description: PropTypes.string.isRequired,
   }).isRequired,
   isCarousel: PropTypes.bool,
+  isChef: PropTypes.bool,
 };
 
 export const defaultDishCardPropTypes = {
   isCarousel: false,
+  isChef: false,
 };

@@ -2,18 +2,18 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
-import { createChef } from '@/api/chef/createChef';
-import { getChefById } from '@/api/chef/getChefById';
-import { updateChef } from '@/api/chef/updateChef';
+import { createCourier } from '@/api/courier/createCourier';
+import { getCourierById } from '@/api/courier/getCourierById';
+import { updateCourier } from '@/api/courier/updateCourier';
 import { route } from '@/constants';
 import { addSpacesToPhoneNumber, removeSpacesFromPhoneNumber } from '@/helpers';
 import { selectUser } from '@/redux/auth/selectors';
-import { chefSchema } from '@/schemas/chefSchema';
+import { courierSchema } from '@/schemas/courierSchema';
 import { AppButton } from '@/shared';
 import { zodResolver } from '@hookform/resolvers/zod';
-import ChefInfo from './ChefInfo/ChefInfo';
+import CourierInfo from './CourierInfo/CourierInfo';
 
-const CreateChefForm = () => {
+const CreateCourierForm = () => {
   const {
     handleSubmit,
     formState: { errors },
@@ -21,11 +21,12 @@ const CreateChefForm = () => {
     reset,
     setValue,
   } = useForm({
-    resolver: zodResolver(chefSchema),
+    resolver: zodResolver(courierSchema),
     defaultValues: {
       avatar: '',
       phoneNumber: '',
       accountStatus: 'pending',
+      vehicleType: 'none',
       address: {
         country: '',
         city: '',
@@ -34,31 +35,31 @@ const CreateChefForm = () => {
         apartment: null,
       },
       liqpayKey: '',
-      certificate: '',
     },
   });
   const user = useSelector(selectUser);
   const userId = user.id;
-  const [chef, setChef] = useState();
+  const [courier, setCourier] = useState();
   useEffect(() => {
     const fetchData = async () => {
-      if (user.roles.find((role) => role.name === 'chef')) {
-        const chefId = user.roles.find((role) => role.name === 'chef').id;
+      if (user.roles.find((role) => role.name === 'courier')) {
+        const courierId = user.roles.find((role) => role.name === 'courier').id;
         try {
-          const chefData = await getChefById(chefId);
+          const courierData = await getCourierById(courierId);
           reset({
             userId: userId,
-            avatar: chefData.avatar,
-            phoneNumber: addSpacesToPhoneNumber(chefData.phoneNumber),
-            address: chefData.address,
-            certificate: chefData.certificate,
-            accountStatus: chefData.accountStatus,
-            liqpayKey: chefData.liqpayKey,
+            avatar: courierData.avatar,
+            phoneNumber: addSpacesToPhoneNumber(courierData.phoneNumber),
+            address: courierData.address,
+            certificate: courierData.certificate,
+            accountStatus: courierData.accountStatus,
+            vehicleType: courierData.vehicleType,
+            liqpayKey: courierData.liqpayKey,
           });
 
-          setChef(chefData);
+          setCourier(courierData);
         } catch (error) {
-          console.error('Error fetching chef data:', error);
+          console.error('Error fetching courier data:', error);
         }
       }
     };
@@ -75,18 +76,19 @@ const CreateChefForm = () => {
         address: data.address,
         certificate: data.certificate,
         accountStatus: data.accountStatus,
+        vehicleType: data.vehicleType,
         liqpayKey: data.liqpayKey,
       };
       console.log(result);
-      if (user.roles.find((role) => role.name === 'chef')) {
-        await updateChef(
-          result,
-          user.roles.find((role) => role.name === 'chef').id
+      if (user.roles.find((role) => role.name === 'courier')) {
+        await updateCourier(
+          result
+          // user.roles.find((role) => role.name === 'chef').id
         );
       } else {
-        await createChef(result);
+        await createCourier(result);
       }
-      window.location.href = route.CHEF_ACCOUNT;
+      window.location.href = route.COURIER_ACCOUNT;
     } catch (err) {
       console.log(err);
     }
@@ -94,11 +96,10 @@ const CreateChefForm = () => {
 
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)}>
-      <ChefInfo
+      <CourierInfo
         control={control}
         errors={errors}
-        avatar={chef?.avatar}
-        certificate={chef?.certificate}
+        avatar={courier?.avatar}
         setValue={setValue}
       />
       <AppButton
@@ -110,4 +111,4 @@ const CreateChefForm = () => {
   );
 };
 
-export default CreateChefForm;
+export default CreateCourierForm;

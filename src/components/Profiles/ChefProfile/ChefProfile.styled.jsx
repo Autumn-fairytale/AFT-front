@@ -20,6 +20,7 @@ export const ChefName = styled('h1')(() => ({
   fontFamily: 'Inter',
 }));
 
+export const Location = styled('div')(() => ({}));
 export const ChefLocation = styled('span')(() => ({
   display: 'flex',
   fontSize: '20px',
@@ -27,6 +28,7 @@ export const ChefLocation = styled('span')(() => ({
 
 export const RateWrapper = styled('span')(() => ({
   marginTop: '30px',
+  marginLeft: '-10px',
   display: 'flex',
 }));
 

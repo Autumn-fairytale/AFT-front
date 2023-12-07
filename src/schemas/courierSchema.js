@@ -5,7 +5,7 @@ const addressRegExp = /^[a-zA-Z\s'-]+$/;
 
 const ImageSchema = z.union([z.string().url('Add your file'), z.object({})]);
 
-export const chefSchema = z.object({
+export const courierSchema = z.object({
   avatar: ImageSchema,
   phoneNumber: z.string().trim().regex(phoneRegExp, 'Invalid number format'),
   address: z.object({
@@ -45,6 +45,6 @@ export const chefSchema = z.object({
     'rejected',
     'blocked',
   ]),
+  vehicleType: z.enum(['none', 'bicycle', 'motorcycle', 'car']),
   liqpayKey: z.string().trim().min(8),
-  certificate: ImageSchema,
 });

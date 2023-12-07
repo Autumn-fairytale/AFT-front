@@ -17,7 +17,7 @@ export const useUpdateCartItemById = () => {
     mutationFn: (data) => updateCartItemById(userId, data),
     onSuccess: () => {
       queryClient.setQueryData(backupKey, null);
-      queryClient.invalidateQueries({ queryKey: key });
+      //queryClient.invalidateQueries({ queryKey: key });
     },
     onMutate: (cart) => {
       const previousCart = queryClient.getQueryData(backupKey) || cart;

@@ -1,4 +1,5 @@
-import { Controller } from 'react-hook-form';
+import { memo } from 'react';
+import { Controller, useFormState } from 'react-hook-form';
 
 import { Box, Typography } from '@mui/material';
 
@@ -34,7 +35,9 @@ const fields = [
   },
 ];
 
-const DeliveryInfo = ({ control, errors }) => {
+const DeliveryInfo = memo(({ control }) => {
+  const { errors } = useFormState({ control });
+
   return (
     <DeliveryInfoSectionStyled>
       <Typography component="h2" variant="h4">
@@ -82,7 +85,7 @@ const DeliveryInfo = ({ control, errors }) => {
       </Box>
     </DeliveryInfoSectionStyled>
   );
-};
+});
 
 DeliveryInfo.propTypes = DeliveryInfoPropTypes;
 DeliveryInfo.displayName = 'DeliveryInfo';

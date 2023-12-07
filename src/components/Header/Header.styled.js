@@ -13,3 +13,11 @@ export const AppBarStyled = styled(AppBar)`
   background: ${({ theme }) => theme.palette.background.default};
   /* background-color: #0f0f0f; */
 `;
+
+export const MenuWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+`;

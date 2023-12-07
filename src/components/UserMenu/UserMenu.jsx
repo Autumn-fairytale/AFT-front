@@ -1,3 +1,4 @@
+import { TbChefHat } from 'react-icons/tb';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -6,11 +7,13 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Avatar, Badge } from '@mui/material';
 
+import { route } from '@/constants';
 import { signOut } from '@/redux/auth/operations';
-import { selectIsAuth, selectRoles } from '@/redux/auth/selectors';
+import { selectIsAuth, selectRoles, selectUser } from '@/redux/auth/selectors';
 import styled from '@emotion/styled';
 import {
   IconButtonStyled,
+  LinkStyled,
   ListItemStyled,
   ListStyled,
 } from './UserMenu.slyled';
@@ -26,59 +29,70 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-// const user = { isAuth: true, roles: ['user', 'chef', 'admin', 'courier'] };
-// const user = { isAuth: true, roles: ['user', '', '', ''] };
-
-const favDishes = 6;
-const dishesInCart = 3;
-
 export const UserMenu = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
 
   const roles = useSelector(selectRoles);
+  const { cart, favoriteDishes, favoriteChefs, avatar } =
+    useSelector(selectUser);
+  console.log('favoriteDishes:', favoriteDishes);
+  console.log('cart:', cart);
+  console.log('avatar:', avatar);
 
   return (
     <>
       {!roles.includes('admin') && (
-        <Avatar
-          src="/static/images/avatar/1.jpg"
-          sx={{ width: 35, height: 35, mr: 1 }}
-        />
+        <Avatar src={avatar} sx={{ width: 35, height: 35, mr: 1 }} />
       )}
       <ListStyled>
         {!roles.includes('admin') && (
           <>
             <ListItemStyled>
-              <IconButtonStyled>
-                <StyledBadge badgeContent={favDishes} color="success">
+              <LinkStyled to={route.FAVORITE_DISHES}>
+                <StyledBadge
+                  badgeContent={favoriteDishes.length}
+                  color="success"
+                >
                   <FavoriteIcon sx={{ width: 30, height: 30 }} />
                 </StyledBadge>
-              </IconButtonStyled>
+              </LinkStyled>
             </ListItemStyled>
             <ListItemStyled>
-              <IconButtonStyled>
-                <StyledBadge badgeContent={dishesInCart} color="success">
-                  <ShoppingCartIcon sx={{ width: 30, height: 30 }} />
+              <LinkStyled to={route.FAVORITE_CHEFS}>
+                <StyledBadge
+                  badgeContent={favoriteChefs.length}
+                  color="success"
+                >
+                  <TbChefHat style={{ width: '30px', height: '30px' }} />
                 </StyledBadge>
-              </IconButtonStyled>
+              </LinkStyled>
             </ListItemStyled>
           </>
         )}
-
-        <ListItemStyled>
-          <IconButtonStyled
-            onClick={() => {
-              if (isAuth) {
-                dispatch(signOut());
-                toast.success('You have successfully signed out');
-              }
-            }}
-          >
-            <LogoutIcon sx={{ width: 30, height: 30 }} />
-          </IconButtonStyled>
-        </ListItemStyled>
       </ListStyled>
+      <ListStyled></ListStyled>
+      <ListItemStyled>
+        <IconButtonStyled
+          onClick={() => console.log('Повинна відкриватися корзина')}
+        >
+          <StyledBadge badgeContent={cart.length} color="success">
+            <ShoppingCartIcon sx={{ width: 30, height: 30 }} />
+          </StyledBadge>
+        </IconButtonStyled>
+      </ListItemStyled>
+      <ListItemStyled>
+        <IconButtonStyled
+          onClick={() => {
+            if (isAuth) {
+              dispatch(signOut());
+              toast.success('You have successfully signed out');
+            }
+          }}
+        >
+          <LogoutIcon sx={{ width: 30, height: 30 }} />
+        </IconButtonStyled>
+      </ListItemStyled>
     </>
   );
 };

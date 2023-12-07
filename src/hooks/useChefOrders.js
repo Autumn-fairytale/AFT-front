@@ -1,19 +1,15 @@
-import { toast } from 'react-toastify';
-
-import axios from 'axios';
-
+import { getChefOrders } from '@/api/getChefOrders';
 import { useQuery } from '@tanstack/react-query';
 
 const useChefOrder = (chefID) => {
   const fetchUserOrders = async () => {
     try {
-      // const URI = `http://localhost:4000/api/chefs/${chefID}`;
-      const URI = `http://localhost:4000/api/chefs/${chefID}/orders`;
-      const { data } = await axios.get(URI);
-      // console.log(data);
+      const data = await getChefOrders();
+
       return data;
     } catch (error) {
-      toast.error('Error fetching orders');
+      console.log('Error fetching orders');
+      // toast.error('Error fetching orders');
       throw error;
     }
   };

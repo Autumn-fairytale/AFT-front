@@ -6,6 +6,7 @@ import { FIELD_WIDTH } from '../../AddDishForm';
 import { AddDishFormFieldEndAdornment } from '../../AddDishFormFieldEndAdornment/AddDishFormFieldEndAdornment';
 import { FormattedNumberInput } from '../../FormattedNumberInput';
 import { HelperText } from '../../HelperText';
+import { AddDishFormSubmitGuidance } from './AddDishFormSubmitGuidance';
 
 export const AddDishFormStepFour = ({ control, errors }) => {
   const GramEndAdornment = <AddDishFormFieldEndAdornment text="g" />;
@@ -104,6 +105,7 @@ export const AddDishFormStepFour = ({ control, errors }) => {
           endAdornment={GramEndAdornment}
         />
       </Stack>
+      <AddDishFormSubmitGuidance />
     </>
   );
 };

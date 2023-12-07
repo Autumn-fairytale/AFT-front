@@ -1,6 +1,5 @@
 import { Divider } from '@mui/material';
 
-import config from '@/config';
 import { convertToMoney } from '@/helpers';
 import OrderInfoSummaryItem from './OrderInfoSummaryItem/OrderInfoSummaryItem';
 import { OrderSummaryPropTypes } from './OrderSummary.props';
@@ -17,12 +16,12 @@ const OrderSummary = ({ summary, ...props }) => {
         amount={convertToMoney(summary.subtotal)}
       />
       <OrderInfoSummaryItem
-        title={`Site commission (${config.taxPercent}%):`}
-        amount={convertToMoney(summary.tax)}
-      />
-      <OrderInfoSummaryItem
         title="Delivery service:"
         amount={convertToMoney(summary.delivery)}
+      />
+      <OrderInfoSummaryItem
+        title={`Tax:`}
+        amount={convertToMoney(summary.tax)}
       />
 
       <Divider />

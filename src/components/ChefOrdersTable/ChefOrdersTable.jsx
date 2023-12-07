@@ -1,24 +1,30 @@
 import { useCallback, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { GridRowEditStopReasons, GridRowModes } from '@mui/x-data-grid';
 
 import { chefsAmountAfterFee } from '@/helpers';
-import useChefOrder from '@/hooks/useChefOrders';
+import { selectUser } from '@/redux/auth/selectors';
+// import useChefOrder from '@/hooks/useChefOrders';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { formatDateForDataGrid } from '../../helpers/formatDateForDataGrid';
 import { CustomPagination } from '../TableComponents/Pagination';
 import { StatusCell } from '../TableComponents/StatusCell';
+import { ChefOrdersTablePropTypes } from './ChefOrdersTable.props';
 import { getActions } from './getActions';
 import { getStatusOptions } from './getChefStatusOptions';
 import { OrderItemsCell } from './OrderItemsCell';
 import { processRowUpdate } from './processRowUpdate';
 
-export const ChefOrdersTable = () => {
-  const chefID = '6557219bccbbbbc3695bc8b2';
-  const { data, isLoading, error } = useChefOrder(chefID);
+export const ChefOrdersTable = ({ getOrders, status, tableHeight }) => {
+  const user = useSelector(selectUser);
+  const chefID = user.roles.find((role) => role.name === 'chef').id;
+  //'656cff4d4125411c58aec41d';
+  //const { data, isLoading, error } = useChefOrder(chefID);
+  const { data, isLoading, error } = getOrders(chefID, status);
 
   const orders = data ? data : [];
-  // console.log(orders);
+
   const [rowModesModel, setRowModesModel] = useState({});
 
   const handleRowEditStop = (params, event) => {
@@ -62,7 +68,7 @@ export const ChefOrdersTable = () => {
   };
 
   const updateRow = async (newRow, oldRow) => {
-    return processRowUpdate(newRow, oldRow, chefID);
+    return processRowUpdate(newRow, oldRow);
   };
 
   const columns = useMemo(
@@ -150,9 +156,12 @@ export const ChefOrdersTable = () => {
             py: '15px',
           },
         }}
-        tableHeight="85vMin"
+        // tableHeight="85vMin"
+        tableHeight={tableHeight}
         pageSize={10}
       />
     </>
   );
 };
+
+ChefOrdersTable.propTypes = ChefOrdersTablePropTypes;

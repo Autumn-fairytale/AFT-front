@@ -24,6 +24,7 @@ import { DishOrderCardChefLink } from './DishOrderCardChefLink';
 import { DishOrderCardDescription } from './DishOrderCardDescription';
 import { DishOrderCardIngredients } from './DishOrderCardIngredients';
 import { DishOrderCardRating } from './DishOrderCardRating';
+import { DishOrderCardReview } from './DishOrderCardReview';
 import { DishOrderCardSpiceLevel } from './DishOrderCardSpiceLevel';
 import { DishOrderCardTabs } from './DishOrderCardTabs';
 import { DishOrderCardVeganBadge } from './DishOrderCardVeganBadge';
@@ -40,7 +41,7 @@ export const DishOrderCard = ({ dishId = '6571fb87d24ece5e6a7f23a4' }) => {
   useEffect(() => {
     if (!isLoading && cardRef.current) {
       const rect = cardRef.current.getBoundingClientRect();
-      console.log(rect);
+
       setOverlayPosition({ top: rect.top, left: rect.left });
     }
   }, [isLoading]);
@@ -58,16 +59,19 @@ export const DishOrderCard = ({ dishId = '6571fb87d24ece5e6a7f23a4' }) => {
   };
 
   useEffect(() => {
-    const card = cardRef.current;
-    if (card) {
-      card.addEventListener('scroll', handleScroll);
-    }
-    return () => {
+    if (!isLoading) {
+      const card = cardRef.current;
+
       if (card) {
-        card.removeEventListener('scroll', handleScroll);
+        card.addEventListener('scroll', handleScroll);
       }
-    };
-  }, []);
+      return () => {
+        if (card) {
+          card.removeEventListener('scroll', handleScroll);
+        }
+      };
+    }
+  }, [isLoading]);
 
   const handleTabChange = (_event, newValue) => {
     setTabValue(newValue);
@@ -92,7 +96,9 @@ export const DishOrderCard = ({ dishId = '6571fb87d24ece5e6a7f23a4' }) => {
         <StyledDishOrderCard ref={cardRef} raised elevation={0}>
           {isLoading && <LinearProgress />}
 
-          <StyledImageContainer overlayposition={overlayPosition} />
+          <StyledImageContainer
+            overlayposition={`top: ${overlayPosition.top}px; left: ${overlayPosition.left}px;`}
+          />
 
           <StyledAddDishOrderCardMedia
             component="img"
@@ -187,6 +193,8 @@ export const DishOrderCard = ({ dishId = '6571fb87d24ece5e6a7f23a4' }) => {
             <Divider sx={{ my: 1 }} />
             <DishOrderCardSpiceLevel spiceLevel={dish.spiceLevel} />
             <Divider sx={{ my: 1 }} />
+
+            <DishOrderCardReview />
           </CardContent>
         </StyledDishOrderCard>
         <Box sx={{ p: 1 }}>

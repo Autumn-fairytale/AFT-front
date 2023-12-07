@@ -5,13 +5,13 @@ import { styled } from '@mui/material/styles';
 
 export const StyledDishOrderCardWrapper = styled(Card)(() => ({
   maxWidth: 400,
-  height: 685,
+  height: 800,
   maxHeight: '85vh',
 }));
 
 export const StyledDishOrderCard = styled(Card)(({ theme }) => ({
   width: '100%',
-  height: 625,
+  height: 725,
   mb: 46,
   maxHeight: 'calc(85vh - 75px)',
   overflow: 'scroll',
@@ -28,16 +28,16 @@ export const StyledDishOrderCard = styled(Card)(({ theme }) => ({
   scrollbarColor: `${theme.palette.primary.main} ${theme.palette.primary.light}`,
 }));
 
-export const StyledImageContainer = styled(Box)(({ overlayposition }) => ({
-  position: 'fixed',
-  top: `${overlayposition.top}px`,
-  left: `${overlayposition.left}px`,
-  width: '396px',
-  height: '130px',
-  backgroundColor: 'white',
-  overflow: 'hidden',
-  zIndex: 500,
-}));
+export const StyledImageContainer = styled(Box)(() => {
+  return {
+    position: 'fixed',
+    width: '396px',
+    height: '130px',
+    backgroundColor: 'white',
+    overflow: 'hidden',
+    zIndex: 500,
+  };
+});
 
 export const StyledAddDishOrderCardMedia = styled(CardMedia)(
   ({ mediascale }) => ({

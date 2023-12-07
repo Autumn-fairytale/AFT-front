@@ -28,8 +28,8 @@ export const DishOrderCard = ({ dishId = '6564a4646cac257b0edf57bb' }) => {
   const { data: dish = {}, isLoading } = useFetchDish(dishId);
 
   const cardRef = useRef();
-  // const isVegan = dish?.isVegan;
-  const isVegan = true;
+  const isVegan = dish?.isVegan;
+  // const isVegan = true;
   const [overlayPosition, setOverlayPosition] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
@@ -88,12 +88,17 @@ export const DishOrderCard = ({ dishId = '6564a4646cac257b0edf57bb' }) => {
         maxHeight: '85vh',
         overflow: 'scroll',
         position: 'relative',
+        overflowX: 'hidden',
 
-        '::-webkit-scrollbar': {
-          display: 'none',
+        '&::-webkit-scrollbar': {
+          width: '4px',
+          backgroundColor: 'primary.light',
         },
-        scrollbarWidth: 'none',
-        msOverflowStyle: 'none',
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: 'primary.main',
+        },
+        scrollbarWidth: 'thin',
+        scrollbarColor: 'primary.main primary.light',
       }}
     >
       {isLoading && <LinearProgress />}
@@ -103,7 +108,7 @@ export const DishOrderCard = ({ dishId = '6564a4646cac257b0edf57bb' }) => {
           position: 'fixed',
           top: `${overlayPosition.top}px`,
           left: `${overlayPosition.left}px`,
-          width: '400px',
+          width: '396px',
           height: '130px',
           backgroundColor: 'white',
           overflow: 'hidden',
@@ -228,4 +233,4 @@ export const DishOrderCard = ({ dishId = '6564a4646cac257b0edf57bb' }) => {
   // console.log(dish);
 };
 
-DishOrderCard.propTypes = { dishId: PropTypes.string.isRequired };
+DishOrderCard.propTypes = { dishId: PropTypes.string };

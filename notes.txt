@@ -1,0 +1,22 @@
+    <Card
+      ref={cardRef}
+      raised
+      sx={{
+        maxWidth: 400,
+        height: 685,
+        maxHeight: '85vh',
+        overflow: 'scroll',
+        position: 'relative',
+        overflowX: 'hidden',
+
+        '&::-webkit-scrollbar': {
+          width: '4px',
+          backgroundColor: 'primary.light',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: 'primary.main',
+        },
+        scrollbarWidth: 'thin',
+        scrollbarColor: 'primary.main primary.light',
+      }}
+    >

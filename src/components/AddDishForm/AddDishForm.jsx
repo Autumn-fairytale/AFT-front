@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import PropTypes from 'prop-types';
@@ -40,6 +41,7 @@ import {
 export const FIELD_WIDTH = '400px';
 
 export const AddDishForm = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id: dishId } = useParams();
 
@@ -136,6 +138,8 @@ export const AddDishForm = () => {
         toast.success('Dish updated successfully!');
         setStep(1);
         reset();
+
+        navigate('/chef-account/dishes');
       } else {
         await dispatch(submitDishData(formData)).unwrap();
 
@@ -143,6 +147,8 @@ export const AddDishForm = () => {
 
         setStep(1);
         reset();
+
+        navigate('/chef-account/dishes');
       }
     } catch (error) {
       console.error('Submission failed:', error);

@@ -37,7 +37,7 @@ const CartItemTitle = ({ title, ...props }) => {
             <Backdrop {...props} style={{ opacity: isDefault ? 0 : 1 }} />
           )}
         >
-          {/* <DishOrderCard  /> */}
+          {/* <DishOrderCard /> */}
         </AppModal>
       )}
     </>

@@ -1,9 +1,10 @@
 import { getPopularDishes } from '@/api';
+import { queryKey } from '@/constants';
 import { useQuery } from '@tanstack/react-query';
 
 export const usePopularDishes = () => {
   const result = useQuery({
-    queryKey: ['popularDishes'],
+    queryKey: [queryKey.POPULAR_DISHES],
     queryFn: getPopularDishes,
   });
 

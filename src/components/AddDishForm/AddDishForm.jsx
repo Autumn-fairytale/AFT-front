@@ -43,6 +43,7 @@ export const FIELD_WIDTH = '400px';
 export const AddDishForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const { id: dishId } = useParams();
 
   const savedCurrentStep = useSelector(selectCurrentStep);
@@ -51,7 +52,7 @@ export const AddDishForm = () => {
 
   const [editMode, setEditMode] = useState(false);
 
-  const { data, isLoading, error } = useFetchDish(dishId);
+  const { data } = useFetchDish(dishId);
 
   const {
     register,
@@ -70,7 +71,7 @@ export const AddDishForm = () => {
   });
 
   useEffect(() => {
-    if (dishId && !isLoading && !error && data) {
+    if (dishId && data) {
       const ingredientIds = data.ingredients.map((ingredient) => ingredient.id);
       const owner = data.owner.id;
 
@@ -83,7 +84,7 @@ export const AddDishForm = () => {
       reset(formData);
       setEditMode(true);
     }
-  }, [dishId, data, isLoading, error, reset]);
+  }, [dishId, data, reset]);
 
   const savedFormData = useSelector(selectSavedFormData);
 

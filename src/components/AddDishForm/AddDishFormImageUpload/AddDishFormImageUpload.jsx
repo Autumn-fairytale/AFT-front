@@ -56,7 +56,8 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
   const { uploadToS3, isUploading } = useS3ImageUploader(
     fileInfo.name,
     fileInfo.type,
-    FOLDERS.DISHES
+    FOLDERS.DISHES,
+    fileInfo.fileSize
   );
 
   const fileInputRef = useRef();
@@ -72,14 +73,14 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
         maxSize: MAX_FILE_SIZE,
         validTypes: [FileType.IMAGE],
       });
-
+      console.log(file);
       if (!validation.isValid) {
         return;
       }
 
       setIsLoading(true);
 
-      setFileInfo({ name: file.name, type: file.type });
+      setFileInfo({ name: file.name, type: file.type, fileSize: file.size });
 
       const reader = new FileReader();
       reader.onloadend = () => {

@@ -1,9 +1,14 @@
 import { privateInstance } from './axios';
 
-export const getPresignedURL = async (fileName, fileType, category) => {
+export const getPresignedURL = async (
+  fileName,
+  fileType,
+  category,
+  fileSize
+) => {
   try {
     const response = await privateInstance.get(`/files/s3-presigned-url`, {
-      params: { fileName, fileType, category },
+      params: { fileName, fileType, category, fileSize },
     });
     return response.data.url;
   } catch (error) {

@@ -25,6 +25,8 @@ import {
 const DishCard = ({ dishInfo, isCarousel, isChef }) => {
   const [favorite, setFavorite] = useState(false);
 
+  const editPath = `/chef-account/dishes/edit/${dishInfo.id}`;
+  console.log(dishInfo);
   return (
     <DishCardWrapper isCarousel={isCarousel}>
       <DishImageWrapper>
@@ -33,10 +35,12 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
           src={dishInfo.image}
           alt={dishInfo.name}
           component="img"
+          width="300"
+          height="300"
         />
         <FavoriteButton isCarousel={isCarousel}>
           {isChef ? (
-            <Link to="/chef-account/dishes/create">
+            <Link to={editPath}>
               <IconButton>
                 <IoSettingsOutline />
               </IconButton>

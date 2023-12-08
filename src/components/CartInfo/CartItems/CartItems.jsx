@@ -1,13 +1,17 @@
 import { Fragment } from 'react';
 
-import { Box, Divider, Typography } from '@mui/material';
+import { Divider, Typography } from '@mui/material';
 
+import { useCartTypeContext } from '@/contexts/CartTypeContext';
 import CartItem from './CartItem';
 import { CartItemsPropTypes } from './CartItems.props';
+import { CartItemsBoxStyled } from './CartItems.styled';
 
 const CartItems = ({ data, ...props }) => {
+  const { isDefault } = useCartTypeContext();
+
   return (
-    <Box component="ul" {...props}>
+    <CartItemsBoxStyled component="ul" {...props} isDefault={isDefault}>
       {data?.length === 0 ? (
         <Typography>{"You didn't choose any dishes"}</Typography>
       ) : (
@@ -18,8 +22,7 @@ const CartItems = ({ data, ...props }) => {
           </Fragment>
         ))
       )}
-      {}
-    </Box>
+    </CartItemsBoxStyled>
   );
 };
 

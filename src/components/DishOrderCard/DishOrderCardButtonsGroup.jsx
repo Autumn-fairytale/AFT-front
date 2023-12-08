@@ -4,6 +4,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import {
   Button,
   ButtonGroup,
+  Card,
   IconButton,
   Stack,
   Typography,
@@ -16,7 +17,7 @@ export const DishOrderCardButtonsGroup = ({
   handleQuantityChange,
 }) => {
   return (
-    <Stack direction="row" spacing={1}>
+    <Stack direction="row" spacing={1} component={Card} elevation={5}>
       <ButtonGroup
         variant="contained"
         color="primary"

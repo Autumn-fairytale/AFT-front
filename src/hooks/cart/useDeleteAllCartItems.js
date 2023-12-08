@@ -14,7 +14,7 @@ export const useDeleteAllCartItems = () => {
   const result = useMutation({
     mutationFn: () => deleteAllCartItems(userId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: key });
+      // queryClient.invalidateQueries({ queryKey: key });
       queryClient.setQueryData(backupKey, null);
     },
     onMutate: () => {

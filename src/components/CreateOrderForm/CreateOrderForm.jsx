@@ -22,11 +22,11 @@ const CreateOrderForm = ({ data: cart }) => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm({
     defaultValues: {
       phoneNumber: user?.phoneNumber
-        ? addSpacesToPhoneNumber('+38(066)3334433')
+        ? addSpacesToPhoneNumber(user?.phoneNumber)
         : '',
       userName: user ? `${user?.firstName} ${user.lastName}` : '',
       email: user ? user.email : '',
@@ -65,7 +65,7 @@ const CreateOrderForm = ({ data: cart }) => {
   return (
     <>
       <CreateOrderFormStyled onSubmit={handleSubmit(formSubmitHandler)}>
-        <DeliveryInfo control={control} errors={errors} />
+        <DeliveryInfo control={control} />
         <OrderInfo data={cart} isSubmitting={isSubmitting} />
       </CreateOrderFormStyled>
     </>

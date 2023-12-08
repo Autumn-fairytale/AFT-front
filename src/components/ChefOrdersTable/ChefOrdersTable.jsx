@@ -1,10 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import { GridRowEditStopReasons, GridRowModes } from '@mui/x-data-grid';
 
-import { chefsAmountAfterFee } from '@/helpers';
-import { selectUser } from '@/redux/auth/selectors';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { formatDateForDataGrid } from '../../helpers/formatDateForDataGrid';
 import { CustomPagination } from '../TableComponents/Pagination';
@@ -15,10 +12,12 @@ import { getStatusOptions } from './getChefStatusOptions';
 import { OrderItemsCell } from './OrderItemsCell';
 import { processRowUpdate } from './processRowUpdate';
 
-export const ChefOrdersTable = ({ getOrders, status, tableHeight }) => {
-  const user = useSelector(selectUser);
-  const chefID = user.roles.find((role) => role.name === 'chef').id;
-  const { data, isLoading, error } = getOrders(chefID, status);
+
+export const ChefOrdersTable = ({
+  tableHeight,
+}) => {
+  const { data, isLoading, error } = useChefOrder();
+
 
   const orders = data ? data : [];
 
@@ -111,10 +110,10 @@ export const ChefOrdersTable = ({ getOrders, status, tableHeight }) => {
           ),
       },
       {
-        field: 'totalPrice',
+        field: 'summaryPrice',
         headerName: 'Your Profit',
         valueGetter: ({ value }) => {
-          return chefsAmountAfterFee(value) + ' ₴';
+          return value.chef + ' ₴';
         },
         cellClassName: 'boldCell',
         width: 200,

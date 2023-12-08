@@ -1,10 +1,10 @@
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 
 import imageError from '@/assets/images/error.svg';
 import imageNoData from '@/assets/images/no-data.svg';
 import imagePayment from '@/assets/images/payment-preparing.svg';
 import { PageMessagePropTypes } from './PageMessage.props';
-import { PageMessageStyled } from './PageMessage.styled';
+import { PageMessageImage, PageMessageStyled } from './PageMessage.styled';
 
 const images = {
   error: imageError,
@@ -12,16 +12,24 @@ const images = {
   payment: imagePayment,
 };
 
-const PageMessage = ({ image, message, variant, ...props }) => {
+const PageMessage = ({
+  image,
+  message,
+  variant,
+  imageProps,
+  messageProps,
+  ...props
+}) => {
   return (
     <PageMessageStyled {...props}>
-      <Box
+      <PageMessageImage
         component="img"
         src={image ? image : images[variant]}
         width={400}
         height={400}
+        {...imageProps}
       />
-      <Typography>{message}</Typography>
+      <Typography {...messageProps}>{message}</Typography>
     </PageMessageStyled>
   );
 };

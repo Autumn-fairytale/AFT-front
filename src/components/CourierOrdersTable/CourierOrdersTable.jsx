@@ -1,28 +1,26 @@
 import { useCallback, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { GridRowEditStopReasons, GridRowModes } from '@mui/x-data-grid';
 
+import { selectUser } from '@/redux/auth/selectors';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { formatDateForDataGrid } from '../../helpers/formatDateForDataGrid';
 import { CustomPagination } from '../TableComponents/Pagination';
 import { StatusCell } from '../TableComponents/StatusCell';
-import { ChefOrdersTablePropTypes } from './ChefOrdersTable.props';
+import { CourierOrdersTablePropTypes } from './ChefOrdersTable.props';
 import { getActions } from './getActions';
-import { getStatusOptions } from './getChefStatusOptions';
-import { OrderItemsCell } from './OrderItemsCell';
+import { getStatusOptions } from './getCourierStatusOptions';
 import { processRowUpdate } from './processRowUpdate';
 
-
-export const ChefOrdersTable = ({
-  tableHeight,
-}) => {
-  const { data, isLoading, error } = useChefOrder();
-
-
+export const CourierOrdersTable = ({ getOrders, status, tableHeight }) => {
+  const user = useSelector(selectUser);
+  const prop = status
+    ? status
+    : user.roles.find((role) => role.name === 'courier').id;
+  const { data, isLoading, error } = getOrders(prop);
   const orders = data ? data : [];
-
   const [rowModesModel, setRowModesModel] = useState({});
-  console.log(data);
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -113,17 +111,39 @@ export const ChefOrdersTable = ({
         field: 'summaryPrice',
         headerName: 'Your Profit',
         valueGetter: ({ value }) => {
-          return value.chef + ' ₴';
+          return value?.delivery + ' ₴';
         },
         cellClassName: 'boldCell',
         width: 200,
       },
-
       {
-        field: 'items',
-        headerName: 'Order items',
-        width: 250,
-        renderCell: OrderItemsCell,
+        field: 'deliveryInfo',
+        colId: 'address',
+        valueGetter: ({ value }) => {
+          if (!value) {
+            return value;
+          }
+          const address = `${value.address.country}, ${value.address.city}, 
+              ${value.address.street} ${value.address.houseNumber} 
+              ${value.address.apartment ? ', ' + value.address.apartment : ''}`;
+          return address;
+        },
+        headerName: 'Address',
+        flex: 0.5,
+        width: 200,
+      },
+      {
+        field: 'userInfo',
+        valueGetter: (row) => {
+          if (!row) {
+            return row;
+          }
+          const userInfo = `${row.row.deliveryInfo?.name}, ${row.row.deliveryInfo?.phoneNumber}`;
+          return userInfo;
+        },
+        headerName: 'User info',
+        colId: 'userInfo',
+        flex: 0.5,
       },
     ],
     [handleCancelClick, handleEditClick, handleSaveClick, rowModesModel]
@@ -153,7 +173,6 @@ export const ChefOrdersTable = ({
             py: '15px',
           },
         }}
-        // tableHeight="85vMin"
         tableHeight={tableHeight}
         pageSize={10}
       />
@@ -161,4 +180,4 @@ export const ChefOrdersTable = ({
   );
 };
 
-ChefOrdersTable.propTypes = ChefOrdersTablePropTypes;
+CourierOrdersTable.propTypes = CourierOrdersTablePropTypes;

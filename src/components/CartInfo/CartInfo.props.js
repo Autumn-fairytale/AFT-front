@@ -11,4 +11,5 @@ export const CartInfoPropTypes = {
     chef: CartChefInfoPropTypes.data,
     items: CartItemsPropTypes.data,
   }).isRequired,
+  type: PropTypes.oneOf(['default', 'in-order']),
 };

@@ -40,3 +40,15 @@ export const calcOrderSummary = (items, deliveryAmount) => {
     total,
   };
 };
+
+export const calcTotalQtyOfCartItems = (items, includeUnavailable = true) => {
+  const totalQty = items.reduce(
+    (acc, item) =>
+      includeUnavailable || item.dish.isAvailable
+        ? normalizeDecimal(acc + item.count)
+        : acc,
+    0
+  );
+
+  return totalQty;
+};

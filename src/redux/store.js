@@ -2,6 +2,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import { reducer as authReducer } from '@/redux/auth/slice';
+import cartStatusReducer from '@/redux/cartStatus/slice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import createDishReducer from './createDish/createDishSlice';
 
@@ -14,6 +15,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authReducer,
   createDish: createDishReducer,
+  cartStatus: cartStatusReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

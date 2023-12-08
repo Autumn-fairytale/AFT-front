@@ -11,7 +11,7 @@ export const DishOrderCardTabs = ({ tabValue, handleTabChange }) => {
         '.MuiTab-root': {
           minHeight: '36px',
           padding: 1,
-          margin: '0px',
+          margin: 0,
           textTransform: 'none',
         },
 

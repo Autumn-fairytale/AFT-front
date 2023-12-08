@@ -1,11 +1,19 @@
+/* eslint-disable react/prop-types */
 import { Link, Typography } from '@mui/material';
 
-export const DishOrderCardChefLink = () => {
+// eslint-disable-next-line no-unused-vars
+export const DishOrderCardChefLink = ({ lastName, firstName, _id }) => {
+  // console.log(id, 'maybe we need chef`s id');
   return (
     <Typography
       variant="body2"
       component="span"
-      sx={{ textDecoration: 'underline', color: 'primary.main' }}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        textDecoration: 'underline',
+        color: 'primary.main',
+      }}
     >
       <Link
         href="#"
@@ -20,7 +28,7 @@ export const DishOrderCardChefLink = () => {
           },
         }}
       >
-        by Chef Boris J.
+        by {firstName + ' ' + lastName}
       </Link>
     </Typography>
   );

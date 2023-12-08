@@ -112,7 +112,7 @@ export const ChefOrdersTable = ({
         field: 'summaryPrice',
         headerName: 'Your Profit',
         valueGetter: ({ value }) => {
-          return value?.chef + ' ₴';
+          return value.chef + ' ₴';
         },
         cellClassName: 'boldCell',
         width: 200,

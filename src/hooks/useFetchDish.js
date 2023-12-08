@@ -1,15 +1,18 @@
 import { toast } from 'react-toastify';
 
-import axios from 'axios';
-
+import { getDishById } from '@/api';
 import { useQuery } from '@tanstack/react-query';
 
 export const useFetchDish = (id) => {
-  const url = `http://localhost:4000/api/dishes/${id}`;
   const fetchData = async () => {
+    if (!id) {
+      return {
+        data: null,
+      };
+    }
+
     try {
-      const { data } = await axios.get(url);
-      //   console.log(data, 'data');
+      const data = await getDishById(id);
       return data;
     } catch (error) {
       toast.error('Error fetching data');
@@ -18,7 +21,7 @@ export const useFetchDish = (id) => {
   };
 
   return useQuery({
-    queryKey: ['dish', url],
+    queryKey: ['dish', id],
     queryFn: fetchData,
     options: {
       refetchOnWindowFocus: false,

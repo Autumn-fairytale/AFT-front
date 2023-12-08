@@ -15,10 +15,16 @@ import { BoxStyled, IconButtonStyled } from './AppModal.styled';
  * @returns {JSX.Element}
  */
 
-export const AppModal = ({ onClose, children, isOpen }) => {
+export const AppModal = ({
+  onClose,
+  children,
+  isOpen,
+  contentProps,
+  ...props
+}) => {
   return (
-    <Modal keepMounted open={isOpen} onClose={onClose}>
-      <BoxStyled>
+    <Modal keepMounted open={isOpen} onClose={onClose} {...props}>
+      <BoxStyled {...contentProps}>
         <IconButtonStyled
           aria-label="close"
           color="secondary"

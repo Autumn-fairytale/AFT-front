@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, useFormState, useWatch } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -37,10 +37,14 @@ const SigUpForm = () => {
   const isSameData = useIsSameData(); // did user change field data after unsuccessful submission?
 
   const dispatch = useDispatch();
-  const { handleSubmit, control, reset } = useForm({
+  const { handleSubmit, setFocus, control, reset } = useForm({
     resolver: zodResolver(signUpSchema),
     defaultValues,
   });
+
+  useEffect(() => {
+    setFocus('firstName');
+  }, []);
 
   const passwordValue = useWatch({
     control,
@@ -62,7 +66,7 @@ const SigUpForm = () => {
         toast.success('You have successfully signed up');
       })
       .catch((error) => {
-        const errorText = getError(error.message);
+        const errorText = getError(error.statusCode);
         toast.error(errorText);
         setFormError(errorText);
       });

@@ -146,6 +146,10 @@ const AppRouter = () => {
               path={route.CHEF_CREATE_DISH}
               element={<ChefCreateDishPage />}
             />
+            <Route
+              path={route.CHEF_EDIT_DISH}
+              element={<ChefCreateDishPage />}
+            />
             <Route path=":dishId" element={<ChefDishInfoPage />} />
           </Route>
         </Route>

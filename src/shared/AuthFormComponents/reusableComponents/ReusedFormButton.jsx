@@ -7,7 +7,6 @@ export const ReusedSubmitButton = ({ label, styles, ...other }) => (
     type="submit"
     label={label}
     variant="contained"
-    disableElevation={true}
     sx={{ ...styles }}
     {...other}
   />

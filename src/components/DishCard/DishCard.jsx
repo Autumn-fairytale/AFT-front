@@ -33,6 +33,8 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
           src={dishInfo.image}
           alt={dishInfo.name}
           component="img"
+          width="300"
+          height="300"
         />
         <FavoriteButton isCarousel={isCarousel}>
           {isChef ? (

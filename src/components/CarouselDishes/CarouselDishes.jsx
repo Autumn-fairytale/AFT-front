@@ -5,8 +5,8 @@ import { CarouselDishesPropTypes } from './CarouselDishes.props';
 export const CarouselDishes = ({ data }) => {
   return (
     <AppCarousel>
-      {data.map((item, index) => (
-        <DishCard key={index} dishInfo={item} isCarousel={true} />
+      {data.map((item) => (
+        <DishCard key={item._id} dishInfo={item} isCarousel={true} />
       ))}
     </AppCarousel>
   );

@@ -1,26 +1,13 @@
 import InfiniteScroll from 'react-infinite-scroll-component';
 
+import Typography from '@mui/material/Typography';
+
 import styled from '@emotion/styled';
 
-export const ReviewsListStyled = styled.ul`
-  display: flex;
-  flex-direction: column;
-
-  width: 100%;
-  padding: 16px;
-
-  & > :not(:last-child) {
-    border-bottom: 1px solid grey;
-  }
-
-  & > :nth-of-type(even) {
-    background-color: #eff0f0;
-  }
-`;
-
-export const TitleWrapper = styled.div`
-  border-bottom: 1px solid #ff7622;
-  margin-bottom: 12px;
+export const TypographyStyled = styled(Typography)`
+  margin-top: 16px;
+  text-align: center;
+  font-weight: 600;
 `;
 
 export const InfiniteScrollStyled = styled(InfiniteScroll)`
@@ -39,4 +26,17 @@ export const InfiniteScrollStyled = styled(InfiniteScroll)`
     border-radius: 8px;
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
   }
+`;
+
+export const SkeletonCardItem = styled.li`
+  min-height: 500px;
+  max-height: 100%;
+`;
+
+export const SkeletonWrapper = styled.ul`
+  padding: 24px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: auto;
+  gap: 24px;
 `;

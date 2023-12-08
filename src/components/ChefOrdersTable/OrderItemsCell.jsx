@@ -45,7 +45,7 @@ export const OrderItemsCell = ({ value }) => {
             }}
           >
             <ListItemText
-              primary={item.name}
+              primary={item.dishId.name}
               secondary={`pcs: ${item.count}`}
             />
           </ListItem>

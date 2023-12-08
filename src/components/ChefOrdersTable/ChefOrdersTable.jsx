@@ -1,11 +1,9 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
 
+// import { useSelector } from 'react-redux';
 import { GridRowEditStopReasons, GridRowModes } from '@mui/x-data-grid';
 
-import { chefsAmountAfterFee } from '@/helpers';
-import { selectUser } from '@/redux/auth/selectors';
-// import useChefOrder from '@/hooks/useChefOrders';
+import useChefOrder from '@/hooks/useChefOrders';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { formatDateForDataGrid } from '../../helpers/formatDateForDataGrid';
 import { CustomPagination } from '../TableComponents/Pagination';
@@ -16,12 +14,16 @@ import { getStatusOptions } from './getChefStatusOptions';
 import { OrderItemsCell } from './OrderItemsCell';
 import { processRowUpdate } from './processRowUpdate';
 
-export const ChefOrdersTable = ({ getOrders, status, tableHeight }) => {
-  const user = useSelector(selectUser);
-  const chefID = user.roles.find((role) => role.name === 'chef').id;
+export const ChefOrdersTable = ({
+  // getOrders,
+  // status,
+  tableHeight,
+}) => {
+  // const user = useSelector(selectUser);
+  // const chefID = user.roles.find((role) => role.name === 'chef').id;
   //'656cff4d4125411c58aec41d';
-  //const { data, isLoading, error } = useChefOrder(chefID);
-  const { data, isLoading, error } = getOrders(chefID, status);
+  const { data, isLoading, error } = useChefOrder();
+  // const { data, isLoading, error } = getOrders(chefID, status);
 
   const orders = data ? data : [];
 
@@ -113,10 +115,10 @@ export const ChefOrdersTable = ({ getOrders, status, tableHeight }) => {
           ),
       },
       {
-        field: 'totalPrice',
+        field: 'summaryPrice',
         headerName: 'Your Profit',
         valueGetter: ({ value }) => {
-          return chefsAmountAfterFee(value) + ' ₴';
+          return value.chef + ' ₴';
         },
         cellClassName: 'boldCell',
         width: 200,

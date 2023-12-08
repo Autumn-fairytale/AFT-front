@@ -2,9 +2,11 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { getDishes } from '@/api/getDishes';
+import NoFoundDish from '@/assets/images/Dishes_page/NoDishesFound.png';
 import { DishCardSkeleton } from '@/components/DishCardSkeleton/DishCardSkeleton';
 import DishesList from '@/components/DishesList/DishesList';
 import { DishesFilter } from '@/components/DishesSearchBar/DishesSearchBar';
+import PageMessage from '@/components/PageMessage/PageMessage';
 import { AppContainer } from '@/shared';
 import { Main } from '@/shared/Main/Main';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -89,10 +91,11 @@ const DishesPage = () => {
             ))}
           </SkeletonWrapper>
         ) : qtyDishes === 0 ? (
-          <h1>
-            Uh-oh! It looks like the dish of your dreams is playing hide. No
-            luck this time. Maybe You need to tweak your search criteria.
-          </h1>
+          <PageMessage
+            image={NoFoundDish}
+            message="Uh-oh! It looks like the dish of your dreams is playing hide. No
+            luck this time. Maybe You need to tweak your search criteria."
+          ></PageMessage>
         ) : (
           <InfiniteScrollStyled
             dataLength={qtyDishes}

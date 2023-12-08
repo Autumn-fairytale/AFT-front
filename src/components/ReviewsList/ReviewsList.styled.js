@@ -18,11 +18,6 @@ export const ReviewsListStyled = styled.ul`
   }
 `;
 
-export const TitleWrapper = styled.div`
-  border-bottom: 1px solid #ff7622;
-  margin-bottom: 12px;
-`;
-
 export const InfiniteScrollStyled = styled(InfiniteScroll)`
   ::-webkit-scrollbar {
     width: 10px;
@@ -39,4 +34,19 @@ export const InfiniteScrollStyled = styled(InfiniteScroll)`
     border-radius: 8px;
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
   }
+`;
+
+export const SkeletonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+
+export const NoReviewsMessage = styled.div`
+  height: 100%;
+  width: 100%;
+  margin-top: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

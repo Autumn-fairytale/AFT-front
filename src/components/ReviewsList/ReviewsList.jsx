@@ -13,9 +13,12 @@ import ReviewsItem from '../ReviewsItem/ReviewsItem';
 import { ReviewsListProps } from './ReviewsList.props';
 import {
   InfiniteScrollStyled,
+  NoReviewsMessage,
   ReviewsListStyled,
-  TitleWrapper,
+  SkeletonWrapper,
 } from './ReviewsList.styled';
+
+import styles from './InfiniteScroll.css';
 
 export const ReviewsList = ({ dishId }) => {
   const [totalPages, setTotalPage] = useState(null);
@@ -43,43 +46,40 @@ export const ReviewsList = ({ dishId }) => {
     ?.map((item) => item.reviews.map((review) => review))
     .reduce((acc, item) => acc + item.length, 0);
 
-  console.log('qtyReviews:', qtyReviews);
   return (
     <>
-      <TitleWrapper>
-        <Typography variant="h6" style={{ lineHeight: '1.2' }}>
-          Reviews
-        </Typography>
-      </TitleWrapper>
-      {/* Check if data is loading */}
-      {isLoading &&
-        Array.from({ length: 4 }).map((_, index) => (
-          <Box
-            sx={{
-              margin: 1,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 4,
-              pl: 4,
-              pr: 5,
-              m: 0,
-            }}
-            key={index}
-          >
-            <Skeleton variant="circular" sx={{ height: 40, width: 40 }}>
-              <Avatar />
-            </Skeleton>
-            <Skeleton animation="wave" height={60} width="100%" />
-          </Box>
-        ))}
+      {isLoading && (
+        <SkeletonWrapper>
+          {Array.from({ length: 4 }).map((_, index) => (
+            <Box
+              sx={{
+                margin: 1,
+                display: 'flex',
+
+                alignItems: 'center',
+                gap: 4,
+                pl: 4,
+                pr: 5,
+                m: 0,
+              }}
+              key={index}
+            >
+              <Skeleton variant="circular" sx={{ height: 40, width: 40 }}>
+                <Avatar />
+              </Skeleton>
+              <Skeleton animation="wave" height={60} width="100%" />
+            </Box>
+          ))}
+        </SkeletonWrapper>
+      )}
       {/* Check if reviews are available */}
-      {qtyReviews > 0 && (
+      {data && qtyReviews > 0 && !isLoading && (
         <InfiniteScrollStyled
           dataLength={qtyReviews}
           scrollThreshold={0.8}
           next={() => fetchNextPage()}
           hasMore={hasNextPage}
-          height={500}
+          height="900px"
         >
           <ReviewsListStyled>
             {data?.pages?.map((item) =>
@@ -89,6 +89,22 @@ export const ReviewsList = ({ dishId }) => {
             )}
           </ReviewsListStyled>
         </InfiniteScrollStyled>
+      )}
+
+      {data && qtyReviews === 0 && !isLoading && (
+        <NoReviewsMessage>
+          <Typography variant="h5" component="p">
+            No reviews have been posted yet. <br />
+            Be the first one to share your thoughts!
+          </Typography>
+        </NoReviewsMessage>
+      )}
+      {!data && !isLoading && (
+        <NoReviewsMessage>
+          <Typography variant="h5" component="p">
+            Dish not found
+          </Typography>
+        </NoReviewsMessage>
       )}
     </>
   );

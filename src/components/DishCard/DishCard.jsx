@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { IconButton } from '@mui/material';
 
 import { customColors } from '@/constants';
+import { useAddCartItem } from '@/hooks/cart/useAddCartItem';
 import AppButton from '@/shared/Buttons/AppButton';
 import { defaultDishCardPropTypes, DishCardPropTypes } from './DishCard.props';
 import {
@@ -24,9 +25,21 @@ import {
 
 const DishCard = ({ dishInfo, isCarousel, isChef }) => {
   const [favorite, setFavorite] = useState(false);
+  const { mutate: addCartItem, isLoading } = useAddCartItem();
+
+  const handleAddToCart = () => {
+    const cartItemData = {
+      item: {
+        dishId: dishInfo._id,
+        count: 1,
+      },
+    };
+
+    addCartItem(cartItemData);
+  };
 
   const editPath = `/chef-account/dishes/edit/${dishInfo.id}`;
-  console.log(dishInfo);
+
   return (
     <DishCardWrapper isCarousel={isCarousel}>
       <DishImageWrapper>
@@ -89,8 +102,9 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
               'Add to Cart'
             )
           }
+          onClick={!isChef ? handleAddToCart : null}
           endIcon={isCarousel ? '' : <FiShoppingCart />}
-          disable={isChef ? 'true' : 'false'}
+          disabled={isChef || isLoading}
         />
       </ButtonsWrapper>
     </DishCardWrapper>

@@ -13,3 +13,5 @@ export { default as AppImage } from './AppImage';
 export { default as AppLoader } from './AppLoader';
 export { default as AppNumberInput } from './AppNumberInput';
 export { default as AppSelect } from './Selects/BasicSelect/AppSelect';
+/* Modal window */
+export { AppModal } from './AppModal/AppModal';

@@ -1,29 +1,39 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 
 import debounce from 'lodash.debounce';
 
+import { useCartTypeContext } from '@/contexts/CartTypeContext';
 import { convertToMoney } from '@/helpers';
 import {
   useCartOptimisticUpdate,
   useDeleteCartItem,
   useUpdateCartItemById,
 } from '@/hooks';
-import { AppImage, AppNumberInput } from '@/shared';
-import { AppSpiceLevel } from '@/shared/AppSpiceLevel/AppSpiceLevel';
+import { AppNumberInput } from '@/shared';
+import { useTheme } from '@emotion/react';
 import { CartItemPropTypes } from './CartItem.props';
 import {
   CartItemBodyStyled,
   CartItemContainer,
   CartItemStyled,
 } from './CartItem.styled';
+import {
+  CartItemDescription,
+  CartItemImage,
+  CartItemTags,
+} from './CartItemDetails/CartItemDetails';
 import CartItemRemoveButton from './CartItemRemoveButton';
 import CartItemTitle from './CartItemTitle';
 
 const CartItem = ({ data, ...props }) => {
   const { dish, count } = data;
+  const { name, price, description, isAvailable } = dish;
   const [itemCount, setItemCount] = useState(count);
+
+  const { isDefault } = useCartTypeContext();
+  const theme = useTheme();
 
   const { mutate: updateCart } = useUpdateCartItemById();
   const { mutate: deleteCart } = useDeleteCartItem();
@@ -55,22 +65,32 @@ const CartItem = ({ data, ...props }) => {
   }, [count]);
 
   return (
-    <CartItemStyled {...props}>
-      <CartItemRemoveButton name={dish.name} id={dish.id} />
-      <CartItemContainer isAvailable={dish.isAvailable}>
-        <AppImage src={dish.image} alt={dish.name} />
+    <CartItemStyled {...props} isDefault={isDefault}>
+      {/* DELETE DISH */}
+      <CartItemRemoveButton name={name} id={dish.id} />
+
+      <CartItemContainer isAvailable={isAvailable} isDefault={isDefault}>
+        {/* DISH IMAGE */}
+        <CartItemImage isDefault={isDefault} dish={dish} />
+
         <CartItemBodyStyled>
-          <CartItemTitle title={dish.name} />
+          {/* NAME AND PRICE */}
+          <CartItemTitle title={name} />
           <Typography sx={{ fontStyle: 'italic' }}>
-            {convertToMoney(dish.price)}
+            {convertToMoney(price)}
           </Typography>
 
-          {dish.spiceLevel > 0 && (
-            <Box sx={{ marginTop: 'auto' }}>
-              <AppSpiceLevel value={dish.spiceLevel} />
-            </Box>
-          )}
+          {/* DESCRIPTION */}
+          <CartItemDescription
+            isDefault={isDefault}
+            description={description}
+          />
+
+          {/* SPICE LEVEL, CATEGORY, CUISINE */}
+          <CartItemTags isDefault={isDefault} dish={dish} theme={theme} />
         </CartItemBodyStyled>
+
+        {/* CHANGE QTY */}
         <AppNumberInput
           value={itemCount}
           onChange={changeCount}

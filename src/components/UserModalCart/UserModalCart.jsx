@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIsHidden, selectIsOpen } from '@/redux/cartStatus/selectors';
 import { closeUserCart } from '@/redux/cartStatus/slice';
 import { AppModal } from '@/shared';
-import ModalContent from './ModalContent/ModalContent';
+// import ModalContent from './ModalContent/ModalContent';
 import { modalStyles } from './UserModalCart.styled';
 
 const UserModalCart = () => {
@@ -21,7 +21,7 @@ const UserModalCart = () => {
       onClose={onClose}
       contentProps={{ style: { ...modalStyles, opacity: isHidden ? 0 : 1 } }}
     >
-      <ModalContent />
+      {/* <ModalContent /> */}
     </AppModal>
   );
 };

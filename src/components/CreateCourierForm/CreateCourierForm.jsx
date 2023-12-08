@@ -45,7 +45,7 @@ const CreateCourierForm = () => {
       if (user.roles.find((role) => role.name === 'courier')) {
         const courierId = user.roles.find((role) => role.name === 'courier').id;
         try {
-          const courierData = await getCourierById(courierId);
+          const courierData = await getCourierById({ courierId });
           reset({
             userId: userId,
             avatar: courierData.avatar,
@@ -56,7 +56,6 @@ const CreateCourierForm = () => {
             vehicleType: courierData.vehicleType,
             liqpayKey: courierData.liqpayKey,
           });
-
           setCourier(courierData);
         } catch (error) {
           console.error('Error fetching courier data:', error);
@@ -82,8 +81,8 @@ const CreateCourierForm = () => {
       console.log(result);
       if (user.roles.find((role) => role.name === 'courier')) {
         await updateCourier(
-          result
-          // user.roles.find((role) => role.name === 'chef').id
+          result,
+          user.roles.find((role) => role.name === 'courier').id
         );
       } else {
         await createCourier(result);
@@ -105,7 +104,7 @@ const CreateCourierForm = () => {
       <AppButton
         label="Submit"
         type="submit"
-        sx={{ width: '400px', margin: '10px auto 50px auto', display: 'block' }}
+        sx={{ width: '400px', margin: '20px auto 50px auto', display: 'block' }}
       />
     </form>
   );

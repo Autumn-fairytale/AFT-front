@@ -1,27 +1,27 @@
 import styled from '@emotion/styled';
 
-export const ChefProfileWrapper = styled('div')(() => ({
+export const ProfileWrapper = styled('div')(() => ({
   display: 'grid',
   gridTemplateColumns: '1fr 2fr',
-  margin: '20px 150px 30px 150px',
-}));
-
-export const ChefInfoWrapper = styled('div')(() => ({
+  margin: '20px 150px 30px 200px',
   alignItems: 'center',
 }));
 
-export const FavoriteButton = styled('div')(() => ({
+export const InfoWrapper = styled('div')(() => ({
+  alignItems: 'center',
+}));
+
+export const ButtonIcon = styled('div')(() => ({
   display: 'flex',
   justifyContent: 'end',
   gap: '5px',
 }));
 
-export const ChefName = styled('h1')(() => ({
+export const Name = styled('h1')(() => ({
   fontFamily: 'Inter',
 }));
 
-export const Location = styled('div')(() => ({}));
-export const ChefLocation = styled('span')(() => ({
+export const Location = styled('span')(() => ({
   display: 'flex',
   fontSize: '20px',
 }));

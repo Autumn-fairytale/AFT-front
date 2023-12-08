@@ -9,7 +9,7 @@ import { ChefOrdersTable } from '@/components/ChefOrdersTable';
 import ChefProfile from '@/components/Profiles/ChefProfile/ChefProfile';
 import { route } from '@/constants';
 import { addSpacesToPhoneNumber } from '@/helpers';
-import useChefOrdersByStatus from '@/hooks/useChefOrdersByStatus';
+import useChefOrdersByStatus from '@/hooks/chef/useChefOrdersByStatus';
 import { selectUser } from '@/redux/auth/selectors';
 import { Main } from '@/shared/Main/Main';
 
@@ -18,6 +18,14 @@ const ChefAccountPage = () => {
   const chefId = user.roles.find((role) => role.name === 'chef').id;
 
   const [chefInfo, setChefInfo] = useState();
+  const { data, isLoading, error, refetch } = useChefOrdersByStatus('pending');
+  const [status, setStatus] = useState('pending');
+  const refetchData = () => {
+    setStatus('accepted');
+  };
+  useEffect(() => {
+    refetch();
+  }, [status]);
 
   useEffect(() => {
     const fetchChefData = async () => {
@@ -42,7 +50,7 @@ const ChefAccountPage = () => {
 
   return (
     <Main>
-      <ChefProfile chefInfo={chefInfo} isChef={true} />
+      {chefInfo && <ChefProfile chefInfo={chefInfo} isChef={true} />}
 
       <Box
         style={{
@@ -91,9 +99,11 @@ const ChefAccountPage = () => {
           </Link>
         </Box>
         <ChefOrdersTable
-          getOrders={useChefOrdersByStatus}
-          status="pending"
+          data={data}
+          error={error}
+          isLoading={isLoading}
           tableHeight="auto"
+          refetchData={refetchData}
         />
       </Box>
     </Main>

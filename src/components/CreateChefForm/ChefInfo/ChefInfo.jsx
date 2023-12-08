@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 
 import AddressForm from '@/components/AddressForm/AddressForm';
-import { ChefInfoWrapper } from '@/components/Profiles/ChefProfile/ChefProfile.styled';
+//import { ChefInfoWrapper } from '@/components/Profiles/ChefProfile/ChefProfile.styled';
 import { FOLDERS } from '@/constants/mocks';
 import { AppPhoneInput, AppSelect, AppTextInput } from '@/shared';
 import { UploadChefFiles } from '../UploadChefFiles/UploadChefFiles';
 import { ChefInfoPropTypes } from './ChefInfo.props';
 import {
   ChefFieldsWrapper,
+  ChefInfoWrapper,
   FieldWrapper,
   InfoWrapper,
 } from './ChefInfo.styled';

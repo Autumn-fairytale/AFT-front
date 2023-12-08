@@ -1,10 +1,11 @@
 import { Box, Typography } from '@mui/material';
 
 import { ChefOrdersTable } from '@/components/ChefOrdersTable';
-import useChefOrder from '@/hooks/useChefOrders';
+import useChefOrder from '@/hooks/chef/useChefOrders';
 import { Main } from '@/shared/Main/Main';
 
 const ChefOrdersPage = () => {
+  const { data, isLoading, error } = useChefOrder();
   return (
     <Main style={{ display: 'flex', justifyContent: 'center' }}>
       <Box
@@ -32,7 +33,12 @@ const ChefOrdersPage = () => {
           margin: '20px 60px',
         }}
       >
-        <ChefOrdersTable getOrders={useChefOrder} tableHeight="85vMin" />
+        <ChefOrdersTable
+          data={data}
+          error={error}
+          isLoading={isLoading}
+          tableHeight="85vMin"
+        />
       </Box>
     </Main>
   );

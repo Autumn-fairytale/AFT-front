@@ -1,10 +1,8 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import { GridRowEditStopReasons, GridRowModes } from '@mui/x-data-grid';
 
 import { chefsAmountAfterFee } from '@/helpers';
-import { selectUser } from '@/redux/auth/selectors';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { formatDateForDataGrid } from '../../helpers/formatDateForDataGrid';
 import { CustomPagination } from '../TableComponents/Pagination';
@@ -15,15 +13,16 @@ import { getStatusOptions } from './getChefStatusOptions';
 import { OrderItemsCell } from './OrderItemsCell';
 import { processRowUpdate } from './processRowUpdate';
 
-export const ChefOrdersTable = ({ getOrders, status, tableHeight }) => {
-  const user = useSelector(selectUser);
-  const chefID = user.roles.find((role) => role.name === 'chef').id;
-  const { data, isLoading, error } = getOrders(chefID, status);
-
+export const ChefOrdersTable = ({
+  data,
+  error,
+  isLoading,
+  tableHeight,
+  refetchData,
+}) => {
   const orders = data ? data : [];
 
   const [rowModesModel, setRowModesModel] = useState({});
-  console.log(data);
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -66,7 +65,7 @@ export const ChefOrdersTable = ({ getOrders, status, tableHeight }) => {
   };
 
   const updateRow = async (newRow, oldRow) => {
-    return processRowUpdate(newRow, oldRow);
+    return processRowUpdate(newRow, oldRow, refetchData);
   };
 
   const columns = useMemo(
@@ -154,7 +153,6 @@ export const ChefOrdersTable = ({ getOrders, status, tableHeight }) => {
             py: '15px',
           },
         }}
-        // tableHeight="85vMin"
         tableHeight={tableHeight}
         pageSize={10}
       />

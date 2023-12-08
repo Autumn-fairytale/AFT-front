@@ -1,24 +1,23 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import { GridRowEditStopReasons, GridRowModes } from '@mui/x-data-grid';
 
-import { selectUser } from '@/redux/auth/selectors';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { formatDateForDataGrid } from '../../helpers/formatDateForDataGrid';
 import { CustomPagination } from '../TableComponents/Pagination';
 import { StatusCell } from '../TableComponents/StatusCell';
-import { CourierOrdersTablePropTypes } from './ChefOrdersTable.props';
+import { CourierOrdersTablePropTypes } from './CourierOrdersTable.props';
 import { getActions } from './getActions';
 import { getStatusOptions } from './getCourierStatusOptions';
 import { processRowUpdate } from './processRowUpdate';
 
-export const CourierOrdersTable = ({ getOrders, status, tableHeight }) => {
-  const user = useSelector(selectUser);
-  const prop = status
-    ? status
-    : user.roles.find((role) => role.name === 'courier').id;
-  const { data, isLoading, error } = getOrders(prop);
+export const CourierOrdersTable = ({
+  tableHeight,
+  data,
+  error,
+  isLoading,
+  refetchData,
+}) => {
   const orders = data ? data : [];
   const [rowModesModel, setRowModesModel] = useState({});
 
@@ -63,7 +62,7 @@ export const CourierOrdersTable = ({ getOrders, status, tableHeight }) => {
   };
 
   const updateRow = async (newRow, oldRow) => {
-    return processRowUpdate(newRow, oldRow);
+    return processRowUpdate(newRow, oldRow, refetchData);
   };
 
   const columns = useMemo(

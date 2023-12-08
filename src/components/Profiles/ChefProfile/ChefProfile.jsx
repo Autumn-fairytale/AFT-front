@@ -20,18 +20,18 @@ import { Avatar, Divider, IconButton, Rating } from '@mui/material';
 import { customColors, route } from '@/constants';
 import { AppButton } from '@/shared';
 import { AppModal } from '@/shared/AppModal/AppModal';
-import { ChefProfilePropTypes } from './ChefProfile.props';
 import {
+  ButtonIcon,
   ChefButtonsWrapper,
   ChefCertificate,
-  ChefInfoWrapper,
-  ChefLocation,
-  ChefName,
-  ChefProfileWrapper,
-  FavoriteButton,
+  InfoWrapper,
+  Location,
+  Name,
+  ProfileWrapper,
   RateValue,
   RateWrapper,
-} from './ChefProfile.styled';
+} from '../Profile.styled';
+import { ChefProfilePropTypes } from './ChefProfile.props';
 
 const ChefProfile = ({ chefInfo, isChef }) => {
   const [favorite, setFavorite] = useState(false);
@@ -47,14 +47,14 @@ const ChefProfile = ({ chefInfo, isChef }) => {
 
   return (
     <>
-      <ChefProfileWrapper>
+      <ProfileWrapper>
         <Avatar
           alt={chefInfo?.name}
           src={chefInfo?.avatar}
           sx={{ width: 270, height: 270 }}
         />
-        <ChefInfoWrapper>
-          <FavoriteButton>
+        <InfoWrapper>
+          <ButtonIcon>
             <IconButton onClick={() => setIsModalOpen(true)}>
               <PiCertificate />
             </IconButton>
@@ -78,23 +78,23 @@ const ChefProfile = ({ chefInfo, isChef }) => {
                 <IoTrashOutline />
               </IconButton>
             )}
-          </FavoriteButton>
-          <ChefName>{chefInfo?.name}</ChefName>
+          </ButtonIcon>
+          <Name>{chefInfo?.name}</Name>
 
-          <ChefLocation>
+          <Location>
             <IoLocationOutline
               style={{
-                fontSize: '24px',
+                fontSize: '22px',
                 marginRight: '10px',
                 marginTop: '2px',
               }}
             />
             {chefInfo?.address.country + ', ' + chefInfo?.address.city}
-          </ChefLocation>
+          </Location>
 
           {isChef && (
             <>
-              <ChefLocation style={{ marginTop: '10px' }}>
+              <Location style={{ marginTop: '10px' }}>
                 <IoHomeOutline
                   style={{
                     fontSize: '22px',
@@ -107,21 +107,21 @@ const ChefProfile = ({ chefInfo, isChef }) => {
                   chefInfo?.address.houseNumber +
                   ', ' +
                   chefInfo?.address.apartment}
-              </ChefLocation>
-              <ChefLocation style={{ marginTop: '20px' }}>
+              </Location>
+              <Location style={{ marginTop: '20px' }}>
                 <PiPhoneCall
                   style={{
-                    fontSize: '22px',
+                    fontSize: '24px',
                     marginRight: '10px',
                     marginTop: '2px',
                   }}
                 />
                 {chefInfo?.phoneNumber}
-              </ChefLocation>
-              <ChefLocation style={{ marginTop: '20px' }}>
+              </Location>
+              <Location style={{ marginTop: '20px' }}>
                 Account status
                 {': ' + chefInfo?.accountStatus}
-              </ChefLocation>
+              </Location>
             </>
           )}
           {!isChef && (
@@ -161,8 +161,8 @@ const ChefProfile = ({ chefInfo, isChef }) => {
               alt={`${chefInfo?.name}-certificate`}
             />
           </AppModal>
-        </ChefInfoWrapper>
-      </ChefProfileWrapper>
+        </InfoWrapper>
+      </ProfileWrapper>
       <Divider />
     </>
   );

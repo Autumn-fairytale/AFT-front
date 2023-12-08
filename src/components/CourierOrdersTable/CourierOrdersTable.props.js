@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
 
-export const ChefOrdersTablePropTypes = {
+export const CourierOrdersTablePropTypes = {
   tableHight: PropTypes.string,
 };

@@ -5,7 +5,6 @@ export const ChefInfoWrapper = styled('div')(() => ({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  textAlign: 'center',
 }));
 
 export const InfoWrapper = styled('div')(() => ({
@@ -13,6 +12,7 @@ export const InfoWrapper = styled('div')(() => ({
   display: 'grid',
   gridTemplateColumns: '1fr 1fr',
   justifyItems: 'center',
+  gap: '50px',
 }));
 
 export const ChefFieldsWrapper = styled('div')(() => ({

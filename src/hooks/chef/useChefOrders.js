@@ -1,7 +1,7 @@
 import { getChefOrders } from '@/api/getChefOrders';
 import { useQuery } from '@tanstack/react-query';
 
-const useChefOrder = (chefID) => {
+const useChefOrder = () => {
   const fetchUserOrders = async () => {
     try {
       const data = await getChefOrders();
@@ -15,7 +15,7 @@ const useChefOrder = (chefID) => {
   };
 
   return useQuery({
-    queryKey: ['orders', chefID],
+    queryKey: ['orders'],
     queryFn: fetchUserOrders,
     options: {
       refetchOnWindowFocus: false,

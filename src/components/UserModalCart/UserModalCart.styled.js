@@ -15,8 +15,6 @@ export const UserCartFooterStyled = styled(Box)({
   paddingLeft: '1.6rem',
 
   backgroundColor: '#eee',
-  borderBottomLeftRadius: '1rem',
-  borderBottomRightRadius: '1rem',
 });
 
 export const UserCartQuantityStyled = styled(Typography)({
@@ -54,6 +52,7 @@ export const checkoutStyles = {
   borderRadius: '0',
   height: '56px',
   fontSize: '1.2rem',
+  border: 'none',
 };
 
 export const cartLoaderStyles = {

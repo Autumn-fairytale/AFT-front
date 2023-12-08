@@ -28,7 +28,6 @@ const DishInfoPage = () => {
     queryKey: ['dish', dishId],
     queryFn: () => getDishById(dishId),
   });
-  console.log('dish:', dish);
 
   return (
     <Main>

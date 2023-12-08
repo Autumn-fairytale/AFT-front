@@ -14,5 +14,6 @@ export const CourierProfilePropTypes = {
     }),
     accountStatus: PropTypes.string.isRequired,
     vehicleType: PropTypes.string.isRequired,
+    isAvailable: PropTypes.string.isRequired,
   }),
 };

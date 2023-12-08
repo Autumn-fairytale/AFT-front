@@ -2,14 +2,15 @@ import { IoLocationOutline } from 'react-icons/io5';
 import {
   IoHomeOutline,
   IoSettingsOutline,
-  IoTrashOutline,
+  //IoTrashOutline,
 } from 'react-icons/io5';
 import { PiPhoneCall } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 
-import { Avatar, Divider, IconButton } from '@mui/material';
+import { Avatar, Divider, IconButton, Typography } from '@mui/material';
 
 import { route } from '@/constants';
+import { theme } from '@/theme';
 import {
   ButtonIcon,
   InfoWrapper,
@@ -33,14 +34,27 @@ const CourierProfile = ({ courierInfo }) => {
         />
         <InfoWrapper>
           <ButtonIcon>
+            <Typography
+              sx={{
+                marginTop: '9px',
+                marginRight: '10px',
+                color:
+                  courierInfo?.isAvailable === 'NON-ACTIVE'
+                    ? theme.palette.error.main
+                    : 'green',
+                fontWeight: 600,
+              }}
+            >
+              {courierInfo?.isAvailable}
+            </Typography>
             <Link to={`${route.COURIER_PROFILE}`}>
               <IconButton>
                 <IoSettingsOutline />
               </IconButton>
             </Link>
-            <IconButton>
+            {/* <IconButton>
               <IoTrashOutline />
-            </IconButton>
+            </IconButton> */}
           </ButtonIcon>
           <Name>{courierInfo?.name}</Name>
 

@@ -11,6 +11,7 @@ import { route } from '@/constants';
 import { addSpacesToPhoneNumber } from '@/helpers';
 import useCouriersOrdersByStatus from '@/hooks/courier/useCouriersOrdersByStatus';
 import { selectUser } from '@/redux/auth/selectors';
+import { AppContainer } from '@/shared';
 import { Main } from '@/shared/Main/Main';
 
 const CourierAccountPage = () => {
@@ -31,6 +32,7 @@ const CourierAccountPage = () => {
     const fetchCourierData = async () => {
       try {
         const response = await getCourierById({ courierId });
+        console.log('r: ', response);
         const courier = {
           name: user.firstName + ' ' + user?.lastName,
           avatar: response.avatar,
@@ -38,6 +40,7 @@ const CourierAccountPage = () => {
           address: response.address,
           accountStatus: response.accountStatus.toUpperCase(),
           vehicleType: response.vehicleType.toUpperCase(),
+          isAvailable: response.isAvailable.toUpperCase(),
         };
         setCourierInfo(courier);
       } catch (error) {
@@ -49,63 +52,64 @@ const CourierAccountPage = () => {
   }, [courierId]);
   return (
     <Main>
-      {courierInfo && <CourierProfile courierInfo={courierInfo} />}
+      <AppContainer>
+        {courierInfo && <CourierProfile courierInfo={courierInfo} />}
 
-      <Box
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          margin: '20px 60px',
-        }}
-      >
         <Box
           style={{
             display: 'flex',
-            justifyContent: 'space-between',
-            margin: '15px 5px',
+            flexDirection: 'column',
+            justifyContent: 'center',
           }}
         >
-          <Box>
-            <Typography
-              variant="h5"
-              component="h2"
-              fontSize="26px"
-              fontWeight="600"
+          <Box
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              margin: '15px 5px',
+            }}
+          >
+            <Box>
+              <Typography
+                variant="h5"
+                component="h2"
+                fontSize="26px"
+                fontWeight="600"
+              >
+                New orders
+              </Typography>
+              <Typography
+                variant="p"
+                component="h6"
+                fontSize="16px"
+                fontWeight="400"
+              >
+                Change status to DELIVERING to take order
+              </Typography>
+            </Box>
+
+            <Link
+              to={`${route.COURIER_ORDERS}`}
+              style={{
+                fontSize: '20px',
+                marginTop: '5px',
+              }}
+              onMouseOver={(e) => (e.target.style.textDecoration = 'none')}
+              onMouseOut={(e) => (e.target.style.textDecoration = 'underline')}
             >
-              New orders
-            </Typography>
-            <Typography
-              variant="p"
-              component="h6"
-              fontSize="16px"
-              fontWeight="400"
-            >
-              Change status to DELIVERING to take order
-            </Typography>
+              All orders
+            </Link>
           </Box>
 
-          <Link
-            to={`${route.COURIER_ORDERS}`}
-            style={{
-              fontSize: '20px',
-              marginTop: '5px',
-            }}
-            onMouseOver={(e) => (e.target.style.textDecoration = 'none')}
-            onMouseOut={(e) => (e.target.style.textDecoration = 'underline')}
-          >
-            All orders
-          </Link>
+          <CourierOrdersTable
+            data={data}
+            error={error}
+            isLoading={isLoading}
+            tableHeight="auto"
+            refetchData={refetchData}
+          />
         </Box>
-
-        <CourierOrdersTable
-          data={data}
-          error={error}
-          isLoading={isLoading}
-          tableHeight="auto"
-          refetchData={refetchData}
-        />
-      </Box>
+      </AppContainer>
     </Main>
   );
 };

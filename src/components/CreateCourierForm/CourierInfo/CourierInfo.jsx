@@ -12,24 +12,19 @@ import {
   CourierFieldsWrapper,
   CourierInfoWrapper,
   FieldWrapper,
-  InfoWrapper,
 } from './CourierInfo.styled';
 import CourierInfoField from './CourierInfoField/CourierInfoField';
 
 import LiqPayLogo from '../../../assets/images/liqpay.png';
 
 const CourierInfo = ({ control, errors, avatar, setValue }) => {
-  const accountStatus = [
-    'pending',
-    'active',
-    'verified',
-    'rejected',
-    'blocked',
-  ];
+  const workStatus = ['active', 'non-active'];
   const vehicleType = ['none', 'bicycle', 'motorcycle', 'car'];
 
-  const [selectedAccountStatus, setSelectedAccountStatus] = useState('pending');
-  const [selectedVehicleType, setSelectedVehicleType] = useState('none');
+  const [selectedWorkStatus, setSelectedWorkStatus] = useState(workStatus[0]);
+  const [selectedVehicleType, setSelectedVehicleType] = useState(
+    vehicleType[0]
+  );
 
   return (
     <CourierInfoWrapper>
@@ -52,92 +47,90 @@ const CourierInfo = ({ control, errors, avatar, setValue }) => {
         folder={FOLDERS.AVATARS}
       />
 
-      <InfoWrapper>
-        <CourierFieldsWrapper>
+      <CourierFieldsWrapper>
+        <CourierInfoField
+          info={{
+            title: 'Phone number',
+            name: 'phoneNumber',
+            component: <AppPhoneInput wrapperStyle={{ width: '620px' }} />,
+            required: true,
+          }}
+          control={control}
+          error={errors['phoneNumber']}
+        />
+        <FieldWrapper>
           <CourierInfoField
             info={{
-              title: 'Phone number',
-              name: 'phoneNumber',
-              component: <AppPhoneInput wrapperStyle={{ width: '620px' }} />,
+              title: 'Work status',
+              name: 'isAvailable',
+              component: (
+                <AppSelect
+                  options={workStatus}
+                  onChange={(e) => setSelectedWorkStatus(e.target.value)}
+                  value={selectedWorkStatus}
+                  wrapperStyle={{ width: '300px' }}
+                  placeholder="Work status"
+                  defaultValue={workStatus[0]}
+                />
+              ),
               required: true,
             }}
             control={control}
-            error={errors['phoneNumber']?.phoneNumber}
+            error={errors['isAvailable']}
           />
-          <FieldWrapper>
-            <CourierInfoField
-              info={{
-                title: 'Account status',
-                name: 'accountStatus',
-                component: (
-                  <AppSelect
-                    options={accountStatus}
-                    onChange={(e) => setSelectedAccountStatus(e.target.value)}
-                    value={selectedAccountStatus}
-                    wrapperStyle={{ width: '300px' }}
-                    placeholder="Account status"
-                    defaultValue={accountStatus[0]}
-                  />
-                ),
-                required: true,
-              }}
-              control={control}
-              error={errors['accountStatus']?.accountStatus}
-            />
-            <CourierInfoField
-              info={{
-                title: 'Vehicle type',
-                name: 'vehicleType',
-                component: (
-                  <AppSelect
-                    options={vehicleType}
-                    onChange={(e) => setSelectedVehicleType(e.target.value)}
-                    value={selectedVehicleType}
-                    wrapperStyle={{ width: '300px' }}
-                    placeholder="Vehicle type"
-                    defaultValue={vehicleType[0]}
-                  />
-                ),
-                required: true,
-              }}
-              control={control}
-              error={errors['vehicleType']?.vehicleType}
-            />
-          </FieldWrapper>
+          <CourierInfoField
+            info={{
+              title: 'Vehicle type',
+              name: 'vehicleType',
+              component: (
+                <AppSelect
+                  options={vehicleType}
+                  onChange={(e) => setSelectedVehicleType(e.target.value)}
+                  value={selectedVehicleType}
+                  wrapperStyle={{ width: '300px' }}
+                  placeholder="Vehicle type"
+                  defaultValue={vehicleType[0]}
+                />
+              ),
+              required: true,
+            }}
+            control={control}
+            error={errors['vehicleType']}
+          />
+        </FieldWrapper>
 
-          <Typography component="h3" variant="h6" marginTop="10px">
-            Address
-          </Typography>
-          <AddressForm control={control} errors={errors} />
-          <FieldWrapper>
-            <CourierInfoField
-              info={{
-                title: 'LiqPay public key',
-                name: 'liqpayKey',
-                sx: { marginTop: '20px' },
-                component: <AppTextInput style={{ width: '400px' }} />,
-                required: true,
+        <Typography component="h3" variant="h6" marginTop="10px">
+          Address
+        </Typography>
+        <AddressForm control={control} errors={errors} />
+        <FieldWrapper>
+          <CourierInfoField
+            info={{
+              title: 'LiqPay public key',
+              name: 'liqpayKey',
+              sx: { marginTop: '20px' },
+              component: <AppTextInput style={{ width: '400px' }} />,
+              required: true,
+            }}
+            control={control}
+            error={errors['liqpayKey']}
+          />
+          <Link
+            to="https://www.liqpay.ua/documentation/start"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ display: 'flex', alignItems: 'flex-end' }}
+          >
+            <img
+              src={LiqPayLogo}
+              alt="Description of the image"
+              style={{
+                width: '200px',
               }}
-              control={control}
-              error={errors['liqpayKey']?.liqpayKey}
             />
-            <Link
-              to="https://www.liqpay.ua/documentation/start"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ display: 'flex', alignItems: 'flex-end' }}
-            >
-              <img
-                src={LiqPayLogo}
-                alt="Description of the image"
-                style={{
-                  width: '200px',
-                }}
-              />
-            </Link>
-          </FieldWrapper>
-        </CourierFieldsWrapper>
-      </InfoWrapper>
+          </Link>
+        </FieldWrapper>
+      </CourierFieldsWrapper>
     </CourierInfoWrapper>
   );
 };

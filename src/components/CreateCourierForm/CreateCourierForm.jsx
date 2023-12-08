@@ -25,7 +25,7 @@ const CreateCourierForm = () => {
     defaultValues: {
       avatar: '',
       phoneNumber: '',
-      accountStatus: 'pending',
+      isAvailable: 'non-active',
       vehicleType: 'none',
       address: {
         country: '',
@@ -52,7 +52,7 @@ const CreateCourierForm = () => {
             phoneNumber: addSpacesToPhoneNumber(courierData.phoneNumber),
             address: courierData.address,
             certificate: courierData.certificate,
-            accountStatus: courierData.accountStatus,
+            isAvailable: courierData.isAvailable,
             vehicleType: courierData.vehicleType,
             liqpayKey: courierData.liqpayKey,
           });
@@ -74,11 +74,10 @@ const CreateCourierForm = () => {
         phoneNumber: removeSpacesFromPhoneNumber(data.phoneNumber),
         address: data.address,
         certificate: data.certificate,
-        accountStatus: data.accountStatus,
+        isAvailable: data.isAvailable,
         vehicleType: data.vehicleType,
         liqpayKey: data.liqpayKey,
       };
-      console.log(result);
       if (user.roles.find((role) => role.name === 'courier')) {
         await updateCourier(
           result,

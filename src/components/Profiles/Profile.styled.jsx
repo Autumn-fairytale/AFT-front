@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 export const ProfileWrapper = styled('div')(() => ({
   display: 'grid',
   gridTemplateColumns: '1fr 2fr',
-  margin: '20px 150px 30px 200px',
+  margin: '20px 40px',
   alignItems: 'center',
 }));
 

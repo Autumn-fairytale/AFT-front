@@ -3,7 +3,7 @@ import { IoLocationOutline } from 'react-icons/io5';
 import {
   IoHomeOutline,
   IoSettingsOutline,
-  IoTrashOutline,
+  //IoTrashOutline,
 } from 'react-icons/io5';
 import {
   PiCertificate,
@@ -15,11 +15,12 @@ import {
 } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 
-import { Avatar, Divider, IconButton, Rating } from '@mui/material';
+import { Avatar, Divider, IconButton, Rating, Typography } from '@mui/material';
 
 import { customColors, route } from '@/constants';
 import { AppButton } from '@/shared';
 import { AppModal } from '@/shared/AppModal/AppModal';
+import { theme } from '@/theme';
 import {
   ButtonIcon,
   ChefButtonsWrapper,
@@ -55,6 +56,19 @@ const ChefProfile = ({ chefInfo, isChef }) => {
         />
         <InfoWrapper>
           <ButtonIcon>
+            <Typography
+              sx={{
+                marginTop: '8px',
+                marginRight: '10px',
+                color:
+                  chefInfo?.isAvailable === 'NON-ACTIVE'
+                    ? theme.palette.error.main
+                    : 'green',
+                fontWeight: 600,
+              }}
+            >
+              {chefInfo?.isAvailable}
+            </Typography>
             <IconButton onClick={() => setIsModalOpen(true)}>
               <PiCertificate />
             </IconButton>
@@ -73,11 +87,11 @@ const ChefProfile = ({ chefInfo, isChef }) => {
                 </IconButton>
               </Link>
             )}
-            {isChef && (
+            {/* {isChef && (
               <IconButton>
                 <IoTrashOutline />
               </IconButton>
-            )}
+            )} */}
           </ButtonIcon>
           <Name>{chefInfo?.name}</Name>
 

@@ -2,20 +2,22 @@ import { Link } from 'react-router-dom';
 
 import { Box, styled } from '@mui/material';
 
-export const CartItemStyled = styled(Box)({
+export const CartItemStyled = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isDefault',
+})(({ isDefault }) => ({
   position: 'relative',
-
-  padding: '10px',
-});
+  padding: `${isDefault ? '1.5rem 0.8rem' : '10px'}`,
+}));
 
 export const CartItemContainer = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'isAvailable',
-})(({ isAvailable }) => ({
+  shouldForwardProp: (prop) => prop !== 'isAvailable' && prop !== 'isDefault',
+})(({ isAvailable, isDefault }) => ({
   display: 'flex',
-  gap: '10px',
 
   opacity: `${isAvailable ? 1 : 0.3}`,
   pointerEvents: `${isAvailable ? 'auto' : 'none'}`,
+
+  gap: `${isDefault ? '1rem' : '10px'}`,
 }));
 
 export const CartItemBodyStyled = styled('div')({

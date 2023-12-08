@@ -8,9 +8,13 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Avatar, Badge } from '@mui/material';
 
 import { route } from '@/constants';
+import { calcTotalQtyOfCartItems } from '@/helpers';
+import { useGetCartItems } from '@/hooks';
 import { signOut } from '@/redux/auth/operations';
 import { selectIsAuth, selectRoles, selectUser } from '@/redux/auth/selectors';
+import { openUserCart } from '@/redux/cartStatus/slice';
 import styled from '@emotion/styled';
+import UserModalCart from '../UserModalCart';
 import {
   IconButtonStyled,
   LinkStyled,
@@ -31,9 +35,16 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 export const UserMenu = () => {
   const dispatch = useDispatch();
-  const isAuth = useSelector(selectIsAuth);
+
+  // Get number of items in user's cart
+  const { data } = useGetCartItems();
+  const userCartItems = data?.cart.items;
+  const cartItemsQty = userCartItems
+    ? calcTotalQtyOfCartItems(userCartItems)
+    : null;
 
   const roles = useSelector(selectRoles);
+  const isAuth = useSelector(selectIsAuth);
   const { cart, favoriteDishes, favoriteChefs, avatar } =
     useSelector(selectUser);
   console.log('favoriteDishes:', favoriteDishes);
@@ -73,10 +84,8 @@ export const UserMenu = () => {
       </ListStyled>
       <ListStyled></ListStyled>
       <ListItemStyled>
-        <IconButtonStyled
-          onClick={() => console.log('Повинна відкриватися корзина')}
-        >
-          <StyledBadge badgeContent={cart.length} color="success">
+        <IconButtonStyled onClick={() => dispatch(openUserCart())}>
+          <StyledBadge badgeContent={cartItemsQty} color="success">
             <ShoppingCartIcon sx={{ width: 30, height: 30 }} />
           </StyledBadge>
         </IconButtonStyled>
@@ -93,6 +102,9 @@ export const UserMenu = () => {
           <LogoutIcon sx={{ width: 30, height: 30 }} />
         </IconButtonStyled>
       </ListItemStyled>
+
+      {/* USER CART MODAL */}
+      <UserModalCart />
     </>
   );
 };

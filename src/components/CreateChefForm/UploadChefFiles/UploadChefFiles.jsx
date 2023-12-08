@@ -185,13 +185,7 @@ export const UploadChefFiles = ({
                 <>
                   <Card
                     component="img"
-                    src={
-                      imageSrc
-                        ? imageSrc
-                        : isAvatar
-                          ? 'https://cdn.stockmediaserver.com/smsimg35/pv/IsignstockContributors/ISS_28329_00657.jpg?token=rbZfChe1pvjPwO_dHbvcKI1E94w5-hd8Mj8K8MKgX9o&class=pv&smss=53&expires=4102358400'
-                          : 'https://cdn-payscale.com/content/placeholder-images/certification-placeholder.png'
-                    }
+                    src={imageSrc}
                     alt="Image Preview"
                     sx={{
                       width: isAvatar ? 270 : 570,

@@ -12,17 +12,16 @@ import { getStatusOptions } from './getChefStatusOptions';
 import { OrderItemsCell } from './OrderItemsCell';
 import { processRowUpdate } from './processRowUpdate';
 
-
 export const ChefOrdersTable = ({
+  data,
+  error,
+  isLoading,
   tableHeight,
+  refetchData,
 }) => {
-  const { data, isLoading, error } = useChefOrder();
-
-
   const orders = data ? data : [];
 
   const [rowModesModel, setRowModesModel] = useState({});
-  console.log(data);
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -65,7 +64,7 @@ export const ChefOrdersTable = ({
   };
 
   const updateRow = async (newRow, oldRow) => {
-    return processRowUpdate(newRow, oldRow);
+    return processRowUpdate(newRow, oldRow, refetchData);
   };
 
   const columns = useMemo(
@@ -153,7 +152,6 @@ export const ChefOrdersTable = ({
             py: '15px',
           },
         }}
-        // tableHeight="85vMin"
         tableHeight={tableHeight}
         pageSize={10}
       />

@@ -1,10 +1,10 @@
 export const getStatusOptions = (currentStatus) => {
   switch (currentStatus) {
     case 'readyToDelivery':
-      return ['delivering', 'completed'];
+      return ['readyToDelivery', 'delivering'];
     case 'delivering':
+      return ['delivering', 'completed'];
+    case 'completed':
       return ['completed'];
-    // case 'completed':
-    //   return ['completed'];
   }
 };

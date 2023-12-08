@@ -1,15 +1,12 @@
 import { toast } from 'react-toastify';
 
-import { privateInstance } from '@/api/axios';
+import { getCouriersOrdersByStatus } from '@/api/courier/getCouriersOrdersByStatus';
 import { useQuery } from '@tanstack/react-query';
 
 const useCouriersOrdersByStatus = (orderStatus) => {
   const fetchOrdersByStatus = async () => {
     try {
-      const URI = `${
-        import.meta.env.VITE_API_URL
-      }/couriers/allorders/${orderStatus}`;
-      const { data } = await privateInstance.get(URI);
+      const data = await getCouriersOrdersByStatus(orderStatus);
       return data;
     } catch (error) {
       toast.error('Error fetching orders');

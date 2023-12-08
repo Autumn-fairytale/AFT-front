@@ -6,10 +6,10 @@ const initialState = {
   user: null,
   roles: [],
   isLoading: false,
-  error: null,
+  error: {},
 };
 
-// Common handler function for signIn and signUp
+// Сommon handler function for recording user data
 const handleEnterToSystem = (state, action) => {
   const { user } = action.payload;
   state.isAuth = true;
@@ -17,6 +17,13 @@ const handleEnterToSystem = (state, action) => {
   state.error = null;
   state.user = user;
   state.roles = user.roles.map((role) => role.name);
+};
+
+// Common handler function for recording error message and status code
+const handleErrorCase = (state, action) => {
+  state.isLoading = false;
+  state.error.message = action.payload.message;
+  state.error.statusCode = action.payload.statusCode || 500;
 };
 
 const authSlice = createSlice({
@@ -33,8 +40,7 @@ const authSlice = createSlice({
         handleEnterToSystem(state, action);
       })
       .addCase(signIn.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload.message;
+        handleErrorCase(state, action);
       })
       // sign out
       .addCase(signOut.pending, (state) => {
@@ -47,8 +53,7 @@ const authSlice = createSlice({
         };
       })
       .addCase(signOut.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload.message;
+        handleErrorCase(state, action);
       })
       // sign up
       .addCase(signUp.pending, (state) => {
@@ -58,8 +63,7 @@ const authSlice = createSlice({
         handleEnterToSystem(state, action);
       })
       .addCase(signUp.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload.message;
+        handleErrorCase(state, action);
       })
       // get user by token
       .addCase(getCurrentUser.pending, (state) => {
@@ -69,8 +73,7 @@ const authSlice = createSlice({
         handleEnterToSystem(state, action);
       })
       .addCase(getCurrentUser.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload.message;
+        handleErrorCase(state, action);
       });
   },
 });

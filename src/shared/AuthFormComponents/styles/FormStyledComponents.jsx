@@ -10,7 +10,11 @@ const footerHeight = '89px';
 export const AuthContainerStyled = styled(AppContainer)({
   display: 'grid',
   placeItems: 'center',
+  minHeight: 'max-content',
+  paddingTop: '1.5rem',
+  paddingBottom: '1.5rem',
   height: `calc(100vh - ${navBarHeight} - ${footerHeight})`,
+  overflow: 'auto',
 });
 
 export const FormWrapperStyled = styled(Box)(({ theme }) => ({

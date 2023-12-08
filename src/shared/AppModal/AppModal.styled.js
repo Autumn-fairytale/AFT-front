@@ -31,5 +31,5 @@ export const BoxStyled = styled(Box)`
   border: 1px solid ${({ theme }) => `${theme.palette.primary.main}`};
   border-radius: 16px;
   box-shadow: ${({ theme }) => `${theme.shadows[24]}`};
-  padding: 28px;
+  padding: 40px;
 `;

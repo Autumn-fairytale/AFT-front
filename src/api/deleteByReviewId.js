@@ -1,5 +1,5 @@
-import { publicInstance } from './axios';
+import { privateInstance } from './axios';
 
 export const deleteByReviewId = async (id) => {
-  await publicInstance.delete(`reviews/${id}`);
+  await privateInstance.delete(`reviews/${id}`);
 };

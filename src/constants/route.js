@@ -14,6 +14,7 @@ export const route = Object.freeze({
   CHEF_ORDERS: '/chef-account/orders',
   CHEF_DISHES: '/chef-account/dishes',
   CHEF_CREATE_DISH: '/chef-account/dishes/create',
+  CHEF_EDIT_DISH: '/chef-account/dishes/edit/:id',
   COURIER_ACCOUNT: '/courier-account',
   COURIER_SIGN_UP: '/courier-account/sign-up',
   COURIER_PROFILE: '/courier-account/profile',

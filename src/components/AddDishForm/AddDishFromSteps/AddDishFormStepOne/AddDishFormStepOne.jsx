@@ -14,20 +14,29 @@ const isOptionEqual = (option, value) => {
   return option === value || value === '';
 };
 
-export const AddDishFromStepOne = ({ register, errors, control }) => {
+export const AddDishFromStepOne = ({ errors, control }) => {
   return (
     <>
       <Stack spacing={1}>
-        <TextField
-          size="normal"
-          sx={{ width: FIELD_WIDTH }}
-          {...register('name')}
-          autoComplete="off"
-          label="Dish Name"
-          error={!!errors.name}
-          helperText={
-            <HelperText text={errors.name?.message} isError={!!errors.name} />
-          }
+        <Controller
+          control={control}
+          name="name"
+          render={({ field }) => (
+            <TextField
+              {...field}
+              size="normal"
+              sx={{ width: FIELD_WIDTH }}
+              autoComplete="off"
+              label="Dish Name"
+              error={!!errors.name}
+              helperText={
+                <HelperText
+                  text={errors.name?.message}
+                  isError={!!errors.name}
+                />
+              }
+            />
+          )}
         />
 
         <FormattedNumberInput

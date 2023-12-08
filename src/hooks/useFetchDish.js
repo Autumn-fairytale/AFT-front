@@ -5,9 +5,14 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useFetchDish = (id) => {
   const fetchData = async () => {
-    try {
-      const data = getDishById(id);
+    if (!id) {
+      return {
+        data: null,
+      };
+    }
 
+    try {
+      const data = await getDishById(id);
       return data;
     } catch (error) {
       toast.error('Error fetching data');
@@ -16,7 +21,7 @@ export const useFetchDish = (id) => {
   };
 
   return useQuery({
-    queryKey: ['dish'],
+    queryKey: ['dish', id],
     queryFn: fetchData,
     options: {
       refetchOnWindowFocus: false,

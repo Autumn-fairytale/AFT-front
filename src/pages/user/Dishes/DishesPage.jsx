@@ -96,7 +96,7 @@ const DishesPage = () => {
         ) : (
           <InfiniteScrollStyled
             dataLength={qtyDishes}
-            scrollThreshold={0.8}
+            scrollThreshold={0.6}
             next={() => fetchNextPage()}
             hasMore={hasNextPage}
             height={800}

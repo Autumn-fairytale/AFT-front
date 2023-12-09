@@ -14,7 +14,7 @@ import { signOut } from '@/redux/auth/operations';
 import { selectIsAuth, selectRoles, selectUser } from '@/redux/auth/selectors';
 import { openUserCart } from '@/redux/cartStatus/slice';
 import styled from '@emotion/styled';
-// import UserModalCart from '../UserModalCart';
+import UserModalCart from '../UserModalCart';
 import {
   IconButtonStyled,
   LinkStyled,
@@ -108,7 +108,7 @@ export const UserMenu = () => {
       </ListItemStyled>
 
       {/* USER CART MODAL */}
-      {/* <UserModalCart /> */}
+      <UserModalCart />
     </>
   );
 };

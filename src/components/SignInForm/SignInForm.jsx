@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, useFormState } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -32,11 +32,15 @@ const SigInForm = () => {
   const isSameData = useIsSameData(); // did the user change field data after unsuccessful submission?
 
   const dispatch = useDispatch();
-  const { handleSubmit, control, reset } = useForm({
+  const { handleSubmit, setFocus, control, reset } = useForm({
     resolver: zodResolver(signInSchema),
     defaultValues,
   });
   const { errors } = useFormState({ control });
+
+  useEffect(() => {
+    setFocus('email');
+  }, []);
 
   const onSubmit = async (data) => {
     if (isSameData(data)) return;
@@ -49,7 +53,7 @@ const SigInForm = () => {
         // toast.success('You have successfully signed in');
       })
       .catch((error) => {
-        const errorText = getError(error.message);
+        const errorText = getError(error.statusCode);
         toast.error(errorText);
         setFormError(errorText);
       });

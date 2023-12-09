@@ -1,16 +1,14 @@
-export const getError = (errorMessage) => {
-  const containsWord = (targetWord) => {
-    const pattern = new RegExp(`\\b${targetWord}\\b`, 'i');
-    return pattern.test(errorMessage);
-  };
-
-  if (containsWord('invalid') || containsWord('validation')) {
-    return 'Invalid email or password';
-  } else if (containsWord('blocked')) {
-    return 'This account is blocked';
-  } else if (containsWord('exists')) {
-    return 'User with this email already exists';
-  } else {
-    return 'An error occurred';
+export const getError = (statusCode) => {
+  switch (statusCode) {
+    case 400:
+      return 'Validation failed';
+    case 401:
+      return 'Invalid email or password';
+    case 403:
+      return 'This account is blocked';
+    case 409:
+      return 'User with this email already exists';
+    default:
+      return 'An error occurred';
   }
 };

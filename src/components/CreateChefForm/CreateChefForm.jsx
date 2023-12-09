@@ -25,7 +25,8 @@ const CreateChefForm = () => {
     defaultValues: {
       avatar: '',
       phoneNumber: '',
-      accountStatus: 'pending',
+      //accountStatus: 'pending',
+      isAvailable: 'non-active',
       address: {
         country: '',
         city: '',
@@ -52,7 +53,7 @@ const CreateChefForm = () => {
             phoneNumber: addSpacesToPhoneNumber(chefData.phoneNumber),
             address: chefData.address,
             certificate: chefData.certificate,
-            accountStatus: chefData.accountStatus,
+            isAvailable: chefData.isAvailable,
             liqpayKey: chefData.liqpayKey,
           });
 
@@ -74,10 +75,9 @@ const CreateChefForm = () => {
         phoneNumber: removeSpacesFromPhoneNumber(data.phoneNumber),
         address: data.address,
         certificate: data.certificate,
-        accountStatus: data.accountStatus,
+        isAvailable: data.isAvailable,
         liqpayKey: data.liqpayKey,
       };
-      console.log(result);
       if (user.roles.find((role) => role.name === 'chef')) {
         await updateChef(
           result,
@@ -104,7 +104,11 @@ const CreateChefForm = () => {
       <AppButton
         label="Submit"
         type="submit"
-        sx={{ width: '400px', margin: '10px auto 50px auto', display: 'block' }}
+        sx={{
+          width: '620px',
+          margin: '10px auto 50px auto',
+          display: 'block',
+        }}
       />
     </form>
   );

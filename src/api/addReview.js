@@ -1,7 +1,7 @@
-import { publicInstance } from './axios';
+import { privateInstance } from './axios';
 
 export const addReview = async ({ rating, review, dishId }) => {
-  await publicInstance.post(`reviews`, { rating, review, dish: dishId });
+  await privateInstance.post(`reviews`, { rating, review, dish: dishId });
 
   return;
 };

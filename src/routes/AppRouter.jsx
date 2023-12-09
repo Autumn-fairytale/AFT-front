@@ -16,7 +16,7 @@ const SignInPage = lazy(() => import('@/pages/auth/SignIn'));
 const SignUpPage = lazy(() => import('@/pages/auth/SignUp'));
 const HomePage = lazy(() => import('@/pages/user/Home'));
 const DishesPage = lazy(() => import('@/pages/user/Dishes'));
-const DishesInfoPage = lazy(() => import('@/pages/user/DishInfo'));
+const DishReviews = lazy(() => import('@/pages/user/DishReviews'));
 const CreateOrderPage = lazy(() => import('@/pages/user/CreateOrder'));
 const OrderPaymentPage = lazy(() => import('@/pages/user/OrderPayment'));
 const UserAccountPage = lazy(() => import('@/pages/user/UserAccount'));
@@ -90,7 +90,7 @@ const AppRouter = () => {
 
         <Route path={route.DISHES}>
           <Route index element={<DishesPage />} />
-          <Route path=":dishId" element={<DishesInfoPage />} />
+          <Route path=":dishId/reviews" element={<DishReviews />} />
 
           <Route
             path="favorites"
@@ -158,6 +158,10 @@ const AppRouter = () => {
             <Route index element={<ChefDishesPage />} />
             <Route
               path={route.CHEF_CREATE_DISH}
+              element={<ChefCreateDishPage />}
+            />
+            <Route
+              path={route.CHEF_EDIT_DISH}
               element={<ChefCreateDishPage />}
             />
             <Route path=":dishId" element={<ChefDishInfoPage />} />

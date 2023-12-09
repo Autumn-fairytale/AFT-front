@@ -14,7 +14,7 @@ import { signOut } from '@/redux/auth/operations';
 import { selectIsAuth, selectRoles, selectUser } from '@/redux/auth/selectors';
 import { openUserCart } from '@/redux/cartStatus/slice';
 import styled from '@emotion/styled';
-import UserModalCart from '../UserModalCart';
+// import UserModalCart from '../UserModalCart';
 import {
   IconButtonStyled,
   LinkStyled,
@@ -46,11 +46,10 @@ export const UserMenu = () => {
 
   const roles = useSelector(selectRoles);
   const isAuth = useSelector(selectIsAuth);
-  const { cart, favoriteDishes, favoriteChefs, avatar } =
-    useSelector(selectUser);
-  console.log('favoriteDishes:', favoriteDishes);
-  console.log('cart:', cart);
-  console.log('avatar:', avatar);
+  const { favoriteDishes, favoriteChefs, avatar } = useSelector(selectUser);
+  // console.log('favoriteDishes:', favoriteDishes);
+  // console.log('cart:', cart);
+  // console.log('avatar:', avatar);
 
   return (
     <>
@@ -109,7 +108,7 @@ export const UserMenu = () => {
       </ListItemStyled>
 
       {/* USER CART MODAL */}
-      <UserModalCart />
+      {/* <UserModalCart /> */}
     </>
   );
 };

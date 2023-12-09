@@ -1,4 +1,4 @@
-import { createDish } from '@/api';
+import { createDish, updateDish } from '@/api';
 import { dishFormDefaultValues } from '@/constants/defaultValues';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
@@ -8,6 +8,7 @@ const initialState = {
   loading: false,
   error: null,
   success: false,
+  editMode: false,
 };
 
 export const submitDishData = createAsyncThunk(
@@ -15,7 +16,20 @@ export const submitDishData = createAsyncThunk(
   async (dishData, thunkAPI) => {
     try {
       const response = await createDish(dishData);
-      // console.log('Data sent to server:', response);
+
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const updateDishData = createAsyncThunk(
+  'createDish/updateDishData',
+  async ({ dishId, dishData }, thunkAPI) => {
+    try {
+      const response = await updateDish(dishId, dishData);
+
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -63,6 +77,21 @@ export const createDishSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
         console.error('Submit failed:', action.payload);
+      })
+      .addCase(updateDishData.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(updateDishData.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        console.log('Update successful:', action.payload);
+      })
+      .addCase(updateDishData.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        console.error('Update failed:', action.payload);
       });
   },
 });

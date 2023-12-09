@@ -116,7 +116,11 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
       </DishImageWrapper>
 
       <MainInfoWrapper>
-        <DishName isCarousel={isCarousel}>{dishInfo.name}</DishName>
+        <DishName isCarousel={isCarousel}>
+          {dishInfo.name.length > 14
+            ? dishInfo.name.slice(0, 14) + '...'
+            : dishInfo.name}
+        </DishName>
         <DishPrice isCarousel={isCarousel}>{dishInfo.price}₴</DishPrice>
       </MainInfoWrapper>
       <DishDescription isCarousel={isCarousel}>
@@ -124,6 +128,7 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
           ? dishInfo.description.slice(0, 50) + '...'
           : dishInfo.description.slice(0, 80) + '...'}
       </DishDescription>
+
       <ButtonsWrapper isCarousel={isCarousel}>
         <AppButton
           sx={isCarousel ? baseStyle : nonCarouselStyle}

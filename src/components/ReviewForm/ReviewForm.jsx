@@ -90,12 +90,12 @@ export const ReviewForm = ({ existingReview, dishId, onClose }) => {
     if (existingReview) {
       await editReviewMutate.mutate({
         rating,
-        review,
+        review: review.trim(),
         dishId,
         reviewId: existingReview.id,
       });
     } else {
-      await addReviewMutate.mutate({ rating, review, dishId });
+      await addReviewMutate.mutate({ rating, review: review.trim(), dishId });
     }
 
     if (!existingReview) {
@@ -151,7 +151,7 @@ export const ReviewForm = ({ existingReview, dishId, onClose }) => {
           variant="contained"
           label="Send"
           type="submit"
-          disabled={!review.length || review.length > 400 || !rating}
+          disabled={!review.trim().length || review.length > 400 || !rating}
         />
       </ButtonWrapper>
     </Form>

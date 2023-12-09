@@ -63,5 +63,5 @@ export const ButtonsWrapper = styled('div')(({ isCarousel }) => ({
   bottom: '15px',
   justifyContent: 'space-between',
   margin: `${isCarousel ? '10px 10px 0 10px' : '10px 20px 0 20px'}`,
-  gap: `${isCarousel ? '10px' : '2px'}`,
+  gap: `${isCarousel ? '10px' : '8px'}`,
 }));

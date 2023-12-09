@@ -10,7 +10,7 @@ import { customColors } from '@/constants';
 import { useGetCartItems, useUpdateCartItemById } from '@/hooks';
 import { useAddCartItem } from '@/hooks/cart/useAddCartItem';
 import AppButton from '@/shared/Buttons/AppButton';
-import { DishOrderCardModal } from '../DishOrderCard/components/DishOrderCardModal';
+import { DishOrderCardModal } from '../DishOrderCard/DishOrderCardModalComponents/DishOrderCardModal';
 import { defaultDishCardPropTypes, DishCardPropTypes } from './DishCard.props';
 import {
   ButtonsWrapper,

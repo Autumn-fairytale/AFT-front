@@ -1,7 +1,6 @@
-/* eslint-disable react/prop-types */
-
 import { AppModal } from '@/shared';
 import DishOrderCard from '../DishOrderCard';
+import { DishOrderCardModalProps } from './DishOrderCardModal.props';
 
 export const DishOrderCardModal = ({
   dishId,
@@ -27,3 +26,5 @@ export const DishOrderCardModal = ({
     )
   );
 };
+
+DishOrderCardModal.propTypes = DishOrderCardModalProps;

@@ -16,7 +16,7 @@ import { defaultDishCardPropTypes, DishCardPropTypes } from './DishCard.props';
 import {
   ButtonsWrapper,
   DishCardWrapper,
-  DishDescription,
+  // DishDescription,
   DishImage,
   DishImageWrapper,
   DishName,
@@ -127,30 +127,29 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
       </DishImageWrapper>
       <Stack
         direction="column"
-        sx={{ height: 70, justifyContent: 'space-between' }}
+        sx={{ maxHeight: 90, height: 75, justifyContent: 'space-between' }}
       >
-        <Box>
+        <Box sx={{ maxHeight: 30 }}>
           <MainInfoWrapper>
             <DishName isCarousel={isCarousel}>
-              {dishInfo.name.length > 12
-                ? `${dishInfo.name.slice(0, 12)}...`
+              {dishInfo.name.length > 25
+                ? `${dishInfo.name.slice(0, 25)}...`
                 : dishInfo.name}
             </DishName>
-            <DishPrice isCarousel={isCarousel}>
-              {convertToMoney(dishInfo.price)}
-            </DishPrice>
           </MainInfoWrapper>
         </Box>
 
         <Box sx={{ flexGrow: 1 }} />
         <Box sx={{ maxHeight: 20 }}>
-          <DishDescription isCarousel={isCarousel}>
-            {isCarousel
-              ? `${dishInfo.description.slice(0, 50)}...`
-              : `${dishInfo.description.slice(0, 80)}...`}
-          </DishDescription>
+          <DishPrice isCarousel={isCarousel}>
+            {convertToMoney(dishInfo.price)}
+          </DishPrice>
         </Box>
       </Stack>
+
+      {/* <DishPrice isCarousel={isCarousel}>
+            {convertToMoney(dishInfo.price)}
+          </DishPrice> */}
 
       <ButtonsWrapper isCarousel={isCarousel}>
         <AppButton

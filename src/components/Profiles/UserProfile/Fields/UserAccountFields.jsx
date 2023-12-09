@@ -1,6 +1,9 @@
 import { useForm } from 'react-hook-form';
 
-import { UserFieldsBoxStyled } from './UserAccountFields.styled';
+import {
+  EditAccountButtonStyled,
+  UserFieldsBoxStyled,
+} from './UserAccountFields.styled';
 import UserData from './UserData/UserData';
 
 const UserAccountFields = () => {
@@ -12,10 +15,11 @@ const UserAccountFields = () => {
   return (
     <UserFieldsBoxStyled>
       <form
-        onSubmit={() => console.log('submit user form')}
+        onSubmit={(data) => console.log(data)}
         className="user-data-form__form"
       >
         <UserData control={control} errors={errors} />
+        <EditAccountButtonStyled label="Edit" />
       </form>
     </UserFieldsBoxStyled>
   );

@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
-export const UserProfileProps = {
-  userInfo: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    avatar: PropTypes.string,
-    phoneNumber: PropTypes.string,
-  }),
-};
+// export const UserProfileProps = {
+//   userInfo: PropTypes.shape({
+//     name: PropTypes.string.isRequired,
+//     avatar: PropTypes.string,
+//     phoneNumber: PropTypes.string,
+//   }),
+// };

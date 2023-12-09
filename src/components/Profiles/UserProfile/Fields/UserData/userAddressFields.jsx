@@ -8,6 +8,9 @@ export const addressFormItems = [
         label="Country"
         placeholder="Ukraine"
         autoComplete="country"
+        InputLabelProps={{
+          shrink: true,
+        }}
       />
     ),
     sx: {
@@ -22,6 +25,9 @@ export const addressFormItems = [
         label="City"
         placeholder="Kyiv"
         autoComplete="street-address"
+        InputLabelProps={{
+          shrink: true,
+        }}
       />
     ),
     sx: {
@@ -31,7 +37,15 @@ export const addressFormItems = [
   },
   {
     name: 'street',
-    component: <AppTextInput label="Street" placeholder="Khreshchatyk" />,
+    component: (
+      <AppTextInput
+        label="Street"
+        placeholder="Khreshchatyk"
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+    ),
     sx: {
       width: '100%',
       gridArea: 'street',
@@ -39,7 +53,15 @@ export const addressFormItems = [
   },
   {
     name: 'houseNumber',
-    component: <AppTextInput label="House" placeholder="11/3" />,
+    component: (
+      <AppTextInput
+        label="House"
+        placeholder="11/3"
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+    ),
     sx: {
       width: '100%',
       gridArea: 'houseNumber',
@@ -47,7 +69,15 @@ export const addressFormItems = [
   },
   {
     name: 'apartment',
-    component: <AppTextInput label="Apart." placeholder="25" />,
+    component: (
+      <AppTextInput
+        label="Apart."
+        placeholder="25"
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+    ),
     sx: {
       width: '100%',
       gridArea: 'apartment',

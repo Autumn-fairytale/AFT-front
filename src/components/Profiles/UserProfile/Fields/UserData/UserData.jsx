@@ -1,6 +1,4 @@
-import { Box, Typography } from '@mui/material';
-
-import PropTypes from 'prop-types';
+import { Box } from '@mui/material';
 
 import AddressForm from '@/components/AddressForm';
 import {
@@ -10,21 +8,31 @@ import {
   PasswordController,
   PhoneController,
 } from '@/shared/AuthFormComponents/readyComponents';
+import { useTheme } from '@emotion/react';
+import {
+  FieldGroupsStyled,
+  GroupHeaderStyled,
+  UserFieldsGroupStyled,
+} from '../UserAccountFields.styled';
 import { addressFormItems } from './userAddressFields';
+import { UserDataPropTypes } from './UserData.props';
 
 const UserData = ({ control, errors, ...other }) => {
   console.log({ control, errors, ...other });
+
+  const theme = useTheme();
   return (
-    <>
-      <Box>
-        <Typography>Personal Information</Typography>
+    <FieldGroupsStyled>
+      <UserFieldsGroupStyled theme={theme}>
+        <GroupHeaderStyled theme={theme}>
+          Personal Information
+        </GroupHeaderStyled>
         <FirstNameController
           control={control}
           errors={errors}
           InputLabelProps={{
             shrink: true,
           }}
-          className="user-data-form__input"
           autoComplete="off"
         />
         <LastNameController
@@ -33,7 +41,6 @@ const UserData = ({ control, errors, ...other }) => {
           InputLabelProps={{
             shrink: true,
           }}
-          className="user-data-form___input"
           autoComplete="off"
         />
         <EmailController
@@ -42,55 +49,47 @@ const UserData = ({ control, errors, ...other }) => {
           InputLabelProps={{
             shrink: true,
           }}
-          className="user-data-form___input"
           autoComplete="off"
         />
-        <PhoneController
-          control={control}
-          errors={errors}
-          className="user-data-form___input"
-          autoComplete="off"
-        />
-      </Box>
-      <Box>
-        <Typography>Change Password</Typography>
+        <PhoneController control={control} errors={errors} autoComplete="off" />
+      </UserFieldsGroupStyled>
+      <UserFieldsGroupStyled theme={theme}>
+        <GroupHeaderStyled theme={theme}>Change Password</GroupHeaderStyled>
         <PasswordController
           control={control}
           errors={errors}
-          label="Old Password"
+          label="Current Password"
+          placeholder="Enter your current password"
           InputLabelProps={{
             shrink: true,
           }}
-          className="user-data-form___input"
           autoComplete="off"
         />
         <PasswordController
           control={control}
           errors={errors}
           label="New Password"
+          placeholder="Enter a new password"
           InputLabelProps={{
             shrink: true,
           }}
-          className="user-data-form___input"
           autoComplete="off"
         />
-      </Box>
-      <Box>
-        <Typography>Address Information</Typography>
-        <AddressForm
-          control={control}
-          errors={errors}
-          addressFormItems={addressFormItems}
-        />
-      </Box>
-    </>
+      </UserFieldsGroupStyled>
+      <UserFieldsGroupStyled theme={theme}>
+        <GroupHeaderStyled theme={theme}>Address Information</GroupHeaderStyled>
+        <Box sx={{ marginTop: '1.1rem' }}>
+          <AddressForm
+            control={control}
+            errors={errors}
+            addressFormItems={addressFormItems}
+          />
+        </Box>
+      </UserFieldsGroupStyled>
+    </FieldGroupsStyled>
   );
 };
 
-UserData.propTypes = {
-  control: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
-  other: PropTypes.object,
-};
+UserData.propTypes = UserDataPropTypes;
 
 export default UserData;

@@ -6,7 +6,7 @@ import {
 const UserAccountAvatar = () => {
   return (
     <UserAvatarBoxStyled>
-      <UserAvatarStyled></UserAvatarStyled>
+      <UserAvatarStyled />
     </UserAvatarBoxStyled>
   );
 };

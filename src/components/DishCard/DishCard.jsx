@@ -70,7 +70,7 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
 
       <MainInfoWrapper>
         <DishName isCarousel={isCarousel}>{dishInfo.name}</DishName>
-        <DishPrice isCarousel={isCarousel}>{dishInfo.price}$</DishPrice>
+        <DishPrice isCarousel={isCarousel}>{dishInfo.price}₴</DishPrice>
       </MainInfoWrapper>
       <DishDescription isCarousel={isCarousel}>
         {isCarousel

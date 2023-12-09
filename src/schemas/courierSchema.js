@@ -38,13 +38,7 @@ export const courierSchema = z.object({
       .nullable()
       .optional(),
   }),
-  accountStatus: z.enum([
-    'pending',
-    'active',
-    'verified',
-    'rejected',
-    'blocked',
-  ]),
+  isAvailable: z.enum(['active', 'non-active']),
   vehicleType: z.enum(['none', 'bicycle', 'motorcycle', 'car']),
   liqpayKey: z.string().trim().min(8),
 });

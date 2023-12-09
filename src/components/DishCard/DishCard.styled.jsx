@@ -3,7 +3,7 @@ import { styled } from '@mui/material';
 export const DishCardWrapper = styled('div')(({ theme, isCarousel }) => ({
   position: 'relative',
   width: `${isCarousel ? '200px' : '336px'}`,
-  height: `${isCarousel ? '300px' : '495px'}`,
+  height: `${isCarousel ? '280px' : '475px'}`,
   borderRadius: '20px',
   background: `${theme.palette.background.paper}`,
 }));
@@ -14,10 +14,8 @@ export const DishImageWrapper = styled('div')(() => ({
 
 export const DishImage = styled('img')(({ isCarousel }) => ({
   width: `${isCarousel ? '200px' : '336px'}`,
-  height: `${isCarousel ? '165px' : '336px'}`,
+  height: `${isCarousel ? '134px' : '224px'}`,
   display: 'block',
-  maxWidth: '376px',
-  maxHeight: '380px',
   borderTopLeftRadius: '20px',
   borderTopRightRadius: '20px',
 }));
@@ -61,6 +59,8 @@ export const DishDescription = styled('p')(({ isCarousel }) => ({
 
 export const ButtonsWrapper = styled('div')(({ isCarousel }) => ({
   display: 'flex',
+  position: 'absolute',
+  bottom: '15px',
   justifyContent: 'space-between',
   margin: `${isCarousel ? '10px 10px 0 10px' : '10px 20px 0 20px'}`,
   gap: `${isCarousel ? '10px' : '2px'}`,

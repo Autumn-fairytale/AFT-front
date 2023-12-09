@@ -38,13 +38,7 @@ export const chefSchema = z.object({
       .nullable()
       .optional(),
   }),
-  accountStatus: z.enum([
-    'pending',
-    'active',
-    'verified',
-    'rejected',
-    'blocked',
-  ]),
+  isAvailable: z.enum(['active', 'non-active']),
   liqpayKey: z.string().trim().min(8),
   certificate: ImageSchema,
 });

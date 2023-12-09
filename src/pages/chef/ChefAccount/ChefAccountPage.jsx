@@ -9,8 +9,9 @@ import { ChefOrdersTable } from '@/components/ChefOrdersTable';
 import ChefProfile from '@/components/Profiles/ChefProfile/ChefProfile';
 import { route } from '@/constants';
 import { addSpacesToPhoneNumber } from '@/helpers';
-import useChefOrdersByStatus from '@/hooks/useChefOrdersByStatus';
+import useChefOrdersByStatus from '@/hooks/chef/useChefOrdersByStatus';
 import { selectUser } from '@/redux/auth/selectors';
+import { AppContainer } from '@/shared';
 import { Main } from '@/shared/Main/Main';
 
 const ChefAccountPage = () => {
@@ -18,6 +19,14 @@ const ChefAccountPage = () => {
   const chefId = user.roles.find((role) => role.name === 'chef').id;
 
   const [chefInfo, setChefInfo] = useState();
+  const { data, isLoading, error, refetch } = useChefOrdersByStatus('pending');
+  const [status, setStatus] = useState('pending');
+  const refetchData = () => {
+    setStatus('accepted');
+  };
+  useEffect(() => {
+    refetch();
+  }, [status]);
 
   useEffect(() => {
     const fetchChefData = async () => {
@@ -30,6 +39,7 @@ const ChefAccountPage = () => {
           address: response.address,
           certificate: response?.certificate,
           accountStatus: response.accountStatus.toUpperCase(),
+          isAvailable: response.isAvailable.toUpperCase(),
         };
         setChefInfo(chef);
       } catch (error) {
@@ -42,60 +52,64 @@ const ChefAccountPage = () => {
 
   return (
     <Main>
-      <ChefProfile chefInfo={chefInfo} isChef={true} />
+      <AppContainer>
+        {chefInfo && <ChefProfile chefInfo={chefInfo} isChef={true} />}
 
-      <Box
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          margin: '20px 60px',
-        }}
-      >
         <Box
           style={{
             display: 'flex',
-            justifyContent: 'space-between',
-            margin: '15px 5px',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            margin: '20px 60px',
           }}
         >
-          <Box>
-            <Typography
-              variant="h5"
-              component="h2"
-              fontSize="26px"
-              fontWeight="600"
-            >
-              New orders
-            </Typography>
-            <Typography
-              variant="p"
-              component="h6"
-              fontSize="16px"
-              fontWeight="400"
-            >
-              Accepted orders display in all orders table
-            </Typography>
-          </Box>
-
-          <Link
-            to={`${route.CHEF_ORDERS}`}
+          <Box
             style={{
-              fontSize: '20px',
-              marginTop: '5px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              margin: '15px 5px',
             }}
-            onMouseOver={(e) => (e.target.style.textDecoration = 'none')}
-            onMouseOut={(e) => (e.target.style.textDecoration = 'underline')}
           >
-            All orders
-          </Link>
+            <Box>
+              <Typography
+                variant="h5"
+                component="h2"
+                fontSize="26px"
+                fontWeight="600"
+              >
+                New orders
+              </Typography>
+              <Typography
+                variant="p"
+                component="h6"
+                fontSize="16px"
+                fontWeight="400"
+              >
+                Accepted orders display in all orders table
+              </Typography>
+            </Box>
+
+            <Link
+              to={`${route.CHEF_ORDERS}`}
+              style={{
+                fontSize: '20px',
+                marginTop: '5px',
+              }}
+              onMouseOver={(e) => (e.target.style.textDecoration = 'none')}
+              onMouseOut={(e) => (e.target.style.textDecoration = 'underline')}
+            >
+              All orders
+            </Link>
+          </Box>
+          <ChefOrdersTable
+            data={data}
+            error={error}
+            isLoading={isLoading}
+            tableHeight="auto"
+            refetchData={refetchData}
+          />
         </Box>
-        <ChefOrdersTable
-          getOrders={useChefOrdersByStatus}
-          status="pending"
-          tableHeight="auto"
-        />
-      </Box>
+      </AppContainer>
     </Main>
   );
 };

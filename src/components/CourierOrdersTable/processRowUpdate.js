@@ -1,17 +1,13 @@
-import { toast } from 'react-toastify';
-
-import { updateChefOrderStatus } from '@/api/updateChefOrderStatus';
+import { updateCourierOrderStatus } from '@/api/courier/updateCourierOrderStatus';
 
 export const processRowUpdate = async (newRow, oldRow, callback = () => {}) => {
   if (newRow.status !== oldRow.status) {
     const statusToUpdate = newRow.status;
     const orderId = newRow.id;
     try {
-      await updateChefOrderStatus(orderId, statusToUpdate);
+      await updateCourierOrderStatus(orderId, statusToUpdate);
       callback();
-      toast.success('Updated');
     } catch (error) {
-      toast.error('Error updating status');
       return oldRow;
     }
   }

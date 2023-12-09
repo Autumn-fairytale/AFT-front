@@ -25,7 +25,7 @@ const CreateCourierForm = () => {
     defaultValues: {
       avatar: '',
       phoneNumber: '',
-      accountStatus: 'pending',
+      isAvailable: 'non-active',
       vehicleType: 'none',
       address: {
         country: '',
@@ -45,18 +45,17 @@ const CreateCourierForm = () => {
       if (user.roles.find((role) => role.name === 'courier')) {
         const courierId = user.roles.find((role) => role.name === 'courier').id;
         try {
-          const courierData = await getCourierById(courierId);
+          const courierData = await getCourierById({ courierId });
           reset({
             userId: userId,
             avatar: courierData.avatar,
             phoneNumber: addSpacesToPhoneNumber(courierData.phoneNumber),
             address: courierData.address,
             certificate: courierData.certificate,
-            accountStatus: courierData.accountStatus,
+            isAvailable: courierData.isAvailable,
             vehicleType: courierData.vehicleType,
             liqpayKey: courierData.liqpayKey,
           });
-
           setCourier(courierData);
         } catch (error) {
           console.error('Error fetching courier data:', error);
@@ -75,15 +74,14 @@ const CreateCourierForm = () => {
         phoneNumber: removeSpacesFromPhoneNumber(data.phoneNumber),
         address: data.address,
         certificate: data.certificate,
-        accountStatus: data.accountStatus,
+        isAvailable: data.isAvailable,
         vehicleType: data.vehicleType,
         liqpayKey: data.liqpayKey,
       };
-      console.log(result);
       if (user.roles.find((role) => role.name === 'courier')) {
         await updateCourier(
-          result
-          // user.roles.find((role) => role.name === 'chef').id
+          result,
+          user.roles.find((role) => role.name === 'courier').id
         );
       } else {
         await createCourier(result);
@@ -105,7 +103,7 @@ const CreateCourierForm = () => {
       <AppButton
         label="Submit"
         type="submit"
-        sx={{ width: '400px', margin: '10px auto 50px auto', display: 'block' }}
+        sx={{ width: '400px', margin: '20px auto 50px auto', display: 'block' }}
       />
     </form>
   );

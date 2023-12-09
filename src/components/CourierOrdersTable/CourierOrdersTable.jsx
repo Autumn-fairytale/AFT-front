@@ -6,21 +6,19 @@ import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { formatDateForDataGrid } from '../../helpers/formatDateForDataGrid';
 import { CustomPagination } from '../TableComponents/Pagination';
 import { StatusCell } from '../TableComponents/StatusCell';
-import { ChefOrdersTablePropTypes } from './ChefOrdersTable.props';
+import { CourierOrdersTablePropTypes } from './CourierOrdersTable.props';
 import { getActions } from './getActions';
-import { getStatusOptions } from './getChefStatusOptions';
-import { OrderItemsCell } from './OrderItemsCell';
+import { getStatusOptions } from './getCourierStatusOptions';
 import { processRowUpdate } from './processRowUpdate';
 
-export const ChefOrdersTable = ({
+export const CourierOrdersTable = ({
+  tableHeight,
   data,
   error,
   isLoading,
-  tableHeight,
   refetchData,
 }) => {
   const orders = data ? data : [];
-
   const [rowModesModel, setRowModesModel] = useState({});
 
   const handleRowEditStop = (params, event) => {
@@ -112,17 +110,39 @@ export const ChefOrdersTable = ({
         field: 'summaryPrice',
         headerName: 'Your Profit',
         valueGetter: ({ value }) => {
-          return value.chef + ' ₴';
+          return value?.delivery + ' ₴';
         },
         cellClassName: 'boldCell',
         width: 200,
       },
-
       {
-        field: 'items',
-        headerName: 'Order items',
-        width: 250,
-        renderCell: OrderItemsCell,
+        field: 'deliveryInfo',
+        colId: 'address',
+        valueGetter: ({ value }) => {
+          if (!value) {
+            return value;
+          }
+          const address = `${value.address.country}, ${value.address.city}, 
+              ${value.address.street} ${value.address.houseNumber} 
+              ${value.address.apartment ? ', ' + value.address.apartment : ''}`;
+          return address;
+        },
+        headerName: 'Address',
+        flex: 0.5,
+        width: 200,
+      },
+      {
+        field: 'userInfo',
+        valueGetter: (row) => {
+          if (!row) {
+            return row;
+          }
+          const userInfo = `${row.row.deliveryInfo?.name}, ${row.row.deliveryInfo?.phoneNumber}`;
+          return userInfo;
+        },
+        headerName: 'User info',
+        colId: 'userInfo',
+        flex: 0.5,
       },
     ],
     [handleCancelClick, handleEditClick, handleSaveClick, rowModesModel]
@@ -159,4 +179,4 @@ export const ChefOrdersTable = ({
   );
 };
 
-ChefOrdersTable.propTypes = ChefOrdersTablePropTypes;
+CourierOrdersTable.propTypes = CourierOrdersTablePropTypes;

@@ -26,7 +26,7 @@ export const UserOrdersTable = () => {
   }, []);
 
   const orders = data ? data.data.orders : [];
-  // console.log(orders);
+
   const columns = useMemo(
     () => [
       {

@@ -73,7 +73,7 @@ export const AddDishFormImageUpload = ({ control, setValue }) => {
         maxSize: MAX_FILE_SIZE,
         validTypes: [FileType.IMAGE],
       });
-      console.log(file);
+
       if (!validation.isValid) {
         return;
       }

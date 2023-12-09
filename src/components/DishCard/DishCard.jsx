@@ -22,7 +22,7 @@ import {
   FavoriteButton,
   MainInfoWrapper,
 } from './DishCard.styled';
-import { StyledDishBadge } from './DishCardBadge/DishCardBadge';
+import { StyledDishBadge } from './DishCardBadge';
 
 const DishCard = ({ dishInfo, isCarousel, isChef }) => {
   const [favorite, setFavorite] = useState(false);

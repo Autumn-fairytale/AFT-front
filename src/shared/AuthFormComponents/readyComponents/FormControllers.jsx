@@ -98,3 +98,21 @@ export const PasswordController = ({
 PasswordController.propTypes = {
   ...formControllerPropTypes,
 };
+
+export const PhoneController = ({ control, errors, className, ...other }) => {
+  return (
+    <ReusedFormController
+      control={control}
+      name="phoneNumber"
+      label="Phone Number"
+      type="tel"
+      className={className}
+      errors={errors}
+      {...other}
+    />
+  );
+};
+
+PhoneController.propTypes = {
+  ...formControllerPropTypes,
+};

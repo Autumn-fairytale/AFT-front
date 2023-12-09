@@ -59,7 +59,7 @@ const SigUpForm = () => {
       .then(() => {
         reset();
         setFormError('');
-        toast.success('You have successfully signed up');
+        // toast.success('You have successfully signed up');
       })
       .catch((error) => {
         const errorText = getError(error.message);

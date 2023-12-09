@@ -1,50 +1,53 @@
 import { AppTextInput } from '@/shared';
 
-export const defaultAddressFormItems = [
+export const addressFormItems = [
   {
-    title: 'Country',
     name: 'country',
-    component: <AppTextInput label="" autoComplete="country" />,
-    required: true,
+    component: (
+      <AppTextInput
+        label="Country"
+        placeholder="Ukraine"
+        autoComplete="country"
+      />
+    ),
     sx: {
       width: '100%',
       gridArea: 'country',
     },
   },
   {
-    title: 'City',
     name: 'city',
-    component: <AppTextInput label="" autoComplete="street-address" />,
-    required: true,
+    component: (
+      <AppTextInput
+        label="City"
+        placeholder="Kyiv"
+        autoComplete="street-address"
+      />
+    ),
     sx: {
       width: '100%',
       gridArea: 'city',
     },
   },
   {
-    title: 'Street',
     name: 'street',
-    component: <AppTextInput label="" />,
-    required: true,
+    component: <AppTextInput label="Street" placeholder="Khreshchatyk" />,
     sx: {
       width: '100%',
       gridArea: 'street',
     },
   },
   {
-    title: 'House',
     name: 'houseNumber',
-    component: <AppTextInput label="" />,
-    required: true,
+    component: <AppTextInput label="House" placeholder="11/3" />,
     sx: {
       width: '100%',
       gridArea: 'houseNumber',
     },
   },
   {
-    title: 'Apartment',
     name: 'apartment',
-    component: <AppTextInput label="" />,
+    component: <AppTextInput label="Apart." placeholder="25" />,
     sx: {
       width: '100%',
       gridArea: 'apartment',

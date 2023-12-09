@@ -1,0 +1,1 @@
+export { AppAccountAvatar } from './AppAccountAvatar';

@@ -31,7 +31,6 @@ const SigInForm = () => {
   const theme = useTheme();
   const isSameData = useIsSameData(); // did the user change field data after unsuccessful submission?
 
-  // react-hook-form settings
   const dispatch = useDispatch();
   const { handleSubmit, control, reset } = useForm({
     resolver: zodResolver(signInSchema),
@@ -47,7 +46,7 @@ const SigInForm = () => {
       .then(() => {
         reset();
         setFormError('');
-        toast.success('You have successfully signed in');
+        // toast.success('You have successfully signed in');
       })
       .catch((error) => {
         const errorText = getError(error.message);

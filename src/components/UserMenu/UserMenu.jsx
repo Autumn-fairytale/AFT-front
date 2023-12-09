@@ -1,6 +1,6 @@
 import { TbChefHat } from 'react-icons/tb';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -35,6 +35,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 export const UserMenu = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Get number of items in user's cart
   const { data } = useGetCartItems();
@@ -54,7 +55,11 @@ export const UserMenu = () => {
   return (
     <>
       {!roles.includes('admin') && (
-        <Avatar src={avatar} sx={{ width: 35, height: 35, mr: 1 }} />
+        <Avatar
+          src={avatar}
+          sx={{ width: 35, height: 35, mr: 1, cursor: 'pointer' }}
+          onClick={() => navigate(route.USER_ACCOUNT)}
+        />
       )}
       <ListStyled>
         {!roles.includes('admin') && (
@@ -95,7 +100,7 @@ export const UserMenu = () => {
           onClick={() => {
             if (isAuth) {
               dispatch(signOut());
-              toast.success('You have successfully signed out');
+              // toast.success('You have successfully signed out');
             }
           }}
         >

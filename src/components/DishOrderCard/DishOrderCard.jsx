@@ -32,7 +32,7 @@ import { DishOrderCardSpiceLevel } from './DishOrderCardSpiceLevel';
 import { DishOrderCardTabs } from './DishOrderCardTabs';
 import { DishOrderCardVeganBadge } from './DishOrderCardVeganBadge';
 
-const DishOrderCard = ({ dishId }) => {
+const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
   const { data: cartData, isPending: isCartLoading } = useGetCartItems();
   const { mutate: updateCartItem, isPending: isUpdatingCart } =
     useUpdateCartItemById();
@@ -229,6 +229,8 @@ const DishOrderCard = ({ dishId }) => {
             isInCart={isInCart}
             isCartLoading={isCartLoading}
             isUpdatingCart={isUpdatingCart}
+            handleGoToCart={handleGoToCart}
+            closeModalHandler={closeModalHandler}
           />
         </Box>
       </StyledDishOrderCardWrapper>
@@ -237,4 +239,8 @@ const DishOrderCard = ({ dishId }) => {
 };
 export default DishOrderCard;
 
-DishOrderCard.propTypes = { dishId: PropTypes.string };
+DishOrderCard.propTypes = {
+  dishId: PropTypes.string,
+  handleGoToCart: PropTypes.func,
+  closeModalHandler: PropTypes.func,
+};

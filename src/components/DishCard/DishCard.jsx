@@ -33,8 +33,8 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
     setIsModalOpen(true);
   };
 
-  const closeModalHandler = () => {
-    setIsModalOpen(false);
+  const closeModalHandler = async () => {
+    await setIsModalOpen(false);
   };
 
   const { mutate: addCartItem, isPending: isAddingItem } = useAddCartItem();

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import {
   Box,
@@ -12,6 +13,9 @@ import {
 import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 
+import { convertToMoney } from '@/helpers';
+import { useGetCartItems, useUpdateCartItemById } from '@/hooks';
+import { useAddCartItem } from '@/hooks/cart/useAddCartItem';
 import { useFetchDish } from '@/hooks/useFetchDish';
 import {
   StyledAddDishOrderCardMedia,
@@ -30,9 +34,25 @@ import { DishOrderCardSpiceLevel } from './DishOrderCardSpiceLevel';
 import { DishOrderCardTabs } from './DishOrderCardTabs';
 import { DishOrderCardVeganBadge } from './DishOrderCardVeganBadge';
 
-const DishOrderCard = ({ dishId = '6571fb87d24ece5e6a7f23a4' }) => {
+const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
+  const location = useLocation();
+  const isOpenedFromCreateOrder = location.pathname.endsWith('/create-order');
+
+  const { data: cartData, isPending: isCartLoading } = useGetCartItems();
+  const { mutate: updateCartItem, isPending: isUpdatingCart } =
+    useUpdateCartItemById();
+  const { mutate: addCartItem, isPending: isAddingItem } = useAddCartItem();
+
   const { data: dish = {}, isLoading } = useFetchDish(dishId);
+
   const owner = dish.owner;
+
+  const cartItem = cartData?.cart.items.find(
+    (item) => item.dish.id === dish.id
+  );
+
+  const isInCart = !!cartItem;
+  const cartItemCount = cartItem ? cartItem.count : 0;
 
   const cardRef = useRef();
   const isVegan = dish?.isVegan;
@@ -48,7 +68,6 @@ const DishOrderCard = ({ dishId = '6571fb87d24ece5e6a7f23a4' }) => {
   }, [isLoading]);
 
   const [expanded, setExpanded] = useState(false);
-  const [quantity, setQuantity] = useState(1);
   const [tabValue, setTabValue] = useState(0);
   const [mediaScale, setMediaScale] = useState(1);
 
@@ -81,11 +100,25 @@ const DishOrderCard = ({ dishId = '6571fb87d24ece5e6a7f23a4' }) => {
   };
 
   const handleQuantityChange = (change) => {
-    setQuantity(quantity + change);
+    const newQuantity = cartItemCount + change;
+
+    updateCartItem({
+      item: { dishId: dish.id, count: newQuantity },
+    });
+
+    // else { }
   };
 
-  const totalWeight = dish.weight * quantity;
-  const totalPrice = dish.price * quantity;
+  const handleAddToCart = () => {
+    if (isInCart) {
+      updateCartItem({ item: { dishId: dish.id, count: cartItemCount + 1 } });
+    } else {
+      addCartItem({ item: { dishId: dish.id, count: 1 } });
+    }
+  };
+
+  const totalWeight = dish.weight * cartItemCount;
+  const totalPrice = dish.price * cartItemCount;
 
   return (
     dish.name &&
@@ -167,7 +200,7 @@ const DishOrderCard = ({ dishId = '6571fb87d24ece5e6a7f23a4' }) => {
                   Portion size
                 </Typography>
                 <Typography variant="subtitle1">
-                  {dish.weight}g - {dish.price}₴
+                  {dish.weight}g - {convertToMoney(dish.price)}
                 </Typography>
               </Box>
 
@@ -183,7 +216,7 @@ const DishOrderCard = ({ dishId = '6571fb87d24ece5e6a7f23a4' }) => {
                     variant="subtitle1"
                     sx={{ fontWeight: 'bold' }}
                   >
-                    {totalPrice.toFixed(2)}₴
+                    {convertToMoney(totalPrice)}
                   </Typography>
                 </Typography>
               </Box>
@@ -197,8 +230,19 @@ const DishOrderCard = ({ dishId = '6571fb87d24ece5e6a7f23a4' }) => {
         </StyledDishOrderCard>
         <Box sx={{ p: 1 }}>
           <DishOrderCardButtonsGroup
-            quantity={quantity}
+            quantity={cartItemCount}
             handleQuantityChange={handleQuantityChange}
+            handleAddToCart={handleAddToCart}
+            isAddingItem={isAddingItem}
+            isInCart={isInCart}
+            isCartLoading={isCartLoading}
+            isUpdatingCart={isUpdatingCart}
+            handleGoToCart={handleGoToCart}
+            closeModalHandler={closeModalHandler}
+            isOpenedFromCreateOrder={isOpenedFromCreateOrder}
+            cartItemCount={cartItemCount}
+            dishId={dish.id}
+            addCartItem={addCartItem}
           />
         </Box>
       </StyledDishOrderCardWrapper>
@@ -207,4 +251,8 @@ const DishOrderCard = ({ dishId = '6571fb87d24ece5e6a7f23a4' }) => {
 };
 export default DishOrderCard;
 
-DishOrderCard.propTypes = { dishId: PropTypes.string };
+DishOrderCard.propTypes = {
+  dishId: PropTypes.string,
+  handleGoToCart: PropTypes.func,
+  closeModalHandler: PropTypes.func.isRequired,
+};

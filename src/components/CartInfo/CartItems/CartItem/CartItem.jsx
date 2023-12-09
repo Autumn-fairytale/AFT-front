@@ -75,7 +75,7 @@ const CartItem = ({ data, ...props }) => {
 
         <CartItemBodyStyled>
           {/* NAME AND PRICE */}
-          <CartItemTitle title={name} />
+          <CartItemTitle title={name} id={dish.id} />
           <Typography sx={{ fontStyle: 'italic' }}>
             {convertToMoney(price)}
           </Typography>
@@ -89,7 +89,6 @@ const CartItem = ({ data, ...props }) => {
           {/* SPICE LEVEL, CATEGORY, CUISINE */}
           <CartItemTags isDefault={isDefault} dish={dish} theme={theme} />
         </CartItemBodyStyled>
-
         {/* CHANGE QTY */}
         <AppNumberInput
           value={itemCount}

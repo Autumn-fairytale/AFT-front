@@ -37,7 +37,7 @@ const DishesPage = () => {
     }, debounceDelay);
 
     return () => clearTimeout(debounceTimeout);
-  }, [searchTerm, searchParams, searchParams, search]);
+  }, [searchTerm, searchParams, search]);
 
   const fetchDishes = async ({ pageParam }) => {
     const res = await getDishes({

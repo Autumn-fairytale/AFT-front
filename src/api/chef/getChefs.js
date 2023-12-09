@@ -1,7 +1,6 @@
 import { publicInstance } from '../axios';
 
 export const getChefs = async ({ search = '', pageParam = 1, limit = 10 }) => {
-  console.log('search:', search);
   let queryString = '';
 
   if (search !== undefined && search !== '') {
@@ -11,7 +10,7 @@ export const getChefs = async ({ search = '', pageParam = 1, limit = 10 }) => {
   queryString = queryString.replace(/&$/, '');
 
   const { data } = await publicInstance.get(
-    `/chefs?page=${pageParam}&limit=${limit}${queryString}`
+    `/chefs?page=${pageParam}&limit=${limit}&${queryString}`
   );
 
   return data;

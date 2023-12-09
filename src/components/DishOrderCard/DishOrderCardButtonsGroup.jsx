@@ -36,8 +36,6 @@ export const DishOrderCardButtonsGroup = ({
       handleQuantityChange(1);
     }
   };
-  console.log('isOpenedFromCreateOrder', isOpenedFromCreateOrder);
-  console.log(closeModalHandler);
 
   return (
     <Stack direction="row" spacing={1} component={Card} elevation={5}>

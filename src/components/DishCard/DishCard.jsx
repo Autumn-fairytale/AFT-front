@@ -4,7 +4,7 @@ import { IoCart, IoCartOutline, IoSettingsOutline } from 'react-icons/io5';
 import { PiHeart } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 
-import { CircularProgress, IconButton } from '@mui/material';
+import { Box, CircularProgress, IconButton, Stack } from '@mui/material';
 
 import { customColors } from '@/constants';
 import { convertToMoney } from '@/helpers';
@@ -125,22 +125,33 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
           )}
         </FavoriteButton>
       </DishImageWrapper>
+      <Stack
+        direction="column"
+        sx={{ height: 70, justifyContent: 'space-between' }}
+      >
+        <Box>
+          <MainInfoWrapper>
+            <DishName isCarousel={isCarousel}>
+              {dishInfo.name.length > 12
+                ? `${dishInfo.name.slice(0, 12)}...`
+                : dishInfo.name}
+            </DishName>
+            <DishPrice isCarousel={isCarousel}>
+              {convertToMoney(dishInfo.price)}
+            </DishPrice>
+          </MainInfoWrapper>
+        </Box>
 
-      <MainInfoWrapper>
-        <DishName isCarousel={isCarousel}>
-          {dishInfo.name.length > 14
-            ? dishInfo.name.slice(0, 14) + '...'
-            : dishInfo.name}
-        </DishName>
-        <DishPrice isCarousel={isCarousel}>
-          {convertToMoney(dishInfo.price)}
-        </DishPrice>
-      </MainInfoWrapper>
-      <DishDescription isCarousel={isCarousel}>
-        {isCarousel
-          ? dishInfo.description.slice(0, 50) + '...'
-          : dishInfo.description.slice(0, 80) + '...'}
-      </DishDescription>
+        <Box sx={{ flexGrow: 1 }} />
+        <Box sx={{ maxHeight: 20 }}>
+          <DishDescription isCarousel={isCarousel}>
+            {isCarousel
+              ? `${dishInfo.description.slice(0, 50)}...`
+              : `${dishInfo.description.slice(0, 80)}...`}
+          </DishDescription>
+        </Box>
+      </Stack>
+
       <ButtonsWrapper isCarousel={isCarousel}>
         <AppButton
           sx={isCarousel ? baseStyle : nonCarouselStyle}

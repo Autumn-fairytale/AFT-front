@@ -42,7 +42,7 @@ export const DishName = styled('h2')(({ theme, isCarousel }) => ({
 }));
 
 export const DishPrice = styled('h2')(({ theme, isCarousel }) => ({
-  fontSize: `${isCarousel ? '20px' : '28px'}`,
+  fontSize: `${isCarousel ? '16px' : '28px'}`,
   fontWeight: '900',
   letterSpacing: '0em',
   color: `${theme.palette.primary.main}`,

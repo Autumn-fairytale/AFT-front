@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import { getChefs } from '@/api/chef/getChefs';
 import { ChefCardSkeleton } from '@/components/ChefCardSkeleton/ChefCardSkeleton';
+import ChefsList from '@/components/ChefsList/ChefsList';
 import { ChefsSearchBar } from '@/components/ChefsSearchBar/ChefsSearchBar';
 import { PageTitle } from '@/components/PageTitle/PageTitle';
 import { AppContainer } from '@/shared';
@@ -64,6 +65,7 @@ const ChefsPage = () => {
   }
 
   const qtyChefs = chefs?.length;
+  console.log('chefs:', chefs);
   console.log('qtyChefs:', qtyChefs);
 
   return (
@@ -71,7 +73,7 @@ const ChefsPage = () => {
       <AppContainer>
         <PageTitle> CHEFS</PageTitle>
         <ChefsSearchBar />
-        <p>{JSON.stringify(data)}</p>
+
         {isLoading && (
           <SkeletonWrapper>
             {Array.from({ length: 3 }).map((_item, index) => (
@@ -90,7 +92,7 @@ const ChefsPage = () => {
             height={800}
             loader={<h3>Loading...</h3>}
           >
-            {/* <DishesList data={dishes} /> */}
+            <ChefsList data={chefs} />
           </InfiniteScrollStyled>
         )}
       </AppContainer>

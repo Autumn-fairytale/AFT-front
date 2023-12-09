@@ -7,7 +7,17 @@ const ChefsList = ({ data }) => {
   return (
     <ChefListStyled>
       {data?.map((chef) => (
-        <li key={chef.id}>{<ChefCard chefInfo={chef} />}</li>
+        <li key={chef.id}>
+          {
+            <ChefCard
+              chefInfo={{
+                image: chef.avatar,
+                name: `${chef.userId.firstName} ${chef.userId.lastName}`,
+                rate: chef.rating,
+              }}
+            />
+          }
+        </li>
       ))}
     </ChefListStyled>
   );

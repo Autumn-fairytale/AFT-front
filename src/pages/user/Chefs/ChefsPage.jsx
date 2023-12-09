@@ -28,7 +28,11 @@ const ChefsPage = () => {
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
-      setSearchTerm(search);
+      if (search === '') {
+        setSearchTerm(null);
+      } else {
+        setSearchTerm(search);
+      }
     }, debounceDelay);
 
     return () => clearTimeout(debounceTimeout);

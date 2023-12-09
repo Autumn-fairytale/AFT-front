@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
-import { FiShoppingCart } from 'react-icons/fi';
-import { IoSettingsOutline } from 'react-icons/io5';
+import { IoCart, IoCartOutline, IoSettingsOutline } from 'react-icons/io5';
 import { PiHeart } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 
-import { IconButton } from '@mui/material';
+import { CircularProgress, IconButton } from '@mui/material';
+import Badge from '@mui/material/Badge';
 
 import { customColors } from '@/constants';
+import { useGetCartItems, useUpdateCartItemById } from '@/hooks';
 import { useAddCartItem } from '@/hooks/cart/useAddCartItem';
 import AppButton from '@/shared/Buttons/AppButton';
 import { defaultDishCardPropTypes, DishCardPropTypes } from './DishCard.props';
@@ -25,17 +26,26 @@ import {
 
 const DishCard = ({ dishInfo, isCarousel, isChef }) => {
   const [favorite, setFavorite] = useState(false);
-  const { mutate: addCartItem, isLoading } = useAddCartItem();
+
+  const { mutate: addCartItem, isPending: isAddingItem } = useAddCartItem();
+  const { data: cartData, isPending: isCartLoading } = useGetCartItems();
+  const { mutate: updateCartItem, isPending: isUpdatingCart } =
+    useUpdateCartItemById();
+
+  const cartItem = cartData?.cart.items.find(
+    (item) => item.dish.id === dishInfo.id
+  );
+  const isInCart = cartItem !== undefined;
+  const cartItemCount = cartItem ? cartItem.count : 0;
 
   const handleAddToCart = () => {
-    const cartItemData = {
-      item: {
-        dishId: dishInfo._id,
-        count: 1,
-      },
-    };
-
-    addCartItem(cartItemData);
+    if (isInCart) {
+      updateCartItem({
+        item: { dishId: dishInfo.id, count: cartItemCount + 1 },
+      });
+    } else {
+      addCartItem({ item: { dishId: dishInfo.id, count: 1 } });
+    }
   };
 
   const editPath = `/chef-account/dishes/edit/${dishInfo.id}`;
@@ -81,30 +91,69 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
         <AppButton
           sx={
             isCarousel
-              ? { fontSize: '12px', height: '36px', whiteSpace: 'nowrap' }
-              : ''
+              ? {
+                  fontSize: '12px',
+                  height: '36px',
+                  whiteSpace: 'nowrap',
+                }
+              : { width: '146px' }
           }
           variant="outlined"
           label="Learn More"
           endIcon={isCarousel ? '' : <FiChevronRight />}
         />
         <AppButton
-          sx={
-            isCarousel
-              ? { fontSize: '12px', height: '36px', whiteSpace: 'nowrap' }
-              : ''
-          }
+          sx={{
+            ...(isCarousel
+              ? {
+                  fontSize: '12px',
+                  height: '36px',
+                  whiteSpace: 'nowrap',
+                }
+              : {}),
+            ...(isInCart && {
+              backgroundColor: 'success.light',
+              width: '146px',
+            }),
+          }}
           variant="contained"
           label={
             isCarousel ? (
-              <FiShoppingCart style={{ fontSize: '18px' }} />
+              <IoCart style={{ fontSize: '24px' }} />
+            ) : isInCart ? (
+              'In Cart'
             ) : (
               'Add to Cart'
             )
           }
           onClick={!isChef ? handleAddToCart : null}
-          endIcon={isCarousel ? '' : <FiShoppingCart />}
-          disabled={isChef || isLoading}
+          disabled={isChef || isCartLoading || isAddingItem || isUpdatingCart}
+          endIcon={
+            isCarousel ? (
+              ''
+            ) : isInCart ? (
+              <Badge
+                badgeContent={cartItem?.count}
+                color="primary"
+                sx={{
+                  '& .MuiBadge-badge': {
+                    color: 'white',
+                    fontSize: 16,
+                    padding: '0 6px',
+                    right: -3,
+                    top: 8,
+                  },
+                  mr: '16px',
+                }}
+              >
+                <IoCart style={{ fontSize: '24px' }} />
+              </Badge>
+            ) : isAddingItem ? (
+              <CircularProgress size={24} />
+            ) : (
+              <IoCartOutline style={{ fontSize: '24px' }} />
+            )
+          }
         />
       </ButtonsWrapper>
     </DishCardWrapper>

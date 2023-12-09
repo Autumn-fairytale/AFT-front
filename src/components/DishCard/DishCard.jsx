@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { CircularProgress, IconButton } from '@mui/material';
 
 import { customColors } from '@/constants';
+import { convertToMoney } from '@/helpers';
 import { useGetCartItems, useUpdateCartItemById } from '@/hooks';
 import { useAddCartItem } from '@/hooks/cart/useAddCartItem';
 import AppButton from '@/shared/Buttons/AppButton';
@@ -33,8 +34,8 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
     setIsModalOpen(true);
   };
 
-  const closeModalHandler = async () => {
-    await setIsModalOpen(false);
+  const closeModalHandler = () => {
+    setIsModalOpen(false);
   };
 
   const { mutate: addCartItem, isPending: isAddingItem } = useAddCartItem();
@@ -131,7 +132,9 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
             ? dishInfo.name.slice(0, 14) + '...'
             : dishInfo.name}
         </DishName>
-        <DishPrice isCarousel={isCarousel}>{dishInfo.price}₴</DishPrice>
+        <DishPrice isCarousel={isCarousel}>
+          {convertToMoney(dishInfo.price)}
+        </DishPrice>
       </MainInfoWrapper>
       <DishDescription isCarousel={isCarousel}>
         {isCarousel
@@ -159,6 +162,7 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
         dishId={dishInfo.id}
         isModalOpen={isModalOpen}
         closeModalHandler={closeModalHandler}
+        handleAddToCart={handleAddToCart}
       />
     </DishCardWrapper>
   );

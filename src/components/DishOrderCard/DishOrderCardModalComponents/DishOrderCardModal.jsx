@@ -27,10 +27,15 @@ export const DishOrderCardModal = ({
             border: 'none',
             minWidth: '480px',
             minHeight: '540px',
+            boxShadow: 'none',
           },
         }}
       >
-        <DishOrderCard dishId={dishId} handleGoToCart={handleGoToCart} />
+        <DishOrderCard
+          dishId={dishId}
+          handleGoToCart={handleGoToCart}
+          closeModalHandler={closeModalHandler}
+        />
       </AppModal>
     )
   );

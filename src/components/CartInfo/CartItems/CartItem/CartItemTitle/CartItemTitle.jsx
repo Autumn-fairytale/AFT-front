@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { Backdrop } from '@mui/material';
 
+import DishOrderCard from '@/components/DishOrderCard/DishOrderCard';
 import { useCartTypeContext } from '@/contexts/CartTypeContext';
 import { hideUserCart, showUserCart } from '@/redux/cartStatus/slice';
 import { AppModal } from '@/shared/AppModal/AppModal';
@@ -37,7 +38,10 @@ const CartItemTitle = ({ title, ...props }) => {
             <Backdrop {...props} style={{ opacity: isDefault ? 0 : 1 }} />
           )}
         >
-          {/* <DishOrderCard  /> */}
+          <DishOrderCard
+            dishId={props?.id}
+            // closeModalHandler={closeModalHandler}
+          />
         </AppModal>
       )}
     </>

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import {
   Box,
@@ -12,6 +13,7 @@ import {
 import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 
+import { convertToMoney } from '@/helpers';
 import { useGetCartItems, useUpdateCartItemById } from '@/hooks';
 import { useAddCartItem } from '@/hooks/cart/useAddCartItem';
 import { useFetchDish } from '@/hooks/useFetchDish';
@@ -33,12 +35,16 @@ import { DishOrderCardTabs } from './DishOrderCardTabs';
 import { DishOrderCardVeganBadge } from './DishOrderCardVeganBadge';
 
 const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
+  const location = useLocation();
+  const isOpenedFromCreateOrder = location.pathname.endsWith('/create-order');
+
   const { data: cartData, isPending: isCartLoading } = useGetCartItems();
   const { mutate: updateCartItem, isPending: isUpdatingCart } =
     useUpdateCartItemById();
   const { mutate: addCartItem, isPending: isAddingItem } = useAddCartItem();
 
   const { data: dish = {}, isLoading } = useFetchDish(dishId);
+
   const owner = dish.owner;
 
   const cartItem = cartData?.cart.items.find(
@@ -99,13 +105,15 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
     updateCartItem({
       item: { dishId: dish.id, count: newQuantity },
     });
+
+    // else { }
   };
 
   const handleAddToCart = () => {
     if (isInCart) {
-      console.log('do something - to card');
+      updateCartItem({ item: { dishId: dish.id, count: cartItemCount + 1 } });
     } else {
-      addCartItem({ item: { dishId: dish.id, count: cartItemCount } });
+      addCartItem({ item: { dishId: dish.id, count: 1 } });
     }
   };
 
@@ -192,7 +200,7 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
                   Portion size
                 </Typography>
                 <Typography variant="subtitle1">
-                  {dish.weight}g - {dish.price}₴
+                  {dish.weight}g - {convertToMoney(dish.price)}
                 </Typography>
               </Box>
 
@@ -208,7 +216,7 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
                     variant="subtitle1"
                     sx={{ fontWeight: 'bold' }}
                   >
-                    {totalPrice.toFixed(2)}₴
+                    {convertToMoney(totalPrice)}
                   </Typography>
                 </Typography>
               </Box>
@@ -231,6 +239,10 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
             isUpdatingCart={isUpdatingCart}
             handleGoToCart={handleGoToCart}
             closeModalHandler={closeModalHandler}
+            isOpenedFromCreateOrder={isOpenedFromCreateOrder}
+            cartItemCount={cartItemCount}
+            dishId={dish.id}
+            addCartItem={addCartItem}
           />
         </Box>
       </StyledDishOrderCardWrapper>
@@ -242,5 +254,5 @@ export default DishOrderCard;
 DishOrderCard.propTypes = {
   dishId: PropTypes.string,
   handleGoToCart: PropTypes.func,
-  closeModalHandler: PropTypes.func,
+  closeModalHandler: PropTypes.func.isRequired,
 };

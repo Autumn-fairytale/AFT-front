@@ -2,9 +2,11 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { getChefs } from '@/api/chef/getChefs';
+import NoChefDish from '@/assets/images/ChefsPage/Sad_chef.jpg';
 import { ChefCardSkeleton } from '@/components/ChefCardSkeleton/ChefCardSkeleton';
 import ChefsList from '@/components/ChefsList/ChefsList';
 import { ChefsSearchBar } from '@/components/ChefsSearchBar/ChefsSearchBar';
+import PageMessage from '@/components/PageMessage/PageMessage';
 import { PageTitle } from '@/components/PageTitle/PageTitle';
 import { AppContainer } from '@/shared';
 import { Main } from '@/shared/Main/Main';
@@ -18,10 +20,11 @@ import {
 const ChefsPage = () => {
   const [searchParams] = useSearchParams();
   const [totalPages, setTotalPage] = useState(null);
-  const { search } = useMemo(
+  const { search, status } = useMemo(
     () => Object.fromEntries([...searchParams]),
     [searchParams]
   );
+
   const [searchTerm, setSearchTerm] = useState(search || null);
   const debounceDelay = 500;
   const LIMIT = 10;
@@ -42,14 +45,15 @@ const ChefsPage = () => {
     const res = await getChefs({
       search,
       pageParam,
-      LIMIT,
+      limit: LIMIT,
+      isAvailable: status,
     });
     setTotalPage(res.pageInfo.totalPages);
     return res;
   };
 
   const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
-    queryKey: ['chefsPage', searchTerm],
+    queryKey: ['chefsPage', searchTerm, status],
     queryFn: fetchChefs,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
@@ -69,8 +73,6 @@ const ChefsPage = () => {
   }
 
   const qtyChefs = chefs?.length;
-  console.log('chefs:', chefs);
-  console.log('qtyChefs:', qtyChefs);
 
   return (
     <Main>
@@ -78,7 +80,7 @@ const ChefsPage = () => {
         <PageTitle> CHEFS</PageTitle>
         <ChefsSearchBar />
 
-        {isLoading && (
+        {isLoading ? (
           <SkeletonWrapper>
             {Array.from({ length: 3 }).map((_item, index) => (
               <SkeletonCardItem SkeletonCardItem key={index}>
@@ -86,8 +88,12 @@ const ChefsPage = () => {
               </SkeletonCardItem>
             ))}
           </SkeletonWrapper>
-        )}
-        {!isLoading && data && (
+        ) : qtyChefs === 0 ? (
+          <PageMessage
+            image={NoChefDish}
+            message="Uh-oh! No chef found!"
+          ></PageMessage>
+        ) : (
           <InfiniteScrollStyled
             dataLength={qtyChefs}
             scrollThreshold={0.6}

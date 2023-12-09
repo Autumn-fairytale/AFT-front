@@ -3,7 +3,6 @@ import { ChefListPropTypes } from './ChefsList.props';
 import { ChefListStyled } from './ChefsList.styled';
 
 const ChefsList = ({ data }) => {
-  console.log('data:', data);
   return (
     <ChefListStyled>
       {data?.map((chef) => (

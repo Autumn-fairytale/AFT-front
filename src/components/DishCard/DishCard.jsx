@@ -5,7 +5,6 @@ import { PiHeart } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 
 import { CircularProgress, IconButton } from '@mui/material';
-import Badge from '@mui/material/Badge';
 
 import { customColors } from '@/constants';
 import { useGetCartItems, useUpdateCartItemById } from '@/hooks';
@@ -23,6 +22,7 @@ import {
   FavoriteButton,
   MainInfoWrapper,
 } from './DishCard.styled';
+import { StyledDishBadge } from './DishCardBadge/DishCardBadge';
 
 const DishCard = ({ dishInfo, isCarousel, isChef }) => {
   const [favorite, setFavorite] = useState(false);
@@ -49,6 +49,43 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
   };
 
   const editPath = `/chef-account/dishes/edit/${dishInfo.id}`;
+
+  let labelContent;
+  if (isCarousel) {
+    labelContent = isInCart ? (
+      <StyledDishBadge count={cartItem?.count} isсarousel={isCarousel} />
+    ) : (
+      <IoCart style={{ fontSize: '24px' }} />
+    );
+  } else {
+    labelContent = isInCart ? 'In Cart' : 'Add to Cart';
+  }
+
+  const baseStyle = { fontSize: '12px', height: '36px', whiteSpace: 'nowrap' };
+  const cartStyle = { backgroundColor: 'success.light' };
+  const nonCarouselStyle = { width: '146px' };
+
+  let buttonStyle = {};
+  if (isCarousel) {
+    buttonStyle = { ...baseStyle };
+  }
+  if (isInCart) {
+    buttonStyle = { ...buttonStyle, ...cartStyle };
+    if (!isCarousel) {
+      buttonStyle = { ...buttonStyle, ...nonCarouselStyle };
+    }
+  }
+
+  let endIconContent;
+  if (isCarousel) {
+    endIconContent = null;
+  } else if (isInCart) {
+    endIconContent = <StyledDishBadge count={cartItem?.count} />;
+  } else if (isAddingItem) {
+    endIconContent = <CircularProgress size={24} />;
+  } else {
+    endIconContent = <IoCartOutline style={{ fontSize: '24px' }} />;
+  }
 
   return (
     <DishCardWrapper isCarousel={isCarousel}>
@@ -89,71 +126,18 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
       </DishDescription>
       <ButtonsWrapper isCarousel={isCarousel}>
         <AppButton
-          sx={
-            isCarousel
-              ? {
-                  fontSize: '12px',
-                  height: '36px',
-                  whiteSpace: 'nowrap',
-                }
-              : { width: '146px' }
-          }
+          sx={isCarousel ? baseStyle : nonCarouselStyle}
           variant="outlined"
           label="Learn More"
           endIcon={isCarousel ? '' : <FiChevronRight />}
         />
         <AppButton
-          sx={{
-            ...(isCarousel
-              ? {
-                  fontSize: '12px',
-                  height: '36px',
-                  whiteSpace: 'nowrap',
-                }
-              : {}),
-            ...(isInCart && {
-              backgroundColor: 'success.light',
-              width: '146px',
-            }),
-          }}
+          sx={buttonStyle}
           variant="contained"
-          label={
-            isCarousel ? (
-              <IoCart style={{ fontSize: '24px' }} />
-            ) : isInCart ? (
-              'In Cart'
-            ) : (
-              'Add to Cart'
-            )
-          }
+          label={labelContent}
           onClick={!isChef ? handleAddToCart : null}
           disabled={isChef || isCartLoading || isAddingItem || isUpdatingCart}
-          endIcon={
-            isCarousel ? (
-              ''
-            ) : isInCart ? (
-              <Badge
-                badgeContent={cartItem?.count}
-                color="primary"
-                sx={{
-                  '& .MuiBadge-badge': {
-                    color: 'white',
-                    fontSize: 16,
-                    padding: '0 6px',
-                    right: -3,
-                    top: 8,
-                  },
-                  mr: '16px',
-                }}
-              >
-                <IoCart style={{ fontSize: '24px' }} />
-              </Badge>
-            ) : isAddingItem ? (
-              <CircularProgress size={24} />
-            ) : (
-              <IoCartOutline style={{ fontSize: '24px' }} />
-            )
-          }
+          endIcon={endIconContent}
         />
       </ButtonsWrapper>
     </DishCardWrapper>

@@ -7,6 +7,7 @@ import { DishCardSkeleton } from '@/components/DishCardSkeleton/DishCardSkeleton
 import DishesList from '@/components/DishesList/DishesList';
 import { DishesFilter } from '@/components/DishesSearchBar/DishesSearchBar';
 import PageMessage from '@/components/PageMessage/PageMessage';
+import { PageTitle } from '@/components/PageTitle/PageTitle';
 import { AppContainer } from '@/shared';
 import { Main } from '@/shared/Main/Main';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -14,7 +15,6 @@ import {
   InfiniteScrollStyled,
   SkeletonCardItem,
   SkeletonWrapper,
-  TypographyStyled,
 } from './DishesPage.styled';
 
 const DishesPage = () => {
@@ -79,7 +79,7 @@ const DishesPage = () => {
   return (
     <Main>
       <AppContainer>
-        <TypographyStyled variant="h4">DISHES</TypographyStyled>
+        <PageTitle>DISHES</PageTitle>
 
         <DishesFilter />
         {isLoading ? (

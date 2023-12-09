@@ -5,7 +5,7 @@ import { getDishes } from '@/api/dishes/getDishes';
 import NoFoundDish from '@/assets/images/Dishes_page/NoDishesFound.png';
 import { DishCardSkeleton } from '@/components/DishCardSkeleton/DishCardSkeleton';
 import DishesList from '@/components/DishesList/DishesList';
-import { DishesFilter } from '@/components/DishesSearchBar/DishesSearchBar';
+import { DishesSearchBar } from '@/components/DishesSearchBar/DishesSearchBar';
 import PageMessage from '@/components/PageMessage/PageMessage';
 import { PageTitle } from '@/components/PageTitle/PageTitle';
 import { AppContainer } from '@/shared';
@@ -81,7 +81,7 @@ const DishesPage = () => {
       <AppContainer>
         <PageTitle>DISHES</PageTitle>
 
-        <DishesFilter />
+        <DishesSearchBar />
         {isLoading ? (
           <SkeletonWrapper>
             {Array.from({ length: 3 }).map((_item, index) => (

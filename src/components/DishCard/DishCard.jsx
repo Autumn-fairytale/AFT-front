@@ -128,7 +128,6 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
           ? dishInfo.description.slice(0, 50) + '...'
           : dishInfo.description.slice(0, 80) + '...'}
       </DishDescription>
-
       <ButtonsWrapper isCarousel={isCarousel}>
         <AppButton
           sx={isCarousel ? baseStyle : nonCarouselStyle}

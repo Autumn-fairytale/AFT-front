@@ -1,8 +1,9 @@
+import { IoCartOutline } from 'react-icons/io5';
+import { MdShoppingCartCheckout } from 'react-icons/md';
+
 import AddIcon from '@mui/icons-material/Add';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import RemoveIcon from '@mui/icons-material/Remove';
 import {
-  Button,
   ButtonGroup,
   Card,
   IconButton,
@@ -12,9 +13,17 @@ import {
 
 import PropTypes from 'prop-types';
 
+import { AppButton } from '@/shared';
+
 export const DishOrderCardButtonsGroup = ({
   quantity,
   handleQuantityChange,
+  handleAddToCart,
+  isAddingItem,
+  isInCart,
+  isCartLoading,
+  isUpdatingCart,
+  handleGoToCart,
 }) => {
   return (
     <Stack direction="row" spacing={1} component={Card} elevation={5}>
@@ -30,7 +39,7 @@ export const DishOrderCardButtonsGroup = ({
       >
         <IconButton
           onClick={() => handleQuantityChange(-1)}
-          disabled={quantity <= 1}
+          disabled={quantity <= 1 || isUpdatingCart}
           sx={{ color: 'primary.main' }}
         >
           <RemoveIcon />
@@ -49,17 +58,29 @@ export const DishOrderCardButtonsGroup = ({
         <IconButton
           onClick={() => handleQuantityChange(1)}
           sx={{ color: 'primary.main' }}
+          disabled={isUpdatingCart}
         >
           <AddIcon />
         </IconButton>
       </ButtonGroup>
-      <Button
+      <AppButton
         variant="contained"
-        startIcon={<AddShoppingCartIcon />}
-        sx={{ mt: 2, width: '100%' }}
-      >
-        Add to cart
-      </Button>
+        endIcon={
+          isInCart ? (
+            <MdShoppingCartCheckout style={{ fontSize: '24px' }} />
+          ) : (
+            <IoCartOutline style={{ fontSize: '24px' }} />
+          )
+        }
+        sx={{
+          mt: 2,
+          width: '100%',
+          backgroundColor: isInCart ? 'success.light' : 'primary.main',
+        }}
+        onClick={isInCart ? handleGoToCart : handleAddToCart}
+        disabled={isAddingItem || isCartLoading}
+        label={isInCart ? 'Go to cart' : 'Add to cart'}
+      />
     </Stack>
   );
 };
@@ -67,4 +88,10 @@ export const DishOrderCardButtonsGroup = ({
 DishOrderCardButtonsGroup.propTypes = {
   quantity: PropTypes.number,
   handleQuantityChange: PropTypes.func.isRequired,
+  handleAddToCart: PropTypes.func,
+  isAddingItem: PropTypes.bool,
+  isInCart: PropTypes.bool,
+  isCartLoading: PropTypes.bool,
+  isUpdatingCart: PropTypes.bool,
+  handleGoToCart: PropTypes.bool,
 };

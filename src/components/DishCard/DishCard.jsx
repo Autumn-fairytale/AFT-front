@@ -10,6 +10,7 @@ import { customColors } from '@/constants';
 import { useGetCartItems, useUpdateCartItemById } from '@/hooks';
 import { useAddCartItem } from '@/hooks/cart/useAddCartItem';
 import AppButton from '@/shared/Buttons/AppButton';
+import { DishOrderCardModal } from '../DishOrderCard/components/DishOrderCardModal';
 import { defaultDishCardPropTypes, DishCardPropTypes } from './DishCard.props';
 import {
   ButtonsWrapper,
@@ -26,6 +27,15 @@ import { StyledDishBadge } from './DishCardBadge';
 
 const DishCard = ({ dishInfo, isCarousel, isChef }) => {
   const [favorite, setFavorite] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModalHandler = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModalHandler = () => {
+    setIsModalOpen(false);
+  };
 
   const { mutate: addCartItem, isPending: isAddingItem } = useAddCartItem();
   const { data: cartData, isPending: isCartLoading } = useGetCartItems();
@@ -134,6 +144,7 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
           variant="outlined"
           label="Learn More"
           endIcon={isCarousel ? '' : <FiChevronRight />}
+          onClick={openModalHandler}
         />
         <AppButton
           sx={buttonStyle}
@@ -144,6 +155,11 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
           endIcon={endIconContent}
         />
       </ButtonsWrapper>
+      <DishOrderCardModal
+        dishId={dishInfo.id}
+        isModalOpen={isModalOpen}
+        closeModalHandler={closeModalHandler}
+      />
     </DishCardWrapper>
   );
 };

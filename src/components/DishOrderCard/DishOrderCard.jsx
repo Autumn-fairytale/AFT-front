@@ -12,6 +12,8 @@ import {
 import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 
+import { useGetCartItems, useUpdateCartItemById } from '@/hooks';
+import { useAddCartItem } from '@/hooks/cart/useAddCartItem';
 import { useFetchDish } from '@/hooks/useFetchDish';
 import {
   StyledAddDishOrderCardMedia,
@@ -30,9 +32,21 @@ import { DishOrderCardSpiceLevel } from './DishOrderCardSpiceLevel';
 import { DishOrderCardTabs } from './DishOrderCardTabs';
 import { DishOrderCardVeganBadge } from './DishOrderCardVeganBadge';
 
-const DishOrderCard = ({ dishId = '6571fb87d24ece5e6a7f23a4' }) => {
+const DishOrderCard = ({ dishId }) => {
+  const { data: cartData, isPending: isCartLoading } = useGetCartItems();
+  const { mutate: updateCartItem, isPending: isUpdatingCart } =
+    useUpdateCartItemById();
+  const { mutate: addCartItem, isPending: isAddingItem } = useAddCartItem();
+
   const { data: dish = {}, isLoading } = useFetchDish(dishId);
   const owner = dish.owner;
+
+  const cartItem = cartData?.cart.items.find(
+    (item) => item.dish.id === dish.id
+  );
+
+  const isInCart = !!cartItem;
+  const cartItemCount = cartItem ? cartItem.count : 0;
 
   const cardRef = useRef();
   const isVegan = dish?.isVegan;
@@ -48,7 +62,6 @@ const DishOrderCard = ({ dishId = '6571fb87d24ece5e6a7f23a4' }) => {
   }, [isLoading]);
 
   const [expanded, setExpanded] = useState(false);
-  const [quantity, setQuantity] = useState(1);
   const [tabValue, setTabValue] = useState(0);
   const [mediaScale, setMediaScale] = useState(1);
 
@@ -81,11 +94,23 @@ const DishOrderCard = ({ dishId = '6571fb87d24ece5e6a7f23a4' }) => {
   };
 
   const handleQuantityChange = (change) => {
-    setQuantity(quantity + change);
+    const newQuantity = cartItemCount + change;
+
+    updateCartItem({
+      item: { dishId: dish.id, count: newQuantity },
+    });
   };
 
-  const totalWeight = dish.weight * quantity;
-  const totalPrice = dish.price * quantity;
+  const handleAddToCart = () => {
+    if (isInCart) {
+      console.log('do something - to card');
+    } else {
+      addCartItem({ item: { dishId: dish.id, count: cartItemCount } });
+    }
+  };
+
+  const totalWeight = dish.weight * cartItemCount;
+  const totalPrice = dish.price * cartItemCount;
 
   return (
     dish.name &&
@@ -197,8 +222,13 @@ const DishOrderCard = ({ dishId = '6571fb87d24ece5e6a7f23a4' }) => {
         </StyledDishOrderCard>
         <Box sx={{ p: 1 }}>
           <DishOrderCardButtonsGroup
-            quantity={quantity}
+            quantity={cartItemCount}
             handleQuantityChange={handleQuantityChange}
+            handleAddToCart={handleAddToCart}
+            isAddingItem={isAddingItem}
+            isInCart={isInCart}
+            isCartLoading={isCartLoading}
+            isUpdatingCart={isUpdatingCart}
           />
         </Box>
       </StyledDishOrderCardWrapper>

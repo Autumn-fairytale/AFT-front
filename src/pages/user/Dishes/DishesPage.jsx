@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { getDishes } from '@/api/getDishes';
+import { getDishes } from '@/api/dishes/getDishes';
 import NoFoundDish from '@/assets/images/Dishes_page/NoDishesFound.png';
 import { DishCardSkeleton } from '@/components/DishCardSkeleton/DishCardSkeleton';
 import DishesList from '@/components/DishesList/DishesList';
@@ -28,7 +28,7 @@ const DishesPage = () => {
     [searchParams]
   );
 
-  const [searchTerm, setSearchTerm] = useState(search || '');
+  const [searchTerm, setSearchTerm] = useState(search || null);
   const debounceDelay = 500;
 
   useEffect(() => {

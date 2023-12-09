@@ -7,8 +7,8 @@ import Typography from '@mui/material/Typography';
 import { AppButton } from '@/shared';
 import { AppTextArea } from '@/shared/AppTextArea/AppTextArea';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { addReview } from '../../api/addReview';
-import { editReview } from '../../api/editReviewById';
+import { addReview } from '../../api/reviews/addReview';
+import { editReview } from '../../api/reviews/editReviewById';
 import { ReviewFormProps } from './ReviewForm.props';
 import { ButtonWrapper, Form } from './ReviewForm.styled';
 

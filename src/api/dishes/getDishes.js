@@ -10,6 +10,7 @@ export const getDishes = async ({
   limit = 10,
 }) => {
   let queryString = '';
+  console.log('isVegan:', isVegan);
 
   if (search !== undefined && search !== '') {
     queryString += `name=${search}&`;
@@ -19,8 +20,10 @@ export const getDishes = async ({
     queryString += `cuisine=${cuisine}&`;
   }
 
-  if (isVegan !== undefined && isVegan !== 'All') {
-    queryString += `isVegan=${isVegan}&`;
+  if (isVegan !== undefined) {
+    queryString += `isVegan=${
+      isVegan === 'Vegan' ? true : isVegan === 'Not vegan' ? false : ''
+    }&`;
   }
 
   if (category !== undefined && category !== 'All') {

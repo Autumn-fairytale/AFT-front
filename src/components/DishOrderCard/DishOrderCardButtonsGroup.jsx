@@ -28,6 +28,7 @@ export const DishOrderCardButtonsGroup = ({
   cartItemCount,
   dishId,
   addCartItem,
+  isChef,
 }) => {
   const handleIncrementQuantity = () => {
     if (!isInCart) {
@@ -70,7 +71,7 @@ export const DishOrderCardButtonsGroup = ({
         <IconButton
           onClick={handleIncrementQuantity}
           sx={{ color: 'primary.main' }}
-          disabled={isUpdatingCart}
+          disabled={isUpdatingCart || isChef}
         >
           <AddIcon />
         </IconButton>
@@ -101,7 +102,7 @@ export const DishOrderCardButtonsGroup = ({
               ? handleGoToCart
               : handleAddToCart
         }
-        disabled={isAddingItem || isCartLoading}
+        disabled={isAddingItem || isCartLoading || isChef}
         label={
           isOpenedFromCreateOrder
             ? 'To Order Information'
@@ -128,4 +129,5 @@ DishOrderCardButtonsGroup.propTypes = {
   cartItemCount: PropTypes.number,
   dishId: PropTypes.string,
   addCartItem: PropTypes.func,
+  isChef: PropTypes.bool,
 };

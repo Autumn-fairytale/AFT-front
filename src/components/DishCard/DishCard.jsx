@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
 import { IoCart, IoCartOutline, IoSettingsOutline } from 'react-icons/io5';
 import { PiHeart } from 'react-icons/pi';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Box, CircularProgress, IconButton, Stack } from '@mui/material';
@@ -10,6 +11,7 @@ import { customColors } from '@/constants';
 import { convertToMoney } from '@/helpers';
 import { useGetCartItems, useUpdateCartItemById } from '@/hooks';
 import { useAddCartItem } from '@/hooks/cart/useAddCartItem';
+import { selectUser } from '@/redux/auth/selectors';
 import AppButton from '@/shared/Buttons/AppButton';
 import { DishOrderCardModal } from '../DishOrderCard/DishOrderCardModalComponents/DishOrderCardModal';
 import { defaultDishCardPropTypes, DishCardPropTypes } from './DishCard.props';
@@ -27,9 +29,12 @@ import {
 import { StyledDishBadge } from './DishCardBadge';
 
 const DishCard = ({ dishInfo, isCarousel, isChef }) => {
-  console.log(isChef);
   const [favorite, setFavorite] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const user = useSelector(selectUser);
+
+  const isChefFromRedux = user?.roles[1].name === 'chef';
 
   const openModalHandler = () => {
     setIsModalOpen(true);
@@ -165,7 +170,13 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
           variant="contained"
           label={labelContent}
           onClick={!isChef ? handleAddToCart : null}
-          disabled={isChef || isCartLoading || isAddingItem || isUpdatingCart}
+          disabled={
+            isChef ||
+            isChefFromRedux ||
+            isCartLoading ||
+            isAddingItem ||
+            isUpdatingCart
+          }
           endIcon={endIconContent}
         />
       </ButtonsWrapper>

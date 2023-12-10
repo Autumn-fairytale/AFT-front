@@ -1,16 +1,16 @@
 import { useSelector } from 'react-redux';
 
 import { getFavorite } from '@/api/favorites/getFavorite';
-import NoFoundDish from '@/assets/images/Dishes_page/NoDishesFound.png';
+import NoChef from '@/assets/images/ChefsPage/Not_found_chef.png';
 import { ChefCardSkeleton } from '@/components/ChefCardSkeleton/ChefCardSkeleton';
-import ChefsList from '@/components/ChefsList/ChefsList';
+import FavoriteChefsList from '@/components/FavoriteChefsList/FavoriteChefsList';
 import PageMessage from '@/components/PageMessage/PageMessage';
 import { PageTitle } from '@/components/PageTitle/PageTitle';
 import { selectUser } from '@/redux/auth/selectors';
 import { AppContainer } from '@/shared';
 import { Main } from '@/shared/Main/Main';
 import { useQuery } from '@tanstack/react-query';
-import { SkeletonCardItem, SkeletonWrapper } from './FavoriteDishes.styled';
+import { SkeletonCardItem, SkeletonWrapper } from './FavoritesChefs.styled';
 
 const FavoriteChefs = () => {
   const { id: userId } = useSelector(selectUser);
@@ -33,13 +33,13 @@ const FavoriteChefs = () => {
               </SkeletonCardItem>
             ))}
           </SkeletonWrapper>
-        ) : data?.favoriteDishes.length === 0 ? (
+        ) : data?.favoriteChefs.length === 0 ? (
           <PageMessage
-            image={NoFoundDish}
-            message="You don't have favorites dishes"
+            image={NoChef}
+            message="You don't have favorites chefs"
           />
         ) : (
-          <ChefsList data={data.favoriteChefs} />
+          <FavoriteChefsList data={data.favoriteChefs} />
         )}
       </AppContainer>
     </Main>

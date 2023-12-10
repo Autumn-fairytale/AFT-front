@@ -45,6 +45,7 @@ export const AddDishForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Extracting dish ID from the URL
   const { id: dishId } = useParams();
@@ -98,11 +99,30 @@ export const AddDishForm = () => {
 
   // Initializing form data
   const savedFormData = useSelector(selectSavedFormData);
+  // useEffect(() => {
+  //   if (dishId && data) {
+  //     const ingredientIds = data.ingredients.map((ingredient) => ingredient.id);
+  //     const owner = data.owner.id;
+  //     // Preparing data for the edit mode
+  //     const formData = {
+  //       ...data,
+  //       ingredients: ingredientIds,
+  //       owner,
+  //     };
+  //     console.log(' reset(formData);', formData);
+
+  //     reset(formData);
+  //     setEditMode(true);
+  //   } else if (savedFormData) {
+  //     reset(` reset(savedFormData)`);
+  //     reset(savedFormData);
+  //   }
+  // }, [dishId, data, reset, savedFormData]);
+
   useEffect(() => {
-    if (dishId && data) {
+    if (dishId && data && !isInitialized) {
       const ingredientIds = data.ingredients.map((ingredient) => ingredient.id);
       const owner = data.owner.id;
-      // Preparing data for the edit mode
       const formData = {
         ...data,
         ingredients: ingredientIds,
@@ -111,10 +131,12 @@ export const AddDishForm = () => {
 
       reset(formData);
       setEditMode(true);
-    } else if (savedFormData) {
+      setIsInitialized(true);
+    } else if (!dishId && savedFormData && !isInitialized) {
       reset(savedFormData);
+      setIsInitialized(true);
     }
-  }, [dishId, data, reset, savedFormData]);
+  }, [dishId, data, reset, savedFormData, isInitialized]);
 
   const onNextStep = async () => {
     const fieldsToValidate = stepValidationFields[currentStep] || [];
@@ -122,6 +144,7 @@ export const AddDishForm = () => {
 
     if (isFormValid) {
       const currentFormData = getValues();
+
       dispatch(updateFormData(currentFormData));
       dispatch(updateCurrentStep(currentStep + 1));
     }
@@ -135,7 +158,8 @@ export const AddDishForm = () => {
     const formData = getValues();
     try {
       if (editMode) {
-        await dispatch(updateDishData({ dishId, formData })).unwrap();
+        const dishData = formData;
+        await dispatch(updateDishData({ dishId, dishData })).unwrap();
         toast.success('Dish updated successfully!');
       } else {
         await dispatch(submitDishData(formData)).unwrap();

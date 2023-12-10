@@ -6,9 +6,6 @@ export const getDishChefOwn = async () => {
       'Content-Type': 'application/json',
     },
   };
-  const response = await privateInstance.get(
-    `${import.meta.env.VITE_API_URL}/dishes/own`,
-    config
-  );
+  const response = await privateInstance.get(`/dishes/own`, config);
   return response.data;
 };

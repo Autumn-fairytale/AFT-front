@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
 import { IoCart, IoCartOutline, IoSettingsOutline } from 'react-icons/io5';
 import { PiHeart } from 'react-icons/pi';
@@ -10,6 +10,9 @@ import { customColors } from '@/constants';
 import { convertToMoney } from '@/helpers';
 import { useGetCartItems, useUpdateCartItemById } from '@/hooks';
 import { useAddCartItem } from '@/hooks/cart/useAddCartItem';
+import { useAddFavorite } from '@/hooks/favorites/useAddFavorite';
+import { useDeleteFavorite } from '@/hooks/favorites/useDeleteFavorite';
+import { useGetFavorite } from '@/hooks/favorites/useGetFavorite';
 import AppButton from '@/shared/Buttons/AppButton';
 import { DishOrderCardModal } from '../DishOrderCard/DishOrderCardModalComponents/DishOrderCardModal';
 import { defaultDishCardPropTypes, DishCardPropTypes } from './DishCard.props';
@@ -59,6 +62,32 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
     }
   };
 
+  const dishId = dishInfo?.id || '';
+
+  const favoriteDishesIds = useGetFavorite('dishes');
+
+  const favoriteDishesFind = favoriteDishesIds?.data?.favoriteDishes.map(
+    (i) => i.id
+  );
+
+  const foundDish = favoriteDishesFind?.includes(dishId);
+  useEffect(() => {
+    if (foundDish) {
+      setFavorite(true);
+    }
+  }, [foundDish]);
+  const { mutate: addFavorite } = useAddFavorite('dishes', dishId);
+  const { mutate: deleteFavorite } = useDeleteFavorite('dishes', dishId);
+  const handleAddFavorites = () => {
+    if (!favorite) {
+      addFavorite();
+      setFavorite(!favorite);
+    } else {
+      deleteFavorite();
+      setFavorite(!favorite);
+    }
+  };
+
   const editPath = `/chef-account/dishes/edit/${dishInfo.id}`;
 
   let labelContent;
@@ -97,7 +126,6 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
   } else {
     endIconContent = <IoCartOutline style={{ fontSize: '24px' }} />;
   }
-
   return (
     <DishCardWrapper isCarousel={isCarousel}>
       <DishImageWrapper>
@@ -117,7 +145,7 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
               </IconButton>
             </Link>
           ) : (
-            <IconButton onClick={() => setFavorite(!favorite)}>
+            <IconButton onClick={() => handleAddFavorites()}>
               <PiHeart
                 style={{ color: favorite ? customColors.primaryColor : '' }}
               />

@@ -32,7 +32,7 @@ const CreateCourierForm = () => {
         city: '',
         street: '',
         houseNumber: '',
-        apartment: null,
+        apartment: '',
       },
       liqpayKey: '',
     },
@@ -103,7 +103,7 @@ const CreateCourierForm = () => {
       <AppButton
         label="Submit"
         type="submit"
-        sx={{ width: '400px', margin: '20px auto 50px auto', display: 'block' }}
+        sx={{ width: '620px', margin: '20px auto 50px auto', display: 'block' }}
       />
     </form>
   );

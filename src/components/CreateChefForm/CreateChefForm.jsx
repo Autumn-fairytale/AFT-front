@@ -25,14 +25,13 @@ const CreateChefForm = () => {
     defaultValues: {
       avatar: '',
       phoneNumber: '',
-      //accountStatus: 'pending',
       isAvailable: 'non-active',
       address: {
         country: '',
         city: '',
         street: '',
         houseNumber: '',
-        apartment: null,
+        apartment: '',
       },
       liqpayKey: '',
       certificate: '',

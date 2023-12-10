@@ -41,7 +41,7 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
   const isOpenedFromCreateOrder = location.pathname.endsWith('/create-order');
 
   const user = useSelector(selectUser);
-  const isChef = user?.roles[1].name === 'chef';
+  const isChef = user?.roles[1]?.name === 'chef';
 
   const { data: cartData, isPending: isCartLoading } = useGetCartItems();
   const { mutate: updateCartItem, isPending: isUpdatingCart } =

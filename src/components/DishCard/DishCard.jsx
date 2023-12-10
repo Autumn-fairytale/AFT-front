@@ -18,7 +18,7 @@ import { defaultDishCardPropTypes, DishCardPropTypes } from './DishCard.props';
 import {
   ButtonsWrapper,
   DishCardWrapper,
-  // DishDescription,
+  DishDescription,
   DishImage,
   DishImageWrapper,
   DishName,
@@ -34,7 +34,7 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
 
   const user = useSelector(selectUser);
 
-  const isChefFromRedux = user?.roles[1].name === 'chef';
+  const isChefFromRedux = user?.roles[1]?.name === 'chef';
 
   const openModalHandler = () => {
     setIsModalOpen(true);
@@ -104,6 +104,12 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
     endIconContent = <IoCartOutline style={{ fontSize: '24px' }} />;
   }
 
+  const transformText = (text, maxLength) => {
+    return text.length > maxLength
+      ? text.slice(0, maxLength - 3) + '...'
+      : text;
+  };
+
   return (
     <DishCardWrapper isCarousel={isCarousel}>
       <DishImageWrapper>
@@ -132,18 +138,21 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
         </FavoriteButton>
       </DishImageWrapper>
       <Stack
-        direction="column"
-        sx={{ maxHeight: 90, height: 75, justifyContent: 'space-between' }}
+        sx={{
+          maxHeight: isCarousel ? 90 : 150,
+          height: isCarousel ? 75 : 150,
+        }}
       >
-        <Box sx={{ maxHeight: 30 }}>
-          <MainInfoWrapper>
-            <DishName isCarousel={isCarousel}>
-              {dishInfo.name.length > 25
-                ? `${dishInfo.name.slice(0, 25)}...`
-                : dishInfo.name}
-            </DishName>
-          </MainInfoWrapper>
-        </Box>
+        <MainInfoWrapper>
+          <DishName isCarousel={isCarousel}>
+            {transformText(dishInfo.name, 46)}
+          </DishName>
+        </MainInfoWrapper>
+        {!isCarousel && (
+          <DishDescription isCarousel={isCarousel}>
+            {transformText(dishInfo.description, 80)}
+          </DishDescription>
+        )}
 
         <Box sx={{ flexGrow: 1 }} />
         <Box sx={{ maxHeight: 20 }}>
@@ -152,10 +161,6 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
           </DishPrice>
         </Box>
       </Stack>
-
-      {/* <DishPrice isCarousel={isCarousel}>
-            {convertToMoney(dishInfo.price)}
-          </DishPrice> */}
 
       <ButtonsWrapper isCarousel={isCarousel}>
         <AppButton

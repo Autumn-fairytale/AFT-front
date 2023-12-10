@@ -73,6 +73,7 @@ export const AddDishForm = () => {
 
   const handleBackClick = () => {
     dispatch(resetFormData());
+    reset();
     navigate(-1);
   };
 
@@ -129,7 +130,7 @@ export const AddDishForm = () => {
       }
 
       dispatch(updateCurrentStep(1));
-
+      dispatch(resetFormData());
       reset();
 
       navigate('/chef-account/dishes');

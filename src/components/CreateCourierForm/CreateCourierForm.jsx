@@ -32,7 +32,7 @@ const CreateCourierForm = () => {
         city: '',
         street: '',
         houseNumber: '',
-        apartment: null,
+        apartment: '',
       },
       liqpayKey: '',
     },

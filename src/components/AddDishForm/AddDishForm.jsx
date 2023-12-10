@@ -46,8 +46,8 @@ export const AddDishForm = () => {
 
   const { id: dishId } = useParams();
 
-  const savedCurrentStep = useSelector(selectCurrentStep);
-  const [step, setStep] = useState(savedCurrentStep || 1);
+  const currentStep = useSelector(selectCurrentStep);
+
   const totalSteps = 4;
 
   const [editMode, setEditMode] = useState(false);
@@ -70,6 +70,8 @@ export const AddDishForm = () => {
     mode: 'onChange',
   });
 
+  const savedFormData = useSelector(selectSavedFormData);
+
   useEffect(() => {
     if (dishId && data) {
       const ingredientIds = data.ingredients.map((ingredient) => ingredient.id);
@@ -83,43 +85,24 @@ export const AddDishForm = () => {
 
       reset(formData);
       setEditMode(true);
-    }
-  }, [dishId, data, reset]);
-
-  const savedFormData = useSelector(selectSavedFormData);
-
-  useEffect(() => {
-    if (savedFormData) {
+    } else if (savedFormData) {
       reset(savedFormData);
     }
-  }, [reset, savedFormData]);
-
-  useEffect(() => {
-    setStep(savedCurrentStep);
-  }, [savedCurrentStep]);
-
-  useEffect(() => {
-    if (step !== savedCurrentStep) {
-      dispatch(updateCurrentStep(step));
-    }
-  }, [step, savedCurrentStep, dispatch]);
+  }, [dishId, data, reset, savedFormData]);
 
   const onNextStep = async () => {
-    const fieldsToValidate = stepValidationFields[step] || [];
-
+    const fieldsToValidate = stepValidationFields[currentStep] || [];
     const isFormValid = await trigger(fieldsToValidate);
 
     if (isFormValid) {
       const currentFormData = getValues();
-
       dispatch(updateFormData(currentFormData));
-
-      setStep((prevStep) => prevStep + 1);
+      dispatch(updateCurrentStep(currentStep + 1));
     }
   };
 
   const onPreviousStep = () => {
-    setStep((prevStep) => prevStep - 1);
+    dispatch(updateCurrentStep(currentStep - 1));
   };
 
   useEffect(() => {
@@ -132,25 +115,18 @@ export const AddDishForm = () => {
     const formData = getValues();
     try {
       if (editMode) {
-        const dishData = formData;
-        await dispatch(updateDishData({ dishId, dishData })).unwrap();
-        dispatch(resetFormData());
-
+        await dispatch(updateDishData({ dishId, formData })).unwrap();
         toast.success('Dish updated successfully!');
-        setStep(1);
-        reset();
-
-        navigate('/chef-account/dishes');
       } else {
         await dispatch(submitDishData(formData)).unwrap();
-
         toast.success('Dish created successfully!');
-
-        setStep(1);
-        reset();
-
-        navigate('/chef-account/dishes');
       }
+
+      dispatch(updateCurrentStep(1));
+
+      reset();
+
+      navigate('/chef-account/dishes');
     } catch (error) {
       console.error('Submission failed:', error);
     }
@@ -163,18 +139,19 @@ export const AddDishForm = () => {
       const fileName = extractFileNameFromUrl(dishImageURL);
       await deleteFile(fileName, FOLDERS.DISHES);
     }
+
     dispatch(resetFormData());
     reset();
     clearErrors();
-    setStep(1);
+    dispatch(updateCurrentStep(1));
   };
 
   return (
     <StyledAddDishContainer>
-      <AddDishFormStepper step={step} />
+      <AddDishFormStepper step={currentStep} />
 
       <StyledAddDishFormBox component={'form'} onSubmit={handleSubmit(Submit)}>
-        {step === 1 && (
+        {currentStep === 1 && (
           <AddDishFromStepOne
             control={control}
             errors={errors}
@@ -182,9 +159,11 @@ export const AddDishForm = () => {
           />
         )}
 
-        {step === 2 && <AddDishFormStepTwo errors={errors} control={control} />}
+        {currentStep === 2 && (
+          <AddDishFormStepTwo errors={errors} control={control} />
+        )}
 
-        {step === 3 && (
+        {currentStep === 3 && (
           <AddDishFormStepThree
             register={register}
             errors={errors}
@@ -193,12 +172,12 @@ export const AddDishForm = () => {
           />
         )}
 
-        {step === 4 && (
+        {currentStep === 4 && (
           <AddDishFormStepFour control={control} errors={errors} />
         )}
 
         <AddDishFormNavButtons
-          step={step}
+          step={currentStep}
           onPreviousStep={onPreviousStep}
           onNextStep={onNextStep}
           totalSteps={totalSteps}

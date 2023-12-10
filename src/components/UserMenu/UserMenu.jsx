@@ -46,18 +46,16 @@ export const UserMenu = () => {
 
   const roles = useSelector(selectRoles);
   const isAuth = useSelector(selectIsAuth);
-  const { favoriteChefs, avatar } = useSelector(selectUser);
+  const { avatar } = useSelector(selectUser);
 
   const favoriteDishesIds = useGetFavorite('dishes');
-  const favoriteItemsLength =
+  const favoriteDishesLength =
     favoriteDishesIds?.data?.favoriteDishes?.length || null;
-  // const [l, setL] = useState();
-  // useEffect(() => {
-  //   const favoriteItemsLength =
 
-  //   setL(favoriteItemsLength);
-  // }, [l]);
-
+  const favoriteChefsIds = useGetFavorite('chefs');
+  const favoriteChefsLength =
+    favoriteChefsIds?.data?.favoriteChefs?.length || null;
+  console.log(favoriteChefsLength);
   // console.log('favoriteDishes:', favoriteDishes);
   // console.log('cart:', cart);
   // console.log('avatar:', avatar);
@@ -74,7 +72,7 @@ export const UserMenu = () => {
               <LinkStyled to={route.FAVORITE_DISHES}>
                 <StyledBadge
                   // badgeContent={favoriteDishes.length}
-                  badgeContent={favoriteItemsLength}
+                  badgeContent={favoriteDishesLength}
                   color="success"
                 >
                   <FavoriteIcon sx={{ width: 30, height: 30 }} />
@@ -83,10 +81,7 @@ export const UserMenu = () => {
             </ListItemStyled>
             <ListItemStyled>
               <LinkStyled to={route.FAVORITE_CHEFS}>
-                <StyledBadge
-                  badgeContent={favoriteChefs.length}
-                  color="success"
-                >
+                <StyledBadge badgeContent={favoriteChefsLength} color="success">
                   <TbChefHat style={{ width: '30px', height: '30px' }} />
                 </StyledBadge>
               </LinkStyled>

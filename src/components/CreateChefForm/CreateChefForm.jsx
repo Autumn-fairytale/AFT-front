@@ -78,7 +78,6 @@ const CreateChefForm = () => {
         isAvailable: data.isAvailable,
         liqpayKey: data.liqpayKey,
       };
-      console.log(result);
       if (user.roles.find((role) => role.name === 'chef')) {
         await updateChef(
           result,

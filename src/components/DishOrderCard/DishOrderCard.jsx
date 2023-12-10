@@ -15,7 +15,11 @@ import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 
 import { convertToMoney } from '@/helpers';
-import { useGetCartItems, useUpdateCartItemById } from '@/hooks';
+import {
+  useGetCartItems,
+  useSingleToast,
+  useUpdateCartItemById,
+} from '@/hooks';
 import { useAddCartItem } from '@/hooks/cart/useAddCartItem';
 import { useFetchDish } from '@/hooks/useFetchDish';
 import { selectUser } from '@/redux/auth/selectors';
@@ -44,9 +48,17 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
   const isChef = user?.roles[1]?.name === 'chef';
 
   const { data: cartData, isPending: isCartLoading } = useGetCartItems();
+
   const { mutate: updateCartItem, isPending: isUpdatingCart } =
     useUpdateCartItemById();
-  const { mutate: addCartItem, isPending: isAddingItem } = useAddCartItem();
+
+  const {
+    mutate: addCartItem,
+    isPending: isAddingItem,
+    error: ErrorAddToCard,
+  } = useAddCartItem();
+
+  useSingleToast(ErrorAddToCard);
 
   const { data: dish = {}, isLoading } = useFetchDish(dishId);
 

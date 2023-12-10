@@ -9,7 +9,11 @@ import { Box, CircularProgress, IconButton, Stack } from '@mui/material';
 
 import { customColors } from '@/constants';
 import { convertToMoney } from '@/helpers';
-import { useGetCartItems, useUpdateCartItemById } from '@/hooks';
+import {
+  useGetCartItems,
+  useSingleToast,
+  useUpdateCartItemById,
+} from '@/hooks';
 import { useAddCartItem } from '@/hooks/cart/useAddCartItem';
 import { selectUser } from '@/redux/auth/selectors';
 import AppButton from '@/shared/Buttons/AppButton';
@@ -44,10 +48,18 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
     setIsModalOpen(false);
   };
 
-  const { mutate: addCartItem, isPending: isAddingItem } = useAddCartItem();
   const { data: cartData, isPending: isCartLoading } = useGetCartItems();
+
   const { mutate: updateCartItem, isPending: isUpdatingCart } =
     useUpdateCartItemById();
+
+  const {
+    mutate: addCartItem,
+    isPending: isAddingItem,
+    error: ErrorAddToCard,
+  } = useAddCartItem();
+
+  useSingleToast(ErrorAddToCard);
 
   const cartItem = cartData?.cart.items.find(
     (item) => item.dish.id === dishInfo.id

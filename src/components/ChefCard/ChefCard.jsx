@@ -21,7 +21,11 @@ const ChefCard = ({ chefInfo, isCarousel }) => {
   return (
     <ChefCardWrapper isCarousel={isCarousel}>
       <ChefImageWrapper>
-        <ChefImage src={chefInfo.image} alt={chefInfo.name} component="img" />
+        <ChefImage
+          src={chefInfo.avatar}
+          alt={chefInfo.userId.firstName}
+          component="img"
+        />
         <FavoriteButton>
           <IconButton onClick={() => setFavorite(!favorite)}>
             <PiHeart
@@ -32,8 +36,10 @@ const ChefCard = ({ chefInfo, isCarousel }) => {
       </ChefImageWrapper>
 
       <MainInfoWrapper>
-        <ChefName>{chefInfo.name}</ChefName>
-        <RateNumber>
+        <ChefName isCarousel={isCarousel}>
+          {chefInfo.userId.firstName + ' ' + chefInfo.userId.lastName}
+        </ChefName>
+        <RateNumber isCarousel={isCarousel}>
           {chefInfo.rate}
           <PiStarFill style={{ fontSize: '25px', marginLeft: '5px' }} />
         </RateNumber>

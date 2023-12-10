@@ -32,15 +32,14 @@ const CourierAccountPage = () => {
     const fetchCourierData = async () => {
       try {
         const response = await getCourierById({ courierId });
-        console.log('r: ', response);
         const courier = {
           name: user.firstName + ' ' + user?.lastName,
           avatar: response.avatar,
           phoneNumber: addSpacesToPhoneNumber(response.phoneNumber),
           address: response.address,
-          accountStatus: response.accountStatus, //.toUpperCase(),
-          vehicleType: response.vehicleType, //.toUpperCase(),
-          isAvailable: response?.isAvailable, //.toUpperCase(),
+          accountStatus: response.accountStatus.toUpperCase(),
+          vehicleType: response.vehicleType.toUpperCase(),
+          isAvailable: response?.isAvailable.toUpperCase(),
         };
         setCourierInfo(courier);
       } catch (error) {

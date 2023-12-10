@@ -8,7 +8,6 @@ export const useGetFavorite = (type) => {
   const userId = useSelector(selectUser)?.id;
   const fetchFavorite = async () => {
     const data = await getFavorite(userId, type);
-    console.log('data', data);
     return data;
   };
 

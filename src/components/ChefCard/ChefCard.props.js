@@ -2,9 +2,12 @@ import PropTypes from 'prop-types';
 
 export const ChefCardPropTypes = {
   chefInfo: PropTypes.shape({
-    image: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    rate: PropTypes.number.isRequired,
+    userId: PropTypes.shape({
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+    }),
+    avatar: PropTypes.string,
+    rate: PropTypes.number,
   }).isRequired,
   isCarousel: PropTypes.bool,
 };

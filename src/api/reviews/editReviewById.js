@@ -1,4 +1,4 @@
-import { privateInstance } from './axios';
+import { privateInstance } from '../axios';
 
 export const editReview = async ({ rating, review, dishId, reviewId }) => {
   await privateInstance.put(`reviews/${reviewId}`, {

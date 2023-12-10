@@ -1,4 +1,4 @@
-import { publicInstance } from './axios';
+import { publicInstance } from '../axios';
 
 export const getDishes = async ({
   search = '',

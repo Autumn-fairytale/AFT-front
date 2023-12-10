@@ -1,4 +1,4 @@
-import { publicInstance } from './axios';
+import { publicInstance } from '../axios';
 
 export const getReviewsByDishId = async (id, page = 1, limit = 10) => {
   const { data } = await publicInstance.get(

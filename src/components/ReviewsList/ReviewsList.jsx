@@ -8,7 +8,7 @@ import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { getReviewsByDishId } from '../../api/getReviewsByDishId';
+import { getReviewsByDishId } from '../../api/reviews/getReviewsByDishId';
 import ReviewsItem from '../ReviewsItem/ReviewsItem';
 import { ReviewsListProps } from './ReviewsList.props';
 import {

@@ -49,7 +49,7 @@ const CreateOrderForm = ({ data: cart }) => {
         phoneNumber: removeSpacesFromPhoneNumber(data.phoneNumber),
         name: data.userName,
         email: data.email,
-        additionalInfo: data.additionalInfo.length || null,
+        additionalInfo: data.additionalInfo,
         address: data.address,
         items: cart.items.map((item) => ({
           count: item.count,

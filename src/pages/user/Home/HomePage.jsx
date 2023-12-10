@@ -20,7 +20,6 @@ const HomePage = () => {
     isLoading: popularChefsIsLoading,
     //error: popularChefsError,
   } = useGetPopularChefs();
-
   return (
     <HomePageStyled>
       <Hero />

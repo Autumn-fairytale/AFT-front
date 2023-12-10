@@ -12,7 +12,7 @@ export const CarouselChefs = ({ data }) => {
           chefInfo={{
             chefId: item.id,
             avatar: item.avatar,
-            rate: item.rate,
+            rate: item.rating,
             name: item.userId.firstName + ' ' + item.userId.lastName,
           }}
           isCarousel={true}

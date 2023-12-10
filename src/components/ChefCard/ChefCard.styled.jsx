@@ -60,9 +60,8 @@ export const RateNumber = styled('span')(({ theme, isCarousel }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   marginTop: '5px',
-  fontSize: isCarousel ? '16px' : '18px',
+  fontSize: isCarousel ? '18px' : '18px',
   fontWeight: '600',
-  //letterSpacing: '-1px',
   color: `${theme.palette.primary.superLight}`,
   zIndex: '1',
 }));

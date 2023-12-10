@@ -44,18 +44,12 @@ const ChefCard = ({ chefInfo, isCarousel }) => {
       setFavorite(!favorite);
     }
   };
-  // console.log('chefInfo:', chefInfo);
   return (
     <ChefCardWrapper isCarousel={isCarousel}>
       <ChefImageWrapper>
         <ChefImage src={chefInfo.avatar} alt={chefInfo.name} component="img" />
         <FavoriteButton isCarousel={isCarousel}>
-          <IconButton
-            onClick={
-              () => handleAddFavorites()
-              //setFavorite(!favorite)
-            }
-          >
+          <IconButton onClick={() => handleAddFavorites()}>
             <PiHeart
               style={{ color: favorite ? customColors.primaryColor : '' }}
             />
@@ -69,7 +63,7 @@ const ChefCard = ({ chefInfo, isCarousel }) => {
           {chefInfo.rate}
           <PiStarFill
             style={{
-              fontSize: isCarousel ? '20px' : '25px',
+              fontSize: isCarousel ? '22px' : '25px',
               marginLeft: '5px',
             }}
           />

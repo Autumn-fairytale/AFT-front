@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
 import { FiShoppingCart } from 'react-icons/fi';
 import { IoSettingsOutline } from 'react-icons/io5';
@@ -8,6 +8,9 @@ import { Link } from 'react-router-dom';
 import { IconButton } from '@mui/material';
 
 import { customColors } from '@/constants';
+import { useAddFavorite } from '@/hooks/favorites/useAddFavorite';
+import { useDeleteFavorite } from '@/hooks/favorites/useDeleteFavorite';
+import { useGetFavorite } from '@/hooks/favorites/useGetFavorite';
 import AppButton from '@/shared/Buttons/AppButton';
 import { defaultDishCardPropTypes, DishCardPropTypes } from './DishCard.props';
 import {
@@ -25,8 +28,33 @@ import {
 const DishCard = ({ dishInfo, isCarousel, isChef }) => {
   const [favorite, setFavorite] = useState(false);
 
+  const dishId = dishInfo?.id || '';
+
+  const favoriteDishesIds = useGetFavorite('dishes');
+
+  const favoriteDishesFind = favoriteDishesIds?.data?.favoriteDishes.map(
+    (i) => i.id
+  );
+
+  const foundDish = favoriteDishesFind?.includes(dishId);
+  useEffect(() => {
+    if (foundDish) {
+      setFavorite(true);
+    }
+  }, [foundDish]);
+  const { mutate: addFavorite } = useAddFavorite('dishes', dishId);
+  const { mutate: deleteFavorite } = useDeleteFavorite('dishes', dishId);
+  const handleAddFavorites = () => {
+    if (!favorite) {
+      addFavorite();
+      setFavorite(!favorite);
+    } else {
+      deleteFavorite();
+      setFavorite(!favorite);
+    }
+  };
+
   const editPath = `/chef-account/dishes/edit/${dishInfo.id}`;
-  console.log(dishInfo);
   return (
     <DishCardWrapper isCarousel={isCarousel}>
       <DishImageWrapper>
@@ -46,7 +74,10 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
               </IconButton>
             </Link>
           ) : (
-            <IconButton onClick={() => setFavorite(!favorite)}>
+            <IconButton
+              //onClick={() => setFavorite(!favorite)}
+              onClick={() => handleAddFavorites()}
+            >
               <PiHeart
                 style={{ color: favorite ? customColors.primaryColor : '' }}
               />

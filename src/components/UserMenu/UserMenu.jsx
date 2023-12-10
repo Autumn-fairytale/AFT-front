@@ -10,6 +10,7 @@ import { Avatar, Badge } from '@mui/material';
 import { route } from '@/constants';
 import { calcTotalQtyOfCartItems } from '@/helpers';
 import { useGetCartItems } from '@/hooks';
+import { useGetFavorite } from '@/hooks/favorites/useGetFavorite';
 import { signOut } from '@/redux/auth/operations';
 import { selectIsAuth, selectRoles, selectUser } from '@/redux/auth/selectors';
 import { openUserCart } from '@/redux/cartStatus/slice';
@@ -45,7 +46,18 @@ export const UserMenu = () => {
 
   const roles = useSelector(selectRoles);
   const isAuth = useSelector(selectIsAuth);
-  const { favoriteDishes, favoriteChefs, avatar } = useSelector(selectUser);
+  const { favoriteChefs, avatar } = useSelector(selectUser);
+
+  const favoriteDishesIds = useGetFavorite('dishes');
+  const favoriteItemsLength =
+    favoriteDishesIds?.data?.favoriteDishes?.length || null;
+  // const [l, setL] = useState();
+  // useEffect(() => {
+  //   const favoriteItemsLength =
+
+  //   setL(favoriteItemsLength);
+  // }, [l]);
+
   // console.log('favoriteDishes:', favoriteDishes);
   // console.log('cart:', cart);
   // console.log('avatar:', avatar);
@@ -61,7 +73,8 @@ export const UserMenu = () => {
             <ListItemStyled>
               <LinkStyled to={route.FAVORITE_DISHES}>
                 <StyledBadge
-                  badgeContent={favoriteDishes.length}
+                  // badgeContent={favoriteDishes.length}
+                  badgeContent={favoriteItemsLength}
                   color="success"
                 >
                   <FavoriteIcon sx={{ width: 30, height: 30 }} />

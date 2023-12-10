@@ -6,9 +6,6 @@ export const getChefById = async (chefId) => {
       'Content-Type': 'application/json',
     },
   };
-  const response = await privateInstance.get(
-    `${import.meta.env.VITE_API_URL}/chefs/${chefId}`,
-    config
-  );
+  const response = await privateInstance.get(`/chefs/${chefId}`, config);
   return response.data;
 };

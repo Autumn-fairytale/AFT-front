@@ -17,6 +17,7 @@ import {
 
 const ChefCard = ({ chefInfo, isCarousel }) => {
   const [favorite, setFavorite] = useState(false);
+  // console.log('chefInfo:', chefInfo);
   return (
     <ChefCardWrapper isCarousel={isCarousel}>
       <ChefImageWrapper>

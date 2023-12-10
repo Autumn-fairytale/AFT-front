@@ -38,9 +38,9 @@ const CourierAccountPage = () => {
           avatar: response.avatar,
           phoneNumber: addSpacesToPhoneNumber(response.phoneNumber),
           address: response.address,
-          accountStatus: response.accountStatus.toUpperCase(),
-          vehicleType: response.vehicleType.toUpperCase(),
-          isAvailable: response.isAvailable.toUpperCase(),
+          accountStatus: response.accountStatus, //.toUpperCase(),
+          vehicleType: response.vehicleType, //.toUpperCase(),
+          isAvailable: response?.isAvailable, //.toUpperCase(),
         };
         setCourierInfo(courier);
       } catch (error) {
@@ -60,6 +60,7 @@ const CourierAccountPage = () => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
+            margin: '30px 0',
           }}
         >
           <Box
@@ -105,7 +106,7 @@ const CourierAccountPage = () => {
             data={data}
             error={error}
             isLoading={isLoading}
-            tableHeight="auto"
+            tableHeight="50vMin"
             refetchData={refetchData}
           />
         </Box>

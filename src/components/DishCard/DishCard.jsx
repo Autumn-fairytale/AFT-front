@@ -27,6 +27,7 @@ import {
 import { StyledDishBadge } from './DishCardBadge';
 
 const DishCard = ({ dishInfo, isCarousel, isChef }) => {
+  console.log(isChef);
   const [favorite, setFavorite] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 

@@ -23,6 +23,7 @@ import {
   updateFormData,
 } from '@/redux/createDish';
 import { dishSchema } from '@/schemas';
+import { AppButton } from '@/shared';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddDishFormNavButtons } from '../AddDishForm';
 import { stepValidationFields } from './addDishFormHelpers';
@@ -69,6 +70,11 @@ export const AddDishForm = () => {
     defaultValues,
     mode: 'onChange',
   });
+
+  const handleBackClick = () => {
+    dispatch(resetFormData());
+    navigate(-1);
+  };
 
   const savedFormData = useSelector(selectSavedFormData);
 
@@ -151,6 +157,20 @@ export const AddDishForm = () => {
       <AddDishFormStepper step={currentStep} />
 
       <StyledAddDishFormBox component={'form'} onSubmit={handleSubmit(Submit)}>
+        {editMode && (
+          <AppButton
+            style={{
+              position: 'absolute',
+              top: -60,
+              left: -160,
+            }}
+            onClick={handleBackClick}
+            label={'Back to dishes'}
+            size="small"
+            variant="outlined"
+          />
+        )}
+
         {currentStep === 1 && (
           <AddDishFromStepOne
             control={control}

@@ -99,26 +99,6 @@ export const AddDishForm = () => {
 
   // Initializing form data
   const savedFormData = useSelector(selectSavedFormData);
-  // useEffect(() => {
-  //   if (dishId && data) {
-  //     const ingredientIds = data.ingredients.map((ingredient) => ingredient.id);
-  //     const owner = data.owner.id;
-  //     // Preparing data for the edit mode
-  //     const formData = {
-  //       ...data,
-  //       ingredients: ingredientIds,
-  //       owner,
-  //     };
-  //     console.log(' reset(formData);', formData);
-
-  //     reset(formData);
-  //     setEditMode(true);
-  //   } else if (savedFormData) {
-  //     reset(` reset(savedFormData)`);
-  //     reset(savedFormData);
-  //   }
-  // }, [dishId, data, reset, savedFormData]);
-
   useEffect(() => {
     if (dishId && data && !isInitialized) {
       const ingredientIds = data.ingredients.map((ingredient) => ingredient.id);

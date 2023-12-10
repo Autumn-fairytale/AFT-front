@@ -44,15 +44,16 @@ export const FIELD_WIDTH = '400px';
 export const AddDishForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [editMode, setEditMode] = useState(false);
 
+  // Extracting dish ID from the URL
   const { id: dishId } = useParams();
 
   const currentStep = useSelector(selectCurrentStep);
 
   const totalSteps = 4;
 
-  const [editMode, setEditMode] = useState(false);
-
+  // Fetching dish data if editing
   const { data } = useFetchDish(dishId);
 
   const {
@@ -77,13 +78,31 @@ export const AddDishForm = () => {
     navigate(-1);
   };
 
-  const savedFormData = useSelector(selectSavedFormData);
+  // Setting edit mode based on dishId
+  useEffect(() => {
+    if (dishId) {
+      setEditMode(true);
+    }
+  }, [dishId]);
 
+  // Cleanup in editMode on unmount
+  useEffect(() => {
+    return () => {
+      if (editMode) {
+        dispatch(updateCurrentStep(1));
+        reset();
+        dispatch(resetFormData());
+      }
+    };
+  }, [editMode, reset, dispatch]);
+
+  // Initializing form data
+  const savedFormData = useSelector(selectSavedFormData);
   useEffect(() => {
     if (dishId && data) {
       const ingredientIds = data.ingredients.map((ingredient) => ingredient.id);
       const owner = data.owner.id;
-
+      // Preparing data for the edit mode
       const formData = {
         ...data,
         ingredients: ingredientIds,
@@ -111,12 +130,6 @@ export const AddDishForm = () => {
   const onPreviousStep = () => {
     dispatch(updateCurrentStep(currentStep - 1));
   };
-
-  useEffect(() => {
-    if (dishId) {
-      setEditMode(true);
-    }
-  }, [dishId]);
 
   const Submit = async () => {
     const formData = getValues();

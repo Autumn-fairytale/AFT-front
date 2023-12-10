@@ -44,6 +44,7 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
   const location = useLocation();
   const isOpenedFromCreateOrder = location.pathname.endsWith('/create-order');
 
+  console.log(isOpenedFromCreateOrder, 'isOpenedFromCreateOrder');
   const user = useSelector(selectUser);
   const isChef = user?.roles[1]?.name === 'chef';
 

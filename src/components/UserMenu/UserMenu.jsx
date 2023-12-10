@@ -89,7 +89,6 @@ export const UserMenu = () => {
           </>
         )}
       </ListStyled>
-      <ListStyled></ListStyled>
       <ListItemStyled>
         <IconButtonStyled onClick={() => dispatch(openUserCart())}>
           <StyledBadge badgeContent={cartItemsQty} color="success">

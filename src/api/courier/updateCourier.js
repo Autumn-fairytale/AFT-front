@@ -7,7 +7,7 @@ export const updateCourier = async (courierData, courierId) => {
     },
   };
   const response = await privateInstance.patch(
-    `${import.meta.env.VITE_API_URL}/couriers/${courierId}`,
+    `/couriers/${courierId}`,
     courierData,
     config
   );

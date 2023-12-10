@@ -10,7 +10,8 @@ const ChefsList = ({ data }) => {
           {
             <ChefCard
               chefInfo={{
-                image: chef.avatar,
+                chefId: chef.id,
+                avatar: chef.avatar,
                 name: `${chef.userId.firstName} ${chef.userId.lastName}`,
                 rate: chef.rating,
               }}

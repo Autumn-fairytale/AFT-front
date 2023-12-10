@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import { updateCartItemById } from '@/api';
 import { queryKey } from '@/constants';
@@ -17,7 +18,6 @@ export const useUpdateCartItemById = () => {
     mutationFn: (data) => updateCartItemById(userId, data),
     onSuccess: () => {
       queryClient.setQueryData(backupKey, null);
-      //queryClient.invalidateQueries({ queryKey: key });
     },
     onMutate: (cart) => {
       const previousCart = queryClient.getQueryData(backupKey) || cart;
@@ -26,7 +26,9 @@ export const useUpdateCartItemById = () => {
 
       return { previousCart };
     },
-    onError: (_error, _cart, ctx) => {
+    onError: (error, _cart, ctx) => {
+      toast.error(error.message);
+
       if (!ctx) return;
 
       queryClient.setQueryData(key, ctx.previousCart);

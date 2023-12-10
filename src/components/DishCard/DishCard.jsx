@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
 import { IoCart, IoCartOutline, IoSettingsOutline } from 'react-icons/io5';
 import { PiHeart } from 'react-icons/pi';
@@ -15,6 +15,9 @@ import {
   useUpdateCartItemById,
 } from '@/hooks';
 import { useAddCartItem } from '@/hooks/cart/useAddCartItem';
+import { useAddFavorite } from '@/hooks/favorites/useAddFavorite';
+import { useDeleteFavorite } from '@/hooks/favorites/useDeleteFavorite';
+import { useGetFavorite } from '@/hooks/favorites/useGetFavorite';
 import { selectUser } from '@/redux/auth/selectors';
 import AppButton from '@/shared/Buttons/AppButton';
 import { DishOrderCardModal } from '../DishOrderCard/DishOrderCardModalComponents/DishOrderCardModal';
@@ -74,6 +77,32 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
       });
     } else {
       addCartItem({ item: { dishId: dishInfo.id, count: 1 } });
+    }
+  };
+
+  const dishId = dishInfo?.id || '';
+
+  const favoriteDishesIds = useGetFavorite('dishes');
+
+  const favoriteDishesFind = favoriteDishesIds?.data?.favoriteDishes.map(
+    (i) => i.id
+  );
+
+  const foundDish = favoriteDishesFind?.includes(dishId);
+  useEffect(() => {
+    if (foundDish) {
+      setFavorite(true);
+    }
+  }, [foundDish]);
+  const { mutate: addFavorite } = useAddFavorite('dishes', dishId);
+  const { mutate: deleteFavorite } = useDeleteFavorite('dishes', dishId);
+  const handleAddFavorites = () => {
+    if (!favorite) {
+      addFavorite();
+      setFavorite(!favorite);
+    } else {
+      deleteFavorite();
+      setFavorite(!favorite);
     }
   };
 
@@ -141,7 +170,7 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
               </IconButton>
             </Link>
           ) : (
-            <IconButton onClick={() => setFavorite(!favorite)}>
+            <IconButton onClick={() => handleAddFavorites()}>
               <PiHeart
                 style={{ color: favorite ? customColors.primaryColor : '' }}
               />

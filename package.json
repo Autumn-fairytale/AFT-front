@@ -29,6 +29,7 @@
     "@tanstack/react-query-devtools": "^5.8.6",
     "axios": "^1.6.2",
     "date-fns": "^2.30.0",
+    "lodash": "^4.17.21",
     "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",
     "prop-types": "^15.8.1",

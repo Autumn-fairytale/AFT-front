@@ -7,10 +7,6 @@ export const createChef = async (chefData) => {
     },
   };
 
-  const { response } = await privateInstance.post(
-    `${import.meta.env.VITE_API_URL}/chefs`,
-    chefData,
-    config
-  );
+  const { response } = await privateInstance.post(`/chefs`, chefData, config);
   return response;
 };

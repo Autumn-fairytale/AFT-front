@@ -6,9 +6,6 @@ export const getCourierById = async ({ courierId }) => {
       'Content-Type': 'application/json',
     },
   };
-  const response = await privateInstance.get(
-    `${import.meta.env.VITE_API_URL}/couriers/${courierId}`,
-    config
-  );
+  const response = await privateInstance.get(`/couriers/${courierId}`, config);
   return response.data;
 };

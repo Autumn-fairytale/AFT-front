@@ -60,7 +60,7 @@ const ChefAccountPage = () => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            margin: '20px 60px',
+            margin: '30px 0px',
           }}
         >
           <Box
@@ -105,7 +105,7 @@ const ChefAccountPage = () => {
             data={data}
             error={error}
             isLoading={isLoading}
-            tableHeight="auto"
+            tableHeight="50vMin"
             refetchData={refetchData}
           />
         </Box>

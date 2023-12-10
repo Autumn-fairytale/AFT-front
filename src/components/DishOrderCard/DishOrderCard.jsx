@@ -230,7 +230,7 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
             <DishOrderCardSpiceLevel spiceLevel={dish.spiceLevel} />
             <Divider sx={{ my: 1 }} />
 
-            <DishOrderCardReview />
+            <DishOrderCardReview dishId={dish.id} />
           </CardContent>
         </StyledDishOrderCard>
         {

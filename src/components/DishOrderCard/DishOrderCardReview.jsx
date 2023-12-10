@@ -1,6 +1,17 @@
-import { Box, Button, Card, CardContent, Typography } from '@mui/material';
+/* eslint-disable react/prop-types */
+import { useNavigate } from 'react-router-dom';
 
-export const DishOrderCardReview = () => {
+import { Box, Card, CardContent, Typography } from '@mui/material';
+
+import { AppButton } from '@/shared';
+
+export const DishOrderCardReview = ({ dishId }) => {
+  const navigate = useNavigate();
+
+  const handleReviewClick = () => {
+    navigate(`/dishes/${dishId}/reviews`);
+  };
+
   return (
     <>
       <Card sx={{ m: 2 }}>
@@ -15,9 +26,12 @@ export const DishOrderCardReview = () => {
       </Card>
 
       <Box sx={{ display: 'flex', justifyContent: 'center', m: 2 }}>
-        <Button variant="contained" size="small">
-          Leave a Review
-        </Button>
+        <AppButton
+          onClick={handleReviewClick}
+          variant="outlined"
+          size="small"
+          label=" To Reviews"
+        />
       </Box>
     </>
   );

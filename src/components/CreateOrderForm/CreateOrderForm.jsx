@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { createOrder } from '@/api/createOrder';
 import { route } from '@/constants';
@@ -59,7 +60,7 @@ const CreateOrderForm = ({ data: cart }) => {
       await deleteAllCartItems();
       navigate(`${route.ORDERS_PAYMENT}/${result.data.order.id}`);
     } catch (err) {
-      console.log(err);
+      toast.error(err?.message);
     }
   };
   return (

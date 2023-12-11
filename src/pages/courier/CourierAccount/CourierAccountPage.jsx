@@ -41,11 +41,11 @@ const CourierAccountPage = () => {
     fetchCourierData();
   }, [courierId]);
   const { data, isLoading, error, refetch } = useCouriersOrdersByStatus(
-    'pending',
+    'readyToDelivery',
     courierInfo?.address?.country,
     courierInfo?.address?.city
   );
-  // useCouriersOrdersByStatus('readyToDelivery', courierInfo?.address?.country, courierInfo?.address?.city);
+  console.log(data);
   const [status, setStatus] = useState('readyToDelivery');
   const refetchData = () => {
     setStatus('delivering');

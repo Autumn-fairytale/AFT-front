@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { GridRowEditStopReasons, GridRowModes } from '@mui/x-data-grid';
 
+import { convertToMoney } from '@/helpers';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { formatDateForDataGrid } from '../../helpers/formatDateForDataGrid';
 import { CustomPagination } from '../TableComponents/Pagination';
@@ -112,7 +113,7 @@ export const ChefOrdersTable = ({
         field: 'summaryPrice',
         headerName: 'Your Profit',
         valueGetter: ({ value }) => {
-          return value.chef + ' ₴';
+          return convertToMoney(value.chef);
         },
         cellClassName: 'boldCell',
         width: 200,
@@ -141,7 +142,6 @@ export const ChefOrdersTable = ({
         processRowUpdate={updateRow}
         onRowEditStop={handleRowEditStop}
         slots={{ pagination: CustomPagination }}
-        getRowHeight={() => 'auto'}
         initialState={{
           sorting: {
             sortModel: [{ field: 'createdAt', sort: 'desc' }],
@@ -154,6 +154,7 @@ export const ChefOrdersTable = ({
         }}
         tableHeight={tableHeight}
         pageSize={10}
+        rowHeight={100}
       />
     </>
   );

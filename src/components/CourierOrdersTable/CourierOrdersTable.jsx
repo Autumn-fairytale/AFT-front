@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { GridRowEditStopReasons, GridRowModes } from '@mui/x-data-grid';
 
-import { convertToMoney } from '@/helpers';
+import { addSpacesToPhoneNumber, convertToMoney } from '@/helpers';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { formatDateForDataGrid } from '../../helpers/formatDateForDataGrid';
 import { CustomPagination } from '../TableComponents/Pagination';
@@ -117,20 +117,30 @@ export const CourierOrdersTable = ({
         width: 120,
       },
       {
-        field: 'deliveryInfo',
-        colId: 'address',
-        valueGetter: ({ value }) => {
-          if (!value) {
-            return value;
+        field: 'chefInfo',
+        valueGetter: (params) => {
+          if (!params.value) {
+            return params.value;
           }
-          const address = `${value.address.country}, ${value.address.city}, 
-              ${value.address.street} ${value.address.houseNumber} 
-              ${value.address.apartment ? ',' + value.address.apartment : ''}`;
-          return address;
         },
-        headerName: 'Address',
+        headerName: 'Chef info',
+        colId: 'chefInfo',
         flex: 0.5,
-        width: 200,
+        renderCell: (params) => (
+          <div style={{ whiteSpace: 'pre-wrap' }}>
+            <p>
+              {`${params.row.chefId?.userId?.firstName} ${params.row.chefId?.userId?.lastName}`}
+            </p>
+            <p>{`${addSpacesToPhoneNumber(params.row.chefId?.phoneNumber)}`}</p>
+            <p>{`${params.row.chefId?.address.city}, ${
+              params.row.chefId?.address.street
+            } ${params.row.chefId?.address.houseNumber} ${
+              params.row.chefId?.address?.apartment
+                ? ',' + params.row.chefId?.address.apartment
+                : ''
+            }`}</p>
+          </div>
+        ),
       },
       {
         field: 'userInfo',
@@ -144,7 +154,19 @@ export const CourierOrdersTable = ({
         flex: 0.5,
         renderCell: (params) => (
           <div style={{ whiteSpace: 'pre-wrap' }}>
-            {`${params.row.deliveryInfo?.name}, ${params.row.deliveryInfo?.phoneNumber}`}
+            <p>{`${params.row.deliveryInfo?.name} `}</p>
+            <p>
+              {`${addSpacesToPhoneNumber(
+                params.row.deliveryInfo?.phoneNumber
+              )}`}
+            </p>
+            <p>{`${params.row.deliveryInfo?.address.city}, ${
+              params.row.deliveryInfo?.address.street
+            } ${params.row.deliveryInfo?.address.houseNumber} ${
+              params.row.deliveryInfo?.address?.apartment
+                ? ',' + params.row.deliveryInfo?.address.apartment
+                : ''
+            }`}</p>
           </div>
         ),
       },

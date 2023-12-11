@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { getChefs } from '@/api/chef/getChefs';
-import NoChefDish from '@/assets/images/ChefsPage/Sad_chef.jpg';
+import NoChef from '@/assets/images/ChefsPage/Not_found_chef.png';
 import { ChefCardSkeleton } from '@/components/ChefCardSkeleton/ChefCardSkeleton';
 import ChefsList from '@/components/ChefsList/ChefsList';
 import { ChefsSearchBar } from '@/components/ChefsSearchBar/ChefsSearchBar';
@@ -90,8 +90,8 @@ const ChefsPage = () => {
           </SkeletonWrapper>
         ) : qtyChefs === 0 ? (
           <PageMessage
-            image={NoChefDish}
-            message="Uh-oh! No chef found!"
+            image={NoChef}
+            message="Uh-oh! Chef not found!"
           ></PageMessage>
         ) : (
           <InfiniteScrollStyled

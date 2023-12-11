@@ -10,6 +10,7 @@ export const getDishes = async ({
   limit = 10,
 }) => {
   let queryString = '';
+  console.log('isVegan:', isVegan);
 
   if (search !== undefined && search !== '') {
     queryString += `name=${search}&`;
@@ -19,8 +20,8 @@ export const getDishes = async ({
     queryString += `cuisine=${cuisine}&`;
   }
 
-  if (isVegan !== undefined && isVegan !== 'All') {
-    queryString += `isVegan=${isVegan}&`;
+  if (isVegan !== undefined && isVegan !== 'All' && isVegan !== '') {
+    queryString += `isVegan=${isVegan === 'Vegan' ? true : false}&`;
   }
 
   if (category !== undefined && category !== 'All') {
@@ -32,6 +33,7 @@ export const getDishes = async ({
   }
 
   queryString = queryString.replace(/&$/, '');
+  console.log('queryString:', queryString);
 
   const { data } = await publicInstance.get(
     `/dishes?page=${pageParam}&limit=${limit}&${queryString}`

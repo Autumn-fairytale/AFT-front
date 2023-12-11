@@ -8,8 +8,7 @@ export const route = Object.freeze({
   FAVORITE_CHEFS: 'chefs/favorites',
 
   CHEFS: '/chefs',
-  FAVORITE_CHEFS: 'chefs/favorites',
-
+  USER_ORDERS: '/orders',
   ORDERS_PAYMENT: '/orders/payment',
   CREATE_ORDER: '/create-order',
 

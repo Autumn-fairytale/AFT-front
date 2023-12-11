@@ -5,6 +5,8 @@ export const route = Object.freeze({
   HOME: '/',
   DISHES: '/dishes',
   FAVORITE_DISHES: 'dishes/favorites',
+  FAVORITE_CHEFS: 'chefs/favorites',
+
   CHEFS: '/chefs',
   USER_ORDERS: '/orders',
   ORDERS_PAYMENT: '/orders/payment',

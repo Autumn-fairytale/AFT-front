@@ -2,7 +2,6 @@ import { Box, Typography } from '@mui/material';
 
 import PropTypes from 'prop-types';
 
-import { convertToMoney } from '@/helpers';
 import { CustomPagination } from '../TableComponents/Pagination';
 
 export const CustomFooter = ({ totalSum = 0, rowCount = 0 }) => {
@@ -17,7 +16,7 @@ export const CustomFooter = ({ totalSum = 0, rowCount = 0 }) => {
     >
       <Box>
         <Typography>
-          Total sum: <b>{convertToMoney(totalSum)}</b>
+          Total sum: <b>{totalSum.toFixed(2)} ₴</b>
         </Typography>
         <Typography>
           Total orders: <b>{rowCount}</b>

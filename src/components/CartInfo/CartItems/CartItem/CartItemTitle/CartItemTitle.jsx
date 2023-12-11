@@ -49,7 +49,7 @@ const CartItemTitle = ({ title, dishId, ...props }) => {
         >
           <DishOrderCard
             dishId={dishId}
-            closeModalHandler={closeModalHandler}
+            // closeModalHandler={closeModalHandler}
           />
         </AppModal>
       )}

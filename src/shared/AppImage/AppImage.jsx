@@ -16,7 +16,6 @@ const AppImage = ({ src, alt, defaultSrc, ...props }) => {
         width={props.width}
         height={props.height}
         onError={errorHandler}
-        loading="lazy"
       />
     </AppImageThumbStyled>
   );

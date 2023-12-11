@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 
 export const StyledUserOrderDetailsPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
-  width: 450,
+  maxWidth: 400,
   maxHeight: '85vh',
   margin: 'auto',
   overflowY: 'auto',
@@ -50,7 +50,7 @@ export const StyledUserOrderDetailsTypography = styled(Typography)({
 });
 
 export const StyledUserOrderDetailsListItem = styled(ListItem)({
-  flexDirection: 'flex',
+  flexDirection: 'column',
   alignItems: 'flex-start',
-  gap: '10px',
+  marginBottom: '2rem',
 });

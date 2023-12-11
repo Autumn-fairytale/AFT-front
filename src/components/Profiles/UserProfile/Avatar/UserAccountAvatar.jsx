@@ -1,14 +1,23 @@
-import {
-  UserAvatarBoxStyled,
-  UserAvatarStyled,
-} from './UserAccountAvatar.styled';
+import { UploadChefFiles } from '@/components/CreateChefForm/UploadChefFiles/UploadChefFiles';
+import { FOLDERS } from '@/constants/mocks';
+import { UserAccountAvatarPropTypes } from './UserAccountAvatar.props';
+import { UserAvatarBoxStyled } from './UserAccountAvatar.styled';
 
-const UserAccountAvatar = () => {
+const UserAccountAvatar = ({ control, setValue, initialImage }) => {
   return (
     <UserAvatarBoxStyled>
-      <UserAvatarStyled />
+      <UploadChefFiles
+        control={control}
+        setValue={setValue}
+        isAvatar={true}
+        id="avatar"
+        initialImage={initialImage}
+        folder={FOLDERS.AVATARS}
+      />
     </UserAvatarBoxStyled>
   );
 };
+
+UserAccountAvatar.propTypes = UserAccountAvatarPropTypes;
 
 export default UserAccountAvatar;

@@ -3,7 +3,8 @@ import { Box, styled } from '@mui/material';
 export const UserAccountGridStyled = styled(Box)({
   height: 'max-content',
   display: 'grid',
-  gap: '1.5rem',
+  rowGap: '1.5rem',
+  columnGap: '2.5rem',
   width: 'min-content',
 
   padding: '3.5rem 0 1.5rem',
@@ -13,4 +14,8 @@ export const UserAccountGridStyled = styled(Box)({
   gridTemplateRows: '380px 1fr',
   gridAutoFlow: 'row',
   gridTemplateAreas: '"avatar fields " "buttons fields"',
+
+  '& form': {
+    position: 'relative',
+  },
 });

@@ -1,52 +1,36 @@
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-// import { route } from '@/constants';
 import { AppButton } from '@/shared';
 import {
   UserButtonsBoxStyled,
   UserButtonsGroupStyled,
 } from './UserAccountButtons.styled';
+import { useRedirectButtons } from './useRedirectButtons';
 
 const UserAccountButtons = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const { redirectButtons } = useRedirectButtons();
 
-  // const conditionRedirect = (firstRoute, secondRoute, condition) => {
-  //   if (condition) {
-  //     navigate(firstRoute);
-  //   } else {
-  //     navigate(secondRoute);
-  //   }
-  // };
-
-  // const redirectFunc = {
-  //   chefProfile: conditionRedirect(route.CHEF_PROFILE),
-  // };
+  const handleButtonClick = (route, onClick) => {
+    if (route) {
+      navigate(route);
+    } else if (onClick) {
+      onClick();
+    }
+  };
 
   return (
     <UserButtonsBoxStyled>
       <UserButtonsGroupStyled>
-        <AppButton
-          fullWidth
-          // onClick={}
-          variant="outlined"
-          label="Chef Account"
-        ></AppButton>
-        <AppButton
-          fullWidth
-          variant="outlined"
-          label="Become a Courier"
-        ></AppButton>
-        <AppButton
-          fullWidth
-          variant="outlined"
-          label="Order History"
-        ></AppButton>
-        <AppButton
-          fullWidth
-          variant="outlined"
-          label="Notifications"
-        ></AppButton>
-        <AppButton fullWidth variant="outlined" label="Settings"></AppButton>
+        {redirectButtons.map(({ label, route, onClick }) => (
+          <AppButton
+            key={label}
+            fullWidth
+            variant="outlined"
+            label={label}
+            onClick={() => handleButtonClick(route, onClick)}
+          />
+        ))}
       </UserButtonsGroupStyled>
     </UserButtonsBoxStyled>
   );

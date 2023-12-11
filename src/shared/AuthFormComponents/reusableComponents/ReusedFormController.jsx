@@ -76,5 +76,5 @@ ReusedFormController.propTypes = {
   error: PropTypes.bool,
   helperText: PropTypes.string,
   autoComplete: PropTypes.string,
-  type: PropTypes.oneOf(['text', 'password']),
+  type: PropTypes.oneOf(['text', 'password', 'tel']),
 };

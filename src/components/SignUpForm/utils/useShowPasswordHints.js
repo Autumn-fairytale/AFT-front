@@ -1,11 +1,22 @@
 import { useEffect, useState } from 'react';
 
-export const useShowPasswordHints = (errors) => {
+import PropTypes from 'prop-types';
+
+export const useShowPasswordHints = (errors, fieldName) => {
   const [showPasswordHints, setShowPasswordHints] = useState(false);
 
   useEffect(() => {
-    setShowPasswordHints(!!errors?.password);
-  }, [errors?.password]);
+    setShowPasswordHints(!!errors?.[fieldName]);
+  }, [errors?.[fieldName]]);
 
   return showPasswordHints;
+};
+
+useShowPasswordHints.defaultProps = {
+  fieldName: 'password',
+};
+
+useShowPasswordHints.propTypes = {
+  errors: PropTypes.object.isRequired,
+  fieldName: PropTypes.string,
 };

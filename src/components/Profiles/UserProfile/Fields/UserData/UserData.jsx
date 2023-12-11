@@ -1,81 +1,89 @@
+import { useWatch } from 'react-hook-form';
+
 import { Box } from '@mui/material';
 
 import AddressForm from '@/components/AddressForm';
 import {
-  EmailController,
-  FirstNameController,
-  LastNameController,
-  PasswordController,
-  PhoneController,
-} from '@/shared/AuthFormComponents/readyComponents';
+  PasswordHints,
+  useShowPasswordHints,
+} from '@/components/SignUpForm/utils';
+import { PasswordController } from '@/shared/AuthFormComponents/readyComponents';
 import { useTheme } from '@emotion/react';
+import UserAccountAvatar from '../../Avatar/UserAccountAvatar';
 import {
   FieldGroupsStyled,
   GroupHeaderStyled,
   UserFieldsGroupStyled,
 } from '../UserAccountFields.styled';
-import { addressFormItems } from './userAddressFields';
 import { UserDataPropTypes } from './UserData.props';
+import {
+  addressFormItems,
+  passwordFields,
+  personalInfoFields,
+} from './userFields';
 
-const UserData = ({ control, errors, ...other }) => {
-  console.log({ control, errors, ...other });
-
+const UserData = ({ control, errors, setValue, initialImage }) => {
   const theme = useTheme();
+
+  const newPasswordValue = useWatch({
+    control,
+    name: 'newPassword',
+    defaultValue: '',
+  });
+  console.log(errors);
+
+  const showPasswordHints = useShowPasswordHints(errors, 'newPassword');
+
   return (
     <FieldGroupsStyled>
+      {/* USER AVATAR */}
+      <UserAccountAvatar
+        control={control}
+        setValue={setValue}
+        initialImage={initialImage}
+      />
+
+      {/* USER PERSONAL INFO */}
       <UserFieldsGroupStyled theme={theme}>
         <GroupHeaderStyled theme={theme}>
           Personal Information
         </GroupHeaderStyled>
-        <FirstNameController
-          control={control}
-          errors={errors}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          autoComplete="off"
-        />
-        <LastNameController
-          control={control}
-          errors={errors}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          autoComplete="off"
-        />
-        <EmailController
-          control={control}
-          errors={errors}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          autoComplete="off"
-        />
-        <PhoneController control={control} errors={errors} autoComplete="off" />
+
+        {personalInfoFields.map(({ Controller, label, name }) => (
+          <Controller
+            key={name}
+            control={control}
+            errors={errors}
+            name={name}
+            label={label}
+            InputLabelProps={{ shrink: true }}
+            autoComplete="off"
+          />
+        ))}
       </UserFieldsGroupStyled>
+
+      {/* CHANGE PASSWORD */}
       <UserFieldsGroupStyled theme={theme}>
         <GroupHeaderStyled theme={theme}>Change Password</GroupHeaderStyled>
-        <PasswordController
-          control={control}
-          errors={errors}
-          label="Current Password"
-          placeholder="Enter your current password"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          autoComplete="off"
-        />
-        <PasswordController
-          control={control}
-          errors={errors}
-          label="New Password"
-          placeholder="Enter a new password"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          autoComplete="off"
+        {passwordFields.map(({ label, name, placeholder }) => (
+          <PasswordController
+            key={name}
+            control={control}
+            errors={errors}
+            name={name}
+            label={label}
+            placeholder={placeholder}
+            InputLabelProps={{ shrink: true }}
+            autoComplete="off"
+          />
+        ))}
+        <PasswordHints
+          passwordValue={newPasswordValue}
+          showHints={showPasswordHints}
         />
       </UserFieldsGroupStyled>
+
+      {/* ADDRESS INFO */}
       <UserFieldsGroupStyled theme={theme}>
         <GroupHeaderStyled theme={theme}>Address Information</GroupHeaderStyled>
         <Box sx={{ marginTop: '1.1rem' }}>

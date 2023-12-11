@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
 
 export const AddressFormItemPropTypes = PropTypes.shape({
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   name: PropTypes.string.isRequired,
   component: PropTypes.node.isRequired,
   required: PropTypes.bool,

@@ -1,4 +1,4 @@
 export * from './AddDishForm';
-export { AddDishFormImageUpload } from './AddDishFormImageUpload';
-export { AddDishFormNavButtons } from './AddDishFormNavButtons';
-export { AddDishFormSpiceLevel } from './AddDishFormSpiceLevel';
+export * from './AddDishFormImageUpload';
+export * from './AddDishFormNavButtons';
+export * from './AddDishFormSpiceLevel';

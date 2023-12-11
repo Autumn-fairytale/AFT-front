@@ -1,11 +1,10 @@
 import { Stack, Typography } from '@mui/material';
 
-import PropTypes from 'prop-types';
-
 import { FIELD_WIDTH } from '../../AddDishForm';
 import { AddDishFormFieldEndAdornment } from '../../AddDishFormFieldEndAdornment/AddDishFormFieldEndAdornment';
-import { FormattedNumberInput } from '../../FormattedNumberInput';
-import { HelperText } from '../../HelperText';
+import { FormattedNumberInput } from '../../FormattedNumberInput/FormattedNumberInput';
+import { HelperText } from '../../HelperText/HelperText';
+import { AddDishFormStepFourProps } from './AddDishFormStepFour.props';
 import { AddDishFormSubmitGuidance } from './AddDishFormSubmitGuidance';
 
 export const AddDishFormStepFour = ({ control, errors }) => {
@@ -110,7 +109,4 @@ export const AddDishFormStepFour = ({ control, errors }) => {
   );
 };
 
-AddDishFormStepFour.propTypes = {
-  errors: PropTypes.object.isRequired,
-  control: PropTypes.object.isRequired,
-};
+AddDishFormStepFour.propTypes = AddDishFormStepFourProps;

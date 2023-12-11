@@ -1,4 +1,4 @@
-export { AddDishFormStepFour } from './AddDishFormStepFour';
-export { AddDishFromStepOne } from './AddDishFormStepOne';
-export { AddDishFormStepThree } from './AddDishFormStepThree';
-export { AddDishFormStepTwo } from './AddDishFormStepTwo';
+export * from './AddDishFormStepFour';
+export * from './AddDishFormStepOne';
+export * from './AddDishFormStepThree';
+export * from './AddDishFormStepTwo';

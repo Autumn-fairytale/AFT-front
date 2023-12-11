@@ -38,10 +38,18 @@ import { StyledDishBadge } from './DishCardBadge';
 const DishCard = ({ dishInfo, isCarousel, isChef }) => {
   const [favorite, setFavorite] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+  const editPath = `/chef-account/dishes/edit/${dishInfo.id}`;
+
   const user = useSelector(selectUser);
   const userId = useSelector(selectUser)?.id;
 
-  const isChefFromRedux = user?.roles[1]?.name === 'chef';
+  const dishOwnerId = dishInfo?.owner;
+
+  const currentUserId = user?.roles[1]?.id;
+
+  const isTryingToOrderOwnDish = dishOwnerId === currentUserId;
 
   const openModalHandler = () => {
     setIsModalOpen(true);
@@ -99,7 +107,6 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
       setFavorite(true);
     }
   }, [favoriteDishesIds]);
-
   const { mutate: addFavorite } = useAddFavorite('dishes', dishId);
   const { mutate: deleteFavorite } = useDeleteFavorite('dishes', dishId);
   const handleAddFavorites = () => {
@@ -111,8 +118,6 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
       setFavorite(!favorite);
     }
   };
-
-  const editPath = `/chef-account/dishes/edit/${dishInfo.id}`;
 
   let labelContent;
   if (isCarousel) {
@@ -185,19 +190,6 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
           ) : (
             ''
           )}
-          {/* {isChef ? (
-            <Link to={editPath}>
-              <IconButton>
-                <IoSettingsOutline />
-              </IconButton>
-            </Link>
-          ) : (
-            <IconButton onClick={() => handleAddFavorites()}>
-              <PiHeart
-                style={{ color: favorite ? customColors.primaryColor : '' }}
-              />
-            </IconButton>
-          )} */}
         </FavoriteButton>
       </DishImageWrapper>
       <Stack
@@ -240,7 +232,7 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
           onClick={!isChef ? handleAddToCart : null}
           disabled={
             isChef ||
-            isChefFromRedux ||
+            isTryingToOrderOwnDish ||
             isCartLoading ||
             isAddingItem ||
             isUpdatingCart

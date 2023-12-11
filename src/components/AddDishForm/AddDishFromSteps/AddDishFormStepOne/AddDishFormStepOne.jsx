@@ -2,13 +2,12 @@ import { Controller } from 'react-hook-form';
 
 import { Autocomplete, Stack, TextField } from '@mui/material';
 
-import PropTypes from 'prop-types';
-
 import { CATEGORIES, CUISINES } from '@/constants';
 import { FIELD_WIDTH } from '../../AddDishForm';
-import { FormattedNumberInput } from '../../FormattedNumberInput';
-import { HelperText } from '../../HelperText';
+import { FormattedNumberInput } from '../../FormattedNumberInput/FormattedNumberInput';
+import { HelperText } from '../../HelperText/HelperText';
 import { AddDishFormGuidance } from './AddDishFormGuidance';
+import { AddDishFromStepOneProps } from './AddDishFromStepperProps.props';
 
 const isOptionEqual = (option, value) => {
   return option === value || value === '';
@@ -113,8 +112,4 @@ export const AddDishFromStepOne = ({ errors, control }) => {
   );
 };
 
-AddDishFromStepOne.propTypes = {
-  register: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
-  control: PropTypes.object.isRequired,
-};
+AddDishFromStepOne.propTypes = AddDishFromStepOneProps;

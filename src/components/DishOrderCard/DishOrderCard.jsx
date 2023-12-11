@@ -62,7 +62,7 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
   useSingleToast(ErrorAddToCard);
 
   const { data: dish = {}, isLoading } = useFetchDish(dishId);
-
+  console.log(dish); // averageRating, ratingCount
   const owner = dish.owner;
 
   const cartItem = cartData?.cart.items.find(
@@ -166,16 +166,6 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
               >
                 {dish.name}
               </Typography>
-
-              <Stack
-                direction="row"
-                alignItems="center"
-                alignSelf="flex-start"
-                gap={1}
-              >
-                <DishOrderCardRating />
-                {isVegan && <DishOrderCardVeganBadge />}
-              </Stack>
             </StyledCenteredColumnBox>
 
             <Stack direction="column" spacing={1}>
@@ -192,6 +182,20 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
                 {`${dish.cuisine} · ${dish.category}`}
               </Typography>
             </Stack>
+
+            <Stack
+              direction="row"
+              alignItems="center"
+              alignSelf="flex-start"
+              gap={1}
+            >
+              <DishOrderCardRating
+                averageRating={dish?.averageRating}
+                ratingCount={dish?.ratingCount}
+              />
+              {isVegan && <DishOrderCardVeganBadge />}
+            </Stack>
+
             <Divider sx={{ my: 1 }} />
             <Box sx={{ width: '100%' }}>
               <DishOrderCardTabs

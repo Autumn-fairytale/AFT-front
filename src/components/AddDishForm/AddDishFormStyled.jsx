@@ -8,7 +8,7 @@ export const StyledAddDishContainer = styled(Container)(({ theme }) => ({
   marginTop: theme.spacing(5),
   marginBottom: theme.spacing(2),
   height: '585px',
-  maxHeight: '85vh',
+  maxHeight: '100%',
 }));
 
 export const StyledAddDishFormBox = styled(Box)(({ theme }) => ({
@@ -17,4 +17,5 @@ export const StyledAddDishFormBox = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   marginTop: theme.spacing(3),
   flexGrow: 1,
+  position: 'relative',
 }));

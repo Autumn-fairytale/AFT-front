@@ -20,7 +20,7 @@ const CartChefInfo = ({ data, ...props }) => {
 
   return (
     <CartChefInfoStyled {...props} isDefault={isDefault} theme={theme}>
-      <Avatar src={data.avatar} />
+      <Avatar src={data.avatar} sx={{ boxShadow: 1 }} />
       <CartChefInfoLink
         to={`${route.CHEFS}/${data.id}`}
         theme={theme}

@@ -7,3 +7,4 @@ export * from './usePopularChefs';
 export * from './usePopularDishes';
 export * from './useRandomDish';
 export * from './useS3ImageUploader';
+export * from './useSingleToast';

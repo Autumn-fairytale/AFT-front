@@ -34,6 +34,8 @@ export const MainInfoWrapper = styled('span')(() => ({
 }));
 
 export const DishName = styled('h2')(({ theme, isCarousel }) => ({
+  display: 'inline-block',
+  minHeight: `${isCarousel ? '54px' : '76px'}`,
   fontSize: `${isCarousel ? '18px' : '24px'}`,
   fontWeight: `${isCarousel ? '700' : '900'}`,
   letterSpacing: '-1px',
@@ -46,7 +48,7 @@ export const DishPrice = styled('h2')(({ theme, isCarousel }) => ({
   fontWeight: '900',
   letterSpacing: '0em',
   color: `${theme.palette.primary.main}`,
-  margin: `${isCarousel ? '5px 10px' : '8px 20px'}`,
+  margin: `${isCarousel ? '0px 10px' : '8px 20px'}`,
 }));
 
 export const DishDescription = styled('p')(({ isCarousel }) => ({

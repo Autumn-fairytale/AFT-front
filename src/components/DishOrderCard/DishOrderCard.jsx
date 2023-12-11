@@ -45,7 +45,6 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
   const isOpenedFromCreateOrder = location.pathname.endsWith('/create-order');
 
   const user = useSelector(selectUser);
-  const isChef = user?.roles[1]?.name === 'chef';
 
   const { data: cartData, isPending: isCartLoading } = useGetCartItems();
 
@@ -62,7 +61,13 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
 
   const { data: dish = {}, isLoading } = useFetchDish(dishId);
 
-  const owner = dish.owner;
+  const owner = dish && dish.owner;
+
+  const dishOwnerId = dish?.owner?.id;
+
+  const currentUserId = user?.roles[1]?.id;
+
+  const isTryingToOrderOwnDish = dishOwnerId === currentUserId;
 
   const cartItem = cartData?.cart.items.find(
     (item) => item.dish.id === dish.id
@@ -268,7 +273,7 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
               cartItemCount={cartItemCount}
               dishId={dish.id}
               addCartItem={addCartItem}
-              isChef={isChef}
+              isChef={isTryingToOrderOwnDish}
             />
           </Box>
         }

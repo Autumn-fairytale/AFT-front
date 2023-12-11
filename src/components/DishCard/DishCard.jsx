@@ -39,9 +39,15 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
   const [favorite, setFavorite] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const editPath = `/chef-account/dishes/edit/${dishInfo.id}`;
+
   const user = useSelector(selectUser);
 
-  const isChefFromRedux = user?.roles[1]?.name === 'chef';
+  const dishOwnerId = dishInfo?.owner;
+
+  const currentUserId = user?.roles[1]?.id;
+
+  const isTryingToOrderOwnDish = dishOwnerId === currentUserId;
 
   const openModalHandler = () => {
     setIsModalOpen(true);
@@ -94,7 +100,9 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
       setFavorite(true);
     }
   }, [foundDish]);
+
   const { mutate: addFavorite } = useAddFavorite('dishes', dishId);
+
   const { mutate: deleteFavorite } = useDeleteFavorite('dishes', dishId);
   const handleAddFavorites = () => {
     if (!favorite) {
@@ -105,8 +113,6 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
       setFavorite(!favorite);
     }
   };
-
-  const editPath = `/chef-account/dishes/edit/${dishInfo.id}`;
 
   let labelContent;
   if (isCarousel) {
@@ -218,7 +224,7 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
           onClick={!isChef ? handleAddToCart : null}
           disabled={
             isChef ||
-            isChefFromRedux ||
+            isTryingToOrderOwnDish ||
             isCartLoading ||
             isAddingItem ||
             isUpdatingCart

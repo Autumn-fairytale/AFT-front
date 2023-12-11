@@ -3,7 +3,6 @@ import ChefCard from '../ChefCard/ChefCard';
 import { CarouselChefsPropTypes } from './CarouselChefs.props';
 
 export const CarouselChefs = ({ data }) => {
-  console.log(data);
   return (
     <AppCarousel>
       {data.map((item, index) => (

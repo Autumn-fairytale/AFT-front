@@ -55,7 +55,7 @@ export const UserMenu = () => {
   const favoriteChefsIds = useGetFavorite('chefs');
   const favoriteChefsLength =
     favoriteChefsIds?.data?.favoriteChefs?.length || null;
-  console.log(favoriteChefsLength);
+
   // console.log('favoriteDishes:', favoriteDishes);
   // console.log('cart:', cart);
   // console.log('avatar:', avatar);

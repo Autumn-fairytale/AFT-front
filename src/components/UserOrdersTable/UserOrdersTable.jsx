@@ -3,18 +3,20 @@ import { useCallback, useMemo, useState } from 'react';
 import LaunchIcon from '@mui/icons-material/Launch';
 import { IconButton } from '@mui/material';
 
+import { convertToMoney } from '@/helpers';
 import { calculateTotalOrdersSum } from '@/helpers/calculateTotalOrdersSum';
 import { formatDateForDataGrid } from '@/helpers/formatDateForDataGrid';
 import useUserOrders from '@/hooks/useUserOrders ';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { AppModal } from '@/shared/AppModal/AppModal';
+import PaymentButton from '../PaymentButton';
 import { StatusCell } from '../TableComponents/StatusCell';
 import { CustomFooter } from './CustomFooter';
 import { UserOrderDetails } from './UserOrderDetails/';
+import UserOrderItems from './UserOrderItems';
 
 export const UserOrdersTable = () => {
-  const mockUserId = '6566e859a48ddb482e9ab846';
-  const { data, isLoading, error } = useUserOrders(mockUserId);
+  const { data, isLoading, error } = useUserOrders();
 
   const [openModal, setOpenModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -31,73 +33,66 @@ export const UserOrdersTable = () => {
     () => [
       {
         field: 'orderNumber',
-        headerName: 'Order-number',
-        flex: 0.5,
+        headerName: 'Order №',
+        headerAlign: 'center',
+        hideSortIcons: true,
+        sortable: false,
+        align: 'center',
+        width: 130,
       },
       {
         field: 'createdAt',
         headerName: 'Date',
-        valueGetter: ({ value }) => {
-          if (!value) {
-            return value;
-          }
-          return formatDateForDataGrid(value);
-        },
+        headerAlign: 'center',
+        align: 'center',
+        hideSortIcons: true,
+        sortable: false,
+        valueGetter: ({ value }) => formatDateForDataGrid(value),
         type: 'Date',
-        flex: 0.5,
+        width: 100,
       },
       {
         field: 'status',
         headerName: 'Status',
+        headerAlign: 'center',
+        align: 'center',
+        hideSortIcons: true,
+        sortable: false,
         width: 150,
-        renderCell: StatusCell,
+        renderCell: (cell) =>
+          cell.row.isPaid ? (
+            StatusCell(cell)
+          ) : (
+            <PaymentButton orderId={cell.row.id} />
+          ),
+      },
+      {
+        field: 'items',
+        headerName: 'Order items',
+        hideSortIcons: true,
+        sortable: false,
+        type: 'string',
+        flex: 1,
+        renderCell: ({ row }) => <UserOrderItems items={row.items} />,
       },
       {
         field: 'totalPrice',
         headerName: 'Total Price',
+        headerAlign: 'center',
+        align: 'center',
+        hideSortIcons: true,
+        sortable: false,
         cellClassName: 'boldCell',
-        valueGetter: ({ value }) => {
-          if (!value) {
-            return value;
-          }
-          return value + ' ₴';
-        },
+        valueGetter: ({ value }) => convertToMoney(value),
       },
-      {
-        field: 'address',
-        valueGetter: ({ value }) => {
-          if (!value) {
-            return value;
-          }
-          const address = `${value.country}, ${value.city}, ${value.street}`;
 
-          return address;
-        },
-        headerName: 'Address',
-
-        flex: 0.5,
-      },
-      {
-        field: 'items',
-        valueGetter: ({ value }) => {
-          if (!value) {
-            return value;
-          }
-
-          return value
-            .map(
-              (item, index) =>
-                `${index + 1}. ${item.name} (quantity: ${item.count})`
-            )
-            .join('\n');
-        },
-        headerName: 'Order items',
-        type: 'string',
-        flex: 1,
-      },
       {
         field: 'details',
         headerName: 'Details',
+        headerAlign: 'center',
+        align: 'center',
+        hideSortIcons: true,
+        sortable: false,
         renderCell: ({ row }) => (
           <IconButton
             sx={{ color: 'primary.main' }}
@@ -106,13 +101,17 @@ export const UserOrdersTable = () => {
             <LaunchIcon />
           </IconButton>
         ),
-        width: 100,
       },
     ],
     [handleOpenModal]
   );
 
-  const totalSum = calculateTotalOrdersSum(orders);
+  const totalOrdersPrice = useMemo(
+    () => calculateTotalOrdersSum(orders),
+    [orders]
+  );
+
+  const closeModalHandler = useCallback(() => setOpenModal(false), []);
 
   return (
     <>
@@ -122,10 +121,14 @@ export const UserOrdersTable = () => {
         loading={isLoading}
         error={error}
         pageSize={10}
+        disableColumnMenu={true}
+        disableColumnFilter={true}
+        disableColumnSelector={true}
+        rowHeight={60}
         slots={{
           footer: () => (
             <CustomFooter
-              totalSum={totalSum}
+              totalSum={totalOrdersPrice}
               pageSize={5}
               rowCount={orders.length}
             />
@@ -137,9 +140,11 @@ export const UserOrdersTable = () => {
           },
         }}
       />
-      <AppModal open={openModal} onClose={() => setOpenModal(false)}>
-        {selectedOrder && <UserOrderDetails order={selectedOrder} />}
-      </AppModal>
+      {openModal && (
+        <AppModal isOpen={openModal} onClose={closeModalHandler}>
+          <UserOrderDetails order={selectedOrder} />
+        </AppModal>
+      )}
     </>
   );
 };

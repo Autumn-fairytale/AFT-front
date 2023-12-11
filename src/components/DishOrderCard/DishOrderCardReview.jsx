@@ -12,7 +12,8 @@ export const DishOrderCardReview = ({ dishId, reviewObj }) => {
     navigate(`/dishes/${dishId}/reviews`);
   };
 
-  const fullName = reviewObj?.owner.firstName + ' ' + reviewObj?.owner.lastName;
+  const fullName =
+    reviewObj && reviewObj?.owner.firstName + ' ' + reviewObj?.owner.lastName;
 
   const reviewPlaceholder =
     ' Delicious and perfectly spiced! A truly delightful meal.';
@@ -27,7 +28,7 @@ export const DishOrderCardReview = ({ dishId, reviewObj }) => {
             {reviewObj?.review ?? reviewPlaceholder}
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-            - {fullName ?? ownerPlaceholder}
+            - {fullName || ownerPlaceholder}
           </Typography>
         </CardContent>
       </Card>

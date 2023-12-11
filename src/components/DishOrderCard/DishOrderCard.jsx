@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import {
@@ -14,9 +15,14 @@ import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 
 import { convertToMoney } from '@/helpers';
-import { useGetCartItems, useUpdateCartItemById } from '@/hooks';
+import {
+  useGetCartItems,
+  useSingleToast,
+  useUpdateCartItemById,
+} from '@/hooks';
 import { useAddCartItem } from '@/hooks/cart/useAddCartItem';
 import { useFetchDish } from '@/hooks/useFetchDish';
+import { selectUser } from '@/redux/auth/selectors';
 import {
   StyledAddDishOrderCardMedia,
   StyledCenteredColumnBox,
@@ -38,10 +44,22 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
   const location = useLocation();
   const isOpenedFromCreateOrder = location.pathname.endsWith('/create-order');
 
+  console.log(isOpenedFromCreateOrder, 'isOpenedFromCreateOrder');
+  const user = useSelector(selectUser);
+  const isChef = user?.roles[1]?.name === 'chef';
+
   const { data: cartData, isPending: isCartLoading } = useGetCartItems();
+
   const { mutate: updateCartItem, isPending: isUpdatingCart } =
     useUpdateCartItemById();
-  const { mutate: addCartItem, isPending: isAddingItem } = useAddCartItem();
+
+  const {
+    mutate: addCartItem,
+    isPending: isAddingItem,
+    error: ErrorAddToCard,
+  } = useAddCartItem();
+
+  useSingleToast(ErrorAddToCard);
 
   const { data: dish = {}, isLoading } = useFetchDish(dishId);
 
@@ -225,26 +243,29 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
             <DishOrderCardSpiceLevel spiceLevel={dish.spiceLevel} />
             <Divider sx={{ my: 1 }} />
 
-            <DishOrderCardReview />
+            <DishOrderCardReview dishId={dish.id} />
           </CardContent>
         </StyledDishOrderCard>
-        <Box sx={{ p: 1 }}>
-          <DishOrderCardButtonsGroup
-            quantity={cartItemCount}
-            handleQuantityChange={handleQuantityChange}
-            handleAddToCart={handleAddToCart}
-            isAddingItem={isAddingItem}
-            isInCart={isInCart}
-            isCartLoading={isCartLoading}
-            isUpdatingCart={isUpdatingCart}
-            handleGoToCart={handleGoToCart}
-            closeModalHandler={closeModalHandler}
-            isOpenedFromCreateOrder={isOpenedFromCreateOrder}
-            cartItemCount={cartItemCount}
-            dishId={dish.id}
-            addCartItem={addCartItem}
-          />
-        </Box>
+        {
+          <Box sx={{ p: 1 }}>
+            <DishOrderCardButtonsGroup
+              quantity={cartItemCount}
+              handleQuantityChange={handleQuantityChange}
+              handleAddToCart={handleAddToCart}
+              isAddingItem={isAddingItem}
+              isInCart={isInCart}
+              isCartLoading={isCartLoading}
+              isUpdatingCart={isUpdatingCart}
+              handleGoToCart={handleGoToCart}
+              closeModalHandler={closeModalHandler}
+              isOpenedFromCreateOrder={isOpenedFromCreateOrder}
+              cartItemCount={cartItemCount}
+              dishId={dish.id}
+              addCartItem={addCartItem}
+              isChef={isChef}
+            />
+          </Box>
+        }
       </StyledDishOrderCardWrapper>
     )
   );

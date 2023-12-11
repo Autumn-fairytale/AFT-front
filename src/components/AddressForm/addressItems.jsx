@@ -1,6 +1,6 @@
 import { AppTextInput } from '@/shared';
 
-export const addressFormItems = [
+export const defaultAddressFormItems = [
   {
     title: 'Country',
     name: 'country',

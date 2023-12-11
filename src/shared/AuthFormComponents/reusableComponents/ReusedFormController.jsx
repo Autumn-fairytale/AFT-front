@@ -2,11 +2,12 @@ import { Controller } from 'react-hook-form';
 
 import PropTypes from 'prop-types';
 
-import { AppPasswordInput, AppTextInput } from '@/shared';
+import { AppPasswordInput, AppPhoneInput, AppTextInput } from '@/shared';
 
 const componentMap = {
   text: AppTextInput,
   password: AppPasswordInput,
+  tel: AppPhoneInput,
 };
 
 export const ReusedFormController = ({
@@ -75,5 +76,5 @@ ReusedFormController.propTypes = {
   error: PropTypes.bool,
   helperText: PropTypes.string,
   autoComplete: PropTypes.string,
-  type: PropTypes.oneOf(['text', 'password']),
+  type: PropTypes.oneOf(['text', 'password', 'tel']),
 };

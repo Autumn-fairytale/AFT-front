@@ -10,7 +10,7 @@ export const CartItemDescStyled = styled(Typography)({
   fontStyle: 'italic',
   fontSize: '0.85rem',
   lineHeight: 1.3,
-  textAlign: 'justify',
+  // textAlign: 'justify',
 
   overflow: 'hidden',
   display: '-webkit-box',
@@ -21,6 +21,10 @@ export const CartItemDescStyled = styled(Typography)({
 export const CartItemTagBlockStyled = styled('div', {
   shouldForwardProp: (prop) => prop !== 'isDefault',
 })(({ isDefault }) => ({
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+
   display: 'flex',
   flexDirection: 'row',
   gap: `${isDefault ? '0.5rem' : '0.3rem'}`,

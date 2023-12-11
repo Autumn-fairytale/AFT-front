@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import { deleteCartItem } from '@/api';
 import { queryKey } from '@/constants';
@@ -14,8 +15,10 @@ export const useDeleteCartItem = () => {
   const result = useMutation({
     mutationFn: (dishId) => deleteCartItem(userId, dishId),
     onSuccess: () => {
-      // queryClient.invalidateQueries({ queryKey: key });
       queryClient.setQueryData(backupKey, null);
+    },
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 

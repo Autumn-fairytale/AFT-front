@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import { addCartItem } from '@/api';
 import { queryKey } from '@/constants';
@@ -14,6 +15,9 @@ export const useAddCartItem = () => {
     mutationFn: (data) => addCartItem(userId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: key });
+    },
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 

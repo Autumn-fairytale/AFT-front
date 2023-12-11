@@ -9,7 +9,6 @@ import { ChefsSearchBar } from '@/components/ChefsSearchBar/ChefsSearchBar';
 import PageMessage from '@/components/PageMessage/PageMessage';
 import { PageTitle } from '@/components/PageTitle/PageTitle';
 import { AppContainer } from '@/shared';
-import { Main } from '@/shared/Main/Main';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import {
   InfiniteScrollStyled,
@@ -75,38 +74,36 @@ const ChefsPage = () => {
   const qtyChefs = chefs?.length;
 
   return (
-    <Main>
-      <AppContainer>
-        <PageTitle> CHEFS</PageTitle>
-        <ChefsSearchBar />
+    <AppContainer>
+      <PageTitle> CHEFS</PageTitle>
+      <ChefsSearchBar />
 
-        {isLoading ? (
-          <SkeletonWrapper>
-            {Array.from({ length: 3 }).map((_item, index) => (
-              <SkeletonCardItem SkeletonCardItem key={index}>
-                <ChefCardSkeleton />
-              </SkeletonCardItem>
-            ))}
-          </SkeletonWrapper>
-        ) : qtyChefs === 0 ? (
-          <PageMessage
-            image={NoChef}
-            message="Uh-oh! Chef not found!"
-          ></PageMessage>
-        ) : (
-          <InfiniteScrollStyled
-            dataLength={qtyChefs}
-            scrollThreshold={0.6}
-            next={() => fetchNextPage()}
-            hasMore={hasNextPage}
-            height={800}
-            loader={<h3>Loading...</h3>}
-          >
-            <ChefsList data={chefs} />
-          </InfiniteScrollStyled>
-        )}
-      </AppContainer>
-    </Main>
+      {isLoading ? (
+        <SkeletonWrapper>
+          {Array.from({ length: 3 }).map((_item, index) => (
+            <SkeletonCardItem SkeletonCardItem key={index}>
+              <ChefCardSkeleton />
+            </SkeletonCardItem>
+          ))}
+        </SkeletonWrapper>
+      ) : qtyChefs === 0 ? (
+        <PageMessage
+          image={NoChef}
+          message="Uh-oh! Chef not found!"
+        ></PageMessage>
+      ) : (
+        <InfiniteScrollStyled
+          dataLength={qtyChefs}
+          scrollThreshold={0.6}
+          next={() => fetchNextPage()}
+          hasMore={hasNextPage}
+          height={800}
+          loader={<h3>Loading...</h3>}
+        >
+          <ChefsList data={chefs} />
+        </InfiniteScrollStyled>
+      )}
+    </AppContainer>
   );
 };
 

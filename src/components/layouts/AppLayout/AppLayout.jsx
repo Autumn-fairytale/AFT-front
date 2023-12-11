@@ -10,15 +10,11 @@ const AppLayout = () => {
   return (
     <>
       <Header />
-      <Suspense
-        fallback={
-          <Main>
-            <AppLoader />
-          </Main>
-        }
-      >
-        <Outlet />
-      </Suspense>
+      <Main>
+        <Suspense fallback={<AppLoader />}>
+          <Outlet />
+        </Suspense>
+      </Main>
 
       <Footer />
     </>

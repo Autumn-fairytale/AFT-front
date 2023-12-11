@@ -9,7 +9,6 @@ import { DishesSearchBar } from '@/components/DishesSearchBar/DishesSearchBar';
 import PageMessage from '@/components/PageMessage/PageMessage';
 import { PageTitle } from '@/components/PageTitle/PageTitle';
 import { AppContainer } from '@/shared';
-import { Main } from '@/shared/Main/Main';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import {
   InfiniteScrollStyled,
@@ -81,39 +80,37 @@ const DishesPage = () => {
   const qtyDishes = dishes?.length;
 
   return (
-    <Main>
-      <AppContainer>
-        <PageTitle>DISHES</PageTitle>
+    <AppContainer>
+      <PageTitle>DISHES</PageTitle>
 
-        <DishesSearchBar />
-        {isLoading ? (
-          <SkeletonWrapper>
-            {Array.from({ length: 3 }).map((_item, index) => (
-              <SkeletonCardItem SkeletonCardItem key={index}>
-                <DishCardSkeleton />
-              </SkeletonCardItem>
-            ))}
-          </SkeletonWrapper>
-        ) : qtyDishes === 0 ? (
-          <PageMessage
-            image={NoFoundDish}
-            message="Uh-oh! It looks like the dish of your dreams is playing hide. No
+      <DishesSearchBar />
+      {isLoading ? (
+        <SkeletonWrapper>
+          {Array.from({ length: 3 }).map((_item, index) => (
+            <SkeletonCardItem SkeletonCardItem key={index}>
+              <DishCardSkeleton />
+            </SkeletonCardItem>
+          ))}
+        </SkeletonWrapper>
+      ) : qtyDishes === 0 ? (
+        <PageMessage
+          image={NoFoundDish}
+          message="Uh-oh! It looks like the dish of your dreams is playing hide. No
             luck this time. Maybe You need to tweak your search criteria."
-          ></PageMessage>
-        ) : (
-          <InfiniteScrollStyled
-            dataLength={qtyDishes}
-            scrollThreshold={0.6}
-            next={() => fetchNextPage()}
-            hasMore={hasNextPage}
-            height={800}
-            loader={<h3>Loading...</h3>}
-          >
-            <DishesList data={dishes} />
-          </InfiniteScrollStyled>
-        )}
-      </AppContainer>
-    </Main>
+        ></PageMessage>
+      ) : (
+        <InfiniteScrollStyled
+          dataLength={qtyDishes}
+          scrollThreshold={0.6}
+          next={() => fetchNextPage()}
+          hasMore={hasNextPage}
+          height={800}
+          loader={<h3>Loading...</h3>}
+        >
+          <DishesList data={dishes} />
+        </InfiniteScrollStyled>
+      )}
+    </AppContainer>
   );
 };
 

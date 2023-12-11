@@ -8,7 +8,6 @@ import PageMessage from '@/components/PageMessage/PageMessage';
 import { PageTitle } from '@/components/PageTitle/PageTitle';
 import { selectUser } from '@/redux/auth/selectors';
 import { AppContainer } from '@/shared';
-import { Main } from '@/shared/Main/Main';
 import { useQuery } from '@tanstack/react-query';
 import { SkeletonCardItem, SkeletonWrapper } from './FavoriteDishes.styled';
 
@@ -21,28 +20,26 @@ const FavoriteDishes = () => {
   });
 
   return (
-    <Main>
-      <AppContainer>
-        <PageTitle>YOUR FAVORITE DISHES</PageTitle>
+    <AppContainer>
+      <PageTitle>YOUR FAVORITE DISHES</PageTitle>
 
-        {isLoading ? (
-          <SkeletonWrapper>
-            {Array.from({ length: 3 }).map((_item, index) => (
-              <SkeletonCardItem SkeletonCardItem key={index}>
-                <DishCardSkeleton />
-              </SkeletonCardItem>
-            ))}
-          </SkeletonWrapper>
-        ) : data?.favoriteDishes.length === 0 ? (
-          <PageMessage
-            image={NoFoundDish}
-            message="You don't have favorites dishes"
-          />
-        ) : (
-          <DishesList data={data.favoriteDishes} />
-        )}
-      </AppContainer>
-    </Main>
+      {isLoading ? (
+        <SkeletonWrapper>
+          {Array.from({ length: 3 }).map((_item, index) => (
+            <SkeletonCardItem SkeletonCardItem key={index}>
+              <DishCardSkeleton />
+            </SkeletonCardItem>
+          ))}
+        </SkeletonWrapper>
+      ) : data?.favoriteDishes.length === 0 ? (
+        <PageMessage
+          image={NoFoundDish}
+          message="You don't have favorites dishes"
+        />
+      ) : (
+        <DishesList data={data.favoriteDishes} />
+      )}
+    </AppContainer>
   );
 };
 

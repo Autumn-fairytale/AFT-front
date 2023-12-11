@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { GridRowEditStopReasons, GridRowModes } from '@mui/x-data-grid';
 
+import { convertToMoney } from '@/helpers';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { formatDateForDataGrid } from '../../helpers/formatDateForDataGrid';
 import { CustomPagination } from '../TableComponents/Pagination';
@@ -110,10 +111,10 @@ export const CourierOrdersTable = ({
         field: 'summaryPrice',
         headerName: 'Your Profit',
         valueGetter: ({ value }) => {
-          return value?.delivery + ' ₴';
+          return convertToMoney(value?.delivery);
         },
         cellClassName: 'boldCell',
-        width: 200,
+        width: 120,
       },
       {
         field: 'deliveryInfo',
@@ -124,7 +125,7 @@ export const CourierOrdersTable = ({
           }
           const address = `${value.address.country}, ${value.address.city}, 
               ${value.address.street} ${value.address.houseNumber} 
-              ${value.address.apartment ? ', ' + value.address.apartment : ''}`;
+              ${value.address.apartment ? ',' + value.address.apartment : ''}`;
           return address;
         },
         headerName: 'Address',
@@ -133,16 +134,19 @@ export const CourierOrdersTable = ({
       },
       {
         field: 'userInfo',
-        valueGetter: (row) => {
-          if (!row) {
-            return row;
+        valueGetter: (params) => {
+          if (!params.value) {
+            return params.value;
           }
-          const userInfo = `${row.row.deliveryInfo?.name}, ${row.row.deliveryInfo?.phoneNumber}`;
-          return userInfo;
         },
         headerName: 'User info',
         colId: 'userInfo',
         flex: 0.5,
+        renderCell: (params) => (
+          <div style={{ whiteSpace: 'pre-wrap' }}>
+            {`${params.row.deliveryInfo?.name}, ${params.row.deliveryInfo?.phoneNumber}`}
+          </div>
+        ),
       },
     ],
     [handleCancelClick, handleEditClick, handleSaveClick, rowModesModel]
@@ -156,12 +160,12 @@ export const CourierOrdersTable = ({
         loading={isLoading}
         error={error}
         editMode="row"
+        // getRowHeight={() => 'auto'}
         rowModesModel={rowModesModel}
         onRowModesModelChange={handleRowModesModelChange}
         processRowUpdate={updateRow}
         onRowEditStop={handleRowEditStop}
         slots={{ pagination: CustomPagination }}
-        getRowHeight={() => 'auto'}
         initialState={{
           sorting: {
             sortModel: [{ field: 'createdAt', sort: 'desc' }],
@@ -173,6 +177,7 @@ export const CourierOrdersTable = ({
           },
         }}
         tableHeight={tableHeight}
+        rowHeight={100}
         pageSize={10}
       />
     </>

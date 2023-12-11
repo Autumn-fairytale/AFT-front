@@ -1,14 +1,14 @@
 import { getCouriersOrdersByStatus } from '@/api/courier/getCouriersOrdersByStatus';
 import { useQuery } from '@tanstack/react-query';
 
-const useCouriersOrdersByStatus = (orderStatus) => {
+const useCouriersOrdersByStatus = (orderStatus, country, city) => {
   const fetchOrdersByStatus = async () => {
-    const data = await getCouriersOrdersByStatus(orderStatus);
+    const data = await getCouriersOrdersByStatus(orderStatus, country, city);
     return data;
   };
 
   return useQuery({
-    queryKey: ['allorders', orderStatus],
+    queryKey: ['allorders', orderStatus, country, city],
     queryFn: fetchOrdersByStatus,
     options: {
       refetchOnWindowFocus: false,

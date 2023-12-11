@@ -2,12 +2,12 @@ import DishCard from '../DishCard/DishCard';
 import { DishesListPropTypes } from './DishesList.props';
 import { DishesListStyled } from './DishesList.styled';
 
-const DishesList = ({ data }) => {
+const DishesList = ({ data, isChef }) => {
   return (
     <DishesListStyled>
       {data.map((dish) => (
         <li key={dish.id}>
-          <DishCard dishInfo={dish} />
+          <DishCard dishInfo={dish} isChef={isChef} />
         </li>
       ))}
     </DishesListStyled>

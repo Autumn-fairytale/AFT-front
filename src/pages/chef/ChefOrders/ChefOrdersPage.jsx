@@ -1,6 +1,7 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 
 import { ChefOrdersTable } from '@/components/ChefOrdersTable';
+import { PageTitle } from '@/components/PageTitle/PageTitle';
 import useChefOrder from '@/hooks/chef/useChefOrders';
 import { AppContainer } from '@/shared';
 import { Main } from '@/shared/Main/Main';
@@ -10,29 +11,12 @@ const ChefOrdersPage = () => {
   return (
     <Main style={{ display: 'flex', justifyContent: 'center' }}>
       <AppContainer>
-        <Box
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Typography
-            variant="h4"
-            component="h1"
-            marginTop="10px"
-            marginBottom="10px"
-            fontSize="28px"
-            fontWeight="600"
-          >
-            Orders
-          </Typography>
-        </Box>
+        <PageTitle>ORDERS</PageTitle>
         <Box
           style={{
             display: 'flex',
             justifyContent: 'center',
-            margin: '20px 60px',
+            margin: '20px 0px',
           }}
         >
           <ChefOrdersTable

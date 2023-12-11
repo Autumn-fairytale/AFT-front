@@ -17,15 +17,6 @@ import { Main } from '@/shared/Main/Main';
 const CourierAccountPage = () => {
   const user = useSelector(selectUser);
   const courierId = user.roles.find((role) => role.name === 'courier').id;
-  const { data, isLoading, error, refetch } =
-    useCouriersOrdersByStatus('readyToDelivery');
-  const [status, setStatus] = useState('readyToDelivery');
-  const refetchData = () => {
-    setStatus('delivering');
-  };
-  useEffect(() => {
-    refetch();
-  }, [status]);
 
   const [courierInfo, setCourierInfo] = useState();
   useEffect(() => {
@@ -49,6 +40,19 @@ const CourierAccountPage = () => {
 
     fetchCourierData();
   }, [courierId]);
+  const { data, isLoading, error, refetch } = useCouriersOrdersByStatus(
+    'pending',
+    courierInfo?.address?.country,
+    courierInfo?.address?.city
+  );
+  // useCouriersOrdersByStatus('readyToDelivery', courierInfo?.address?.country, courierInfo?.address?.city);
+  const [status, setStatus] = useState('readyToDelivery');
+  const refetchData = () => {
+    setStatus('delivering');
+  };
+  useEffect(() => {
+    refetch();
+  }, [status]);
   return (
     <Main>
       <AppContainer>

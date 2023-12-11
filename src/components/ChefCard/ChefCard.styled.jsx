@@ -27,10 +27,10 @@ export const ChefImage = styled('img')(() => ({
   borderRadius: '20px',
 }));
 
-export const FavoriteButton = styled('div')(({ theme }) => ({
+export const FavoriteButton = styled('div')(({ theme, isCarousel }) => ({
   position: 'absolute',
   top: '10px',
-  right: '15px',
+  right: isCarousel ? '10px' : '15px',
   background: `${theme.palette.background.paper}`,
   borderRadius: '20px',
 }));
@@ -48,21 +48,20 @@ export const MainInfoWrapper = styled('span')(() => ({
     'linear-gradient(rgba(0, 0, 0, 0.009), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9))',
 }));
 
-export const ChefName = styled('h2')(({ theme }) => ({
-  fontSize: '24px',
+export const ChefName = styled('h2')(({ theme, isCarousel }) => ({
+  fontSize: isCarousel ? '20px' : '24px',
   fontWeight: '600',
   letterSpacing: '-1px',
-  color: `${theme.palette.primary.superLight}`,
+  color: theme.palette.primary.superLight,
   zIndex: '1',
 }));
 
-export const RateNumber = styled('span')(({ theme }) => ({
+export const RateNumber = styled('span')(({ theme, isCarousel }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   marginTop: '5px',
-  fontSize: '18px',
+  fontSize: isCarousel ? '18px' : '18px',
   fontWeight: '600',
-  letterSpacing: '-1px',
   color: `${theme.palette.primary.superLight}`,
   zIndex: '1',
 }));

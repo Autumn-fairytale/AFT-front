@@ -1,15 +1,15 @@
 import { privateInstance } from '../axios';
 
-export const createCourier = async (courierData) => {
+export const addFavorite = async (userId, type, favoriteId) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
-
+  const data = { favoriteId };
   const { response } = await privateInstance.post(
-    `/couriers`,
-    courierData,
+    `/users/${userId}/favorite/${type}`,
+    data,
     config
   );
   return response;

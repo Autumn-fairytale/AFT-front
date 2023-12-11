@@ -30,3 +30,12 @@ export const SkeletonStyled = styled(Skeleton)`
   width: 300px;
   border-radius: 20px;
 `;
+
+export const NoReviewsMessage = styled.div`
+  height: 100%;
+  width: 100%;
+  margin-top: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;

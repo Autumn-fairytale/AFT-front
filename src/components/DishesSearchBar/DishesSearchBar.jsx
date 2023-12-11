@@ -10,7 +10,7 @@ import { AppSpiceLevelStyled } from '@/shared/AppSpiceLevel/AppSpiceLevelStyled'
 import { useTheme } from '@emotion/react';
 import { SearchWrapper, SpiceLevelWrapper } from './DishesSearchBar.styled';
 
-export const DishesFilter = () => {
+export const DishesSearchBar = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const theme = useTheme();

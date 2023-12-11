@@ -7,7 +7,7 @@ export const updateChef = async (chefData, chefId) => {
     },
   };
   const response = await privateInstance.patch(
-    `${import.meta.env.VITE_API_URL}/chefs/${chefId}`,
+    `/chefs/${chefId}`,
     chefData,
     config
   );

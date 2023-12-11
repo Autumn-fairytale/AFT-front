@@ -1,11 +1,27 @@
 import { getPopularChefs } from '@/api';
+import { getChefById } from '@/api/chef/getChefById';
 import { useQuery } from '@tanstack/react-query';
 
-export const usePopularChefs = () => {
-  const result = useQuery({
-    queryKey: ['popularChefs'],
-    queryFn: getPopularChefs,
-  });
+export const useGetPopularChefs = () => {
+  const fetchPopularChefs = async () => {
+    const data = await getPopularChefs();
+    const chefIds = data?.map((i) => i.chefId);
+    const chefs = [];
 
-  return result;
+    await Promise.all(
+      chefIds.map(async (chefId) => {
+        const chefData = await getChefById(chefId);
+        chefs.push(chefData);
+      })
+    );
+    return chefs;
+  };
+  return useQuery({
+    queryKey: ['popularChefs'],
+    queryFn: fetchPopularChefs,
+    options: {
+      refetchOnWindowFocus: false,
+      staleTime: 3 * 60 * 1000,
+    },
+  });
 };

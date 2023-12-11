@@ -44,7 +44,6 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
   const location = useLocation();
   const isOpenedFromCreateOrder = location.pathname.endsWith('/create-order');
 
-  console.log(isOpenedFromCreateOrder, 'isOpenedFromCreateOrder');
   const user = useSelector(selectUser);
   const isChef = user?.roles[1]?.name === 'chef';
 
@@ -62,7 +61,7 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
   useSingleToast(ErrorAddToCard);
 
   const { data: dish = {}, isLoading } = useFetchDish(dishId);
-  console.log(dish); // averageRating, ratingCount
+
   const owner = dish.owner;
 
   const cartItem = cartData?.cart.items.find(
@@ -247,7 +246,10 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
             <DishOrderCardSpiceLevel spiceLevel={dish.spiceLevel} />
             <Divider sx={{ my: 1 }} />
 
-            <DishOrderCardReview dishId={dish.id} />
+            <DishOrderCardReview
+              dishId={dish.id}
+              reviewObj={dish?.lastHighRatingReview}
+            />
           </CardContent>
         </StyledDishOrderCard>
         {

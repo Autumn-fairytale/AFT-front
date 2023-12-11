@@ -1,10 +1,9 @@
 import { TextField } from '@mui/material';
 
-import PropTypes from 'prop-types';
-
 import { AddDishFormImageUpload } from '@/components/AddDishForm';
 import { FIELD_WIDTH } from '../../AddDishForm';
-import { HelperText } from '../../HelperText';
+import { HelperText } from '../../HelperText/HelperText';
+import { AddDishFormStepThreeProps } from './AddDishFromStepOne.props';
 
 export const AddDishFormStepThree = ({
   register,
@@ -33,9 +32,4 @@ export const AddDishFormStepThree = ({
   );
 };
 
-AddDishFormStepThree.propTypes = {
-  register: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
-  control: PropTypes.object.isRequired,
-  setValue: PropTypes.func.isRequired,
-};
+AddDishFormStepThree.propTypes = AddDishFormStepThreeProps;

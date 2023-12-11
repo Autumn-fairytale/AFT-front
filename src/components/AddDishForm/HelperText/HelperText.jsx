@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 
-import PropTypes from 'prop-types';
+import { HelperTextProps } from './HelperText.props';
 
 export const HelperText = ({ text = ' ', isError }) => {
   return (
@@ -20,7 +20,4 @@ export const HelperText = ({ text = ' ', isError }) => {
   );
 };
 
-HelperText.propTypes = {
-  text: PropTypes.string,
-  isError: PropTypes.bool,
-};
+HelperText.propTypes = HelperTextProps;

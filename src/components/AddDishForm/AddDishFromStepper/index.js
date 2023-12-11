@@ -1,1 +1,1 @@
-export { AddDishFormStepper } from './AddDishFromStepper';
+export * from './AddDishFromStepper';

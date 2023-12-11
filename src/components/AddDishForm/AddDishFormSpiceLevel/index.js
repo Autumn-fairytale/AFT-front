@@ -1,1 +1,1 @@
-export { AddDishFormSpiceLevel } from './AddDishFormSpiceLevel';
+export * from './AddDishFormSpiceLevel';

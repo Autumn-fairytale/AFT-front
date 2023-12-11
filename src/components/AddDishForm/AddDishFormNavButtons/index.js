@@ -1,1 +1,1 @@
-export { AddDishFormNavButtons } from './AddDishFormNavButtons';
+export * from './AddDishFormNavButtons';

@@ -44,9 +44,7 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
   const location = useLocation();
   const isOpenedFromCreateOrder = location.pathname.endsWith('/create-order');
 
-  console.log(isOpenedFromCreateOrder, 'isOpenedFromCreateOrder');
   const user = useSelector(selectUser);
-  const isChef = user?.roles[1]?.name === 'chef';
 
   const { data: cartData, isPending: isCartLoading } = useGetCartItems();
 
@@ -63,7 +61,13 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
 
   const { data: dish = {}, isLoading } = useFetchDish(dishId);
 
-  const owner = dish.owner;
+  const owner = dish && dish.owner;
+
+  const dishOwnerId = dish?.owner?.id;
+
+  const currentUserId = user?.roles[1]?.id;
+
+  const isTryingToOrderOwnDish = dishOwnerId === currentUserId;
 
   const cartItem = cartData?.cart.items.find(
     (item) => item.dish.id === dish.id
@@ -166,16 +170,6 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
               >
                 {dish.name}
               </Typography>
-
-              <Stack
-                direction="row"
-                alignItems="center"
-                alignSelf="flex-start"
-                gap={1}
-              >
-                <DishOrderCardRating />
-                {isVegan && <DishOrderCardVeganBadge />}
-              </Stack>
             </StyledCenteredColumnBox>
 
             <Stack direction="column" spacing={1}>
@@ -192,6 +186,20 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
                 {`${dish.cuisine} · ${dish.category}`}
               </Typography>
             </Stack>
+
+            <Stack
+              direction="row"
+              alignItems="center"
+              alignSelf="flex-start"
+              gap={1}
+            >
+              <DishOrderCardRating
+                averageRating={dish?.averageRating}
+                ratingCount={dish?.ratingCount}
+              />
+              {isVegan && <DishOrderCardVeganBadge />}
+            </Stack>
+
             <Divider sx={{ my: 1 }} />
             <Box sx={{ width: '100%' }}>
               <DishOrderCardTabs
@@ -243,7 +251,10 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
             <DishOrderCardSpiceLevel spiceLevel={dish.spiceLevel} />
             <Divider sx={{ my: 1 }} />
 
-            <DishOrderCardReview dishId={dish.id} />
+            <DishOrderCardReview
+              dishId={dish.id}
+              reviewObj={dish?.lastHighRatingReview}
+            />
           </CardContent>
         </StyledDishOrderCard>
         {
@@ -262,7 +273,7 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
               cartItemCount={cartItemCount}
               dishId={dish.id}
               addCartItem={addCartItem}
-              isChef={isChef}
+              isChef={isTryingToOrderOwnDish}
             />
           </Box>
         }

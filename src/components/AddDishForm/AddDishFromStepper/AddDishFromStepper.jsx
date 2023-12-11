@@ -1,6 +1,6 @@
 import { Step, StepLabel, Stepper } from '@mui/material';
 
-import PropTypes from 'prop-types';
+import { AddDishFromStepperProps } from './AddDishFromStepperProps';
 
 const steps = ['Basics ', 'Details', 'Media', 'Specs'];
 
@@ -21,6 +21,4 @@ export const AddDishFormStepper = ({ step }) => {
   );
 };
 
-AddDishFormStepper.propTypes = {
-  step: PropTypes.number.isRequired,
-};
+AddDishFormStepper.propTypes = AddDishFromStepperProps;

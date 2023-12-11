@@ -1,10 +1,9 @@
 import { Stack } from '@mui/material';
 
-import { PropTypes } from 'prop-types';
-
 import { AppButton } from '@/shared';
 import { FIELD_WIDTH } from '..';
 import { ResetFormButton } from '../ResetFormButton/ResetFormButton';
+import { AddDishFormNavButtonsProps } from './AddDishFormNavButtons.props';
 
 export const AddDishFormNavButtons = ({
   step,
@@ -32,10 +31,4 @@ export const AddDishFormNavButtons = ({
   );
 };
 
-AddDishFormNavButtons.propTypes = {
-  step: PropTypes.number.isRequired,
-  onPreviousStep: PropTypes.func.isRequired,
-  onNextStep: PropTypes.func.isRequired,
-  totalSteps: PropTypes.number.isRequired,
-  onReset: PropTypes.func.isRequired,
-};
+AddDishFormNavButtons.propTypes = AddDishFormNavButtonsProps;

@@ -3,9 +3,8 @@ import { Controller } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import PropTypes from 'prop-types';
-
 import { AppSpiceLevel } from '@/shared/AppSpiceLevel/AppSpiceLevel';
+import { AddDishFormSpiceLevelProps } from './AddDishFormSpiceLevel.props';
 
 export const AddDishFormSpiceLevel = ({ control, name, error }) => {
   return (
@@ -31,8 +30,4 @@ export const AddDishFormSpiceLevel = ({ control, name, error }) => {
   );
 };
 
-AddDishFormSpiceLevel.propTypes = {
-  control: PropTypes.object.isRequired,
-  name: PropTypes.string.isRequired,
-  error: PropTypes.object,
-};
+AddDishFormSpiceLevel.propTypes = AddDishFormSpiceLevelProps;

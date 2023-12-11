@@ -1,1 +1,1 @@
-export { AddDishFromStepOne } from './AddDishFormStepOne';
+export * from './AddDishFormStepOne';

@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
-import PropTypes from 'prop-types';
 
 import { dishFormDefaultValues as defaultValues } from '@/constants/defaultValues';
 import { FOLDERS } from '@/constants/mocks';
@@ -31,7 +28,7 @@ import {
   StyledAddDishContainer,
   StyledAddDishFormBox,
 } from './AddDishFormStyled';
-import { AddDishFormStepper } from './AddDishFromStepper/AddDishFromStepper';
+import { AddDishFormStepper } from './AddDishFromStepper';
 import {
   AddDishFormStepFour,
   AddDishFormStepThree,
@@ -224,8 +221,4 @@ export const AddDishForm = () => {
       </StyledAddDishFormBox>
     </StyledAddDishContainer>
   );
-};
-
-AddDishForm.propTypes = {
-  dishId: PropTypes.string,
 };

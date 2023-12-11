@@ -1,1 +1,1 @@
-export { AddDishFormImageUpload } from './AddDishFormImageUpload';
+export * from './AddDishFormImageUpload';

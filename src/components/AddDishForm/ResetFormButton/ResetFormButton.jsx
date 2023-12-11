@@ -1,7 +1,8 @@
 import RefreshOutlinedIcon from '@mui/icons-material/RefreshOutlined';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 
-// eslint-disable-next-line react/prop-types
+import { ResetFormButtonProps } from './ResetFormButton.props';
+
 export const ResetFormButton = ({ onClick }) => {
   return (
     <Tooltip title="Reset form" placement="left">
@@ -22,3 +23,5 @@ export const ResetFormButton = ({ onClick }) => {
     </Tooltip>
   );
 };
+
+ResetFormButton.propTypes = ResetFormButtonProps;

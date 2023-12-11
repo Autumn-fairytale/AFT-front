@@ -4,9 +4,8 @@ import { NumericFormat } from 'react-number-format';
 
 import { TextField } from '@mui/material';
 
-import PropTypes from 'prop-types';
-
 import { chefsAmountAfterFee } from '@/helpers';
+import { FormattedNumberInputProps } from './FormattedNumberInput.props';
 
 export const FormattedNumberInput = ({
   control,
@@ -96,15 +95,4 @@ export const FormattedNumberInput = ({
   );
 };
 
-FormattedNumberInput.propTypes = {
-  control: PropTypes.object.isRequired,
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string,
-  error: PropTypes.bool,
-  helperText: PropTypes.any,
-  sx: PropTypes.object,
-  thousandSeparator: PropTypes.bool,
-  decimalScale: PropTypes.number,
-  endAdornment: PropTypes.node,
-  onBlur: PropTypes.func,
-};
+FormattedNumberInput.propTypes = FormattedNumberInputProps;

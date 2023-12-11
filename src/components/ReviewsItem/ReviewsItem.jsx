@@ -13,7 +13,7 @@ import { format } from 'date-fns';
 import { selectUser } from '@/redux/auth/selectors';
 import styled from '@emotion/styled';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteByReviewId } from '../../api/deleteByReviewId';
+import { deleteByReviewId } from '../../api/reviews/deleteByReviewId';
 import { useModal } from '../../hooks/useModal';
 import { AppModal } from '../../shared/AppModal/AppModal';
 import { ReviewForm } from '../ReviewForm/ReviewForm';

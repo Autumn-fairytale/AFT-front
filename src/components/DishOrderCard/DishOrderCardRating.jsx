@@ -1,28 +1,38 @@
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import { Box, Typography } from '@mui/material';
+import { Box, Rating, Typography } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 
-export const DishOrderCardRating = () => {
+import PropTypes from 'prop-types';
+
+export const DishOrderCardRating = ({ ratingCount = 3, averageRating = 5 }) => {
   return (
-    <Tooltip title="This dish is highly rated by customers" arrow>
+    <Tooltip
+      title={`${averageRating.toFixed(
+        1
+      )} out of 5 stars, ${ratingCount} votes `}
+      arrow
+    >
       <Box
         elevation={1}
         sx={{
           display: 'flex',
           alignItems: 'center',
-          p: '2px 8px',
+          p: '4px 8px',
           bgcolor: 'primary.light',
           borderRadius: 0.5,
           my: 1,
-          width: 110,
           cursor: 'help',
         }}
       >
-        <ThumbUpAltIcon color="action" />
-        <Typography variant="body2" component="span" sx={{ mx: 'auto' }}>
-          100% (3)
+        <Rating value={averageRating} precision={0.1} readOnly size="small" />
+        <Typography variant="body2" component="span">
+          ({ratingCount} v.)
         </Typography>
       </Box>
     </Tooltip>
   );
+};
+
+DishOrderCardRating.propTypes = {
+  ratingCount: PropTypes.number,
+  averageRating: PropTypes.number,
 };

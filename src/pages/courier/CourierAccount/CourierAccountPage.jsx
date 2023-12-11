@@ -32,7 +32,6 @@ const CourierAccountPage = () => {
     const fetchCourierData = async () => {
       try {
         const response = await getCourierById({ courierId });
-        console.log('r: ', response);
         const courier = {
           name: user.firstName + ' ' + user?.lastName,
           avatar: response.avatar,
@@ -40,7 +39,7 @@ const CourierAccountPage = () => {
           address: response.address,
           accountStatus: response.accountStatus.toUpperCase(),
           vehicleType: response.vehicleType.toUpperCase(),
-          isAvailable: response.isAvailable.toUpperCase(),
+          isAvailable: response?.isAvailable.toUpperCase(),
         };
         setCourierInfo(courier);
       } catch (error) {
@@ -60,6 +59,7 @@ const CourierAccountPage = () => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
+            margin: '30px 0',
           }}
         >
           <Box
@@ -105,7 +105,7 @@ const CourierAccountPage = () => {
             data={data}
             error={error}
             isLoading={isLoading}
-            tableHeight="auto"
+            tableHeight="50vMin"
             refetchData={refetchData}
           />
         </Box>

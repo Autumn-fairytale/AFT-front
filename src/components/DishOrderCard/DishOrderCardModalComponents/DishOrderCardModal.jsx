@@ -12,8 +12,8 @@ export const DishOrderCardModal = ({
   const dispatch = useDispatch();
 
   const handleGoToCart = () => {
-    dispatch(openUserCart());
     closeModalHandler();
+    dispatch(openUserCart());
   };
 
   return (

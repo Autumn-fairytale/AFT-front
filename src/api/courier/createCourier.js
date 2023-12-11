@@ -8,7 +8,7 @@ export const createCourier = async (courierData) => {
   };
 
   const { response } = await privateInstance.post(
-    `${import.meta.env.VITE_API_URL}/couriers`,
+    `/couriers`,
     courierData,
     config
   );

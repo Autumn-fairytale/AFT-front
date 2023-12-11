@@ -63,6 +63,9 @@ export const NavigateMenu = ({ onClose, onOpen }) => {
           {user && isAuth && !roles.includes('admin') && (
             <>
               <ListItem>
+                <CustomLink to={route.USER_ORDERS}>Orders</CustomLink>
+              </ListItem>
+              <ListItem>
                 <CustomLink to={route.FAVORITE_DISHES}>
                   Favorites dishes
                 </CustomLink>

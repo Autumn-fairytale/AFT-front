@@ -1,5 +1,6 @@
 import CreateOrderForm from '@/components/CreateOrderForm';
 import PageMessage from '@/components/PageMessage';
+import { PageTitle } from '@/components/PageTitle/PageTitle';
 import { useGetCartItems } from '@/hooks';
 import { AppLoader } from '@/shared';
 import { Main } from '@/shared/Main/Main';
@@ -26,7 +27,10 @@ const CreateOrderPage = () => {
   }
   return (
     <Main>
-      <CreateOrderPageContainer>{render}</CreateOrderPageContainer>
+      <CreateOrderPageContainer>
+        <PageTitle>Placing an order</PageTitle>
+        {render}
+      </CreateOrderPageContainer>
     </Main>
   );
 };

@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
+import { Link as RouterLink } from 'react-router-dom';
+
 import { Link, Typography } from '@mui/material';
 
-// eslint-disable-next-line no-unused-vars
-export const DishOrderCardChefLink = ({ lastName, firstName, _id }) => {
-  // console.log(id, 'maybe we need chef`s id');
+export const DishOrderCardChefLink = ({ lastName, firstName, id }) => {
   return (
     <Typography
       variant="body2"
@@ -16,10 +16,8 @@ export const DishOrderCardChefLink = ({ lastName, firstName, _id }) => {
       }}
     >
       <Link
-        href="#"
-        onClick={(e) => {
-          e.preventDefault();
-        }}
+        component={RouterLink}
+        to={`/chefs/${id}`}
         sx={{
           cursor: 'pointer',
           transition: 'background-color 0.3s',

@@ -11,12 +11,11 @@ import {
   TextField,
 } from '@mui/material';
 
-import PropTypes from 'prop-types';
-
 import { AddDishFormSpiceLevel } from '@/components/AddDishForm';
 import { useFetchIngredients } from '@/hooks/useFetchIngredients';
 import { FIELD_WIDTH } from '../../AddDishForm';
-import { HelperText } from '../../HelperText';
+import { HelperText } from '../../HelperText/HelperText';
+import { AddDishFormStepTwoProps } from './AddDishFormStepTwo.props';
 
 export const AddDishFormStepTwo = ({ errors, control }) => {
   const { data: options, loading, error } = useFetchIngredients();
@@ -151,7 +150,4 @@ export const AddDishFormStepTwo = ({ errors, control }) => {
   );
 };
 
-AddDishFormStepTwo.propTypes = {
-  errors: PropTypes.object.isRequired,
-  control: PropTypes.object.isRequired,
-};
+AddDishFormStepTwo.propTypes = AddDishFormStepTwoProps;

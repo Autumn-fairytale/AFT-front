@@ -6,7 +6,9 @@ export const useIsSameData = () => {
   const isSameData = (newSubmittedData) => {
     const lastData = JSON.stringify(lastSubmittedData);
     const newData = JSON.stringify(newSubmittedData);
+
     const isSame = lastData === newData;
+
     if (!isSame) {
       setLastSubmittedData(newSubmittedData);
     }

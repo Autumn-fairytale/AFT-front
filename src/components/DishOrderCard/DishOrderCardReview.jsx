@@ -1,23 +1,45 @@
-import { Box, Button, Card, CardContent, Typography } from '@mui/material';
+/* eslint-disable react/prop-types */
+import { useNavigate } from 'react-router-dom';
 
-export const DishOrderCardReview = () => {
+import { Box, Card, CardContent, Typography } from '@mui/material';
+
+import { AppButton } from '@/shared';
+
+export const DishOrderCardReview = ({ dishId, reviewObj }) => {
+  const navigate = useNavigate();
+
+  const handleReviewClick = () => {
+    navigate(`/dishes/${dishId}/reviews`);
+  };
+
+  const fullName =
+    reviewObj && reviewObj?.owner.firstName + ' ' + reviewObj?.owner.lastName;
+
+  const reviewPlaceholder =
+    ' Delicious and perfectly spiced! A truly delightful meal.';
+
+  const ownerPlaceholder = 'John Doe';
+
   return (
     <>
       <Card sx={{ m: 2 }}>
         <CardContent>
           <Typography variant="body2">
-            Delicious and perfectly spiced! A truly delightful meal.
+            {reviewObj?.review ?? reviewPlaceholder}
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-            - John Doe
+            - {fullName || ownerPlaceholder}
           </Typography>
         </CardContent>
       </Card>
 
       <Box sx={{ display: 'flex', justifyContent: 'center', m: 2 }}>
-        <Button variant="contained" size="small">
-          Leave a Review
-        </Button>
+        <AppButton
+          onClick={handleReviewClick}
+          variant="outlined"
+          size="small"
+          label=" To Reviews"
+        />
       </Box>
     </>
   );

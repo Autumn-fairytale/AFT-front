@@ -23,7 +23,7 @@ import { extractFileNameFromUrl } from '@/helpers/extractFileNameFromUrl';
 import { validateFile } from '@/helpers/validateFile';
 import { useS3ImageUploader } from '@/hooks';
 import { AppModal } from '@/shared/AppModal/AppModal';
-import { HelperText } from '../../AddDishForm/HelperText';
+import { HelperText } from '../../AddDishForm/HelperText/HelperText';
 
 export const UploadChefFiles = ({
   control,

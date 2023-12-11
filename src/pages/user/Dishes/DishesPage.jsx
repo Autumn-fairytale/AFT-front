@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { getDishes } from '@/api/getDishes';
+import { getDishes } from '@/api/dishes/getDishes';
 import NoFoundDish from '@/assets/images/Dishes_page/NoDishesFound.png';
 import { DishCardSkeleton } from '@/components/DishCardSkeleton/DishCardSkeleton';
 import DishesList from '@/components/DishesList/DishesList';
-import { DishesFilter } from '@/components/DishesSearchBar/DishesSearchBar';
+import { DishesSearchBar } from '@/components/DishesSearchBar/DishesSearchBar';
 import PageMessage from '@/components/PageMessage/PageMessage';
 import { PageTitle } from '@/components/PageTitle/PageTitle';
 import { AppContainer } from '@/shared';
@@ -28,16 +28,20 @@ const DishesPage = () => {
     [searchParams]
   );
 
-  const [searchTerm, setSearchTerm] = useState(search || '');
+  const [searchTerm, setSearchTerm] = useState(search || null);
   const debounceDelay = 500;
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
-      setSearchTerm(search);
+      if (search === '') {
+        setSearchTerm(null);
+      } else {
+        setSearchTerm(search);
+      }
     }, debounceDelay);
 
     return () => clearTimeout(debounceTimeout);
-  }, [searchTerm, searchParams, searchParams, search]);
+  }, [searchTerm, searchParams, search]);
 
   const fetchDishes = async ({ pageParam }) => {
     const res = await getDishes({
@@ -81,7 +85,7 @@ const DishesPage = () => {
       <AppContainer>
         <PageTitle>DISHES</PageTitle>
 
-        <DishesFilter />
+        <DishesSearchBar />
         {isLoading ? (
           <SkeletonWrapper>
             {Array.from({ length: 3 }).map((_item, index) => (

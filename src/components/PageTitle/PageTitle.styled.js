@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import styled from '@emotion/styled';
 
 export const TypographyStyled = styled(Typography)`
-  margin-top: 16px;
+  margin-top: 24px;
   padding-bottom: 24px;
   text-align: center;
   font-weight: 600;

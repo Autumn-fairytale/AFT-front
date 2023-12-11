@@ -18,6 +18,7 @@ export const CartItemImage = ({ isDefault, dish }) => {
     <AppImage
       src={image}
       alt={name}
+      sx={{ boxShadow: 1 }}
       {...(isDefault ? { width: 150, height: 150 } : {})}
     />
   );
@@ -36,7 +37,7 @@ export const CartItemTags = ({ isDefault, dish, theme }) => {
   const { spiceLevel, cuisine, category } = dish;
   return (
     <CartItemTagBlockStyled isDefault={isDefault}>
-      {spiceLevel > 0 && <AppSpiceLevel value={spiceLevel} />}
+      {spiceLevel >= 0 && <AppSpiceLevel value={spiceLevel} />}
       {isDefault &&
         [cuisine, category].map((tag) => (
           <CartItemTagStyled theme={theme} key={tag}>

@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 
-import PropTypes from 'prop-types';
+import { AddDishFormFieldEndAdornmentProps } from './AddDishFormFieldEndAdornment.props';
 
 export const AddDishFormFieldEndAdornment = ({ text }) => {
   return (
@@ -10,6 +10,4 @@ export const AddDishFormFieldEndAdornment = ({ text }) => {
   );
 };
 
-AddDishFormFieldEndAdornment.propTypes = {
-  text: PropTypes.string,
-};
+AddDishFormFieldEndAdornment.propTypes = AddDishFormFieldEndAdornmentProps;

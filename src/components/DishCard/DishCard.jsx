@@ -1,22 +1,31 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
 import { IoCart, IoCartOutline, IoSettingsOutline } from 'react-icons/io5';
 import { PiHeart } from 'react-icons/pi';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Box, CircularProgress, IconButton, Stack } from '@mui/material';
 
 import { customColors } from '@/constants';
 import { convertToMoney } from '@/helpers';
-import { useGetCartItems, useUpdateCartItemById } from '@/hooks';
+import {
+  useGetCartItems,
+  useSingleToast,
+  useUpdateCartItemById,
+} from '@/hooks';
 import { useAddCartItem } from '@/hooks/cart/useAddCartItem';
+import { useAddFavorite } from '@/hooks/favorites/useAddFavorite';
+import { useDeleteFavorite } from '@/hooks/favorites/useDeleteFavorite';
+import { useGetFavorite } from '@/hooks/favorites/useGetFavorite';
+import { selectUser } from '@/redux/auth/selectors';
 import AppButton from '@/shared/Buttons/AppButton';
 import { DishOrderCardModal } from '../DishOrderCard/DishOrderCardModalComponents/DishOrderCardModal';
 import { defaultDishCardPropTypes, DishCardPropTypes } from './DishCard.props';
 import {
   ButtonsWrapper,
   DishCardWrapper,
-  // DishDescription,
+  DishDescription,
   DishImage,
   DishImageWrapper,
   DishName,
@@ -30,6 +39,16 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
   const [favorite, setFavorite] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const editPath = `/chef-account/dishes/edit/${dishInfo.id}`;
+
+  const user = useSelector(selectUser);
+
+  const dishOwnerId = dishInfo?.owner;
+
+  const currentUserId = user?.roles[1]?.id;
+
+  const isTryingToOrderOwnDish = dishOwnerId === currentUserId;
+
   const openModalHandler = () => {
     setIsModalOpen(true);
   };
@@ -38,10 +57,18 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
     setIsModalOpen(false);
   };
 
-  const { mutate: addCartItem, isPending: isAddingItem } = useAddCartItem();
   const { data: cartData, isPending: isCartLoading } = useGetCartItems();
+
   const { mutate: updateCartItem, isPending: isUpdatingCart } =
     useUpdateCartItemById();
+
+  const {
+    mutate: addCartItem,
+    isPending: isAddingItem,
+    error: ErrorAddToCard,
+  } = useAddCartItem();
+
+  useSingleToast(ErrorAddToCard);
 
   const cartItem = cartData?.cart.items.find(
     (item) => item.dish.id === dishInfo.id
@@ -59,7 +86,33 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
     }
   };
 
-  const editPath = `/chef-account/dishes/edit/${dishInfo.id}`;
+  const dishId = dishInfo?.id || '';
+
+  const favoriteDishesIds = useGetFavorite('dishes');
+
+  const favoriteDishesFind = favoriteDishesIds?.data?.favoriteDishes.map(
+    (i) => i.id
+  );
+
+  const foundDish = favoriteDishesFind?.includes(dishId);
+  useEffect(() => {
+    if (foundDish) {
+      setFavorite(true);
+    }
+  }, [foundDish]);
+
+  const { mutate: addFavorite } = useAddFavorite('dishes', dishId);
+
+  const { mutate: deleteFavorite } = useDeleteFavorite('dishes', dishId);
+  const handleAddFavorites = () => {
+    if (!favorite) {
+      addFavorite();
+      setFavorite(!favorite);
+    } else {
+      deleteFavorite();
+      setFavorite(!favorite);
+    }
+  };
 
   let labelContent;
   if (isCarousel) {
@@ -98,6 +151,12 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
     endIconContent = <IoCartOutline style={{ fontSize: '24px' }} />;
   }
 
+  const transformText = (text, maxLength) => {
+    return text.length > maxLength
+      ? text.slice(0, maxLength - 3) + '...'
+      : text;
+  };
+
   return (
     <DishCardWrapper isCarousel={isCarousel}>
       <DishImageWrapper>
@@ -117,7 +176,7 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
               </IconButton>
             </Link>
           ) : (
-            <IconButton onClick={() => setFavorite(!favorite)}>
+            <IconButton onClick={() => handleAddFavorites()}>
               <PiHeart
                 style={{ color: favorite ? customColors.primaryColor : '' }}
               />
@@ -126,18 +185,21 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
         </FavoriteButton>
       </DishImageWrapper>
       <Stack
-        direction="column"
-        sx={{ maxHeight: 90, height: 75, justifyContent: 'space-between' }}
+        sx={{
+          maxHeight: isCarousel ? 90 : 150,
+          height: isCarousel ? 75 : 150,
+        }}
       >
-        <Box sx={{ maxHeight: 30 }}>
-          <MainInfoWrapper>
-            <DishName isCarousel={isCarousel}>
-              {dishInfo.name.length > 25
-                ? `${dishInfo.name.slice(0, 25)}...`
-                : dishInfo.name}
-            </DishName>
-          </MainInfoWrapper>
-        </Box>
+        <MainInfoWrapper>
+          <DishName isCarousel={isCarousel}>
+            {transformText(dishInfo.name, 46)}
+          </DishName>
+        </MainInfoWrapper>
+        {!isCarousel && (
+          <DishDescription isCarousel={isCarousel}>
+            {transformText(dishInfo.description, 80)}
+          </DishDescription>
+        )}
 
         <Box sx={{ flexGrow: 1 }} />
         <Box sx={{ maxHeight: 20 }}>
@@ -146,10 +208,6 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
           </DishPrice>
         </Box>
       </Stack>
-
-      {/* <DishPrice isCarousel={isCarousel}>
-            {convertToMoney(dishInfo.price)}
-          </DishPrice> */}
 
       <ButtonsWrapper isCarousel={isCarousel}>
         <AppButton
@@ -164,7 +222,13 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
           variant="contained"
           label={labelContent}
           onClick={!isChef ? handleAddToCart : null}
-          disabled={isChef || isCartLoading || isAddingItem || isUpdatingCart}
+          disabled={
+            isChef ||
+            isTryingToOrderOwnDish ||
+            isCartLoading ||
+            isAddingItem ||
+            isUpdatingCart
+          }
           endIcon={endIconContent}
         />
       </ButtonsWrapper>

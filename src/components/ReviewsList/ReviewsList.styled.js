@@ -19,20 +19,22 @@ export const ReviewsListStyled = styled.ul`
 `;
 
 export const InfiniteScrollStyled = styled(InfiniteScroll)`
+  margin-bottom: 20px;
+
   ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
   }
 
   ::-webkit-scrollbar-track {
     background-color: #e4dcdc;
-    border-radius: 8px;
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    /* border-radius: 8px; */
+    /* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); */
   }
 
   ::-webkit-scrollbar-thumb {
     background-color: #ff7622;
-    border-radius: 8px;
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
+    /* border-radius: 8px; */
+    /* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6); */
   }
 `;
 

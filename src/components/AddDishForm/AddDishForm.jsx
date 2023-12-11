@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
-import PropTypes from 'prop-types';
 
 import { dishFormDefaultValues as defaultValues } from '@/constants/defaultValues';
 import { FOLDERS } from '@/constants/mocks';
@@ -23,6 +20,7 @@ import {
   updateFormData,
 } from '@/redux/createDish';
 import { dishSchema } from '@/schemas';
+import { AppButton } from '@/shared';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddDishFormNavButtons } from '../AddDishForm';
 import { stepValidationFields } from './addDishFormHelpers';
@@ -30,7 +28,7 @@ import {
   StyledAddDishContainer,
   StyledAddDishFormBox,
 } from './AddDishFormStyled';
-import { AddDishFormStepper } from './AddDishFromStepper/AddDishFromStepper';
+import { AddDishFormStepper } from './AddDishFromStepper';
 import {
   AddDishFormStepFour,
   AddDishFormStepThree,
@@ -43,15 +41,17 @@ export const FIELD_WIDTH = '400px';
 export const AddDishForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [editMode, setEditMode] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
+  // Extracting dish ID from the URL
   const { id: dishId } = useParams();
 
-  const savedCurrentStep = useSelector(selectCurrentStep);
-  const [step, setStep] = useState(savedCurrentStep || 1);
+  const currentStep = useSelector(selectCurrentStep);
+
   const totalSteps = 4;
 
-  const [editMode, setEditMode] = useState(false);
-
+  // Fetching dish data if editing
   const { data } = useFetchDish(dishId);
 
   const {
@@ -70,11 +70,36 @@ export const AddDishForm = () => {
     mode: 'onChange',
   });
 
+  const handleBackClick = () => {
+    dispatch(resetFormData());
+    reset();
+    navigate(-1);
+  };
+
+  // Setting edit mode based on dishId
   useEffect(() => {
-    if (dishId && data) {
+    if (dishId) {
+      setEditMode(true);
+    }
+  }, [dishId]);
+
+  // Cleanup in editMode on unmount
+  useEffect(() => {
+    return () => {
+      if (editMode) {
+        dispatch(updateCurrentStep(1));
+        reset();
+        dispatch(resetFormData());
+      }
+    };
+  }, [editMode, reset, dispatch]);
+
+  // Initializing form data
+  const savedFormData = useSelector(selectSavedFormData);
+  useEffect(() => {
+    if (dishId && data && !isInitialized) {
       const ingredientIds = data.ingredients.map((ingredient) => ingredient.id);
       const owner = data.owner.id;
-
       const formData = {
         ...data,
         ingredients: ingredientIds,
@@ -83,50 +108,28 @@ export const AddDishForm = () => {
 
       reset(formData);
       setEditMode(true);
-    }
-  }, [dishId, data, reset]);
-
-  const savedFormData = useSelector(selectSavedFormData);
-
-  useEffect(() => {
-    if (savedFormData) {
+      setIsInitialized(true);
+    } else if (!dishId && savedFormData && !isInitialized) {
       reset(savedFormData);
+      setIsInitialized(true);
     }
-  }, [reset, savedFormData]);
-
-  useEffect(() => {
-    setStep(savedCurrentStep);
-  }, [savedCurrentStep]);
-
-  useEffect(() => {
-    if (step !== savedCurrentStep) {
-      dispatch(updateCurrentStep(step));
-    }
-  }, [step, savedCurrentStep, dispatch]);
+  }, [dishId, data, reset, savedFormData, isInitialized]);
 
   const onNextStep = async () => {
-    const fieldsToValidate = stepValidationFields[step] || [];
-
+    const fieldsToValidate = stepValidationFields[currentStep] || [];
     const isFormValid = await trigger(fieldsToValidate);
 
     if (isFormValid) {
       const currentFormData = getValues();
 
       dispatch(updateFormData(currentFormData));
-
-      setStep((prevStep) => prevStep + 1);
+      dispatch(updateCurrentStep(currentStep + 1));
     }
   };
 
   const onPreviousStep = () => {
-    setStep((prevStep) => prevStep - 1);
+    dispatch(updateCurrentStep(currentStep - 1));
   };
-
-  useEffect(() => {
-    if (dishId) {
-      setEditMode(true);
-    }
-  }, [dishId]);
 
   const Submit = async () => {
     const formData = getValues();
@@ -134,23 +137,17 @@ export const AddDishForm = () => {
       if (editMode) {
         const dishData = formData;
         await dispatch(updateDishData({ dishId, dishData })).unwrap();
-        dispatch(resetFormData());
-
         toast.success('Dish updated successfully!');
-        setStep(1);
-        reset();
-
-        navigate('/chef-account/dishes');
       } else {
         await dispatch(submitDishData(formData)).unwrap();
-
         toast.success('Dish created successfully!');
-
-        setStep(1);
-        reset();
-
-        navigate('/chef-account/dishes');
       }
+
+      dispatch(updateCurrentStep(1));
+      dispatch(resetFormData());
+      reset();
+
+      navigate('/chef-account/dishes');
     } catch (error) {
       console.error('Submission failed:', error);
     }
@@ -163,18 +160,33 @@ export const AddDishForm = () => {
       const fileName = extractFileNameFromUrl(dishImageURL);
       await deleteFile(fileName, FOLDERS.DISHES);
     }
+
     dispatch(resetFormData());
     reset();
     clearErrors();
-    setStep(1);
+    dispatch(updateCurrentStep(1));
   };
 
   return (
     <StyledAddDishContainer>
-      <AddDishFormStepper step={step} />
+      <AddDishFormStepper step={currentStep} />
 
       <StyledAddDishFormBox component={'form'} onSubmit={handleSubmit(Submit)}>
-        {step === 1 && (
+        {editMode && (
+          <AppButton
+            style={{
+              position: 'absolute',
+              top: -60,
+              left: -160,
+            }}
+            onClick={handleBackClick}
+            label={'Back to dishes'}
+            size="small"
+            variant="outlined"
+          />
+        )}
+
+        {currentStep === 1 && (
           <AddDishFromStepOne
             control={control}
             errors={errors}
@@ -182,9 +194,11 @@ export const AddDishForm = () => {
           />
         )}
 
-        {step === 2 && <AddDishFormStepTwo errors={errors} control={control} />}
+        {currentStep === 2 && (
+          <AddDishFormStepTwo errors={errors} control={control} />
+        )}
 
-        {step === 3 && (
+        {currentStep === 3 && (
           <AddDishFormStepThree
             register={register}
             errors={errors}
@@ -193,12 +207,12 @@ export const AddDishForm = () => {
           />
         )}
 
-        {step === 4 && (
+        {currentStep === 4 && (
           <AddDishFormStepFour control={control} errors={errors} />
         )}
 
         <AddDishFormNavButtons
-          step={step}
+          step={currentStep}
           onPreviousStep={onPreviousStep}
           onNextStep={onNextStep}
           totalSteps={totalSteps}
@@ -207,8 +221,4 @@ export const AddDishForm = () => {
       </StyledAddDishFormBox>
     </StyledAddDishContainer>
   );
-};
-
-AddDishForm.propTypes = {
-  dishId: PropTypes.string,
 };

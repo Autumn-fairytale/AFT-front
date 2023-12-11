@@ -1,6 +1,6 @@
 import { TbChefHat } from 'react-icons/tb';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -10,6 +10,7 @@ import { Avatar, Badge } from '@mui/material';
 import { route } from '@/constants';
 import { calcTotalQtyOfCartItems } from '@/helpers';
 import { useGetCartItems } from '@/hooks';
+import { useGetFavorite } from '@/hooks/favorites/useGetFavorite';
 import { signOut } from '@/redux/auth/operations';
 import { selectIsAuth, selectRoles, selectUser } from '@/redux/auth/selectors';
 import { openUserCart } from '@/redux/cartStatus/slice';
@@ -35,6 +36,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 export const UserMenu = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Get number of items in user's cart
   const { data } = useGetCartItems();
@@ -45,7 +47,16 @@ export const UserMenu = () => {
 
   const roles = useSelector(selectRoles);
   const isAuth = useSelector(selectIsAuth);
-  const { favoriteDishes, favoriteChefs, avatar } = useSelector(selectUser);
+  const { avatar } = useSelector(selectUser);
+
+  const favoriteDishesIds = useGetFavorite('dishes');
+  const favoriteDishesLength =
+    favoriteDishesIds?.data?.favoriteDishes?.length || null;
+
+  const favoriteChefsIds = useGetFavorite('chefs');
+  const favoriteChefsLength =
+    favoriteChefsIds?.data?.favoriteChefs?.length || null;
+
   // console.log('favoriteDishes:', favoriteDishes);
   // console.log('cart:', cart);
   // console.log('avatar:', avatar);
@@ -53,7 +64,11 @@ export const UserMenu = () => {
   return (
     <>
       {!roles.includes('admin') && (
-        <Avatar src={avatar} sx={{ width: 35, height: 35, mr: 1 }} />
+        <Avatar
+          src={avatar}
+          sx={{ width: 35, height: 35, mr: 1, cursor: 'pointer' }}
+          onClick={() => navigate(route.USER_ACCOUNT)}
+        />
       )}
       <ListStyled>
         {!roles.includes('admin') && (
@@ -61,7 +76,8 @@ export const UserMenu = () => {
             <ListItemStyled>
               <LinkStyled to={route.FAVORITE_DISHES}>
                 <StyledBadge
-                  badgeContent={favoriteDishes.length}
+                  // badgeContent={favoriteDishes.length}
+                  badgeContent={favoriteDishesLength}
                   color="success"
                 >
                   <FavoriteIcon sx={{ width: 30, height: 30 }} />
@@ -70,10 +86,7 @@ export const UserMenu = () => {
             </ListItemStyled>
             <ListItemStyled>
               <LinkStyled to={route.FAVORITE_CHEFS}>
-                <StyledBadge
-                  badgeContent={favoriteChefs.length}
-                  color="success"
-                >
+                <StyledBadge badgeContent={favoriteChefsLength} color="success">
                   <TbChefHat style={{ width: '30px', height: '30px' }} />
                 </StyledBadge>
               </LinkStyled>
@@ -81,7 +94,6 @@ export const UserMenu = () => {
           </>
         )}
       </ListStyled>
-      <ListStyled></ListStyled>
       <ListItemStyled>
         <IconButtonStyled onClick={() => dispatch(openUserCart())}>
           <StyledBadge badgeContent={cartItemsQty} color="success">
@@ -94,7 +106,7 @@ export const UserMenu = () => {
           onClick={() => {
             if (isAuth) {
               dispatch(signOut());
-              toast.success('You have successfully signed out');
+              // toast.success('You have successfully signed out');
             }
           }}
         >

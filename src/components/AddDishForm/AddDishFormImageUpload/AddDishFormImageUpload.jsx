@@ -26,7 +26,7 @@ import { useS3ImageUploader } from '@/hooks';
 import { selectDishImage, updateFormData } from '@/redux/createDish';
 import { fetchBlobFromUrl } from '../addDishHelpers/fetchBlobFromUrl';
 import getCroppedImg from '../crop/getCroppedImage';
-import { HelperText } from '../HelperText';
+import { HelperText } from '../HelperText/HelperText';
 import { AddDishFormImageUploadProps } from './AddDishFormImageUpload.props';
 import {
   SpinnerImageUploadContainer,

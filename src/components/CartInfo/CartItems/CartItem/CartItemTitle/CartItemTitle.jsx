@@ -10,7 +10,7 @@ import { AppModal } from '@/shared/AppModal/AppModal';
 import { CartItemTitlePropTypes } from './CartItemTitle.props';
 import { CartItemTitleStyled } from './CartItemTitle.styled';
 
-const CartItemTitle = ({ title, ...props }) => {
+const CartItemTitle = ({ title, dishId, ...props }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
   const { isDefault } = useCartTypeContext();
@@ -34,13 +34,22 @@ const CartItemTitle = ({ title, ...props }) => {
         <AppModal
           isOpen={isModalOpen}
           onClose={closeModalHandler}
+          contentProps={{
+            style: {
+              backgroundColor: 'transparent',
+              border: 'none',
+              minWidth: '480px',
+              minHeight: '540px',
+              boxShadow: 'none',
+            },
+          }}
           BackdropComponent={(props) => (
             <Backdrop {...props} style={{ opacity: isDefault ? 0 : 1 }} />
           )}
         >
           <DishOrderCard
-            dishId={props?.id}
-            // closeModalHandler={closeModalHandler}
+            dishId={dishId}
+            closeModalHandler={closeModalHandler}
           />
         </AppModal>
       )}

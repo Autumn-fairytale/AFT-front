@@ -75,7 +75,7 @@ const CartItem = ({ data, ...props }) => {
 
         <CartItemBodyStyled>
           {/* NAME AND PRICE */}
-          <CartItemTitle title={name} id={dish.id} />
+          <CartItemTitle title={name} dishId={dish.id} />
           <Typography sx={{ fontStyle: 'italic' }}>
             {convertToMoney(price)}
           </Typography>

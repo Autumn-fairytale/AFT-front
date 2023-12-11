@@ -21,6 +21,8 @@ export const CartItemContainer = styled(Box, {
 }));
 
 export const CartItemBodyStyled = styled('div')({
+  position: 'relative',
+
   display: 'flex',
   flexDirection: 'column',
   flexGrow: 1,

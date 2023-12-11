@@ -1,9 +1,9 @@
 import DeliveryInfoFormItem from '../CreateOrderForm/DeliveryInfo/DeliveryInfoFormItem';
 import { AddressFormPropTypes } from './AddressForm.props';
 import { AddressFormStyled } from './AddressForm.styled';
-import { addressFormItems } from './addressItems';
+import { defaultAddressFormItems } from './addressItems';
 
-const AddressForm = ({ control, errors, ...props }) => {
+const AddressForm = ({ control, errors, addressFormItems, ...props }) => {
   return (
     <AddressFormStyled {...props}>
       {addressFormItems.map(({ name, title, component, required, sx }) => (
@@ -25,5 +25,9 @@ const AddressForm = ({ control, errors, ...props }) => {
 };
 
 AddressForm.propTypes = AddressFormPropTypes;
+
+AddressForm.defaultProps = {
+  addressFormItems: defaultAddressFormItems,
+};
 
 export default AddressForm;

@@ -13,6 +13,7 @@ const useUserOrders = () => {
     queryKey: key,
     queryFn: () => getUserOrders(userId),
     enabled: !!userId,
+    select: (data) => data.data?.orders || [],
   });
 };
 

@@ -20,8 +20,6 @@ const UserOrderDetailsButton = ({ data, ...props }) => {
           onClose={onClose}
           contentProps={{
             style: {
-              minWidth: '480px',
-              minHeight: '540px',
               padding: 0,
 
               overflow: 'hidden',

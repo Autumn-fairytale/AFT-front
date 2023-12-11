@@ -54,10 +54,40 @@ export const UserOrderDetails = ({ order }) => {
         <List>
           {order.items.map((item, index) => (
             <StyledUserOrderDetailsListItem key={index}>
-              <AppImage src={item.dish.image} alt={item.dish.name} />
+              <AppImage
+                src={item.dish.image}
+                alt={item.dish.name}
+                sx={{ boxShadow: 1 }}
+              />
 
-              <Typography variant="body1" sx={{ mt: 1 }}>
-                {item.dish.name} - {item.count} pcs
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexGrow: 1,
+                  flexDirection: 'column',
+                  alignSelf: 'stretch',
+                  gap: '5px',
+                }}
+              >
+                <Typography variant="body">{item.dish.name}</Typography>
+                <Typography
+                  variant="body"
+                  sx={{ fontStyle: 'italic', marginTop: 'auto' }}
+                >
+                  {convertToMoney(item.dish.price)}
+                </Typography>
+              </Box>
+
+              <Typography
+                variant="body"
+                sx={{
+                  width: '50px',
+                  fontWeight: 600,
+                  textAlign: 'center',
+                  alignSelf: 'center',
+                }}
+              >
+                x{item.count}
               </Typography>
             </StyledUserOrderDetailsListItem>
           ))}

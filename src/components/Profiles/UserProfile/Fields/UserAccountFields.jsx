@@ -14,6 +14,7 @@ import {
   UserFieldsBoxStyled,
 } from './UserAccountFields.styled';
 import UserData from './UserData/UserData';
+import { comparePasswords } from './utils/comparePasswords';
 import { getUserDefaultValues } from './utils/formDefaultValues';
 import { convertPhoneNumber } from './utils/patterns';
 
@@ -21,71 +22,47 @@ const UserAccountFields = () => {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const isSameData = useIsSameData();
-
-  const { handleSubmit, setValue, control, setError } = useForm({
+  const isSameAddress = useIsSameData();
+  const { handleSubmit, setValue, control, setError, reset } = useForm({
     resolver: zodResolver(updateUserSchema),
     defaultValues: getUserDefaultValues(user),
   });
-
   const { isDirty, errors, isValid } = useFormState({ control });
-
-  const comparePasswords = (data) => {
-    let passwordErrorObj = { status: false, message: '' };
-    const passwordErrors = {
-      current: 'Current password is required',
-      new: 'New password is required',
-      same: 'The new password must be different from current one',
-    };
-    if (data.newPassword && !data.currentPassword) {
-      passwordErrorObj = { status: true, message: passwordErrors.current };
-      setError('currentPassword', {
-        type: 'custom',
-        message: passwordErrors.current,
-      });
-    }
-
-    if (!data.newPassword && data.currentPassword) {
-      passwordErrorObj = { status: true, message: passwordErrors.new };
-      setError('newPassword', {
-        type: 'custom',
-        message: passwordErrors.new,
-      });
-    }
-
-    if (
-      data.newPassword &&
-      data.currentPassword &&
-      data.newPassword === data.currentPassword
-    ) {
-      passwordErrorObj = { status: true, message: passwordErrors.same };
-      setError('newPassword', {
-        type: 'custom',
-        message: passwordErrors.same,
-      });
-    }
-    return passwordErrorObj;
-  };
-
   const { mutate: updateUser, error: serverError, data } = useUpdateUser();
 
-  const onSubmit = (updatedUser) => {
-    if (isSameData(updatedUser)) return;
+  //
+  const onSubmit = (newUserData) => {
+    const { address, ...mainData } = newUserData;
+    if (isSameData(mainData)) {
+      // check to avoid the same request after error
+      if (isSameAddress(address)) return;
+    }
 
-    updatedUser.phoneNumber = convertPhoneNumber(updatedUser.phoneNumber);
-    const passwordErrorObj = comparePasswords(updatedUser);
+    const { phoneNumber, currentPassword, newPassword } = newUserData;
+    newUserData.phoneNumber = convertPhoneNumber(phoneNumber); // transform number to backend schema
+    // check for password changing
+    const passwordErrorObj = comparePasswords({
+      newPassword,
+      currentPassword,
+      setError,
+    });
 
     if (passwordErrorObj.status) {
       toast.error(passwordErrorObj.message);
     } else {
-      updateUser(updatedUser);
+      updateUser(newUserData);
     }
   };
+
+  // update default values after success request
+  useEffect(() => {
+    reset(getUserDefaultValues(user));
+  }, [user, reset]);
 
   useEffect(() => {
     if (serverError) {
       const errorText = getError(serverError?.statusCode, 'updateUser');
       toast.error(errorText);
-      // setFormError(errorText);
     }
     if (data?.success && isValid) {
       toast.success('User info successfully updated');
@@ -97,7 +74,7 @@ const UserAccountFields = () => {
 
   return (
     <UserFieldsBoxStyled>
-      <form onSubmit={handleSubmit(onSubmit)} className="user-data-form__form">
+      <form onSubmit={handleSubmit(onSubmit)}>
         <UserData
           control={control}
           errors={errors}

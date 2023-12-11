@@ -15,5 +15,3 @@ export { default as AppNumberInput } from './AppNumberInput';
 export { default as AppSelect } from './Selects/BasicSelect/AppSelect';
 /* Modal window */
 export { AppModal } from './AppModal/AppModal';
-/* Account avatar */
-export { default as AppAccountAvatar } from './AppAccountAvatar/AppAccountAvatar';

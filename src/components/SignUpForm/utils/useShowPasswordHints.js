@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import PropTypes from 'prop-types';
 
-export const useShowPasswordHints = (errors, fieldName) => {
+export const useShowPasswordHints = (errors, fieldName = 'password') => {
   const [showPasswordHints, setShowPasswordHints] = useState(false);
 
   useEffect(() => {
@@ -10,10 +10,6 @@ export const useShowPasswordHints = (errors, fieldName) => {
   }, [errors?.[fieldName]]);
 
   return showPasswordHints;
-};
-
-useShowPasswordHints.defaultProps = {
-  fieldName: 'password',
 };
 
 useShowPasswordHints.propTypes = {

@@ -12,12 +12,12 @@ export const useRedirectButtons = () => {
 
   const redirectButtons = [
     {
-      label: isChef ? 'Chef Profile' : 'Become a Chef',
+      label: isChef ? 'Chef Account' : 'Become a Chef',
       route: isChef ? route.CHEF_ACCOUNT : route.CHEF_SIGN_UP,
       condition: isChef,
     },
     {
-      label: isCourier ? 'Courier Profile' : 'Become a Courier',
+      label: isCourier ? 'Courier Account' : 'Become a Courier',
       route: isCourier ? route.COURIER_ACCOUNT : route.COURIER_SIGN_UP,
       condition: isCourier,
     },

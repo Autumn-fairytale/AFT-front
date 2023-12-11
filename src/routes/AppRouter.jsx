@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { route } from '@/constants';
+import { role } from '@/constants/role';
 import ProtectedRoute from '@/pages/access/ProtectedRoute';
 import RestrictedRoute from '@/pages/access/RestrictedRoute';
 
@@ -81,7 +82,7 @@ const AppRouter = () => {
             <ProtectedRoute
               authRedirectLink={route.SIGN_IN}
               accessRedirectLink={route.SIGN_IN}
-              role={'user'}
+              role={role.USER}
             />
           }
         >

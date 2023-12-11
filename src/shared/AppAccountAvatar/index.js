@@ -1,1 +1,0 @@
-export { AppAccountAvatar } from './AppAccountAvatar';

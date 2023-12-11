@@ -26,7 +26,13 @@ export const updateUserSchema = z.object({
     .email({ message: 'Invalid email format' }),
   currentPassword: z
     .string()
-    .max(50, { message: 'Password should not exceed 50 characters' }),
+    .max(50, { message: 'Password should not exceed 50 characters' })
+    .regex(withoutSpacesRegExp, 'Password can not contain spaces')
+    .regex(
+      passwordPattern.full,
+      'Current password doesn`t contain required characters'
+    )
+    .or(z.string().max(0)),
   newPassword: z
     .string()
     .min(1)

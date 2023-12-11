@@ -6,12 +6,12 @@ import {
   PhoneController,
 } from '@/shared/AuthFormComponents/readyComponents';
 
-const createTextInput = (name, label, placeholder) => (
+const createTextInput = (name, label, placeholder, autocomplete) => (
   <AppTextInput
     name={name}
     label={label}
     placeholder={placeholder}
-    autoComplete="off"
+    autoComplete={autocomplete || 'off'}
     InputLabelProps={{
       shrink: true,
     }}
@@ -21,7 +21,7 @@ const createTextInput = (name, label, placeholder) => (
 export const addressFormItems = [
   {
     name: 'country',
-    component: createTextInput('country', 'Country', 'Ukraine'),
+    component: createTextInput('country', 'Country', 'Ukraine', 'country'),
     sx: {
       width: '100%',
       gridArea: 'country',
@@ -29,7 +29,7 @@ export const addressFormItems = [
   },
   {
     name: 'city',
-    component: createTextInput('city', 'City', 'Kyiv'),
+    component: createTextInput('city', 'City', 'Kyiv', 'street-address'),
     sx: {
       width: '100%',
       gridArea: 'city',
@@ -89,10 +89,12 @@ export const passwordFields = [
     label: 'Current Password',
     name: 'currentPassword',
     placeholder: 'Enter your current password',
+    autoComplete: 'current-password',
   },
   {
     label: 'New Password',
     name: 'newPassword',
     placeholder: 'Enter a new password',
+    autoComplete: 'new-password',
   },
 ];

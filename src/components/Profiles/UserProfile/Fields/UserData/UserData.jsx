@@ -30,7 +30,6 @@ const UserData = ({ control, errors, setValue, initialImage }) => {
     name: 'newPassword',
     defaultValue: '',
   });
-  console.log(errors);
 
   const showPasswordHints = useShowPasswordHints(errors, 'newPassword');
 
@@ -65,7 +64,7 @@ const UserData = ({ control, errors, setValue, initialImage }) => {
       {/* CHANGE PASSWORD */}
       <UserFieldsGroupStyled theme={theme}>
         <GroupHeaderStyled theme={theme}>Change Password</GroupHeaderStyled>
-        {passwordFields.map(({ label, name, placeholder }) => (
+        {passwordFields.map(({ label, name, placeholder, autoComplete }) => (
           <PasswordController
             key={name}
             control={control}
@@ -74,7 +73,7 @@ const UserData = ({ control, errors, setValue, initialImage }) => {
             label={label}
             placeholder={placeholder}
             InputLabelProps={{ shrink: true }}
-            autoComplete="off"
+            autoComplete={autoComplete}
           />
         ))}
         <PasswordHints

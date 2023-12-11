@@ -44,6 +44,7 @@ export const UserOrderDetails = ({ order }) => {
 
         <Divider sx={{ my: 1 }} />
       </Box>
+
       <Box flexGrow={1} overflow="scroll">
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
           <FastfoodIcon sx={{ mr: 1 }} />
@@ -51,7 +52,7 @@ export const UserOrderDetails = ({ order }) => {
           <Typography variant="subtitle2">Dishes:</Typography>
         </Box>
 
-        <List>
+        <List sx={{ padding: 0 }}>
           {order.items.map((item, index) => (
             <StyledUserOrderDetailsListItem key={index}>
               <AppImage
@@ -69,7 +70,17 @@ export const UserOrderDetails = ({ order }) => {
                   gap: '5px',
                 }}
               >
-                <Typography variant="body">{item.dish.name}</Typography>
+                <Typography
+                  variant="body"
+                  sx={{
+                    overflow: 'hidden',
+                    display: '-webkit-box',
+                    WebkitBoxOrient: 'vertical',
+                    WebkitLineClamp: 2,
+                  }}
+                >
+                  {item.dish.name}
+                </Typography>
                 <Typography
                   variant="body"
                   sx={{ fontStyle: 'italic', marginTop: 'auto' }}
@@ -109,7 +120,7 @@ export const UserOrderDetails = ({ order }) => {
         <Divider sx={{ my: 1 }} />
 
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-          <HryvniaIcon sx={{ mr: 1, fontSize: 20 }} />
+          <HryvniaIcon sx={{ mr: '12px', fontSize: 20 }} />
 
           <Typography
             variant="subtitle1"

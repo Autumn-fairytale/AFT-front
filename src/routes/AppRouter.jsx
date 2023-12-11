@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { route } from '@/constants';
+import { role } from '@/constants/role';
 import ProtectedRoute from '@/pages/access/ProtectedRoute';
 import RestrictedRoute from '@/pages/access/RestrictedRoute';
 
@@ -20,6 +21,7 @@ const DishReviews = lazy(() => import('@/pages/user/DishReviews'));
 const CreateOrderPage = lazy(() => import('@/pages/user/CreateOrder'));
 const UserOrdersPage = lazy(() => import('@/pages/user/UserOrders'));
 const OrderPaymentPage = lazy(() => import('@/pages/user/OrderPayment'));
+const UserAccountPage = lazy(() => import('@/pages/user/UserAccount'));
 const ChefsPage = lazy(() => import('@/pages/user/Chefs'));
 const ChefInfoPage = lazy(() => import('@/pages/user/ChefInfo'));
 const ChefAccountPage = lazy(() => import('@/pages/chef/ChefAccount'));
@@ -73,6 +75,19 @@ const AppRouter = () => {
           }
         >
           <Route index element={<CourierSignUpPage />} />
+        </Route>
+
+        <Route
+          path={route.USER_ACCOUNT}
+          element={
+            <ProtectedRoute
+              authRedirectLink={route.SIGN_IN}
+              accessRedirectLink={route.SIGN_IN}
+              role={role.USER}
+            />
+          }
+        >
+          <Route index element={<UserAccountPage />} />
         </Route>
 
         <Route path={route.DISHES}>

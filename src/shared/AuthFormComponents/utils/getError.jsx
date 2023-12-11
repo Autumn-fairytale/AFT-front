@@ -1,9 +1,12 @@
-export const getError = (statusCode) => {
+export const getError = (statusCode, type = 'auth') => {
+  const isAuthForm = type === 'auth';
   switch (statusCode) {
     case 400:
-      return 'Validation failed';
+      return 'Invalid data entered';
     case 401:
-      return 'Invalid email or password';
+      return isAuthForm
+        ? 'Invalid email or password'
+        : 'Invalid current password';
     case 403:
       return 'This account is blocked';
     case 409:

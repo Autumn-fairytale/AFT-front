@@ -38,7 +38,7 @@ export const StyledButton = styled(Button)(({ theme, variant }) => {
   return {
     ...selectedStyle({ theme }),
     height: '46px',
-    width: 'max-content',
+    minWidth: 'max-content',
     fontSize: '1rem',
     lineHeight: '1.5',
     textTransform: 'none',

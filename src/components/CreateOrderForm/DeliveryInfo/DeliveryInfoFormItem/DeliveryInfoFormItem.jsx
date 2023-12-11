@@ -28,8 +28,8 @@ const DeliveryInfoFormItem = ({ info, control, error }) => {
           React.cloneElement(component, {
             error: !!error,
             helperText: error?.message,
-            label: label,
-            placeholder: title,
+            label: component.props.label || label,
+            placeholder: component.props.placeholder || title,
             ...field,
           })
         }

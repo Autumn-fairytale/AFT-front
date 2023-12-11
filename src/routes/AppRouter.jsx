@@ -19,6 +19,7 @@ const HomePage = lazy(() => import('@/pages/user/Home'));
 const DishesPage = lazy(() => import('@/pages/user/Dishes'));
 const DishReviews = lazy(() => import('@/pages/user/DishReviews'));
 const CreateOrderPage = lazy(() => import('@/pages/user/CreateOrder'));
+const UserOrdersPage = lazy(() => import('@/pages/user/UserOrders'));
 const OrderPaymentPage = lazy(() => import('@/pages/user/OrderPayment'));
 const UserAccountPage = lazy(() => import('@/pages/user/UserAccount'));
 const ChefsPage = lazy(() => import('@/pages/user/Chefs'));
@@ -135,6 +136,7 @@ const AppRouter = () => {
             />
           }
         >
+          <Route path={route.USER_ORDERS} element={<UserOrdersPage />} />
           <Route path={route.CREATE_ORDER} element={<CreateOrderPage />} />
           <Route
             path={`${route.ORDERS_PAYMENT}/:orderId`}

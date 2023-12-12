@@ -3,6 +3,8 @@ export * from './chef/useChefOrders';
 export * from './useFetchDish';
 export * from './useGetOrderPaymentSignature';
 export { useModal } from './useModal';
+export * from './useNotifications';
+export * from './useNotifications';
 export * from './usePopularChefs';
 export * from './usePopularDishes';
 export * from './useRandomDish';

@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify';
 
 import { getCurrentUser } from '@/redux/auth/operations';
 import { selectIsAuth } from '@/redux/auth/selectors';
+import { useNotifications } from './hooks';
 import AppRouter from './routes/AppRouter';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -18,6 +19,8 @@ function App() {
       dispatch(getCurrentUser());
     }
   }, [dispatch, isAuth]);
+
+  useNotifications();
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { getUnreadNotifications } from '@/api/getUnreadNotifications';
+import { getUnreadNotifications } from '@/api/notifications/getUnreadNotifications';
 import { useQuery } from '@tanstack/react-query';
 const { VITE_API_URL } = import.meta.env;
 

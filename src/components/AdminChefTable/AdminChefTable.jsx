@@ -37,25 +37,25 @@ export const AdminChefTable = () => {
       {
         field: 'phoneNumber',
         headerName: 'Phone number',
-        width: 200,
+        width: 150,
         valueGetter: ({ row: { phoneNumber } }) => phoneNumber,
       },
       {
         field: 'accountStatus',
         headerName: 'Accaunt Status',
-        width: 150,
+        width: 100,
         valueGetter: ({ row: { accountStatus } }) => accountStatus,
       },
       {
         field: 'availableStatus',
         headerName: 'Available status',
-        width: 150,
+        width: 100,
         valueGetter: ({ row: { isAvailable } }) => isAvailable,
       },
       {
         field: 'createdAt',
         headerName: 'Created At',
-        width: 200,
+        width: 150,
         valueGetter: ({ row: { createdAt } }) =>
           format(new Date(createdAt), 'dd/MM/yyyy HH:MM:SS'),
       },
@@ -70,6 +70,7 @@ export const AdminChefTable = () => {
       {
         field: 'actions',
         headerName: 'Actions',
+        width: 200,
         type: 'actions',
         renderCell: (params) => (
           <ChefsActions {...{ params, rowId, setRowId }} />

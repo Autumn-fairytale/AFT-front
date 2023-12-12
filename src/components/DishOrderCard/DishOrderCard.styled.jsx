@@ -37,6 +37,7 @@ export const StyledImageContainer = styled(Box)(() => {
     backgroundColor: 'white',
     overflow: 'hidden',
     zIndex: 500,
+    borderRadius: 5,
   };
 });
 

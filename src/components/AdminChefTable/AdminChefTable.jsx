@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { Avatar } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
@@ -6,6 +6,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { format } from 'date-fns';
 
 import { getChefs } from '@/api/chef/getChefs';
+import ChefsActions from '@/pages/admin/AdminChefs/ChefActions';
 import { useQuery } from '@tanstack/react-query';
 
 function getFullName({ row: { userId } }) {
@@ -13,6 +14,9 @@ function getFullName({ row: { userId } }) {
 }
 
 export const AdminChefTable = () => {
+  const [rowId, setRowId] = useState(null);
+  console.log('rowId:', rowId);
+
   const columns = useMemo(
     () => [
       {
@@ -37,9 +41,15 @@ export const AdminChefTable = () => {
         valueGetter: ({ row: { phoneNumber } }) => phoneNumber,
       },
       {
-        field: 'status',
-        headerName: 'Status',
-        width: 100,
+        field: 'accountStatus',
+        headerName: 'Accaunt Status',
+        width: 150,
+        valueGetter: ({ row: { accountStatus } }) => accountStatus,
+      },
+      {
+        field: 'availableStatus',
+        headerName: 'Available status',
+        width: 150,
         valueGetter: ({ row: { isAvailable } }) => isAvailable,
       },
       {
@@ -57,8 +67,16 @@ export const AdminChefTable = () => {
         sortable: false,
         filterable: false,
       },
+      {
+        field: 'actions',
+        headerName: 'Actions',
+        type: 'actions',
+        renderCell: (params) => (
+          <ChefsActions {...{ params, rowId, setRowId }} />
+        ),
+      },
     ],
-    []
+    [rowId]
   );
   const { data } = useQuery({
     queryKey: ['chefs', 'admin'],
@@ -66,13 +84,22 @@ export const AdminChefTable = () => {
   });
 
   const rows = data?.mappedChefs;
-  console.log('rows:', rows);
 
   return (
     <div>
       AdminChefTable
       {data && (
-        <DataGrid rows={rows} columns={columns} getRowId={(row) => row.id} />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          editMode="row"
+          getRowId={(row) => row.id}
+          initialState={{
+            sorting: {
+              sortModel: [{ field: 'createdAt', sort: 'desc' }],
+            },
+          }}
+        />
       )}
     </div>
   );

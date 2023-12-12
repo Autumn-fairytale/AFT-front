@@ -9,6 +9,7 @@ export const DishCardPropTypes = {
   }).isRequired,
   isCarousel: PropTypes.bool,
   isChef: PropTypes.bool,
+  favoriteDishesIds: PropTypes.object,
 };
 
 export const defaultDishCardPropTypes = {

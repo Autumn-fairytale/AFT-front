@@ -20,6 +20,9 @@ export const theme = createTheme({
     error: {
       main: red.A400,
     },
+    new: {
+      main: '#e0e0e0',
+    },
     background: {
       default: '#F9F9F9', // Grey background
       paper: '#FFF', // White background

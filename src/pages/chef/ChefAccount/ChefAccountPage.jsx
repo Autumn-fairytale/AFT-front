@@ -6,6 +6,7 @@ import { Box, Typography } from '@mui/material';
 
 import { getChefById } from '@/api/chef/getChefById';
 import { ChefOrdersTable } from '@/components/ChefOrdersTable';
+import { PageTitle } from '@/components/PageTitle/PageTitle';
 import ChefProfile from '@/components/Profiles/ChefProfile/ChefProfile';
 import { route } from '@/constants';
 import { addSpacesToPhoneNumber } from '@/helpers';
@@ -53,6 +54,7 @@ const ChefAccountPage = () => {
   return (
     <Main>
       <AppContainer>
+        <PageTitle>CHEF DASHBOARD</PageTitle>
         {chefInfo && <ChefProfile chefInfo={chefInfo} isChef={true} />}
 
         <Box

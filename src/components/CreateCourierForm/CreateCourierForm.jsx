@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { createCourier } from '@/api/courier/createCourier';
 import { getCourierById } from '@/api/courier/getCourierById';
@@ -40,6 +41,7 @@ const CreateCourierForm = () => {
   const user = useSelector(selectUser);
   const userId = user.id;
   const [courier, setCourier] = useState();
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       if (user.roles.find((role) => role.name === 'courier')) {
@@ -86,7 +88,7 @@ const CreateCourierForm = () => {
       } else {
         await createCourier(result);
       }
-      window.location.href = route.COURIER_ACCOUNT;
+      navigate(route.COURIER_ACCOUNT);
     } catch (err) {
       console.log(err);
     }

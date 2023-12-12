@@ -2,6 +2,7 @@ import { styled } from '@mui/material';
 
 export const ChefCardWrapper = styled('div')(({ theme, isCarousel }) => {
   return {
+    boxShadow: isCarousel ? 0 : 1,
     position: 'relative',
     width: `${isCarousel ? '200px' : '350px'}`,
     height: `${isCarousel ? '300px' : '400px'}`,

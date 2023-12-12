@@ -7,7 +7,7 @@ export const UserAccountGridStyled = styled(Box)({
   columnGap: '2.5rem',
   width: 'min-content',
 
-  padding: '3.5rem 0 1.5rem',
+  padding: '2.5rem 0 1.5rem',
   margin: '0 auto ',
 
   gridTemplateColumns: '350px 450px',

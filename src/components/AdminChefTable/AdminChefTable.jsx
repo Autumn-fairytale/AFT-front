@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { Avatar } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
@@ -12,10 +12,46 @@ import { useQuery } from '@tanstack/react-query';
 function getFullName({ row: { userId } }) {
   return `${userId.firstName || ''} ${userId.lastName || ''}`;
 }
+const LIMIT = 15;
 
 export const AdminChefTable = () => {
   const [rowId, setRowId] = useState(null);
-  console.log('rowId:', rowId);
+
+  const [totalPages, setTotalPages] = useState(0);
+  console.log('totalPages:', totalPages);
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: LIMIT,
+  });
+  console.log('paginationModel:', paginationModel);
+
+  const fetchChefs = async ({ page, pageSize }) => {
+    const res = await getChefs({
+      pageParam: page + 1,
+      limit: pageSize,
+    });
+    setTotalPages(res.pageInfo.totalPages);
+    return res;
+  };
+
+  const { data } = useQuery({
+    queryKey: ['chefs', 'admin', paginationModel.page + 1],
+    queryFn: () => fetchChefs(paginationModel),
+  });
+
+  console.log('data:', data?.pageInfo.total);
+  const rows = data?.mappedChefs;
+
+  const [rowCountState, setRowCountState] = useState(data?.pageInfo.total || 0);
+  console.log('rowCountState:', rowCountState);
+
+  useEffect(() => {
+    setRowCountState((prevRowCountState) =>
+      data?.pageInfo.total !== undefined
+        ? data?.pageInfo.total
+        : prevRowCountState
+    );
+  }, [data?.pageInfo.total]);
 
   const columns = useMemo(
     () => [
@@ -79,12 +115,6 @@ export const AdminChefTable = () => {
     ],
     [rowId]
   );
-  const { data } = useQuery({
-    queryKey: ['chefs', 'admin'],
-    queryFn: getChefs,
-  });
-
-  const rows = data?.mappedChefs;
 
   return (
     <div>
@@ -100,6 +130,14 @@ export const AdminChefTable = () => {
               sortModel: [{ field: 'createdAt', sort: 'desc' }],
             },
           }}
+          pageSize={LIMIT}
+          pageSizeOptions={[LIMIT]}
+          rowCount={data.pageInfo.total}
+          //   page={currentPage}
+          //   onPageChange={handlePageChange}
+          paginationModel={paginationModel}
+          paginationMode="server"
+          onPaginationModelChange={setPaginationModel}
         />
       )}
     </div>

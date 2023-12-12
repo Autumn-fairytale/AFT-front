@@ -21,7 +21,12 @@ const ChefsActions = ({
   //   console.log('setRowId:', setRowId);
   // const [newStatus, setNewStatus] = useState();
   // console.log('setNewStatus:', setNewStatus);
+
   const [checked, setChecked] = useState(true);
+
+  const [isLoading, setIsLoading] = useState(false);
+  console.log('isLoading:', isLoading);
+
   // console.log('rowId:', rowId);
   const queryClient = useQueryClient();
 
@@ -53,7 +58,7 @@ const ChefsActions = ({
 
   // export const accountStatus = Object.freeze({
   //   PENDING: 'pending',
-  //   ACTIVE: 'active',
+
   //   VERIFIED: 'verified',
   //   REJECTED: 'rejected',
   //   BLOCKED: 'blocked',
@@ -61,7 +66,7 @@ const ChefsActions = ({
 
   // ====================================
 
-  const updateChefStatus = useMutation({
+  const { mutate: updateChefStatusMutate } = useMutation({
     mutationFn: ([accountStatus, id]) => updateChef(accountStatus, id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['chefs', 'admin'] });
@@ -69,13 +74,14 @@ const ChefsActions = ({
   });
 
   const handleStatusChange = async (id, newStatus) => {
-    console.log('newStatus:', newStatus);
-    console.log('id:', id);
+    setIsLoading(true);
 
     try {
-      await updateChefStatus.mutate([{ accountStatus: newStatus }, id]);
+      await updateChefStatusMutate([{ accountStatus: newStatus }, id]);
     } catch (error) {
       console.error('Error deleting review:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -83,31 +89,37 @@ const ChefsActions = ({
     setChecked(event.target.checked);
   };
 
+  const accountStatus = params.row.accountStatus;
+
   return (
     <>
       {/* <button onClick={() => setRowId(params.id)}>Edit</button> */}
-      {params.row.accountStatus !== 'active' && (
-        // <select
-        //   value={newStatus}
-        //   onChange={(e) => setNewStatus(e.target.value)}
-        // >
-
-        //   <option value="Approve">Approve</option>
-        //   <option value="Reject">Reject</option>
-        // </select>
-        <Checkbox
-          checked={checked}
-          onChange={handleChange}
-          inputProps={{ 'aria-label': 'controlled' }}
-        />
+      {accountStatus !== 'verified' && accountStatus !== 'blocked' && (
+        <>
+          <Checkbox
+            checked={checked}
+            onChange={handleChange}
+            inputProps={{ 'aria-label': 'controlled' }}
+          />
+          <button
+            onClick={() =>
+              handleStatusChange(params.id, checked ? 'verified' : 'rejected')
+            }
+          >
+            {checked ? 'Verify' : 'Reject'}
+          </button>
+        </>
       )}
-      <button
-        onClick={() =>
-          handleStatusChange(params.id, checked ? 'verified' : 'rejected')
-        }
-      >
-        {checked ? 'Verify' : 'Reject'}
-      </button>
+      {accountStatus === 'blocked' && (
+        <button onClick={() => handleStatusChange(params.id, 'verified')}>
+          Unblock
+        </button>
+      )}
+      {accountStatus === 'verified' && (
+        <button onClick={() => handleStatusChange(params.id, 'blocked')}>
+          Block
+        </button>
+      )}
     </>
 
     // <Box

@@ -39,7 +39,6 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
   const [favorite, setFavorite] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-
   const editPath = `/chef-account/dishes/edit/${dishInfo.id}`;
 
   const user = useSelector(selectUser);
@@ -90,18 +89,19 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
 
   const dishId = dishInfo?.id;
   const [favoriteDishesIds, setFavoriteDishesIds] = useState([]);
-
-  if (userId) {
-    const fetchFavorite = async () => {
-      const data = await getFavorite(userId, 'dishes');
-      setFavoriteDishesIds(data);
-    };
-    fetchFavorite();
-  }
+  useEffect(() => {
+    if (userId) {
+      const fetchFavorite = async () => {
+        const data = await getFavorite(userId, 'dishes');
+        setFavoriteDishesIds(data);
+      };
+      fetchFavorite();
+    }
+  }, [userId]);
 
   useEffect(() => {
     const favoriteDishesFind =
-      favoriteDishesIds?.favoriteDishes?.map((i) => i._id) || [];
+      favoriteDishesIds?.favoriteDishes?.map((i) => i.id) || [];
     const foundDishes = favoriteDishesFind?.includes(dishId);
     if (foundDishes) {
       setFavorite(true);

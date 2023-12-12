@@ -18,4 +18,5 @@ export const ChefProfilePropTypes = {
   }),
   isChef: PropTypes.bool,
   isCarousel: PropTypes.bool,
+  sectionRef: PropTypes.object,
 };

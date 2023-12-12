@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import { PiHeart, PiStarFill } from 'react-icons/pi';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { IconButton } from '@mui/material';
 
+import { getFavorite } from '@/api/favorites/getFavorite';
 import { customColors } from '@/constants';
 import { useAddFavorite } from '@/hooks/favorites/useAddFavorite';
 import { useDeleteFavorite } from '@/hooks/favorites/useDeleteFavorite';
-import { useGetFavorite } from '@/hooks/favorites/useGetFavorite';
+import { selectUser } from '@/redux/auth/selectors';
 import { ChefCardPropTypes, defaultChefCardPropTypes } from './ChefCard.props';
 import {
   ChefCardWrapper,
@@ -19,20 +22,28 @@ import {
 } from './ChefCard.styled';
 
 const ChefCard = ({ chefInfo, isCarousel }) => {
+  const userId = useSelector(selectUser)?.id;
   const [favorite, setFavorite] = useState(false);
   const chefId = chefInfo?.chefId;
+  const [favoriteChefsIds, setFavoriteChefsIds] = useState([]);
 
-  const favoriteChefsIds = useGetFavorite('chefs');
-  const favoriteChefsFind = favoriteChefsIds?.data?.favoriteChefs.map(
-    (i) => i._id
-  );
+  if (userId) {
+    const fetchFavorite = async () => {
+      const data = await getFavorite(userId, 'chefs');
+      setFavoriteChefsIds(data);
+    };
+    fetchFavorite();
+  }
 
-  const foundChefs = favoriteChefsFind?.includes(chefId);
   useEffect(() => {
+    const favoriteChefsFind =
+      favoriteChefsIds?.favoriteChefs?.map((i) => i._id) || [];
+    const foundChefs = favoriteChefsFind?.includes(chefId);
     if (foundChefs) {
       setFavorite(true);
     }
-  }, [foundChefs]);
+  }, [favoriteChefsIds]);
+
   const { mutate: addFavorite } = useAddFavorite('chefs', chefId);
   const { mutate: deleteFavorite } = useDeleteFavorite('chefs', chefId);
   const handleAddFavorites = () => {
@@ -44,31 +55,42 @@ const ChefCard = ({ chefInfo, isCarousel }) => {
       setFavorite(!favorite);
     }
   };
+
   return (
     <ChefCardWrapper isCarousel={isCarousel}>
       <ChefImageWrapper>
-        <ChefImage src={chefInfo.avatar} alt={chefInfo.name} component="img" />
-        <FavoriteButton isCarousel={isCarousel}>
-          <IconButton onClick={() => handleAddFavorites()}>
-            <PiHeart
-              style={{ color: favorite ? customColors.primaryColor : '' }}
-            />
-          </IconButton>
-        </FavoriteButton>
+        <Link to={`/chefs/${chefId}`}>
+          <ChefImage
+            src={chefInfo.avatar}
+            alt={chefInfo.name}
+            component="img"
+          />
+        </Link>
+        {userId && (
+          <FavoriteButton isCarousel={isCarousel}>
+            <IconButton onClick={() => handleAddFavorites()}>
+              <PiHeart
+                style={{ color: favorite ? customColors.primaryColor : '' }}
+              />
+            </IconButton>
+          </FavoriteButton>
+        )}
       </ChefImageWrapper>
 
-      <MainInfoWrapper>
-        <ChefName isCarousel={isCarousel}>{chefInfo.name}</ChefName>
-        <RateNumber isCarousel={isCarousel}>
-          {chefInfo.rate}
-          <PiStarFill
-            style={{
-              fontSize: isCarousel ? '22px' : '25px',
-              marginLeft: '5px',
-            }}
-          />
-        </RateNumber>
-      </MainInfoWrapper>
+      <Link to={`/chefs/${chefId}`}>
+        <MainInfoWrapper>
+          <ChefName isCarousel={isCarousel}>{chefInfo.name}</ChefName>
+          <RateNumber isCarousel={isCarousel}>
+            {chefInfo.rate}
+            <PiStarFill
+              style={{
+                fontSize: isCarousel ? '22px' : '25px',
+                marginLeft: '5px',
+              }}
+            />
+          </RateNumber>
+        </MainInfoWrapper>
+      </Link>
     </ChefCardWrapper>
   );
 };

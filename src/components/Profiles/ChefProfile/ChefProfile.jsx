@@ -1,23 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoLocationOutline } from 'react-icons/io5';
-import {
-  IoHomeOutline,
-  IoSettingsOutline,
-  //IoTrashOutline,
-} from 'react-icons/io5';
+import { IoHomeOutline, IoSettingsOutline } from 'react-icons/io5';
 import {
   PiCertificate,
   PiForkKnife,
   PiHeart,
   PiPhoneCall,
-  PiStar,
-  PiStarFill,
 } from 'react-icons/pi';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import StarIcon from '@mui/icons-material/Star';
 import { Avatar, Divider, IconButton, Rating, Typography } from '@mui/material';
 
+import { getFavorite } from '@/api/favorites/getFavorite';
 import { customColors, route } from '@/constants';
+import { useAddFavorite } from '@/hooks/favorites/useAddFavorite';
+import { useDeleteFavorite } from '@/hooks/favorites/useDeleteFavorite';
+import { selectUser } from '@/redux/auth/selectors';
 import { AppButton } from '@/shared';
 import { AppModal } from '@/shared/AppModal/AppModal';
 import { theme } from '@/theme';
@@ -29,22 +29,49 @@ import {
   Location,
   Name,
   ProfileWrapper,
-  RateValue,
   RateWrapper,
 } from '../Profile.styled';
 import { ChefProfilePropTypes } from './ChefProfile.props';
 
-const ChefProfile = ({ chefInfo, isChef }) => {
-  const [favorite, setFavorite] = useState(false);
+const ChefProfile = ({ chefInfo, isChef, sectionRef }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [favorite, setFavorite] = useState(false);
+  const userId = useSelector(selectUser)?.id;
 
-  //  anchor on the menu
-  //  const menuRef = useRef(null);
-  //   const scrollToMenu = () => {
-  //     if (menuRef.current) {
-  //       menuRef.current.scrollIntoView({ behavior: 'smooth' });
-  //     }
-  //   };
+  const handleScrollToSection = () => {
+    sectionRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const chefId = chefInfo?.chefId;
+  const [favoriteChefsIds, setFavoriteChefsIds] = useState([]);
+  if (userId) {
+    const fetchFavorite = async () => {
+      const data = await getFavorite(userId, 'chefs');
+      setFavoriteChefsIds(data);
+    };
+    fetchFavorite();
+  }
+
+  useEffect(() => {
+    const favoriteChefsFind =
+      favoriteChefsIds?.favoriteChefs?.map((i) => i._id) || [];
+    const foundChefs = favoriteChefsFind?.includes(chefId);
+    if (foundChefs) {
+      setFavorite(true);
+    }
+  }, [favoriteChefsIds]);
+
+  const { mutate: addFavorite } = useAddFavorite('chefs', chefId);
+  const { mutate: deleteFavorite } = useDeleteFavorite('chefs', chefId);
+  const handleAddFavorites = () => {
+    if (!favorite) {
+      addFavorite();
+      setFavorite(!favorite);
+    } else {
+      deleteFavorite();
+      setFavorite(!favorite);
+    }
+  };
 
   return (
     <>
@@ -72,8 +99,8 @@ const ChefProfile = ({ chefInfo, isChef }) => {
             <IconButton onClick={() => setIsModalOpen(true)}>
               <PiCertificate />
             </IconButton>
-            {!isChef && (
-              <IconButton onClick={() => setFavorite(!favorite)}>
+            {!isChef && userId && (
+              <IconButton onClick={() => handleAddFavorites()}>
                 <PiHeart
                   style={{ color: favorite ? customColors.primaryColor : '' }}
                 />
@@ -140,19 +167,21 @@ const ChefProfile = ({ chefInfo, isChef }) => {
           )}
           {!isChef && (
             <RateWrapper>
-              <RateValue>{chefInfo?.rate}</RateValue>
               <Rating
                 name="text-feedback"
+                size="large"
                 value={chefInfo?.rate}
                 readOnly
                 precision={0.5}
                 icon={
-                  <PiStarFill
+                  <StarIcon
                     style={{ color: customColors.primaryColor }}
-                    fontSize="28px"
+                    fontSize="inherit"
                   />
                 }
-                emptyIcon={<PiStar style={{ opacity: 0.55 }} fontSize="28px" />}
+                emptyIcon={
+                  <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+                }
               />
             </RateWrapper>
           )}
@@ -162,10 +191,10 @@ const ChefProfile = ({ chefInfo, isChef }) => {
                 variant="outlined"
                 label="Menu"
                 startIcon={<PiForkKnife />}
+                onClick={handleScrollToSection}
               ></AppButton>
             </ChefButtonsWrapper>
           )}
-          {/* <Link to="#menu"></Link> */}
           <AppModal
             onClose={() => setIsModalOpen(!isModalOpen)}
             isOpen={isModalOpen}

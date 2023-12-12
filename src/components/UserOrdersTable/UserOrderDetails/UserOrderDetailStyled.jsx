@@ -11,19 +11,6 @@ export const StyledUserOrderDetailsPaper = styled(Paper)(({ theme }) => ({
   margin: 'auto',
   overflowY: 'auto',
   backgroundColor: theme.palette.background.paper,
-  '::-webkit-scrollbar': {
-    width: '4px',
-  },
-  '::-webkit-scrollbar-track': {
-    backgroundColor: 'transparent',
-  },
-  '::-webkit-scrollbar-thumb': {
-    backgroundColor: '#888',
-    borderRadius: '2px',
-  },
-  '::-webkit-scrollbar-thumb:hover': {
-    backgroundColor: '#555',
-  },
 }));
 
 export const StyledUserOrderDetailsBox = styled(Box)({
@@ -54,3 +41,23 @@ export const StyledUserOrderDetailsListItem = styled(ListItem)({
   alignItems: 'flex-start',
   gap: '10px',
 });
+
+export const StyledScrollBox = styled(Box)(({ theme }) => ({
+  flexGrow: 1,
+  overflow: 'auto',
+  maxHeight: '100%',
+  '&::-webkit-scrollbar': {
+    width: '4px',
+    backgroundColor: theme.palette.primary.light,
+  },
+  '&::-webkit-scrollbar-thumb': {
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: '4px',
+    border: `1px solid ${theme.palette.primary.light}`,
+  },
+  '&::-webkit-scrollbar-track': {
+    backgroundColor: 'transparent',
+  },
+  scrollbarWidth: 'thin',
+  scrollbarColor: `${theme.palette.primary.main} ${theme.palette.primary.light}`,
+}));

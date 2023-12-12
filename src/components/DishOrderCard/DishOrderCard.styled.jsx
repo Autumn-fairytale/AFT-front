@@ -24,6 +24,7 @@ export const StyledDishOrderCard = styled(Card)(({ theme }) => ({
   },
   '&::-webkit-scrollbar-thumb': {
     backgroundColor: theme.palette.primary.main,
+    borderRadius: '4px',
   },
   scrollbarWidth: 'thin',
   scrollbarColor: `${theme.palette.primary.main} ${theme.palette.primary.light}`,

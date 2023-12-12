@@ -28,7 +28,6 @@ export const Location = styled('span')(() => ({
 
 export const RateWrapper = styled('span')(() => ({
   marginTop: '30px',
-  marginLeft: '-10px',
   display: 'flex',
 }));
 

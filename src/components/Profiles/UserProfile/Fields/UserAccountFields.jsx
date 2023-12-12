@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 import { useForm, useFormState } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import { useUpdateUser } from '@/hooks/useUpdateUser';
-import { getCurrentUser } from '@/redux/auth/operations';
 import { selectUser } from '@/redux/auth/selectors';
 import { updateUserSchema } from '@/schemas';
 import { getError, useIsSameData } from '@/shared/AuthFormComponents/utils';
@@ -20,7 +19,6 @@ import { convertPhoneNumber } from './utils/patterns';
 
 const UserAccountFields = () => {
   const user = useSelector(selectUser);
-  const dispatch = useDispatch();
   const isSameData = useIsSameData();
   const isSameAddress = useIsSameData();
   const { handleSubmit, setValue, control, setError, reset } = useForm({
@@ -68,7 +66,6 @@ const UserAccountFields = () => {
       toast.success('User info successfully updated');
       setValue('currentPassword', '');
       setValue('newPassword', '');
-      dispatch(getCurrentUser());
     }
   }, [serverError, data]);
 

@@ -10,6 +10,7 @@ import { convertToMoney } from '@/helpers';
 import { formatDateForDataGrid } from '@/helpers/formatDateForDataGrid';
 import { AppImage } from '@/shared';
 import {
+  StyledScrollBox,
   StyledUserOrderDetailsBox,
   StyledUserOrderDetailsListItem,
   StyledUserOrderDetailsPaper,
@@ -45,7 +46,7 @@ export const UserOrderDetails = ({ order }) => {
         <Divider sx={{ my: 1 }} />
       </Box>
 
-      <Box flexGrow={1} overflow="scroll">
+      <StyledScrollBox>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
           <FastfoodIcon sx={{ mr: 1 }} />
 
@@ -103,7 +104,7 @@ export const UserOrderDetails = ({ order }) => {
             </StyledUserOrderDetailsListItem>
           ))}
         </List>
-      </Box>
+      </StyledScrollBox>
 
       <Box>
         <Divider sx={{ my: 1 }} />

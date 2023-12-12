@@ -9,7 +9,7 @@ const useChefOrder = () => {
       return data;
     } catch (error) {
       console.log('Error fetching orders');
-      // toast.error('Error fetching orders');
+      //toast.error('Error fetching orders');
       // throw error;
     }
   };

@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { GridRowEditStopReasons, GridRowModes } from '@mui/x-data-grid';
 
+import { addSpacesToPhoneNumber, convertToMoney } from '@/helpers';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { formatDateForDataGrid } from '../../helpers/formatDateForDataGrid';
 import { CustomPagination } from '../TableComponents/Pagination';
@@ -110,39 +111,64 @@ export const CourierOrdersTable = ({
         field: 'summaryPrice',
         headerName: 'Your Profit',
         valueGetter: ({ value }) => {
-          return value?.delivery + ' ₴';
+          return convertToMoney(value?.delivery);
         },
         cellClassName: 'boldCell',
-        width: 200,
+        width: 120,
       },
       {
-        field: 'deliveryInfo',
-        colId: 'address',
-        valueGetter: ({ value }) => {
-          if (!value) {
-            return value;
+        field: 'chefInfo',
+        valueGetter: (params) => {
+          if (!params.value) {
+            return params.value;
           }
-          const address = `${value.address.country}, ${value.address.city}, 
-              ${value.address.street} ${value.address.houseNumber} 
-              ${value.address.apartment ? ', ' + value.address.apartment : ''}`;
-          return address;
         },
-        headerName: 'Address',
+        headerName: 'Chef info',
+        colId: 'chefInfo',
         flex: 0.5,
-        width: 200,
+        renderCell: (params) => (
+          <div style={{ whiteSpace: 'pre-wrap' }}>
+            <p>
+              {`${params.row.chefId?.userId?.firstName} ${params.row.chefId?.userId?.lastName}`}
+            </p>
+            <p>{`${addSpacesToPhoneNumber(params.row.chefId?.phoneNumber)}`}</p>
+            <p>{`${params.row.chefId?.address.city}, ${
+              params.row.chefId?.address.street
+            } ${params.row.chefId?.address.houseNumber} ${
+              params.row.chefId?.address?.apartment
+                ? ',' + params.row.chefId?.address.apartment
+                : ''
+            }`}</p>
+          </div>
+        ),
       },
       {
         field: 'userInfo',
-        valueGetter: (row) => {
-          if (!row) {
-            return row;
+        valueGetter: (params) => {
+          if (!params.value) {
+            return params.value;
           }
-          const userInfo = `${row.row.deliveryInfo?.name}, ${row.row.deliveryInfo?.phoneNumber}`;
-          return userInfo;
         },
         headerName: 'User info',
         colId: 'userInfo',
         flex: 0.5,
+        renderCell: (params) => (
+          <div style={{ whiteSpace: 'pre-wrap' }}>
+            <p>{`${params.row.deliveryInfo?.name} `}</p>
+            <p>
+              {`${addSpacesToPhoneNumber(
+                params.row.deliveryInfo?.phoneNumber
+              )}`}
+            </p>
+            <p>{`${params.row.deliveryInfo?.address.city}, ${
+              params.row.deliveryInfo?.address.street
+            } ${params.row.deliveryInfo?.address.houseNumber} ${
+              params.row.deliveryInfo?.address?.apartment
+                ? ',' + params.row.deliveryInfo?.address.apartment
+                : ''
+            }`}</p>
+          </div>
+        ),
       },
     ],
     [handleCancelClick, handleEditClick, handleSaveClick, rowModesModel]
@@ -156,12 +182,12 @@ export const CourierOrdersTable = ({
         loading={isLoading}
         error={error}
         editMode="row"
+        // getRowHeight={() => 'auto'}
         rowModesModel={rowModesModel}
         onRowModesModelChange={handleRowModesModelChange}
         processRowUpdate={updateRow}
         onRowEditStop={handleRowEditStop}
         slots={{ pagination: CustomPagination }}
-        getRowHeight={() => 'auto'}
         initialState={{
           sorting: {
             sortModel: [{ field: 'createdAt', sort: 'desc' }],
@@ -173,6 +199,7 @@ export const CourierOrdersTable = ({
           },
         }}
         tableHeight={tableHeight}
+        rowHeight={100}
         pageSize={10}
       />
     </>

@@ -10,7 +10,6 @@ export const useGetFavorite = (type) => {
     const data = await getFavorite(userId, type);
     return data;
   };
-
   return useQuery({
     queryKey: [userId, 'favorite', type],
     queryFn: fetchFavorite,

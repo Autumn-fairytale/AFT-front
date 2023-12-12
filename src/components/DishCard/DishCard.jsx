@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 
 import { Box, CircularProgress, IconButton, Stack } from '@mui/material';
 
+import { getFavorite } from '@/api/favorites/getFavorite';
 import { customColors } from '@/constants';
 import { convertToMoney } from '@/helpers';
 import {
@@ -17,7 +18,6 @@ import {
 import { useAddCartItem } from '@/hooks/cart/useAddCartItem';
 import { useAddFavorite } from '@/hooks/favorites/useAddFavorite';
 import { useDeleteFavorite } from '@/hooks/favorites/useDeleteFavorite';
-import { useGetFavorite } from '@/hooks/favorites/useGetFavorite';
 import { selectUser } from '@/redux/auth/selectors';
 import AppButton from '@/shared/Buttons/AppButton';
 import { DishOrderCardModal } from '../DishOrderCard/DishOrderCardModalComponents/DishOrderCardModal';
@@ -42,6 +42,7 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
   const editPath = `/chef-account/dishes/edit/${dishInfo.id}`;
 
   const user = useSelector(selectUser);
+  const userId = useSelector(selectUser)?.id;
 
   const dishOwnerId = dishInfo?.owner;
 
@@ -86,23 +87,27 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
     }
   };
 
-  const dishId = dishInfo?.id || '';
-
-  const favoriteDishesIds = useGetFavorite('dishes');
-
-  const favoriteDishesFind = favoriteDishesIds?.data?.favoriteDishes.map(
-    (i) => i.id
-  );
-
-  const foundDish = favoriteDishesFind?.includes(dishId);
+  const dishId = dishInfo?.id;
+  const [favoriteDishesIds, setFavoriteDishesIds] = useState([]);
   useEffect(() => {
-    if (foundDish) {
+    if (userId) {
+      const fetchFavorite = async () => {
+        const data = await getFavorite(userId, 'dishes');
+        setFavoriteDishesIds(data);
+      };
+      fetchFavorite();
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    const favoriteDishesFind =
+      favoriteDishesIds?.favoriteDishes?.map((i) => i.id) || [];
+    const foundDishes = favoriteDishesFind?.includes(dishId);
+    if (foundDishes) {
       setFavorite(true);
     }
-  }, [foundDish]);
-
+  }, [favoriteDishesIds]);
   const { mutate: addFavorite } = useAddFavorite('dishes', dishId);
-
   const { mutate: deleteFavorite } = useDeleteFavorite('dishes', dishId);
   const handleAddFavorites = () => {
     if (!favorite) {
@@ -168,6 +173,7 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
           width="300"
           height="300"
         />
+
         <FavoriteButton isCarousel={isCarousel}>
           {isChef ? (
             <Link to={editPath}>
@@ -175,12 +181,14 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
                 <IoSettingsOutline />
               </IconButton>
             </Link>
-          ) : (
+          ) : userId ? (
             <IconButton onClick={() => handleAddFavorites()}>
               <PiHeart
                 style={{ color: favorite ? customColors.primaryColor : '' }}
               />
             </IconButton>
+          ) : (
+            ''
           )}
         </FavoriteButton>
       </DishImageWrapper>

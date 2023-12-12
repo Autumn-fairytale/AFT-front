@@ -3,20 +3,28 @@ import { useState } from 'react';
 
 import Checkbox from '@mui/material/Checkbox';
 
-// import { updateChef } from '@/api/chef/updateChef';
+import { updateChef } from '@/api/chef/updateChef';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 // import { Check, Save } from '@mui/icons-material';
 // import { Box, CircularProgress, Fab } from '@mui/material';
 // import { green } from '@mui/material/colors';
 
-const ChefsActions = ({ params, rowId, setRowId }) => {
-  console.log('setRowId:', setRowId);
-  console.log('params:', params);
+const ChefsActions = ({
+  params,
+  // rowId, setRowId
+}) => {
+  // console.log('setRowId:', setRowId);
+  // console.log('rowId:', rowId);
+  // console.log('setRowId:', setRowId);
+  // console.log('params:', params);
   //   console.log('setRowId:', setRowId);
-  const [newStatus, setNewStatus] = useState();
-  console.log('setNewStatus:', setNewStatus);
+  // const [newStatus, setNewStatus] = useState();
+  // console.log('setNewStatus:', setNewStatus);
   const [checked, setChecked] = useState(true);
-  console.log('rowId:', rowId);
+  // console.log('rowId:', rowId);
+  const queryClient = useQueryClient();
+
   //   console.log('params:', params);
   //   const success = false;
   //   const loading = false;
@@ -53,9 +61,22 @@ const ChefsActions = ({ params, rowId, setRowId }) => {
 
   // ====================================
 
-  const handleStatusChange = (id, newStatus) => {
+  const updateChefStatus = useMutation({
+    mutationFn: ([accountStatus, id]) => updateChef(accountStatus, id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['chefs', 'admin'] });
+    },
+  });
+
+  const handleStatusChange = async (id, newStatus) => {
     console.log('newStatus:', newStatus);
     console.log('id:', id);
+
+    try {
+      await updateChefStatus.mutate([{ accountStatus: newStatus }, id]);
+    } catch (error) {
+      console.error('Error deleting review:', error);
+    }
   };
 
   const handleChange = (event) => {
@@ -80,7 +101,11 @@ const ChefsActions = ({ params, rowId, setRowId }) => {
           inputProps={{ 'aria-label': 'controlled' }}
         />
       )}
-      <button onClick={() => handleStatusChange(params.id, newStatus)}>
+      <button
+        onClick={() =>
+          handleStatusChange(params.id, checked ? 'verified' : 'rejected')
+        }
+      >
         {checked ? 'Verify' : 'Reject'}
       </button>
     </>

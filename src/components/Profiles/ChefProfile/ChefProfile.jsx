@@ -44,13 +44,15 @@ const ChefProfile = ({ chefInfo, isChef, sectionRef }) => {
 
   const chefId = chefInfo?.chefId;
   const [favoriteChefsIds, setFavoriteChefsIds] = useState([]);
-  if (userId) {
-    const fetchFavorite = async () => {
-      const data = await getFavorite(userId, 'chefs');
-      setFavoriteChefsIds(data);
-    };
-    fetchFavorite();
-  }
+  useEffect(() => {
+    if (userId) {
+      const fetchFavorite = async () => {
+        const data = await getFavorite(userId, 'chefs');
+        setFavoriteChefsIds(data);
+      };
+      fetchFavorite();
+    }
+  }, [userId]);
 
   useEffect(() => {
     const favoriteChefsFind =

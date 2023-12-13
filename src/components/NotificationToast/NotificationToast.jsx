@@ -1,4 +1,4 @@
-import { Button, CardContent, Typography } from '@mui/material';
+import { Box, Button, CardContent, Stack, Typography } from '@mui/material';
 
 import { NotificationToastProps } from './NotificationToast.props';
 import { StyledToastCard } from './NotificationToastStyled';
@@ -32,7 +32,7 @@ export const NotificationToast = ({ notifications = [], navigate }) => {
 
   return (
     <div>
-      {Object.entries(groupedNotifications).map(([role, roleNotifications]) => (
+      {/* {Object.entries(groupedNotifications).map(([role, roleNotifications]) => (
         <StyledToastCard key={role}>
           <CardContent>
             <Typography variant="h6" gutterBottom>
@@ -48,9 +48,37 @@ export const NotificationToast = ({ notifications = [], navigate }) => {
               color="primary"
               onClick={() => handleRedirect(role)}
             >
-              View {role} Page
+              View {role} Orders
             </Button>
           </CardContent>
+        </StyledToastCard>
+      ))} */}
+      {Object.entries(groupedNotifications).map(([role, roleNotifications]) => (
+        <StyledToastCard key={role} sx={{ position: 'relative', mb: 2 }}>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              Notifications for {role}
+            </Typography>
+            <Box sx={{ maxHeight: '200px', overflow: 'auto' }}>
+              {roleNotifications.map((notification, index) => (
+                <Typography key={index} variant="body2" paragraph>
+                  {notification.content}
+                </Typography>
+              ))}
+            </Box>
+          </CardContent>
+          <Stack
+            sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, p: 2 }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={() => handleRedirect(role)}
+            >
+              View {role} Orders
+            </Button>
+          </Stack>
         </StyledToastCard>
       ))}
     </div>

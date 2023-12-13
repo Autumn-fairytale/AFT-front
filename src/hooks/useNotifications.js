@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 const { VITE_API_URL } = import.meta.env;
 
 export const useNotifications = () => {
+  const [notifications, setNotifications] = useState([]);
   const [isSseConnected, setIsSseConnected] = useState(false);
 
   const { data, refetch } = useQuery({
@@ -14,14 +15,24 @@ export const useNotifications = () => {
   });
 
   useEffect(() => {
+    setNotifications(data || []);
+
     const storedToken = localStorage.getItem('token');
     const eventSource = new EventSource(
       `${VITE_API_URL}/sse?token=${storedToken}`
     );
 
     eventSource.onmessage = (e) => {
-      const notifications = JSON.parse(e.data);
-      console.log(notifications);
+      const newNotifications = JSON.parse(e.data).notifications;
+      if (newNotifications) {
+        setNotifications((prev) => {
+          const updatedNotifications = newNotifications.filter(
+            (newNotif) =>
+              !prev.some((prevNotif) => prevNotif.id === newNotif.id)
+          );
+          return [...prev, ...updatedNotifications];
+        });
+      }
       setIsSseConnected(true);
     };
 
@@ -33,7 +44,7 @@ export const useNotifications = () => {
     return () => {
       eventSource.close();
     };
-  }, [refetch]);
+  }, [data, refetch]);
 
-  return { notifications: data, isSseConnected };
+  return { notifications, isSseConnected };
 };

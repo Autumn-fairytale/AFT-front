@@ -173,7 +173,7 @@ export const NavigateMenu = ({ onClose, onOpen }) => {
             </List>
           </>
         )}
-        <Divider />
+        {!user && <Divider />}
         {!isAuth && (
           <List>
             <ListItem>

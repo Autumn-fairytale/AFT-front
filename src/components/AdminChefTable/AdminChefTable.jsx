@@ -71,13 +71,13 @@ export const AdminChefTable = () => {
       {
         field: 'fullName',
         headerName: 'Full name',
-        width: 200,
+        width: 180,
         valueGetter: getFullName,
       },
       {
         field: 'phoneNumber',
         headerName: 'Phone number',
-        width: 150,
+        width: 140,
         valueGetter: ({ row: { phoneNumber } }) => phoneNumber,
       },
       {
@@ -167,7 +167,7 @@ export const AdminChefTable = () => {
       {
         field: 'certificate',
         headerName: 'Сert.',
-        width: 50,
+        width: 30,
         renderCell: (params) => (
           <ActionSeeCert {...{ params, rowId, setRowId }} />
         ),
@@ -178,7 +178,7 @@ export const AdminChefTable = () => {
       {
         field: 'actions',
         headerName: 'Actions',
-        width: 100,
+        width: 150,
         type: 'actions',
         renderCell: (params) => (
           <ChefsActions {...{ params, rowId, setRowId }} />

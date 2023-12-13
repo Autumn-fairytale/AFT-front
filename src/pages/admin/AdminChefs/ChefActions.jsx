@@ -5,6 +5,7 @@ import Checkbox from '@mui/material/Checkbox';
 
 import { updateChefAccountStatus } from '@/api/chef/updateChefAccountStatus';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { ActionButtonWrapper, StyledButton } from './AdminChef.styled';
 
 const ChefsActions = ({ params }) => {
   const [checked, setChecked] = useState(true);
@@ -41,7 +42,7 @@ const ChefsActions = ({ params }) => {
   const accountStatus = params.row.accountStatus;
 
   return (
-    <>
+    <ActionButtonWrapper>
       {accountStatus !== 'verified' &&
         accountStatus !== 'blocked' &&
         accountStatus !== 'rejected' && (
@@ -52,41 +53,53 @@ const ChefsActions = ({ params }) => {
               inputProps={{ 'aria-label': 'controlled' }}
               disabled={isLoading}
             />
-            <button
+            <StyledButton
+              color={checked ? 'success' : 'error'}
               onClick={() =>
                 handleStatusChange(params.id, checked ? 'verified' : 'rejected')
               }
               disabled={isLoading}
-            >
-              {checked ? 'Verify' : 'Reject'}
-            </button>
+              label={checked ? 'Verify' : 'Reject'}
+              size="small"
+            />
           </>
         )}
       {accountStatus === 'rejected' && (
-        <button
+        <StyledButton
+          color="success"
+          label="Verify"
           onClick={() => handleStatusChange(params.id, 'verified')}
           disabled={isLoading}
-        >
-          Verify
-        </button>
+          size="small"
+        />
       )}
       {accountStatus === 'blocked' && (
-        <button
-          onClick={() => handleStatusChange(params.id, 'verified')}
-          disabled={isLoading}
-        >
-          Unblock
-        </button>
+        <>
+          <StyledButton
+            color="success"
+            label="Unblock"
+            onClick={() => handleStatusChange(params.id, 'verified')}
+            disabled={isLoading}
+            size="small"
+          />
+        </>
       )}
-      {accountStatus === 'verified' && (
-        <button
-          onClick={() => handleStatusChange(params.id, 'blocked')}
-          disabled={isLoading}
-        >
-          {isLoading ? <span>Loading</span> : 'Block'}
-        </button>
+      {isLoading ? (
+        <p>Loading</p>
+      ) : (
+        accountStatus === 'verified' && (
+          <StyledButton
+            color="primary"
+            label="Block"
+            onClick={() => handleStatusChange(params.id, 'blocked')}
+            disabled={isLoading}
+            size="small"
+            sx={{ color: 'black' }}
+            height={'14px'}
+          />
+        )
       )}
-    </>
+    </ActionButtonWrapper>
   );
 };
 

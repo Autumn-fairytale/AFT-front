@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import Checkbox from '@mui/material/Checkbox';
 
-import { updateChef } from '@/api/chef/updateChef';
+import { updateChefAccountStatus } from '@/api/chef/updateChefAccountStatus';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 // import { Check, Save } from '@mui/icons-material';
@@ -67,7 +67,8 @@ const ChefsActions = ({
   // ====================================
 
   const { mutate: updateChefStatusMutate } = useMutation({
-    mutationFn: ([accountStatus, id]) => updateChef(accountStatus, id),
+    mutationFn: ([accountStatus, id]) =>
+      updateChefAccountStatus(accountStatus, id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['chefs', 'admin'] });
     },

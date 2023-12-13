@@ -1,4 +1,5 @@
 import { AppBar } from '@mui/material';
+import Toolbar from '@mui/material/Toolbar';
 
 import { AppContainer } from '@/shared';
 import styled from '@emotion/styled';
@@ -20,4 +21,10 @@ export const MenuWrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: 8px;
+`;
+
+export const ToolbarStyled = styled(Toolbar)`
+  @media screen and (min-width: 320px) {
+    padding: 0;
+  }
 `;

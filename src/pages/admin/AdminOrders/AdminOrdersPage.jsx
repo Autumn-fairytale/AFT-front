@@ -1,7 +1,35 @@
+import { Box } from '@mui/material';
+
+import { AllOrdersTable } from '@/components/AllOrdersTable';
+import { PageTitle } from '@/components/PageTitle/PageTitle';
+import useGetAllOrders from '@/hooks/admin/useGetAllCouriers';
+import { AppContainer } from '@/shared';
 import { Main } from '@/shared/Main/Main';
 
 const AdminOrdersPage = () => {
-  return <Main>Admin Orders Page</Main>;
+  const { data, isLoading, error } = useGetAllOrders();
+  console.log('data', data);
+  return (
+    <Main>
+      <AppContainer>
+        <PageTitle>ALL ORDERS</PageTitle>
+        <Box
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            margin: '20px 0px',
+          }}
+        >
+          <AllOrdersTable
+            data={data}
+            isLoading={isLoading}
+            error={error}
+            tableHeight={'85vMin'}
+          />
+        </Box>
+      </AppContainer>
+    </Main>
+  );
 };
 
 export default AdminOrdersPage;

@@ -6,6 +6,7 @@ import { Box, Typography } from '@mui/material';
 
 import { getCourierById } from '@/api/courier/getCourierById';
 import { CourierOrdersTable } from '@/components/CourierOrdersTable';
+import { PageTitle } from '@/components/PageTitle/PageTitle';
 import CourierProfile from '@/components/Profiles/CourierProfile/CourierProfile';
 import { route } from '@/constants';
 import { addSpacesToPhoneNumber } from '@/helpers';
@@ -56,6 +57,7 @@ const CourierAccountPage = () => {
   return (
     <Main>
       <AppContainer>
+        <PageTitle>COURIER DASHBOARD</PageTitle>
         {courierInfo && <CourierProfile courierInfo={courierInfo} />}
 
         <Box

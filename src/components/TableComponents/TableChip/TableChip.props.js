@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 
 export const TableChipProps = {
   status: PropTypes.oneOf([
+    'new',
     'pending',
     'accepted',
     'cooking',

@@ -8,8 +8,11 @@ import { getChefById } from '@/api/chef/getChefById';
 import { ChefOrdersTable } from '@/components/ChefOrdersTable';
 import { PageTitle } from '@/components/PageTitle/PageTitle';
 import ChefProfile from '@/components/Profiles/ChefProfile/ChefProfile';
+import ProfitGraph from '@/components/StatisticGraphs/ProfitGraph';
 import { route } from '@/constants';
 import { addSpacesToPhoneNumber } from '@/helpers';
+import { formatDateForDataGrid } from '@/helpers/formatDateForDataGrid';
+import useChefOrder from '@/hooks/chef/useChefOrders';
 import useChefOrdersByStatus from '@/hooks/chef/useChefOrdersByStatus';
 import { selectUser } from '@/redux/auth/selectors';
 import { AppContainer } from '@/shared';
@@ -50,6 +53,32 @@ const ChefAccountPage = () => {
 
     fetchChefData();
   }, [chefId]);
+
+  let { data: chartData } = useChefOrder();
+  const [profitData, setProfitData] = useState(null);
+  useEffect(() => {
+    if (chartData) {
+      const res = chartData
+        ?.filter((i) => i.statusCode === 6)
+        .map((i) => {
+          return {
+            date: formatDateForDataGrid(i.createdAt),
+            profit: i.summaryPrice.chef,
+          };
+        })
+        .reduce((accumulator, item) => {
+          const key = item.date;
+          if (accumulator[key]) {
+            accumulator[key].count += 1;
+            accumulator[key].profit += item.profit;
+          } else {
+            accumulator[key] = { date: key, count: 1, profit: item.profit };
+          }
+          return accumulator;
+        }, {});
+      setProfitData(Object.values(res));
+    }
+  }, [chartData]);
 
   return (
     <Main>
@@ -111,6 +140,37 @@ const ChefAccountPage = () => {
             refetchData={refetchData}
           />
         </Box>
+        {profitData && (
+          <>
+            <Box
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                margin: '15px 5px',
+              }}
+            >
+              <Box>
+                <Typography
+                  variant="h5"
+                  component="h2"
+                  fontSize="26px"
+                  fontWeight="600"
+                >
+                  Daily Profit
+                </Typography>
+                <Typography
+                  variant="p"
+                  component="h6"
+                  fontSize="16px"
+                  fontWeight="400"
+                >
+                  Total profit per day display on chart
+                </Typography>
+              </Box>
+            </Box>
+            <ProfitGraph profit={profitData} />
+          </>
+        )}
       </AppContainer>
     </Main>
   );

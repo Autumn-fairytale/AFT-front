@@ -65,8 +65,7 @@ export const updateUserSchema = z.object({
         'City includes letters, spaces, hyphens, and apostrophes'
       )
       .optional(),
-
-    street: z.string().trim().max(35, { message: 'Symbols limit' }),
+    street: z.string().trim().max(35, { message: 'Symbols limit' }).optional(),
     houseNumber: z
       .string()
       .trim()

@@ -1,7 +1,11 @@
-import { Box, Button, CardContent, Stack, Typography } from '@mui/material';
+import { Button, CardContent, Stack, Typography } from '@mui/material';
 
 import { NotificationToastProps } from './NotificationToast.props';
-import { StyledToastCard } from './NotificationToastStyled';
+import {
+  StyledToast,
+  StyledToastCard,
+  StyledToastCardBox,
+} from './NotificationToastStyled';
 
 export const NotificationToast = ({ notifications = [], navigate }) => {
   const handleRedirect = (role) => {
@@ -31,41 +35,20 @@ export const NotificationToast = ({ notifications = [], navigate }) => {
     }, {});
 
   return (
-    <div>
-      {/* {Object.entries(groupedNotifications).map(([role, roleNotifications]) => (
+    <StyledToast>
+      {Object.entries(groupedNotifications).map(([role, roleNotifications]) => (
         <StyledToastCard key={role}>
           <CardContent>
             <Typography variant="h6" gutterBottom>
-              Notifications for {role}
+              {roleNotifications?.length} new Notifications for {role}
             </Typography>
-            {roleNotifications.map((notification, index) => (
-              <Typography key={index} variant="body2" paragraph>
-                {notification.content}
-              </Typography>
-            ))}
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => handleRedirect(role)}
-            >
-              View {role} Orders
-            </Button>
-          </CardContent>
-        </StyledToastCard>
-      ))} */}
-      {Object.entries(groupedNotifications).map(([role, roleNotifications]) => (
-        <StyledToastCard key={role} sx={{ position: 'relative', mb: 2 }}>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
-              Notifications for {role}
-            </Typography>
-            <Box sx={{ maxHeight: '200px', overflow: 'auto' }}>
+            <StyledToastCardBox>
               {roleNotifications.map((notification, index) => (
                 <Typography key={index} variant="body2" paragraph>
                   {notification.content}
                 </Typography>
               ))}
-            </Box>
+            </StyledToastCardBox>
           </CardContent>
           <Stack
             sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, p: 2 }}
@@ -74,6 +57,7 @@ export const NotificationToast = ({ notifications = [], navigate }) => {
               variant="contained"
               color="primary"
               fullWidth
+              size="small"
               onClick={() => handleRedirect(role)}
             >
               View {role} Orders
@@ -81,7 +65,7 @@ export const NotificationToast = ({ notifications = [], navigate }) => {
           </Stack>
         </StyledToastCard>
       ))}
-    </div>
+    </StyledToast>
   );
 };
 

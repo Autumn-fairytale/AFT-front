@@ -1,19 +1,21 @@
-import Card from '@mui/material/Card';
+import { Box, Card } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-export const StyledToastCard = styled(Card)(({ theme }) => ({
-  maxHeight: '450px',
-  overflow: 'scroll',
+import { scrollbarStyles } from '@/components/NotificationToast/scrollbarStyles';
+
+export const StyledToast = styled(Box)(() => ({
+  minWidth: '450px',
+}));
+
+export const StyledToastCard = styled(Card)(() => ({
+  maxHeight: '80vH',
+  width: '100%',
   position: 'relative',
-  overflowX: 'hidden',
-  '&::-webkit-scrollbar': {
-    width: '4px',
-    backgroundColor: theme.palette.primary.light,
-  },
-  '&::-webkit-scrollbar-thumb': {
-    backgroundColor: theme.palette.primary.main,
-    borderRadius: '4px',
-  },
-  scrollbarWidth: 'thin',
-  scrollbarColor: `${theme.palette.primary.main} ${theme.palette.primary.light}`,
+  marginBottom: 8,
+}));
+
+export const StyledToastCardBox = styled(Box)(({ theme }) => ({
+  maxHeight: '25vH',
+  marginBottom: 16,
+  ...scrollbarStyles(theme),
 }));

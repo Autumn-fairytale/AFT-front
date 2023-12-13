@@ -14,7 +14,6 @@ export const useToastNotifications = (navigate) => {
       notifications && notifications.length > 0
         ? notifications[notifications.length - 1]
         : null;
-    console.log(latestNotification, 'latestNotification.id');
 
     if (
       latestNotification &&
@@ -28,6 +27,8 @@ export const useToastNotifications = (navigate) => {
       } else {
         toastIdRef.current = toast(content, {
           autoClose: false,
+          position: 'top-left',
+          style: { width: '500px' },
           onClose: () => {
             toastIdRef.current = null;
           },

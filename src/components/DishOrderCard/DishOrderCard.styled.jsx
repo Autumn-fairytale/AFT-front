@@ -3,6 +3,8 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import { styled } from '@mui/material/styles';
 
+import { scrollbarStyles } from '@/components/NotificationToast/scrollbarStyles';
+
 export const StyledDishOrderCardWrapper = styled(Card)(() => ({
   minWidth: 400,
   maxWidth: 400,
@@ -15,19 +17,7 @@ export const StyledDishOrderCard = styled(Card)(({ theme }) => ({
   height: 725,
   mb: 46,
   maxHeight: 'calc(85vh - 75px)',
-  overflow: 'scroll',
-  position: 'relative',
-  overflowX: 'hidden',
-  '&::-webkit-scrollbar': {
-    width: '4px',
-    backgroundColor: theme.palette.primary.light,
-  },
-  '&::-webkit-scrollbar-thumb': {
-    backgroundColor: theme.palette.primary.main,
-    borderRadius: '4px',
-  },
-  scrollbarWidth: 'thin',
-  scrollbarColor: `${theme.palette.primary.main} ${theme.palette.primary.light}`,
+  ...scrollbarStyles(theme),
 }));
 
 export const StyledImageContainer = styled(Box)(() => {

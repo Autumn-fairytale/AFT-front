@@ -1,13 +1,17 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { Avatar } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
+import DoneIcon from '@mui/icons-material/Done';
+import { Avatar, Chip } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 import { format } from 'date-fns';
 
 import { getChefs } from '@/api/chef/getChefs';
+import { ActionSeeCert } from '@/pages/admin/AdminChefs/ActionSeeCert';
 import ChefsActions from '@/pages/admin/AdminChefs/ChefActions';
 import { useQuery } from '@tanstack/react-query';
+import { StatusWrapper } from './AdminChefTable.styled';
 
 function getFullName({ row: { userId } }) {
   return `${userId.firstName || ''} ${userId.lastName || ''}`;
@@ -67,7 +71,7 @@ export const AdminChefTable = () => {
       {
         field: 'fullName',
         headerName: 'Full name',
-        width: 170,
+        width: 200,
         valueGetter: getFullName,
       },
       {
@@ -79,15 +83,72 @@ export const AdminChefTable = () => {
       {
         field: 'accountStatus',
         headerName: 'Accaunt Status',
-        width: 100,
-        valueGetter: ({ row: { accountStatus } }) => accountStatus,
+        width: 130,
+
+        renderCell: ({ row: { accountStatus } }) => {
+          switch (accountStatus) {
+            case 'pending':
+              return (
+                <Chip
+                  label="penging"
+                  color="primary"
+                  sx={{ color: 'black', width: '100%' }}
+                />
+              );
+            case 'blocked':
+              return (
+                <Chip
+                  label="blocked"
+                  color="secondary"
+                  variant="outlined"
+                  sx={{ width: '100%' }}
+                />
+              );
+            case 'verified':
+              return (
+                <Chip
+                  label="verified"
+                  color="success"
+                  sx={{ color: 'white', width: '100%' }}
+                />
+              );
+            case 'rejected':
+              return (
+                <Chip
+                  label="rejected"
+                  color="error"
+                  sx={{ color: 'white', width: '100%' }}
+                />
+              );
+
+            default:
+              return (
+                <Chip
+                  label="n/a"
+                  color="secondary"
+                  variant="outlined"
+                  sx={{ width: '100%' }}
+                />
+              );
+          }
+        },
       },
+
       {
         field: 'availableStatus',
-        headerName: 'Available status',
-        width: 100,
-        valueGetter: ({ row: { isAvailable } }) => isAvailable,
+        headerName: 'Active',
+        width: 60,
+        renderCell: ({ row: { isAvailable } }) => (
+          <StatusWrapper>
+            {isAvailable === 'non-active' ? (
+              <ClearIcon color="error" />
+            ) : (
+              <DoneIcon color="primary" />
+            )}
+          </StatusWrapper>
+        ),
       },
+
       {
         field: 'createdAt',
         headerName: 'Created At',
@@ -104,9 +165,20 @@ export const AdminChefTable = () => {
         filterable: false,
       },
       {
+        field: 'certificate',
+        headerName: 'Сert.',
+        width: 50,
+        renderCell: (params) => (
+          <ActionSeeCert {...{ params, rowId, setRowId }} />
+        ),
+
+        sortable: false,
+        filterable: false,
+      },
+      {
         field: 'actions',
         headerName: 'Actions',
-        width: 200,
+        width: 100,
         type: 'actions',
         renderCell: (params) => (
           <ChefsActions {...{ params, rowId, setRowId }} />
@@ -118,7 +190,6 @@ export const AdminChefTable = () => {
 
   return (
     <div>
-      AdminChefTable
       {data && (
         <DataGrid
           rows={rows}
@@ -133,8 +204,6 @@ export const AdminChefTable = () => {
           pageSize={LIMIT}
           pageSizeOptions={[LIMIT]}
           rowCount={data.pageInfo.total}
-          //   page={currentPage}
-          //   onPageChange={handlePageChange}
           paginationModel={paginationModel}
           paginationMode="server"
           onPaginationModelChange={setPaginationModel}

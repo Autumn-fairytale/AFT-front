@@ -38,6 +38,9 @@ export const ReviewForm = ({ existingReview, dishId, onClose }) => {
     mutationFn: addReview,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reviews', dishId] });
+      queryClient.invalidateQueries({
+        queryKey: ['dish', 'reviews', dishId],
+      });
     },
     onError: () => {
       toast.error('Something went wrong', {
@@ -57,6 +60,9 @@ export const ReviewForm = ({ existingReview, dishId, onClose }) => {
     mutationFn: editReview,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reviews', dishId] });
+      queryClient.invalidateQueries({
+        queryKey: ['dish', 'reviews', dishId],
+      });
     },
     onError: () => {
       toast.error('Something went wrong', {

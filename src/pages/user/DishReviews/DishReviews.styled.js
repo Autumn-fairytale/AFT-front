@@ -23,7 +23,7 @@ export const DishImageStyled = styled(DishImage)`
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   height: auto;
-  box-shadow: 4px 8px 8px rgba(255, 118, 34, 0.2);
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 `;
 
 export const SkeletonStyled = styled(Skeleton)`

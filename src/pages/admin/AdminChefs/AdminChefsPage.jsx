@@ -7,8 +7,8 @@ const AdminChefsPage = () => {
   return (
     <Main>
       <AppContainer>
-        <PageTitle>CHEFS</PageTitle>
-        <p>Table chefs</p>
+        <PageTitle>MANAGE CHEFS</PageTitle>
+
         <AdminChefTable />
       </AppContainer>
     </Main>

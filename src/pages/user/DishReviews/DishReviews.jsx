@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import StarIcon from '@mui/icons-material/Star';
-import { Rating, Skeleton, Typography } from '@mui/material';
+// import StarIcon from '@mui/icons-material/Star';
+import { /*Rating,*/ Skeleton, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 
@@ -37,12 +37,10 @@ const DishInfoPage = () => {
     queryKey: ['dish', 'reviews', dishId],
     queryFn: () => getDishById(dishId),
   });
-  console.log('dish:', dish?.owner.id);
+
   console.log('dish:', dish);
 
   const userChefId = user?.roles?.find((item) => item.name === role.CHEF).id;
-  console.log('userChefId:', userChefId);
-  console.log('dish:', dish?.owner.id === userChefId);
 
   return (
     <Main>
@@ -64,7 +62,7 @@ const DishInfoPage = () => {
             ) : (
               <>
                 <DishNameStyled>{dish?.name}</DishNameStyled>
-                <Rating
+                {/* <Rating
                   name="text-feedback"
                   size="large"
                   value={dish?.averageRating}
@@ -73,7 +71,7 @@ const DishInfoPage = () => {
                   emptyIcon={
                     <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
                   }
-                />
+                /> */}
 
                 <DishImageStyled
                   src={dish?.image || NoFoundDish}

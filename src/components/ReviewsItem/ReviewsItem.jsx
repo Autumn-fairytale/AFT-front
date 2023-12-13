@@ -63,6 +63,9 @@ export const ReviewsItem = ({ review }) => {
       queryClient.invalidateQueries({
         queryKey: ['reviews', review.dish.id],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['dish', 'reviews', review.dish.id],
+      });
     },
   });
 

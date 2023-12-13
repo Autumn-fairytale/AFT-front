@@ -8,7 +8,6 @@ const ChefSignUpPage = () => {
     <Main>
       <AppContainer>
         <PageTitle>SIGN-UP CHEF</PageTitle>
-
         <CreateChefForm />
       </AppContainer>
     </Main>

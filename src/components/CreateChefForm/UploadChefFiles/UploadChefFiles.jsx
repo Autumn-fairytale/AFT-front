@@ -130,6 +130,7 @@ export const UploadChefFiles = ({
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
+    setShowImage(false);
   };
   return (
     <Controller
@@ -230,7 +231,11 @@ export const UploadChefFiles = ({
               <HelperText text={error?.message} isError={!!error?.message} />
             </Typography>
             {showImage && (
-              <AppModal onClose={() => setShowImage(false)} isOpen={showImage}>
+              <AppModal
+                onClose={() => handleCancel()}
+                //onClose={() => setShowImage(false)}
+                isOpen={showImage}
+              >
                 <Box
                   width={isAvatar ? '500px' : '620px'}
                   height={isAvatar ? '400px' : '450px'}

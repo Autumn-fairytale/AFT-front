@@ -1,13 +1,13 @@
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { Skeleton, Typography } from '@mui/material';
+import StarIcon from '@mui/icons-material/Star';
+import { Rating, Skeleton, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 
 import { getDishById } from '@/api';
 import NoFoundDish from '@/assets/images/Dishes_page/vecteezy_icon-image-not-found-vector_.jpg';
-import { DishName } from '@/components/DishCard/DishCard.styled';
 import { PageTitle } from '@/components/PageTitle/PageTitle';
 import { ReviewsList } from '@/components/ReviewsList/ReviewsList';
 import { SkeletonWrapper } from '@/components/ReviewsList/ReviewsList.styled';
@@ -22,6 +22,7 @@ import {
   ContentWrapper,
   DishImageStyled,
   DishInfoWrapper,
+  DishNameStyled,
   NoReviewsMessage,
   SkeletonStyled,
 } from './DishReviews.styled';
@@ -34,6 +35,7 @@ const DishInfoPage = () => {
     queryKey: ['dish', dishId],
     queryFn: () => getDishById(dishId),
   });
+  console.log('dish:', dish.averageRating);
 
   return (
     <Main>
@@ -54,7 +56,18 @@ const DishInfoPage = () => {
               </>
             ) : (
               <>
-                <DishName>{dish?.name}</DishName>
+                <DishNameStyled>{dish?.name}</DishNameStyled>
+                <Rating
+                  name="text-feedback"
+                  size="large"
+                  value={dish?.averageRating}
+                  readOnly
+                  precision={0.1}
+                  emptyIcon={
+                    <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+                  }
+                />
+
                 <DishImageStyled
                   src={dish?.image || NoFoundDish}
                   alt={dish?.name}

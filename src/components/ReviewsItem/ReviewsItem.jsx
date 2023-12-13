@@ -60,7 +60,9 @@ export const ReviewsItem = ({ review }) => {
   const deleteReview = useMutation({
     mutationFn: deleteByReviewId,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['reviews', review.dish.id] });
+      queryClient.invalidateQueries({
+        queryKey: ['reviews', review.dish.id],
+      });
     },
   });
 

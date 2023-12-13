@@ -11,7 +11,8 @@ import NoFoundDish from '@/assets/images/Dishes_page/vecteezy_icon-image-not-fou
 import { PageTitle } from '@/components/PageTitle/PageTitle';
 import { ReviewsList } from '@/components/ReviewsList/ReviewsList';
 import { SkeletonWrapper } from '@/components/ReviewsList/ReviewsList.styled';
-import { selectIsAuth } from '@/redux/auth/selectors';
+import { role } from '@/constants/role';
+import { selectIsAuth, selectUser } from '@/redux/auth/selectors';
 import { AppButton, AppContainer } from '@/shared';
 import { Main } from '@/shared/Main/Main';
 import { useQuery } from '@tanstack/react-query';
@@ -29,13 +30,19 @@ import {
 
 const DishInfoPage = () => {
   const isAuth = useSelector(selectIsAuth);
+  const user = useSelector(selectUser);
   const { dishId } = useParams();
   const { isOpen, openModal, onClose } = useModal();
   const { data: dish, isLoading } = useQuery({
-    queryKey: ['dish', dishId],
+    queryKey: ['dish', 'reviews', dishId],
     queryFn: () => getDishById(dishId),
   });
-  console.log('dish:', dish.averageRating);
+  console.log('dish:', dish?.owner.id);
+  console.log('dish:', dish);
+
+  const userChefId = user?.roles?.find((item) => item.name === role.CHEF).id;
+  console.log('userChefId:', userChefId);
+  console.log('dish:', dish?.owner.id === userChefId);
 
   return (
     <Main>
@@ -79,7 +86,11 @@ const DishInfoPage = () => {
                   }}
                 />
                 {isAuth && dish && (
-                  <AppButton onClick={openModal} label="Add review" />
+                  <AppButton
+                    onClick={openModal}
+                    label="Add review"
+                    disabled={dish?.owner.id === userChefId}
+                  />
                 )}
               </>
             )}

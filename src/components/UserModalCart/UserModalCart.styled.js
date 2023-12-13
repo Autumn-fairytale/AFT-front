@@ -35,6 +35,10 @@ export const UserCartWarningStyled = styled(Alert)({
   justifyContent: 'center',
   height: '56px',
   width: '100%',
+
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
 });
 
 export const modalStyles = {

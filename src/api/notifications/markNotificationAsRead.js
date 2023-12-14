@@ -1,4 +1,4 @@
-import { privateInstance } from './axios';
+import { privateInstance } from '../axios';
 
 export const markNotificationAsRead = async (notificationId) => {
   const { data } = await privateInstance.patch(

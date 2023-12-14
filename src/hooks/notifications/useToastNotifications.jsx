@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 
 import { NotificationToast } from '@/components/NotificationToast';
-import { useNotifications } from '../useNotifications';
+import { useNotifications } from './useNotifications';
 
 export const useToastNotifications = (navigate) => {
   const { notifications } = useNotifications();
@@ -27,6 +27,7 @@ export const useToastNotifications = (navigate) => {
       } else {
         toastIdRef.current = toast(content, {
           autoClose: false,
+          closeOnClick: false,
           position: 'top-left',
           style: { width: '500px' },
           onClose: () => {

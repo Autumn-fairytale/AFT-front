@@ -44,7 +44,7 @@ export const useNotifications = () => {
     return () => {
       eventSource.close();
     };
-  }, [data, refetch]);
+  }, [data, refetch, notifications]);
 
   return { notifications, isSseConnected };
 };

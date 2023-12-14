@@ -1,15 +1,8 @@
-import {
-  CardContent,
-  List,
-  ListItem,
-  ListItemText,
-  Stack,
-  Typography,
-} from '@mui/material';
-import Chip from '@mui/material/Chip';
+import { CardContent, Stack, Typography } from '@mui/material';
 
 import { AppButton } from '@/shared';
 import { chipStatusColors } from '../TableComponents/TableChip/chipStatusColors';
+import { NotificationContent } from './NotificationContent';
 import {
   NotificationContentProps,
   NotificationToastProps,
@@ -19,72 +12,6 @@ import {
   StyledToastCard,
   StyledToastCardBox,
 } from './NotificationToastStyled';
-
-const parseNotificationContent = (notification, chipStatusColors) => {
-  let orderNumberMatch = notification.match(/order (\d+)/);
-  let statusMatch = notification.match(/updated to (\w+|\W+)/);
-
-  if (!orderNumberMatch) {
-    orderNumberMatch = notification.match(/Number: (\d+)/);
-  }
-
-  const parsedContent = {
-    isNewOrder: notification.includes('new order with Number:'),
-    orderNumber: orderNumberMatch ? orderNumberMatch[1] : null,
-    updateStatus: statusMatch ? statusMatch[1] : null,
-    statusColor: 'default',
-  };
-
-  if (parsedContent.updateStatus === 'readyToDelivery') {
-    parsedContent.updateStatus = '→ delivery';
-    parsedContent.statusColor = 'info';
-  } else {
-    const statusKey = parsedContent.updateStatus
-      ?.toLowerCase()
-      .replace(/\s+/g, '');
-    parsedContent.statusColor = chipStatusColors[statusKey] || 'default';
-  }
-
-  return parsedContent;
-};
-
-const NotificationContent = ({ content, chipStatusColors }) => {
-  const { isNewOrder, orderNumber, updateStatus, statusColor } =
-    parseNotificationContent(content, chipStatusColors);
-
-  return (
-    <List dense>
-      {isNewOrder && (
-        <ListItem divider>
-          <ListItemText primary="You have a new order with Number:" />
-          <Chip
-            label={orderNumber}
-            color="primary"
-            size="small"
-            sx={{ minWidth: 116 }}
-          />
-        </ListItem>
-      )}
-      {orderNumber && !isNewOrder && (
-        <ListItem>
-          <ListItemText primary="Order Number:" />
-          <Chip label={orderNumber} size="small" sx={{ minWidth: 116 }} />
-        </ListItem>
-      )}
-      {updateStatus && (
-        <ListItem divider>
-          <ListItemText primary="New status:" />
-          <Chip
-            label={updateStatus}
-            color={statusColor}
-            size="small"
-            sx={{ minWidth: 116 }}
-          />
-        </ListItem>
-      )}
-    </List>
-  );
-};
 
 export const NotificationToast = ({ notifications = [], navigate }) => {
   const handleRedirect = (role) => {
@@ -127,6 +54,8 @@ export const NotificationToast = ({ notifications = [], navigate }) => {
                   key={index}
                   content={notification.content}
                   chipStatusColors={chipStatusColors}
+                  orderId={notification.orderId}
+                  notificationId={notification.id}
                 />
               ))}
             </StyledToastCardBox>

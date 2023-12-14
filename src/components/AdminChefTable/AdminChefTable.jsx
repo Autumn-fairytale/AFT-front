@@ -40,7 +40,7 @@ export const AdminChefTable = () => {
   });
 
   const rows = data?.mappedChefs;
-
+  console.log(data);
   const columns = useMemo(
     () => [
       {

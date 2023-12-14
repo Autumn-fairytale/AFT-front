@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Box, Typography } from '@mui/material';
@@ -7,50 +6,14 @@ import { PageTitle } from '@/components/PageTitle/PageTitle';
 import ProfitGraph from '@/components/StatisticGraphs/ProfitGraph';
 import UsersGraph from '@/components/StatisticGraphs/UserGraph';
 import { route } from '@/constants';
-import { formatDateForDataGrid } from '@/helpers/formatDateForDataGrid';
-import useGetAllUsers from '@/hooks/admin/useGetAllUsers';
 import useGetDailyProfit from '@/hooks/admin/useGetDailyProfit';
+import useGetUsersStatistic from '@/hooks/admin/useGetUsersStatistic';
 import { AppContainer } from '@/shared';
 import { Main } from '@/shared/Main/Main';
 
 const AdminPage = () => {
   const profit = useGetDailyProfit()?.data;
-  const users = useGetAllUsers()?.data?.users;
-  console.log('users', users);
-  const [usersData, setUsersData] = useState(null);
-  useEffect(() => {
-    if (users) {
-      const res = users
-        .map((i) => {
-          return {
-            date: formatDateForDataGrid(i.createdAt),
-            userCount: i.roles?.some((role) => role.name === 'user') ? 1 : 0,
-            chefCount: i.roles?.some((role) => role.name === 'chef') ? 1 : 0,
-            courierCount: i.roles?.some((role) => role.name === 'courier')
-              ? 1
-              : 0,
-          };
-        })
-        .reduce((accumulator, item) => {
-          const key = item.date;
-          if (accumulator[key]) {
-            accumulator[key].userCount += item.userCount;
-            accumulator[key].chefCount += item.chefCount;
-            accumulator[key].courierCount += item.courierCount;
-          } else {
-            accumulator[key] = {
-              date: key,
-              userCount: 1,
-              chefCount: 1,
-              courierCount: 1,
-            };
-          }
-          return accumulator;
-        }, {});
-      setUsersData(Object.values(res));
-    }
-  }, [users]);
-  console.log(usersData);
+  const usersData = useGetUsersStatistic()?.data;
   return (
     <Main>
       <AppContainer>
@@ -121,7 +84,8 @@ const AdminPage = () => {
             </Typography>
           </Box>
         </Box>
-        {users && <UsersGraph users={usersData} />}
+        {/* {users && <UsersGraph users={usersData} />} */}
+        {usersData && <UsersGraph users={usersData} />}
       </AppContainer>
     </Main>
   );

@@ -38,7 +38,14 @@ export const NotificationToast = ({
         <StyledToastCard key={role} elevation={5}>
           <CardContent>
             <Typography variant="h6" gutterBottom>
-              {roleNotifications?.length} new Notifications for {role}
+              <Typography
+                component={'span'}
+                variant="h5"
+                sx={{ fontWeight: 'bold', color: 'primary.main' }}
+              >
+                {roleNotifications?.length}
+              </Typography>{' '}
+              new Notifications{role !== 'user' && ` for ${role}`}
             </Typography>
             <StyledToastCardBox>
               {roleNotifications.map((notification, index) => (
@@ -55,10 +62,10 @@ export const NotificationToast = ({
           <Stack
             sx={{
               position: 'absolute',
-              bottom: 0,
+              bottom: -5,
               left: 0,
               right: 0,
-              padding: '8px 16px',
+              padding: '10px 16px',
             }}
           >
             <AppButton
@@ -70,7 +77,7 @@ export const NotificationToast = ({
                 handleRedirect(role, navigate);
                 toast.dismiss();
               }}
-              label={` View ${role} Orders`}
+              label={` View ${role === 'user' ? '' : role} Orders`}
               sx={{ width: '50px', height: 28, mx: 'auto' }}
             ></AppButton>
           </Stack>

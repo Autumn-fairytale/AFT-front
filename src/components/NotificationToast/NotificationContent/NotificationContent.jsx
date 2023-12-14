@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { Checkbox, Chip, List, ListItem, ListItemText } from '@mui/material';
 
-import { markNotificationAsRead } from '@/api/notifications/markNotificationAsRead';
+import { useMarkNotificationAsRead } from '@/hooks/notifications/useMarkNotificationAsRead';
 
 const parseNotificationContent = (notification, chipStatusColors) => {
   let orderNumberMatch = notification.match(/order (\d+)/);
@@ -43,12 +43,12 @@ export const NotificationContent = ({
 
   const [readStatuses, setReadStatuses] = useState({});
 
-  const handleMarkAsRead = async (id) => {
-    console.log(id, 'read');
-    const res = await markNotificationAsRead(id);
-    if (res.message === 'Notification updated') {
-      setReadStatuses((prev) => ({ ...prev, [id]: true }));
-    }
+  const markAsRead = useMarkNotificationAsRead();
+
+  const handleMarkAsRead = (notificationId) => {
+    markAsRead(notificationId);
+
+    setReadStatuses((prev) => ({ ...prev, [notificationId]: true }));
   };
 
   return (

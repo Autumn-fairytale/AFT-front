@@ -39,4 +39,6 @@ export const useToastNotifications = (navigate) => {
       lastNotificationId.current = latestNotification.id;
     }
   }, [notifications, navigate]);
+
+  return notifications;
 };

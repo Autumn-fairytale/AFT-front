@@ -4,12 +4,13 @@ import { useNavigate } from 'react-router-dom';
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LogoutIcon from '@mui/icons-material/Logout';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Avatar, Badge } from '@mui/material';
 
 import { route } from '@/constants';
 import { calcTotalQtyOfCartItems } from '@/helpers';
-import { useGetCartItems } from '@/hooks';
+import { useGetCartItems, useToastNotifications } from '@/hooks';
 import { useGetFavorite } from '@/hooks/favorites/useGetFavorite';
 import { signOut } from '@/redux/auth/operations';
 import { selectIsAuth, selectRoles, selectUser } from '@/redux/auth/selectors';
@@ -38,6 +39,9 @@ export const UserMenu = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const notifications = useToastNotifications(navigate);
+  const unreadNotificationsCount = notifications?.length;
+  // console.log(notifications.length);
   // Get number of items in user's cart
   const { data } = useGetCartItems();
   const userCartItems = data?.cart.items;
@@ -74,6 +78,16 @@ export const UserMenu = () => {
         {!roles.includes('admin') && (
           <>
             <ListItemStyled>
+              <ListItemStyled>
+                <LinkStyled to={route.NOTIFICATIONS}>
+                  <StyledBadge
+                    badgeContent={unreadNotificationsCount}
+                    color="error"
+                  >
+                    <NotificationsIcon sx={{ width: 30, height: 30 }} />
+                  </StyledBadge>
+                </LinkStyled>
+              </ListItemStyled>
               <LinkStyled to={route.FAVORITE_DISHES}>
                 <StyledBadge
                   // badgeContent={favoriteDishes.length}

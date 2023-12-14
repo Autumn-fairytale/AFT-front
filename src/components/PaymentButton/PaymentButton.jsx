@@ -9,8 +9,8 @@ import {
   PaymentButtonStyled,
 } from './PaymentButton.styled';
 
-const PaymentButton = ({ orderId, isAutoSubmit, ...props }) => {
-  const { data } = useGetOrderPaymentSignature(orderId);
+const PaymentButton = ({ orderId, isAutoSubmit, paidComponent, ...props }) => {
+  const { data, isLoading } = useGetOrderPaymentSignature(orderId);
   const payment = data?.data.payment;
   const status = data?.data.status;
   const ref = useRef(null);
@@ -20,6 +20,8 @@ const PaymentButton = ({ orderId, isAutoSubmit, ...props }) => {
       ref.current.submit();
     }
   }, [isAutoSubmit, payment]);
+
+  if (isLoading) return <>Checking...</>;
 
   return (
     <PaymentButtonStyled
@@ -44,7 +46,7 @@ const PaymentButton = ({ orderId, isAutoSubmit, ...props }) => {
               )}
             </>
           ) : (
-            <>{!isAutoSubmit && <Typography>Paid</Typography>}</>
+            <>{!isAutoSubmit && paidComponent}</>
           )}
         </>
       )}
@@ -55,6 +57,7 @@ const PaymentButton = ({ orderId, isAutoSubmit, ...props }) => {
 PaymentButton.propTypes = PaymentButtonPropTypes;
 PaymentButton.defaultProps = {
   isAutoSubmit: false,
+  paidComponent: <Typography>Paid</Typography>,
 };
 
 export default PaymentButton;

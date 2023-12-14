@@ -25,6 +25,7 @@ export const UserOrdersTable = () => {
       disableColumnFilter={true}
       disableColumnSelector={true}
       rowHeight={60}
+      sortModel={[]}
       slots={{
         footer: () => (
           <CustomFooter
@@ -33,11 +34,6 @@ export const UserOrdersTable = () => {
             rowCount={orders.length}
           />
         ),
-      }}
-      initialState={{
-        sorting: {
-          sortModel: [{ field: 'createdAt', sort: 'desc' }],
-        },
       }}
     />
   );

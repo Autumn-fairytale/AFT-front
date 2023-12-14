@@ -55,6 +55,7 @@ export const NotificationToast = ({
                   chipStatusColors={chipStatusColors}
                   orderId={notification.orderId}
                   notificationId={notification.id}
+                  notification={notification}
                 />
               ))}
             </StyledToastCardBox>

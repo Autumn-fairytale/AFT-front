@@ -79,16 +79,15 @@ export const UserMenu = () => {
         {!roles.includes('admin') && (
           <>
             <ListItemStyled>
-              <ListItemStyled>
-                <LinkStyled to={route.NOTIFICATIONS}>
-                  <StyledBadge
-                    badgeContent={unreadNotificationsCount}
-                    color="error"
-                  >
-                    <NotificationsIcon sx={{ width: 30, height: 30 }} />
-                  </StyledBadge>
-                </LinkStyled>
-              </ListItemStyled>
+              <LinkStyled to={route.NOTIFICATIONS}>
+                <StyledBadge
+                  badgeContent={unreadNotificationsCount}
+                  color="error"
+                >
+                  <NotificationsIcon sx={{ width: 30, height: 30 }} />
+                </StyledBadge>
+              </LinkStyled>
+
               <LinkStyled to={route.FAVORITE_DISHES}>
                 <StyledBadge
                   // badgeContent={favoriteDishes.length}

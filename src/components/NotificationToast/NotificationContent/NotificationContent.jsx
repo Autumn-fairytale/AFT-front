@@ -3,43 +3,14 @@ import { useState } from 'react';
 
 import { Checkbox, Chip, List, ListItem, ListItemText } from '@mui/material';
 
+import TableChip from '@/components/TableComponents/TableChip/TableChip';
+import { statusToShow } from '@/components/TableComponents/tableHelpers';
 import { useMarkNotificationAsRead } from '@/hooks/notifications/useMarkNotificationAsRead';
 
-const parseNotificationContent = (notification, chipStatusColors) => {
-  let orderNumberMatch = notification.match(/order (\d+)/);
-  let statusMatch = notification.match(/updated to (\w+|\W+)/);
-
-  if (!orderNumberMatch) {
-    orderNumberMatch = notification.match(/Number: (\d+)/);
-  }
-
-  const parsedContent = {
-    isNewOrder: notification.includes('new order with Number:'),
-    orderNumber: orderNumberMatch ? orderNumberMatch[1] : null,
-    updateStatus: statusMatch ? statusMatch[1] : null,
-    statusColor: 'default',
-  };
-
-  if (parsedContent.updateStatus === 'readyToDelivery') {
-    parsedContent.updateStatus = '→ delivery';
-    parsedContent.statusColor = 'info';
-  } else {
-    const statusKey = parsedContent.updateStatus
-      ?.toLowerCase()
-      .replace(/\s+/g, '');
-    parsedContent.statusColor = chipStatusColors[statusKey] || 'default';
-  }
-
-  return parsedContent;
-};
-
-export const NotificationContent = ({
-  content,
-  chipStatusColors,
-  notificationId,
-}) => {
-  const { isNewOrder, orderNumber, updateStatus, statusColor } =
-    parseNotificationContent(content, chipStatusColors);
+export const NotificationContent = ({ notificationId, notification }) => {
+  const orderNumber = notification?.orderNumber;
+  const updateStatus = statusToShow(notification?.updateStatus);
+  const isNewOrder = notification?.type.toLowerCase().includes('new');
 
   const [readStatuses, setReadStatuses] = useState({});
 
@@ -66,7 +37,7 @@ export const NotificationContent = ({
             />
           }
         >
-          <ListItemText primary="New order with Number:" />
+          <ListItemText primary="New order Number:" />
           <Chip
             label={orderNumber}
             color="primary"
@@ -99,9 +70,8 @@ export const NotificationContent = ({
           }
         >
           <ListItemText primary="New status:" />
-          <Chip
-            label={updateStatus}
-            color={statusColor}
+          <TableChip
+            status={updateStatus}
             size="small"
             sx={{ minWidth: 116 }}
           />

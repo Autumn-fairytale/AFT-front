@@ -1,4 +1,4 @@
-import { getAllOrders } from '@/api/admin/getAllCouriers';
+import { getAllOrders } from '@/api/admin/getAllOrders';
 import { useQuery } from '@tanstack/react-query';
 
 const useGetAllOrders = () => {
@@ -8,12 +8,12 @@ const useGetAllOrders = () => {
 
       return data;
     } catch (error) {
-      console.log('Error fetching couriers');
+      console.log('Error fetching all orders');
     }
   };
 
   return useQuery({
-    queryKey: ['allorders'],
+    queryKey: ['admin', 'allorders'],
     queryFn: fetchAllOrders,
     options: {
       refetchOnWindowFocus: false,

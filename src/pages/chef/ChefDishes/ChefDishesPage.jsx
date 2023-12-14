@@ -31,7 +31,6 @@ const ChefDishesPage = () => {
       pageParam,
       limit: LIMIT,
     });
-    console.log(res);
     setTotalPages(res.pageInfo.totalPages);
     return res;
   };

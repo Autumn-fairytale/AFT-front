@@ -16,7 +16,7 @@ const CourierOrdersPage = () => {
           style={{
             display: 'flex',
             justifyContent: 'center',
-            margin: '2ф0px 0',
+            margin: '20px 0',
           }}
         >
           <CourierOrdersTable

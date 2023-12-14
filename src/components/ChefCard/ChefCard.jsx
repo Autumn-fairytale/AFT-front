@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 import { IconButton } from '@mui/material';
 
-import { getFavorite } from '@/api/favorites/getFavorite';
 import { customColors } from '@/constants';
 import { useAddFavorite } from '@/hooks/favorites/useAddFavorite';
 import { useDeleteFavorite } from '@/hooks/favorites/useDeleteFavorite';
@@ -21,21 +20,10 @@ import {
   RateNumber,
 } from './ChefCard.styled';
 
-const ChefCard = ({ chefInfo, isCarousel }) => {
+const ChefCard = ({ chefInfo, isCarousel, favoriteChefsIds }) => {
   const userId = useSelector(selectUser)?.id;
   const [favorite, setFavorite] = useState(false);
   const chefId = chefInfo?.chefId;
-  const [favoriteChefsIds, setFavoriteChefsIds] = useState([]);
-
-  useEffect(() => {
-    if (userId) {
-      const fetchFavorite = async () => {
-        const data = await getFavorite(userId, 'chefs');
-        setFavoriteChefsIds(data);
-      };
-      fetchFavorite();
-    }
-  }, [userId]);
 
   useEffect(() => {
     const favoriteChefsFind =
@@ -59,7 +47,10 @@ const ChefCard = ({ chefInfo, isCarousel }) => {
   };
 
   return (
-    <ChefCardWrapper isCarousel={isCarousel}>
+    <ChefCardWrapper
+      isCarousel={isCarousel}
+      sx={{ boxShadow: isCarousel ? 0 : 1 }}
+    >
       <ChefImageWrapper>
         <Link to={`/chefs/${chefId}`}>
           <ChefImage

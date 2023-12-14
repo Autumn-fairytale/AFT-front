@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 
 import { Box, CircularProgress, IconButton, Stack } from '@mui/material';
 
-import { getFavorite } from '@/api/favorites/getFavorite';
 import { customColors } from '@/constants';
 import { convertToMoney } from '@/helpers';
 import {
@@ -35,7 +34,7 @@ import {
 } from './DishCard.styled';
 import { StyledDishBadge } from './DishCardBadge';
 
-const DishCard = ({ dishInfo, isCarousel, isChef }) => {
+const DishCard = ({ dishInfo, isCarousel, isChef, favoriteDishesIds }) => {
   const [favorite, setFavorite] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -88,17 +87,6 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
   };
 
   const dishId = dishInfo?.id;
-  const [favoriteDishesIds, setFavoriteDishesIds] = useState([]);
-  useEffect(() => {
-    if (userId) {
-      const fetchFavorite = async () => {
-        const data = await getFavorite(userId, 'dishes');
-        setFavoriteDishesIds(data);
-      };
-      fetchFavorite();
-    }
-  }, [userId]);
-
   useEffect(() => {
     const favoriteDishesFind =
       favoriteDishesIds?.favoriteDishes?.map((i) => i.id) || [];
@@ -163,7 +151,10 @@ const DishCard = ({ dishInfo, isCarousel, isChef }) => {
   };
 
   return (
-    <DishCardWrapper isCarousel={isCarousel}>
+    <DishCardWrapper
+      isCarousel={isCarousel}
+      sx={{ boxShadow: isCarousel ? 0 : 1 }}
+    >
       <DishImageWrapper>
         <DishImage
           isCarousel={isCarousel}

@@ -1,6 +1,6 @@
 import { styled } from '@mui/material';
 
-import hero from '@/assets/images/hero/hero.jpg';
+import hero from '@/assets/images/hero/hero.webp';
 import { AppContainer } from '@/shared';
 
 export const HeroSectionStyled = styled('section')(() => ({

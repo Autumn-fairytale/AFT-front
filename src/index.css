@@ -10,6 +10,17 @@ html,
 body {
   height: 100%;
   min-width: 20rem;
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #e4dcdc;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #ff7622;
+  }
 }
 
 ul,

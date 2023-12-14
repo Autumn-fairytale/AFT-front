@@ -6,9 +6,13 @@ import { Box, Typography } from '@mui/material';
 
 import { getCourierById } from '@/api/courier/getCourierById';
 import { CourierOrdersTable } from '@/components/CourierOrdersTable';
+import { PageTitle } from '@/components/PageTitle/PageTitle';
 import CourierProfile from '@/components/Profiles/CourierProfile/CourierProfile';
+import ProfitGraph from '@/components/StatisticGraphs/ProfitGraph';
 import { route } from '@/constants';
 import { addSpacesToPhoneNumber } from '@/helpers';
+import { formatDateForDataGrid } from '@/helpers/formatDateForDataGrid';
+import useCourierOrder from '@/hooks/courier/useCourierOrders';
 import useCouriersOrdersByStatus from '@/hooks/courier/useCouriersOrdersByStatus';
 import { selectUser } from '@/redux/auth/selectors';
 import { AppContainer } from '@/shared';
@@ -45,7 +49,6 @@ const CourierAccountPage = () => {
     courierInfo?.address?.country,
     courierInfo?.address?.city
   );
-  console.log(data);
   const [status, setStatus] = useState('readyToDelivery');
   const refetchData = () => {
     setStatus('delivering');
@@ -53,9 +56,36 @@ const CourierAccountPage = () => {
   useEffect(() => {
     refetch();
   }, [status]);
+
+  let { data: chartData } = useCourierOrder();
+  const [profitData, setProfitData] = useState(null);
+  useEffect(() => {
+    if (chartData) {
+      const res = chartData
+        ?.filter((i) => i.statusCode === 6)
+        .map((i) => {
+          return {
+            date: formatDateForDataGrid(i.createdAt),
+            profit: i.summaryPrice.delivery,
+          };
+        })
+        .reduce((accumulator, item) => {
+          const key = item.date;
+          if (accumulator[key]) {
+            accumulator[key].count += 1;
+            accumulator[key].profit += item.profit;
+          } else {
+            accumulator[key] = { date: key, count: 1, profit: item.profit };
+          }
+          return accumulator;
+        }, {});
+      setProfitData(Object.values(res));
+    }
+  }, [chartData]);
   return (
     <Main>
       <AppContainer>
+        <PageTitle>COURIER DASHBOARD</PageTitle>
         {courierInfo && <CourierProfile courierInfo={courierInfo} />}
 
         <Box
@@ -113,6 +143,37 @@ const CourierAccountPage = () => {
             refetchData={refetchData}
           />
         </Box>
+        {profitData && (
+          <>
+            <Box
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                margin: '15px 5px',
+              }}
+            >
+              <Box>
+                <Typography
+                  variant="h5"
+                  component="h2"
+                  fontSize="26px"
+                  fontWeight="600"
+                >
+                  Daily Profit
+                </Typography>
+                <Typography
+                  variant="p"
+                  component="h6"
+                  fontSize="16px"
+                  fontWeight="400"
+                >
+                  Total profit per day display on chart
+                </Typography>
+              </Box>
+            </Box>
+            <ProfitGraph profit={profitData} />
+          </>
+        )}
       </AppContainer>
     </Main>
   );

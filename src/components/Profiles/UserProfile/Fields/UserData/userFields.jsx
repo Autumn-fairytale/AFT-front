@@ -89,7 +89,7 @@ export const passwordFields = [
     label: 'Current Password',
     name: 'currentPassword',
     placeholder: 'Enter your current password',
-    autoComplete: 'current-password',
+    autoComplete: 'off',
   },
   {
     label: 'New Password',

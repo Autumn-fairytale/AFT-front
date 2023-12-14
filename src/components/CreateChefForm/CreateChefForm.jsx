@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { createChef } from '@/api/chef/createChef';
 import { getChefById } from '@/api/chef/getChefById';
@@ -40,6 +41,7 @@ const CreateChefForm = () => {
   const user = useSelector(selectUser);
   const userId = user.id;
   const [chef, setChef] = useState();
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       if (user.roles.find((role) => role.name === 'chef')) {
@@ -85,7 +87,7 @@ const CreateChefForm = () => {
       } else {
         await createChef(result);
       }
-      window.location.href = route.CHEF_ACCOUNT;
+      navigate(route.CHEF_ACCOUNT);
     } catch (err) {
       console.log(err);
     }

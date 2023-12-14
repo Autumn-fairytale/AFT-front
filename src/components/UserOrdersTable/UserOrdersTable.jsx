@@ -25,6 +25,7 @@ export const UserOrdersTable = () => {
       disableColumnFilter={true}
       disableColumnSelector={true}
       rowHeight={60}
+      sortModel={[]}
       slots={{
         footer: () => (
           <CustomFooter

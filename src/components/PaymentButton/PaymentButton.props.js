@@ -6,4 +6,5 @@ export const PaymentButtonPropTypes = {
   ...Box.propTypes,
   orderId: PropTypes.string.isRequired,
   isAutoSubmit: PropTypes.bool,
+  paidComponent: PropTypes.node,
 };

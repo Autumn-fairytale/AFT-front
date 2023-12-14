@@ -38,7 +38,10 @@ export const userOrdersTableColumns = [
       order.isPaid ? (
         <StatusCell value={order.status} />
       ) : (
-        <PaymentButton orderId={order.id} />
+        <PaymentButton
+          orderId={order.id}
+          paidComponent={<StatusCell value="pending" />}
+        />
       ),
   },
   {

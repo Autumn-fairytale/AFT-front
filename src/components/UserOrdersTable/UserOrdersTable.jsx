@@ -35,11 +35,6 @@ export const UserOrdersTable = () => {
           />
         ),
       }}
-      initialState={{
-        sorting: {
-          sortModel: [{ field: 'createdAt', sort: 'desc' }],
-        },
-      }}
     />
   );
 };

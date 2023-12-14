@@ -14,7 +14,6 @@ import { SkeletonCardItem, SkeletonWrapper } from './FavoriteDishes.styled';
 
 const FavoriteDishes = () => {
   const { id: userId } = useSelector(selectUser);
-  console.log('userId:', userId);
 
   const { data, isLoading } = useQuery({
     queryKey: [userId, 'favorite', 'dishes'],

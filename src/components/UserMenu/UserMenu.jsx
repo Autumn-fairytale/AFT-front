@@ -41,6 +41,7 @@ export const UserMenu = () => {
 
   const notifications = useToastNotifications(navigate);
   const unreadNotificationsCount = notifications?.length;
+  // let unreadNotificationsCount = 1;
   // console.log(notifications.length);
   // Get number of items in user's cart
   const { data } = useGetCartItems();

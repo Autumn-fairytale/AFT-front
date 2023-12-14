@@ -46,7 +46,7 @@ export const NavigateMenu = ({ onClose, onOpen }) => {
       </LogoAndButtonWrapper>
       <Navigation>
         <List>
-          {(!user || !roles.includes('admin')) && (
+          {user && isAuth && !roles.includes('admin') && (
             <>
               <ListItem>
                 <CustomLink to={'/'}>Home</CustomLink>
@@ -57,11 +57,7 @@ export const NavigateMenu = ({ onClose, onOpen }) => {
               <ListItem>
                 <CustomLink to={route.CHEFS}>Chefs</CustomLink>
               </ListItem>
-            </>
-          )}
 
-          {user && isAuth && !roles.includes('admin') && (
-            <>
               <ListItem>
                 <CustomLink to={route.USER_ORDERS}>Orders</CustomLink>
               </ListItem>
@@ -75,34 +71,55 @@ export const NavigateMenu = ({ onClose, onOpen }) => {
                   Favorites chefs
                 </CustomLink>
               </ListItem>
-              <Divider />
             </>
           )}
-
-          {user &&
-            isAuth &&
-            !roles.includes('chef') &&
-            !roles.includes('admin') && (
-              <ListItem>
-                <CustomLink to={route.CHEF_SIGN_UP}>Become a chef</CustomLink>
-              </ListItem>
-            )}
-          {user &&
-            isAuth &&
-            !roles.includes('courier') &&
-            !roles.includes('admin') && (
-              <ListItem>
-                <CustomLink to={route.COURIER_SIGN_UP}>
-                  Become a courier
-                </CustomLink>
-              </ListItem>
-            )}
+          <>
+            {user &&
+              isAuth &&
+              !roles.includes('chef') &&
+              !roles.includes('admin') && <Divider />}
+            {user && isAuth && !roles.includes('courier') && <Divider />}
+            {user &&
+              isAuth &&
+              !roles.includes('chef') &&
+              !roles.includes('admin') && (
+                <>
+                  <ListItem>
+                    <CustomLink to={route.CHEF_SIGN_UP}>
+                      Become a chef
+                    </CustomLink>
+                  </ListItem>
+                </>
+              )}
+            {user &&
+              isAuth &&
+              !roles.includes('courier') &&
+              !roles.includes('admin') && (
+                <>
+                  <ListItem>
+                    <CustomLink to={route.COURIER_SIGN_UP}>
+                      Become a courier
+                    </CustomLink>
+                  </ListItem>
+                </>
+              )}
+            {user &&
+              isAuth &&
+              !roles.includes('chef') &&
+              !roles.includes('admin') && <Divider />}
+            {user &&
+              isAuth &&
+              !roles.includes('courier') &&
+              !roles.includes('admin') && <Divider />}
+          </>
         </List>
 
+        {user &&
+          isAuth &&
+          roles.includes('chef') &&
+          roles.includes('courier') && <Divider />}
         {user && isAuth && roles.includes('chef') && (
           <>
-            <Divider />
-
             <Typography variant="h6" align="center" sx={{ fontWeight: '600' }}>
               CHEF
             </Typography>
@@ -165,7 +182,7 @@ export const NavigateMenu = ({ onClose, onOpen }) => {
             </List>
           </>
         )}
-        <Divider />
+        {!user && <Divider />}
         {!isAuth && (
           <List>
             <ListItem>

@@ -12,6 +12,7 @@ export const NavigationWrapper = styled.div`
   flex-direction: column;
   gap: 20px;
   padding: 30px;
+  overflow: auto;
 `;
 
 export const LogoAndButtonWrapper = styled.div`

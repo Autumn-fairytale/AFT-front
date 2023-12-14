@@ -46,13 +46,12 @@ export const UserOrderDetails = ({ order }) => {
         <Divider sx={{ my: 1 }} />
       </Box>
 
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+        <FastfoodIcon sx={{ mr: 1 }} />
+
+        <Typography variant="subtitle2">Dishes:</Typography>
+      </Box>
       <StyledScrollBox>
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-          <FastfoodIcon sx={{ mr: 1 }} />
-
-          <Typography variant="subtitle2">Dishes:</Typography>
-        </Box>
-
         <List sx={{ padding: 0 }}>
           {order.items.map((item, index) => (
             <StyledUserOrderDetailsListItem key={index}>

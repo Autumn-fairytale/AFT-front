@@ -1,40 +1,57 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
-import { calculateTotalOrdersSum } from '@/helpers/calculateTotalOrdersSum';
+import { Box } from '@mui/material';
+
 import useUserOrders from '@/hooks/useUserOrders ';
 import { CustomFooter } from './CustomFooter';
 import { userOrdersTableColumns } from './UserOrdersColumns';
 import { UserOrdersTableStyled } from './UserOrdersTable.styled';
+import UserOrdersTableNoData from './UserOrdersTableNoData/UserOrdersTableNoData';
 
 export const UserOrdersTable = () => {
-  const { data: orders = [], isLoading, error } = useUserOrders();
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: 10,
+  });
+  const { data, isLoading, error } = useUserOrders(paginationModel);
 
-  const totalOrdersPrice = useMemo(
-    () => calculateTotalOrdersSum(orders),
-    [orders]
-  );
+  const orders = useMemo(() => data?.orders || [], [data?.orders]);
+  const rowCount = useMemo(() => data?.totalCount || 0, [data?.totalCount]);
 
   return (
-    <UserOrdersTableStyled
-      columns={userOrdersTableColumns}
-      rows={orders}
-      loading={isLoading}
-      error={error}
-      pageSize={10}
-      disableColumnMenu={true}
-      disableColumnFilter={true}
-      disableColumnSelector={true}
-      rowHeight={60}
-      sortModel={[]}
-      slots={{
-        footer: () => (
-          <CustomFooter
-            totalSum={totalOrdersPrice}
-            pageSize={5}
-            rowCount={orders.length}
-          />
-        ),
+    <Box
+      sx={{
+        flexGrow: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        paddingBottom: '20px',
       }}
-    />
+    >
+      <UserOrdersTableStyled
+        tableProps={{ minHeight: '400px', flexGrow: 1 }}
+        columns={userOrdersTableColumns}
+        rows={orders}
+        loading={isLoading}
+        error={error}
+        disableColumnMenu={true}
+        disableColumnFilter={true}
+        disableColumnSelector={true}
+        rowHeight={60}
+        rowCount={rowCount}
+        height="100%"
+        paginationMode="server"
+        paginationModel={paginationModel}
+        onPaginationModelChange={setPaginationModel}
+        slots={{
+          footer: () => (
+            <CustomFooter totalSum={data?.totalPrice} rowCount={rowCount} />
+          ),
+          noRowsOverlay: UserOrdersTableNoData,
+        }}
+        initialState={{
+          pagination: { paginationModel },
+        }}
+      />
+    </Box>
   );
 };

@@ -27,11 +27,6 @@ export const NavigateMenu = ({ onClose, onOpen }) => {
 
   const roles = useSelector(selectRoles);
 
-  console.log(
-    (user && isAuth && !roles.includes('chef')) ||
-      (user && isAuth && !roles.includes('courier'))
-  );
-
   return (
     <NavigationWrapper onClick={onClose()} onKeyDown={onOpen()}>
       <LogoAndButtonWrapper>
@@ -51,20 +46,18 @@ export const NavigateMenu = ({ onClose, onOpen }) => {
       </LogoAndButtonWrapper>
       <Navigation>
         <List>
-          <>
-            <ListItem>
-              <CustomLink to={'/'}>Home</CustomLink>
-            </ListItem>
-            <ListItem>
-              <CustomLink to={route.DISHES}>Dishes</CustomLink>
-            </ListItem>
-            <ListItem>
-              <CustomLink to={route.CHEFS}>Chefs</CustomLink>
-            </ListItem>
-          </>
-
           {user && isAuth && !roles.includes('admin') && (
             <>
+              <ListItem>
+                <CustomLink to={'/'}>Home</CustomLink>
+              </ListItem>
+              <ListItem>
+                <CustomLink to={route.DISHES}>Dishes</CustomLink>
+              </ListItem>
+              <ListItem>
+                <CustomLink to={route.CHEFS}>Chefs</CustomLink>
+              </ListItem>
+
               <ListItem>
                 <CustomLink to={route.USER_ORDERS}>Orders</CustomLink>
               </ListItem>
@@ -81,7 +74,10 @@ export const NavigateMenu = ({ onClose, onOpen }) => {
             </>
           )}
           <>
-            {user && isAuth && !roles.includes('chef') && <Divider />}
+            {user &&
+              isAuth &&
+              !roles.includes('chef') &&
+              !roles.includes('admin') && <Divider />}
             {user && isAuth && !roles.includes('courier') && <Divider />}
             {user &&
               isAuth &&
@@ -107,8 +103,14 @@ export const NavigateMenu = ({ onClose, onOpen }) => {
                   </ListItem>
                 </>
               )}
-            {user && isAuth && !roles.includes('chef') && <Divider />}
-            {user && isAuth && !roles.includes('courier') && <Divider />}
+            {user &&
+              isAuth &&
+              !roles.includes('chef') &&
+              !roles.includes('admin') && <Divider />}
+            {user &&
+              isAuth &&
+              !roles.includes('courier') &&
+              !roles.includes('admin') && <Divider />}
           </>
         </List>
 

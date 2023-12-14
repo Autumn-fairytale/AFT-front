@@ -13,7 +13,7 @@ export const StyledToastCard = styled(Card)(({ theme }) => ({
   position: 'relative',
   marginBottom: 8,
   border: `1px solid ${theme.palette.divider}`,
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: 'theme.palette.background.paper',
 }));
 
 export const StyledToastCardBox = styled(Box)(({ theme }) => ({

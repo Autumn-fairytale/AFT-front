@@ -1,7 +1,11 @@
+import { toast } from 'react-toastify';
+
 import { CardContent, Stack, Typography } from '@mui/material';
 
 import { AppButton } from '@/shared';
 import { chipStatusColors } from '../TableComponents/TableChip/chipStatusColors';
+import { CloseBtn } from './CloseBtn/CloseBtn';
+import { handleRedirect } from './handleRedirect';
 import { NotificationContent } from './NotificationContent';
 import {
   NotificationContentProps,
@@ -13,23 +17,11 @@ import {
   StyledToastCardBox,
 } from './NotificationToastStyled';
 
-export const NotificationToast = ({ notifications = [], navigate }) => {
-  const handleRedirect = (role) => {
-    switch (role) {
-      case 'chef':
-        navigate('/chef-account/orders');
-        break;
-      case 'user':
-        navigate('/orders');
-        break;
-      case 'courier':
-        navigate('/courier-account/orders');
-        break;
-      default:
-        break;
-    }
-  };
-
+export const NotificationToast = ({
+  notifications = [],
+  navigate,
+  closeToast,
+}) => {
   const groupedNotifications =
     notifications?.length > 0 &&
     notifications.reduce((acc, notification) => {
@@ -74,13 +66,17 @@ export const NotificationToast = ({ notifications = [], navigate }) => {
               color="primary"
               fullWidth
               size="small"
-              onClick={() => handleRedirect(role)}
+              onClick={() => {
+                handleRedirect(role, navigate);
+                toast.dismiss();
+              }}
               label={` View ${role} Orders`}
               sx={{ width: '50px', height: 28, mx: 'auto' }}
             ></AppButton>
           </Stack>
         </StyledToastCard>
       ))}
+      <CloseBtn onClose={closeToast} />
     </StyledToast>
   );
 };

@@ -29,6 +29,7 @@ export const useToastNotifications = (navigate) => {
           autoClose: false,
           closeOnClick: false,
           position: 'top-left',
+          closeButton: false,
           style: { width: '500px' },
           onClose: () => {
             toastIdRef.current = null;

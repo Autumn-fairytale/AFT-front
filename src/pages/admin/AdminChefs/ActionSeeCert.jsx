@@ -6,7 +6,6 @@ import { ActionSeeProps } from './ActionSeeCert.props';
 import { ButtonWrapper, IconButtonStyled } from './AdminChef.styled';
 
 export const ActionSeeCert = ({ params }) => {
-  console.log('params:', params);
   const { isOpen, openModal, onClose } = useModal();
   return (
     <>

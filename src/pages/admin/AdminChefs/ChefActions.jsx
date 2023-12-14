@@ -11,7 +11,6 @@ const ChefsActions = ({ params }) => {
   const [checked, setChecked] = useState(true);
 
   const [isLoading, setIsLoading] = useState(false);
-  console.log('isLoading:', isLoading);
 
   const queryClient = useQueryClient();
 

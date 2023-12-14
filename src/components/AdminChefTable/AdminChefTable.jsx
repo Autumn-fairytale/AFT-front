@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import ClearIcon from '@mui/icons-material/Clear';
 import DoneIcon from '@mui/icons-material/Done';
@@ -21,20 +21,16 @@ const LIMIT = 15;
 export const AdminChefTable = () => {
   const [rowId, setRowId] = useState(null);
 
-  const [totalPages, setTotalPages] = useState(0);
-  console.log('totalPages:', totalPages);
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
     pageSize: LIMIT,
   });
-  console.log('paginationModel:', paginationModel);
 
   const fetchChefs = async ({ page, pageSize }) => {
     const res = await getChefs({
       pageParam: page + 1,
       limit: pageSize,
     });
-    setTotalPages(res.pageInfo.totalPages);
     return res;
   };
 
@@ -43,19 +39,7 @@ export const AdminChefTable = () => {
     queryFn: () => fetchChefs(paginationModel),
   });
 
-  console.log('data:', data?.pageInfo.total);
   const rows = data?.mappedChefs;
-
-  const [rowCountState, setRowCountState] = useState(data?.pageInfo.total || 0);
-  console.log('rowCountState:', rowCountState);
-
-  useEffect(() => {
-    setRowCountState((prevRowCountState) =>
-      data?.pageInfo.total !== undefined
-        ? data?.pageInfo.total
-        : prevRowCountState
-    );
-  }, [data?.pageInfo.total]);
 
   const columns = useMemo(
     () => [

@@ -48,11 +48,7 @@ export const NotificationToast = ({
             </Typography>
             <StyledToastCardBox>
               {roleNotifications.map((notification, index) => (
-                <NotificationContent
-                  key={index}
-                  notificationId={notification.id}
-                  notification={notification}
-                />
+                <NotificationContent key={index} notification={notification} />
               ))}
             </StyledToastCardBox>
           </CardContent>

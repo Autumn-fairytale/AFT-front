@@ -30,7 +30,7 @@ export const useToastNotifications = (navigate) => {
           closeOnClick: false,
           position: 'top-left',
           closeButton: false,
-          style: { width: '500px', marginTop: '50px' },
+          style: { width: '500px', marginTop: '30px', marginLeft: '20vw' },
           onClose: () => {
             toastIdRef.current = null;
           },

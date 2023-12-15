@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -6,18 +6,27 @@ import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 import { Button } from '@mui/material';
 
 import { formatDateForDataGrid } from '@/helpers/formatDateForDataGrid';
-import { useDeleteNotification } from '@/hooks/notifications';
-import { useGetNotifications } from '@/hooks/notifications';
+import {
+  useDeleteNotification,
+  useGetNotifications,
+} from '@/hooks/notifications';
 import { useMarkNotificationAsRead } from '@/hooks/notifications/useMarkNotificationAsRead';
 import { setUnreadCount } from '@/redux/notifications';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { CustomPagination } from '../TableComponents/Pagination';
 import { StatusCell } from '../TableComponents/StatusCell';
 import { NotificationsTableProps } from './NotificationsTable.props';
+import { NotificationTableToolbar } from './NotificationTableToolbar';
 
 export const NotificationsTable = () => {
   const dispatch = useDispatch();
-  const { data, isLoading, error, refetch } = useGetNotifications();
+
+  const [filters, setFilters] = useState({ role: '', read: false });
+  const handleFilterChange = (filterName, value) => {
+    setFilters((prevFilters) => ({ ...prevFilters, [filterName]: value }));
+  };
+
+  const { data, isLoading, error, refetch } = useGetNotifications(filters);
   const markAsRead = useMarkNotificationAsRead();
   const deleteNote = useDeleteNotification();
 
@@ -91,9 +100,10 @@ export const NotificationsTable = () => {
         getActions: (params) => [
           <Button
             key="mark"
-            startIcon={<MarkEmailReadIcon style={{ fontSize: 'large' }} />}
+            startIcon={<MarkEmailReadIcon sx={{ fontSize: 'large' }} />}
             onClick={() => handleMarkAsRead(params.id)}
             size="large"
+            disabled={params.row.read}
           >
             Mark as read
           </Button>,
@@ -107,7 +117,7 @@ export const NotificationsTable = () => {
         getActions: (params) => [
           <Button
             key="delete"
-            startIcon={<DeleteOutlineIcon style={{ fontSize: 'large' }} />}
+            startIcon={<DeleteOutlineIcon sx={{ fontSize: 'large' }} />}
             onClick={() => handleDelete(params.id)}
             size="large"
             color="error"
@@ -128,7 +138,13 @@ export const NotificationsTable = () => {
         rows={notifications}
         loading={isLoading}
         error={error}
-        slots={{ pagination: CustomPagination }}
+        slots={{
+          toolbar: NotificationTableToolbar,
+          pagination: CustomPagination,
+        }}
+        slotProps={{
+          toolbar: { onFilterChange: handleFilterChange },
+        }}
         initialState={{
           sorting: {
             sortModel: [{ field: 'createdAt', sort: 'desc' }],

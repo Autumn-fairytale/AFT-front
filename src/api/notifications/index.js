@@ -1,4 +1,4 @@
-// export * from './deleteNotification';
+export * from './deleteNotification';
 // export * from './getReadNotifications';
 // export * from './getUnreadNotifications';
-// export * from './markNotificationAsRead';
+export * from './markNotificationAsRead';

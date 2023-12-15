@@ -1,17 +1,29 @@
-// import { useEffect } from 'react';
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
+import { Box } from '@mui/material';
+
+import { NotificationsTable } from '@/components/NotificationsTable/NotificationsTable';
 import { PageTitle } from '@/components/PageTitle/PageTitle';
-import { useGetNotifications } from '@/hooks/notifications/useGetNotifications';
+import { AppContainer } from '@/shared';
 import { Main } from '@/shared/Main/Main';
 
 const NotificationsPage = () => {
-  const { data } = useGetNotifications();
-  data && console.log(data);
+  useEffect(() => {
+    toast.dismiss();
+  }, []);
+
   return (
     <Main>
-      <>
-        <PageTitle>NOTIFICATIONS</PageTitle>
-      </>
+      <Box component="section" sx={{ flexGrow: 1 }}>
+        <AppContainer
+          sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
+        >
+          <PageTitle>NOTIFICATIONS</PageTitle>
+
+          <NotificationsTable />
+        </AppContainer>
+      </Box>
     </Main>
   );
 };

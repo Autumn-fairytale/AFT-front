@@ -8,7 +8,10 @@ export const useMarkNotificationAsRead = () => {
     mutationFn: markNotificationAsRead,
     onSuccess: (data) => {
       if (data.message === 'Notification updated') {
-        queryClient.invalidateQueries(['unreadNotifications']);
+        queryClient.invalidateQueries([
+          'unreadNotifications',
+          'getNotifications',
+        ]);
       }
     },
   });

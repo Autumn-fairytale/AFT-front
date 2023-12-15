@@ -1,3 +1,5 @@
+export * from './useDeleteNotification';
+export * from './useGetNotifications';
 export * from './useMarkNotificationAsRead';
 export * from './useNotifications';
 export * from './useToastNotifications';

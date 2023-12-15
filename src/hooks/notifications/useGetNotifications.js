@@ -3,9 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useGetNotifications = ({ read, role } = {}) => {
   return useQuery({
-    queryKey: ['notifications', { read, role }],
+    queryKey: ['getNotifications', { read, role }],
     queryFn: () => getNotifications({ read, role }),
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 3,
     cacheTime: 1000 * 60 * 30,
     refetchOnWindowFocus: true,
   });

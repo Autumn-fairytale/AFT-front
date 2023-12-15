@@ -30,6 +30,7 @@ const ChefInfoPage = () => {
   const fetchChefData = async () => {
     try {
       const response = await getChefById(chefId);
+
       const chef = {
         chefId: response.id,
         name: response.userId?.firstName + ' ' + response.userId?.lastName,
@@ -78,7 +79,7 @@ const ChefInfoPage = () => {
   }
 
   const qtyDishes = dishes?.length;
-
+  console.log();
   useEffect(() => {
     fetchChefData();
   }, [chefId]);
@@ -103,7 +104,7 @@ const ChefInfoPage = () => {
             ) : qtyDishes === 0 ? (
               <PageMessage
                 image={NoFoundDish}
-                message={`Uh-oh! ${chefInfo.name} doesn't have any dish :(`}
+                message={`Uh-oh! ${chefInfo?.name} doesn't have any dish :(`}
               ></PageMessage>
             ) : (
               <InfiniteScrollStyled
@@ -114,7 +115,7 @@ const ChefInfoPage = () => {
                 height={800}
                 loader={<h3>Loading...</h3>}
               >
-                <DishesList data={dishes} />
+                {dishes && <DishesList data={dishes} />}
               </InfiniteScrollStyled>
             )}
           </Box>

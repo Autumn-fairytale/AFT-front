@@ -50,7 +50,7 @@ export const NotificationContent = ({ notification }) => {
               />
             </Stack>
           </ListItem>
-          <Divider variant="middle" sx={{ mt: 2 }} />
+          <Divider variant="middle" sx={{ mt: 3 }} />
         </>
       )}
       {orderNumber && !isNewOrder && (
@@ -77,7 +77,7 @@ export const NotificationContent = ({ notification }) => {
               />
             </Stack>
           </ListItem>
-          <Divider variant="middle" sx={{ mt: 2 }} />
+          <Divider variant="middle" sx={{ mt: 3 }} />
         </>
       )}
     </List>

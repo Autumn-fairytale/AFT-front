@@ -3,7 +3,6 @@ import { toast } from 'react-toastify';
 import { CardContent, Stack, Typography } from '@mui/material';
 
 import { AppButton } from '@/shared';
-import { chipStatusColors } from '../TableComponents/TableChip/chipStatusColors';
 import { CloseBtn } from './CloseBtn/CloseBtn';
 import { handleRedirect } from './handleRedirect';
 import { NotificationContent } from './NotificationContent';
@@ -51,9 +50,6 @@ export const NotificationToast = ({
               {roleNotifications.map((notification, index) => (
                 <NotificationContent
                   key={index}
-                  content={notification.content}
-                  chipStatusColors={chipStatusColors}
-                  orderId={notification.orderId}
                   notificationId={notification.id}
                   notification={notification}
                 />

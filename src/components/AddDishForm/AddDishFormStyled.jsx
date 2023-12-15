@@ -5,7 +5,7 @@ export const StyledAddDishContainer = styled(Container)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  marginTop: theme.spacing(5),
+  marginTop: theme.spacing(2),
   marginBottom: theme.spacing(2),
   height: '585px',
   maxHeight: '100%',

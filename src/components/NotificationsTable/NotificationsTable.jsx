@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 import { Button } from '@mui/material';
 
 import { formatDateForDataGrid } from '@/helpers/formatDateForDataGrid';
@@ -12,6 +11,7 @@ import {
   useMarkNotificationAsRead,
 } from '@/hooks/notifications';
 import { setUnreadCount } from '@/redux/notifications';
+import { AppButton } from '@/shared';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { CustomPagination } from '../TableComponents/Pagination';
 import { StatusCell } from '../TableComponents/StatusCell';
@@ -98,15 +98,16 @@ export const NotificationsTable = () => {
         headerName: 'Mark as Read',
         width: 150,
         getActions: (params) => [
-          <Button
+          <AppButton
             key="mark"
-            startIcon={<MarkEmailReadIcon sx={{ fontSize: 'large' }} />}
             onClick={() => handleMarkAsRead(params.id)}
-            size="large"
+            title="Mark as read"
+            variant="outlined"
+            size="small"
+            sx={{ maxHeight: '36px' }}
+            label={!params.row.read ? 'Mark as read' : 'Message read'}
             disabled={params.row.read}
-          >
-            Mark as read
-          </Button>,
+          />,
         ],
       },
       {

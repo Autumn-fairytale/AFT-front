@@ -1,33 +1,36 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
 
+import { Box } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 
-import { updateChefAccountStatus } from '@/api/chef/updateChefAccountStatus';
+//import { ActionButtonWrapper, StyledButton } from './AdminChef.styled';
+import { updateCourierAccountStatus } from '@/api/courier/updateCourieAccountStatus';
+import { AppButton } from '@/shared';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { ActionButtonWrapper, StyledButton } from './AdminChef.styled';
 
-const ChefsActions = ({ params }) => {
+const CourierActions = ({ params }) => {
   const [checked, setChecked] = useState(true);
 
   const [isLoading, setIsLoading] = useState(false);
 
   const queryClient = useQueryClient();
 
-  const { mutate: updateChefStatusMutate } = useMutation({
+  const { mutate: updateCourierStatusMutate } = useMutation({
     mutationFn: ([accountStatus, id]) =>
-      updateChefAccountStatus(accountStatus, id),
+      updateCourierAccountStatus(accountStatus, id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['chefs', 'admin'] });
+      queryClient.invalidateQueries({ queryKey: ['couriers', 'admin'] });
     },
   });
 
   const handleStatusChange = async (id, newStatus) => {
     setIsLoading(true);
+
     try {
-      await updateChefStatusMutate([{ accountStatus: newStatus }, id]);
+      await updateCourierStatusMutate([{ accountStatus: newStatus }, id]);
     } catch (error) {
-      console.error('Error deleting review:', error);
+      console.error('Error update courier account status :', error);
     } finally {
       setIsLoading(false);
     }
@@ -40,7 +43,7 @@ const ChefsActions = ({ params }) => {
   const accountStatus = params.row.accountStatus;
 
   return (
-    <ActionButtonWrapper>
+    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
       {accountStatus !== 'verified' &&
         accountStatus !== 'blocked' &&
         accountStatus !== 'rejected' && (
@@ -51,7 +54,7 @@ const ChefsActions = ({ params }) => {
               inputProps={{ 'aria-label': 'controlled' }}
               disabled={isLoading}
             />
-            <StyledButton
+            <AppButton
               color={checked ? 'success' : 'error'}
               onClick={() =>
                 handleStatusChange(params.id, checked ? 'verified' : 'rejected')
@@ -63,7 +66,7 @@ const ChefsActions = ({ params }) => {
           </>
         )}
       {accountStatus === 'rejected' && (
-        <StyledButton
+        <AppButton
           color="success"
           label="Verify"
           onClick={() => handleStatusChange(params.id, 'verified')}
@@ -73,7 +76,7 @@ const ChefsActions = ({ params }) => {
       )}
       {accountStatus === 'blocked' && (
         <>
-          <StyledButton
+          <AppButton
             color="success"
             label="Unblock"
             onClick={() => handleStatusChange(params.id, 'verified')}
@@ -86,7 +89,7 @@ const ChefsActions = ({ params }) => {
         <p>Loading</p>
       ) : (
         accountStatus === 'verified' && (
-          <StyledButton
+          <AppButton
             color="primary"
             label="Block"
             onClick={() => handleStatusChange(params.id, 'blocked')}
@@ -97,8 +100,8 @@ const ChefsActions = ({ params }) => {
           />
         )
       )}
-    </ActionButtonWrapper>
+    </Box>
   );
 };
 
-export default ChefsActions;
+export default CourierActions;

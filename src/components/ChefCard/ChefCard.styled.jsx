@@ -56,6 +56,9 @@ export const ChefName = styled('h2')(({ theme, isCarousel }) => ({
 }));
 
 export const RateNumber = styled('span')(({ theme, isCarousel }) => ({
+  position: 'absolute',
+  bottom: isCarousel ? '0px' : '3px',
+  right: '15px',
   display: 'flex',
   justifyContent: 'space-between',
   marginTop: '5px',

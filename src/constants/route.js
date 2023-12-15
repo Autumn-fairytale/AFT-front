@@ -29,6 +29,7 @@ export const route = Object.freeze({
 
   ADMIN: '/admin',
   ADMIN_CHEFS: '/admin/chefs',
+  ADMIN_COURIERS: '/admin/couriers',
   ADMIN_DISHES: '/admin/dishes',
   ADMIN_ORDERS: '/admin/orders',
   ACCESS_DENIED: '/access-denied',

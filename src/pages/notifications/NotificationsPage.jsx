@@ -1,12 +1,12 @@
 // import { useEffect } from 'react';
 
 import { PageTitle } from '@/components/PageTitle/PageTitle';
-import { useUnreadNotifications } from '@/hooks/notifications/useUnreadNotifications';
+import { useGetNotifications } from '@/hooks/notifications/useGetNotifications';
 import { Main } from '@/shared/Main/Main';
 
 const NotificationsPage = () => {
-  const { data } = useUnreadNotifications();
-  console.log(data);
+  const { data } = useGetNotifications();
+  data && console.log(data);
   return (
     <Main>
       <>

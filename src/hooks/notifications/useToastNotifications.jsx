@@ -1,10 +1,13 @@
 import { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import { NotificationToast } from '@/components/NotificationToast';
+import { selectShowToast } from '@/redux/notifications/notificationsSliceSelectors';
 import { useNotifications } from './useNotifications';
 
 export const useToastNotifications = (navigate) => {
+  const canShowToasts = useSelector(selectShowToast);
   const { notifications } = useNotifications();
   const toastIdRef = useRef(null);
   const lastNotificationId = useRef(null);
@@ -22,9 +25,10 @@ export const useToastNotifications = (navigate) => {
       const content = (
         <NotificationToast notifications={notifications} navigate={navigate} />
       );
+
       if (toast.isActive(toastIdRef.current)) {
         toast.update(toastIdRef.current, { render: content, autoClose: false });
-      } else {
+      } else if (canShowToasts) {
         toastIdRef.current = toast(content, {
           autoClose: false,
           closeOnClick: false,
@@ -36,9 +40,10 @@ export const useToastNotifications = (navigate) => {
           },
         });
       }
+
       lastNotificationId.current = latestNotification.id;
     }
-  }, [notifications, navigate]);
+  }, [notifications, navigate, canShowToasts]);
 
   return notifications;
 };

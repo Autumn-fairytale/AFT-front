@@ -1,17 +1,23 @@
 import { useEffect } from 'react';
-import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 
 import { Box } from '@mui/material';
 
-import { NotificationsTable } from '@/components/NotificationsTable/NotificationsTable';
+import { NotificationsTable } from '@/components/NotificationsTable';
 import { PageTitle } from '@/components/PageTitle/PageTitle';
+import { disableToasts, enableToasts } from '@/redux/notifications';
 import { AppContainer } from '@/shared';
 import { Main } from '@/shared/Main/Main';
 
 const NotificationsPage = () => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    toast.dismiss();
-  }, []);
+    dispatch(disableToasts());
+    return () => {
+      dispatch(enableToasts());
+    };
+  }, [dispatch]);
 
   return (
     <Main>

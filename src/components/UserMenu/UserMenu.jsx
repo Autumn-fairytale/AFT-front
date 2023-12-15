@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { TbChefHat } from 'react-icons/tb';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +16,8 @@ import { useGetFavorite } from '@/hooks/favorites/useGetFavorite';
 import { signOut } from '@/redux/auth/operations';
 import { selectIsAuth, selectRoles, selectUser } from '@/redux/auth/selectors';
 import { openUserCart } from '@/redux/cartStatus/slice';
+import { setUnreadCount } from '@/redux/notifications';
+import { selectUnreadNotificationsCount } from '@/redux/notifications/notificationsSliceSelectors';
 import styled from '@emotion/styled';
 import UserModalCart from '../UserModalCart';
 import {
@@ -38,11 +41,15 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 export const UserMenu = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const unreadCount = useSelector(selectUnreadNotificationsCount);
   const notifications = useToastNotifications(navigate);
-  const unreadNotificationsCount = notifications?.length;
-  // let unreadNotificationsCount = 1;
-  // console.log(notifications.length);
+
+  useEffect(() => {
+    if (notifications) {
+      dispatch(setUnreadCount(notifications.length));
+    }
+  }, [notifications, dispatch]);
+
   // Get number of items in user's cart
   const { data } = useGetCartItems();
   const userCartItems = data?.cart.items;
@@ -80,10 +87,7 @@ export const UserMenu = () => {
           <>
             <ListItemStyled>
               <LinkStyled to={route.NOTIFICATIONS}>
-                <StyledBadge
-                  badgeContent={unreadNotificationsCount}
-                  color="error"
-                >
+                <StyledBadge badgeContent={unreadCount} color="error">
                   <NotificationsIcon sx={{ width: 30, height: 30 }} />
                 </StyledBadge>
               </LinkStyled>

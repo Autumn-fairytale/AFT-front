@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
 
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
@@ -6,14 +7,16 @@ import { Button } from '@mui/material';
 
 import { formatDateForDataGrid } from '@/helpers/formatDateForDataGrid';
 import { useDeleteNotification } from '@/hooks/notifications';
-import { useGetNotifications } from '@/hooks/notifications/useGetNotifications';
+import { useGetNotifications } from '@/hooks/notifications';
 import { useMarkNotificationAsRead } from '@/hooks/notifications/useMarkNotificationAsRead';
+import { setUnreadCount } from '@/redux/notifications';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { CustomPagination } from '../TableComponents/Pagination';
 import { StatusCell } from '../TableComponents/StatusCell';
 import { NotificationsTableProps } from './NotificationsTable.props';
 
 export const NotificationsTable = () => {
+  const dispatch = useDispatch();
   const { data, isLoading, error, refetch } = useGetNotifications();
   const markAsRead = useMarkNotificationAsRead();
   const deleteNote = useDeleteNotification();
@@ -22,11 +25,18 @@ export const NotificationsTable = () => {
     refetch();
   }, [refetch]);
 
+  useEffect(() => {
+    if (data) {
+      dispatch(
+        setUnreadCount(data.filter((notification) => !notification.read).length)
+      );
+    }
+  }, [data, dispatch]);
+
   const notifications = data ?? [];
 
   const handleMarkAsRead = useCallback(
     async (id) => {
-      console.log('read', id);
       markAsRead(id);
     },
     [markAsRead]

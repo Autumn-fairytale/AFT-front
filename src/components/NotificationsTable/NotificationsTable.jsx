@@ -9,8 +9,8 @@ import { formatDateForDataGrid } from '@/helpers/formatDateForDataGrid';
 import {
   useDeleteNotification,
   useGetNotifications,
+  useMarkNotificationAsRead,
 } from '@/hooks/notifications';
-import { useMarkNotificationAsRead } from '@/hooks/notifications/useMarkNotificationAsRead';
 import { setUnreadCount } from '@/redux/notifications';
 import AppDataGridTable from '@/shared/AppDataGridTable/AppDataGridTable';
 import { CustomPagination } from '../TableComponents/Pagination';

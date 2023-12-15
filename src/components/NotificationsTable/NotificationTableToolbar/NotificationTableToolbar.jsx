@@ -2,10 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { FormControlLabel, MenuItem, Select, Switch } from '@mui/material';
-import {
-  GridToolbarContainer,
-  GridToolbarFilterButton,
-} from '@mui/x-data-grid';
+import { GridToolbarContainer, GridToolbarQuickFilter } from '@mui/x-data-grid';
 
 import { selectRoles } from '@/redux/auth/selectors';
 import { NotificationTableToolbarProps } from './NotificationTableToolbar.props';
@@ -39,7 +36,6 @@ export const NotificationTableToolbar = ({ onFilterChange }) => {
         justifyContent: 'space-between',
       }}
     >
-      <GridToolbarFilterButton />
       <Select
         value={selectedRole}
         onChange={handleRoleChange}
@@ -54,7 +50,9 @@ export const NotificationTableToolbar = ({ onFilterChange }) => {
           <Switch onChange={(e) => onFilterChange('read', e.target.checked)} />
         }
         label="Show read"
+        sx={{ flexGrow: 1 }}
       />
+      <GridToolbarQuickFilter />
     </GridToolbarContainer>
   );
 };

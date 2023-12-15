@@ -57,7 +57,6 @@ const CourierAccountPage = () => {
   }, [status]);
 
   const { data: profitData } = useGetCourierStatistic(courierId) || [];
-
   return (
     <Main>
       <AppContainer>
@@ -119,7 +118,7 @@ const CourierAccountPage = () => {
             refetchData={refetchData}
           />
         </Box>
-        {profitData && (
+        {profitData?.length !== 0 && (
           <>
             <Box
               style={{

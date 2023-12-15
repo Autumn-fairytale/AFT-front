@@ -113,7 +113,7 @@ const ChefAccountPage = () => {
             refetchData={refetchData}
           />
         </Box>
-        {profitData && (
+        {profitData?.length && (
           <>
             <Box
               style={{

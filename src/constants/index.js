@@ -3,4 +3,4 @@ export * from './files';
 export { CATEGORIES, CUISINES } from './mocks';
 export * from './queryKey';
 export * from './route';
-export * from './tokens';
+export * from './tokenErrors';

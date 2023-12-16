@@ -4,7 +4,7 @@ import { CardContent, Stack, Typography } from '@mui/material';
 
 import { AppButton } from '@/shared';
 import { CloseBtn } from './CloseBtn/CloseBtn';
-import { handleRedirect } from './handleRedirect';
+import { handleRedirect } from './helpers/handleRedirect';
 import { NotificationContent } from './NotificationContent';
 import {
   NotificationContentProps,

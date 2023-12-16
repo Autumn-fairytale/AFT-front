@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import { styled } from '@mui/material/styles';
 
-import { scrollbarStyles } from '@/components/NotificationToast/scrollbarStyles';
+import { scrollbarStyles } from '@/components/NotificationToast/helpers/scrollbarStyles';
 
 export const StyledDishOrderCardWrapper = styled(Card)(() => ({
   minWidth: 400,

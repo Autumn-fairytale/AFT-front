@@ -1,7 +1,7 @@
 import { Box, Card } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import { scrollbarStyles } from '@/components/NotificationToast/scrollbarStyles';
+import { scrollbarStyles } from '@/components/NotificationToast/helpers/scrollbarStyles';
 
 export const StyledToast = styled(Box)(() => ({
   minWidth: '450px',

@@ -33,4 +33,6 @@ export const route = Object.freeze({
   ADMIN_DISHES: '/admin/dishes',
   ADMIN_ORDERS: '/admin/orders',
   ACCESS_DENIED: '/access-denied',
+
+  NOTIFICATIONS: '/notifications',
 });

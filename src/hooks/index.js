@@ -1,5 +1,6 @@
 export * from './cart';
 export * from './chef/useChefOrders';
+export * from './notifications';
 export * from './useFetchDish';
 export * from './useGetOrderPaymentSignature';
 export { useModal } from './useModal';

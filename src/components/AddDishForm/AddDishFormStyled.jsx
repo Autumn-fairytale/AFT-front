@@ -15,7 +15,7 @@ export const StyledAddDishFormBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  marginTop: theme.spacing(3),
+  marginTop: theme.spacing(1),
   flexGrow: 1,
   position: 'relative',
 }));

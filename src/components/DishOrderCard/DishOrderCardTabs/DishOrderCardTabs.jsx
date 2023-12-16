@@ -1,5 +1,6 @@
-/* eslint-disable react/prop-types */
 import { Tab, Tabs } from '@mui/material';
+
+import { DishOrderCardTabsProps } from './DishOrderCardTabs.props';
 
 export const DishOrderCardTabs = ({ tabValue, handleTabChange }) => {
   return (
@@ -30,3 +31,5 @@ export const DishOrderCardTabs = ({ tabValue, handleTabChange }) => {
     </Tabs>
   );
 };
+
+DishOrderCardTabs.propTypes = DishOrderCardTabsProps;

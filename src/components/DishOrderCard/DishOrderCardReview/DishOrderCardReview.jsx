@@ -1,9 +1,9 @@
-/* eslint-disable react/prop-types */
 import { useNavigate } from 'react-router-dom';
 
 import { Box, Card, CardContent, Typography } from '@mui/material';
 
 import { AppButton } from '@/shared';
+import { DishOrderCardReviewProps } from './DishOrderCardReview.props';
 
 export const DishOrderCardReview = ({ dishId, reviewObj }) => {
   const navigate = useNavigate();
@@ -44,3 +44,5 @@ export const DishOrderCardReview = ({ dishId, reviewObj }) => {
     </>
   );
 };
+
+DishOrderCardReview.propTypes = DishOrderCardReviewProps;

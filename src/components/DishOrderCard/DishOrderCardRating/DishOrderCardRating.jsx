@@ -1,7 +1,7 @@
 import { Box, Rating, Typography } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 
-import PropTypes from 'prop-types';
+import { DishOrderCardRatingProps } from './DishOrderCardRating.props';
 
 export const DishOrderCardRating = ({ ratingCount = 3, averageRating = 5 }) => {
   return (
@@ -32,7 +32,4 @@ export const DishOrderCardRating = ({ ratingCount = 3, averageRating = 5 }) => {
   );
 };
 
-DishOrderCardRating.propTypes = {
-  ratingCount: PropTypes.number,
-  averageRating: PropTypes.number,
-};
+DishOrderCardRating.propTypes = DishOrderCardRatingProps;

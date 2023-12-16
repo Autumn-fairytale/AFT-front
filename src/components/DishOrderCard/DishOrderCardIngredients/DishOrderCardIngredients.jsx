@@ -1,8 +1,15 @@
 import { useState } from 'react';
 
-import { Box, Button, Card, Chip, Typography } from '@mui/material';
+import { Box, Chip, Typography } from '@mui/material';
 
-// eslint-disable-next-line react/prop-types
+import { DishOrderCardIngredientsProps } from './DishOrderCardIngredients.props';
+import {
+  AllergyInfoBox,
+  DishIngredientsCard,
+  ExpandButton,
+  IngredientsBox,
+} from './DishOrderCardIngredientsStyled';
+
 export const DishOrderCardIngredients = ({ ingredients = [] }) => {
   const [expanded, setExpanded] = useState(false);
 
@@ -12,25 +19,8 @@ export const DishOrderCardIngredients = ({ ingredients = [] }) => {
 
   return (
     <Box>
-      <Card
-        elevation={0}
-        sx={{
-          height: expanded ? 'auto' : '75px',
-          '&:hover': {
-            overflowY: 'auto',
-          },
-          '&::-webkit-scrollbar': {
-            width: '4px',
-            backgroundColor: 'rgba(0, 0, 0, 0.2)',
-          },
-          '&::-webkit-scrollbar-thumb': {
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          },
-          scrollbarWidth: 'thin',
-          scrollbarColor: 'rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0.2)',
-        }}
-      >
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+      <DishIngredientsCard>
+        <IngredientsBox>
           {ingredients.map((ingredient, index) => (
             <Chip
               key={index}
@@ -42,23 +32,18 @@ export const DishOrderCardIngredients = ({ ingredients = [] }) => {
               }}
             />
           ))}
-        </Box>
+        </IngredientsBox>
         {ingredients.length > 6 && (
-          <Button
-            onClick={handleExpandClick}
-            sx={{ textTransform: 'none', mt: 1, p: 0, m: 0 }}
-          >
+          <ExpandButton onClick={handleExpandClick}>
             {expanded ? 'Less' : 'More'}
-          </Button>
+          </ExpandButton>
         )}
-      </Card>
+      </DishIngredientsCard>
       {!expanded && (
-        <Box
+        <AllergyInfoBox
           sx={{
             bgcolor: 'background.default',
-            borderRadius: 0.5,
             boxShadow: 1,
-            mt: 1,
           }}
         >
           <Typography
@@ -72,8 +57,10 @@ export const DishOrderCardIngredients = ({ ingredients = [] }) => {
             facility that contains - allergens such as milk, peanuts, tree nuts,
             wheat, dairy, eggs, fish, shellfish, soy, or sesame.
           </Typography>
-        </Box>
+        </AllergyInfoBox>
       )}
     </Box>
   );
 };
+
+DishOrderCardIngredients.propTypes = DishOrderCardIngredientsProps;

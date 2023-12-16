@@ -1,7 +1,8 @@
-/* eslint-disable react/prop-types */
 import { Link as RouterLink } from 'react-router-dom';
 
 import { Link, Typography } from '@mui/material';
+
+import { DishOrderCardChefLinkProps } from './DishOrderCardChefLink.props';
 
 export const DishOrderCardChefLink = ({ lastName, firstName, id }) => {
   return (
@@ -31,3 +32,5 @@ export const DishOrderCardChefLink = ({ lastName, firstName, id }) => {
     </Typography>
   );
 };
+
+DishOrderCardChefLink.propTypes = DishOrderCardChefLinkProps;

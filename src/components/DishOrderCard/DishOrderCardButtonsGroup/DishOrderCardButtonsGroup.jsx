@@ -11,9 +11,8 @@ import {
   Typography,
 } from '@mui/material';
 
-import PropTypes from 'prop-types';
-
 import { AppButton } from '@/shared';
+import { DishOrderCardButtonsGroupProps } from './DishOrderCardButtonsGroup.props';
 
 export const DishOrderCardButtonsGroup = ({
   handleQuantityChange,
@@ -115,19 +114,4 @@ export const DishOrderCardButtonsGroup = ({
   );
 };
 
-DishOrderCardButtonsGroup.propTypes = {
-  quantity: PropTypes.number,
-  handleQuantityChange: PropTypes.func.isRequired,
-  handleAddToCart: PropTypes.func,
-  isAddingItem: PropTypes.bool,
-  isInCart: PropTypes.bool,
-  isCartLoading: PropTypes.bool,
-  isUpdatingCart: PropTypes.bool,
-  handleGoToCart: PropTypes.func,
-  isOpenedFromCreateOrder: PropTypes.bool,
-  closeModalHandler: PropTypes.func.isRequired,
-  cartItemCount: PropTypes.number,
-  dishId: PropTypes.string,
-  addCartItem: PropTypes.func,
-  isChef: PropTypes.bool,
-};
+DishOrderCardButtonsGroup.propTypes = DishOrderCardButtonsGroupProps;

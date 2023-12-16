@@ -42,6 +42,8 @@ export const StyledAddDishOrderCardMedia = styled(CardMedia)(
     transition: 'transform 0.3s ease-in-out',
     transformOrigin: 'top',
     zIndex: 600,
+    boxShadow: '0px 8px 30px rgba(0, 0, 0, 0.2)',
+    borderRadius: 4,
   })
 );
 

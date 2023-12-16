@@ -1,7 +1,7 @@
-/* eslint-disable react/prop-types */
 import { Stack, Typography } from '@mui/material';
 
 import { AppSpiceLevel } from '@/shared/AppSpiceLevel/AppSpiceLevel';
+import { DishOrderCardSpiceLevelProps } from './DishOrderCardSpiceLevel.props';
 
 const spiceLevelText = ['Not Spicy', 'A little Spicy', 'Spicy', 'Very Spicy'];
 
@@ -18,3 +18,4 @@ export const DishOrderCardSpiceLevel = ({ spiceLevel }) => {
     </>
   );
 };
+DishOrderCardSpiceLevel.propTypes = DishOrderCardSpiceLevelProps;

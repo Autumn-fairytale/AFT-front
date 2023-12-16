@@ -11,9 +11,8 @@ import ChefProfile from '@/components/Profiles/ChefProfile/ChefProfile';
 import ProfitGraph from '@/components/StatisticGraphs/ProfitGraph';
 import { route } from '@/constants';
 import { addSpacesToPhoneNumber } from '@/helpers';
-import { formatDateForDataGrid } from '@/helpers/formatDateForDataGrid';
-import useChefOrder from '@/hooks/chef/useChefOrders';
 import useChefOrdersByStatus from '@/hooks/chef/useChefOrdersByStatus';
+import useGetChefStatistic from '@/hooks/chef/useGetChefStatistic';
 import { selectUser } from '@/redux/auth/selectors';
 import { AppContainer } from '@/shared';
 import { Main } from '@/shared/Main/Main';
@@ -53,33 +52,7 @@ const ChefAccountPage = () => {
 
     fetchChefData();
   }, [chefId]);
-
-  let { data: chartData } = useChefOrder();
-  const [profitData, setProfitData] = useState(null);
-  useEffect(() => {
-    if (chartData) {
-      const res = chartData
-        ?.filter((i) => i.statusCode === 6)
-        .map((i) => {
-          return {
-            date: formatDateForDataGrid(i.createdAt),
-            profit: i.summaryPrice.chef,
-          };
-        })
-        .reduce((accumulator, item) => {
-          const key = item.date;
-          if (accumulator[key]) {
-            accumulator[key].count += 1;
-            accumulator[key].profit += item.profit;
-          } else {
-            accumulator[key] = { date: key, count: 1, profit: item.profit };
-          }
-          return accumulator;
-        }, {});
-      setProfitData(Object.values(res));
-    }
-  }, [chartData]);
-
+  const { data: profitData } = useGetChefStatistic(chefId) || [];
   return (
     <Main>
       <AppContainer>
@@ -136,11 +109,11 @@ const ChefAccountPage = () => {
             data={data}
             error={error}
             isLoading={isLoading}
-            tableHeight="50vMin"
+            tableHeight="85vMin"
             refetchData={refetchData}
           />
         </Box>
-        {profitData && (
+        {profitData?.length && (
           <>
             <Box
               style={{

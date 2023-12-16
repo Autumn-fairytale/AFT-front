@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { createChef } from '@/api/chef/createChef';
@@ -8,6 +8,7 @@ import { getChefById } from '@/api/chef/getChefById';
 import { updateChef } from '@/api/chef/updateChef';
 import { route } from '@/constants';
 import { addSpacesToPhoneNumber, removeSpacesFromPhoneNumber } from '@/helpers';
+import { getCurrentUser } from '@/redux/auth/operations';
 import { selectUser } from '@/redux/auth/selectors';
 import { chefSchema } from '@/schemas/chefSchema';
 import { AppButton } from '@/shared';
@@ -67,7 +68,7 @@ const CreateChefForm = () => {
 
     fetchData();
   }, [reset, user.roles, userId]);
-
+  const dispatch = useDispatch();
   const formSubmitHandler = async (data) => {
     try {
       const result = {
@@ -86,6 +87,7 @@ const CreateChefForm = () => {
         );
       } else {
         await createChef(result);
+        dispatch(getCurrentUser());
       }
       navigate(route.CHEF_ACCOUNT);
     } catch (err) {

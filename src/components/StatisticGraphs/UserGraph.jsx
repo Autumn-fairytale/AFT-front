@@ -18,7 +18,7 @@ const UsersGraph = ({ users }) => {
         datasets: [
           {
             label: 'Users amount',
-            data: users?.map((i) => i.userCount),
+            data: users?.map((i) => i.usersCount),
             backgroundColor: theme.palette.primary.main,
             tension: 0.4,
             borderColor: theme.palette.primary.main,
@@ -26,7 +26,7 @@ const UsersGraph = ({ users }) => {
           },
           {
             label: 'Chefs amount',
-            data: users?.map((i) => i.chefCount),
+            data: users?.map((i) => i.chefsCount),
             backgroundColor: theme.palette.error.main,
             tension: 0.4,
             borderColor: theme.palette.error.main,
@@ -34,7 +34,7 @@ const UsersGraph = ({ users }) => {
           },
           {
             label: 'Couriers amount',
-            data: users?.map((i) => i.courierCount),
+            data: users?.map((i) => i.couriersCount),
             backgroundColor: theme.palette.info.dark,
             tension: 0.4,
             borderColor: theme.palette.info.dark,

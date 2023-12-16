@@ -59,7 +59,7 @@ const ChefDishesPage = () => {
   return (
     <Main style={{ display: 'flex', justifyContent: 'center' }}>
       <AppContainer>
-        <PageTitle>DISH</PageTitle>
+        <PageTitle>DISHES</PageTitle>
         <Box style={{ margin: '50px 0' }}>
           {isLoading ? (
             <SkeletonWrapper>

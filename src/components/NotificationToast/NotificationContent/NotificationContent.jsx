@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Chip, List, ListItem, ListItemText, Stack } from '@mui/material';
+import { Chip, ListItem, ListItemText, Stack } from '@mui/material';
 import Divider from '@mui/material/Divider';
 
 import TableChip from '@/components/TableComponents/TableChip/TableChip';
@@ -8,6 +8,12 @@ import { statusToShow } from '@/components/TableComponents/tableHelpers';
 import { useMarkNotificationAsRead } from '@/hooks/notifications/useMarkNotificationAsRead';
 import { AppButton } from '@/shared';
 import { NotificationContentProps } from '../NotificationToast.props';
+import {
+  StyledNotificationContentChip,
+  StyledNotificationContentList,
+  StyledNotificationContentListItem,
+  StyledNotificationContentListItemText,
+} from './NotificationContentStyled';
 
 export const NotificationContent = ({ notification }) => {
   const [readStatuses, setReadStatuses] = useState({});
@@ -26,30 +32,30 @@ export const NotificationContent = ({ notification }) => {
     setReadStatuses((prev) => ({ ...prev, [notificationId]: true }));
   };
 
+  const NotificationButton = (
+    <AppButton
+      onClick={() => handleMarkAsRead(notificationId)}
+      title="Mark as read"
+      variant="outlined"
+      size="small"
+      sx={{ maxHeight: '24px', width: '125px' }}
+      label={!isRead ? 'Mark as read' : 'Message read'}
+      disabled={isRead}
+    />
+  );
+
   return (
-    <List dense sx={{ my: 0.5 }}>
+    <StyledNotificationContentList dense>
       {isNewOrder && (
         <>
-          <ListItem sx={{ pb: 0 }}>
+          <StyledNotificationContentListItem>
             <Stack direction="row" spacing={3} alignItems="center">
-              <ListItemText primary="Your New order:" sx={{ flexGrow: 1 }} />
-              <Chip
-                label={orderNumber}
-                size="small"
-                sx={{ minWidth: 116, height: 24 }}
-              />
+              <StyledNotificationContentListItemText primary="Your New order:" />
+              <StyledNotificationContentChip label={orderNumber} size="small" />
 
-              <AppButton
-                onClick={() => handleMarkAsRead(notificationId)}
-                title="Mark as read"
-                variant="outlined"
-                size="small"
-                sx={{ maxHeight: '24px' }}
-                label={!isRead ? 'Mark as read' : 'Message read'}
-                disabled={isRead}
-              />
+              {NotificationButton}
             </Stack>
-          </ListItem>
+          </StyledNotificationContentListItem>
           <Divider variant="middle" sx={{ mt: 3 }} />
         </>
       )}
@@ -58,7 +64,7 @@ export const NotificationContent = ({ notification }) => {
           <ListItem sx={{ pb: 0 }}>
             <Stack direction="row" spacing={1} alignItems="center">
               <ListItemText primary="№" />
-              <Chip label={orderNumber} size="small" />
+              <Chip label={orderNumber} size="small" sx={{ minWidth: 116 }} />
 
               <TableChip
                 status={updateStatus}
@@ -66,21 +72,13 @@ export const NotificationContent = ({ notification }) => {
                 sx={{ minWidth: 116 }}
               />
 
-              <AppButton
-                onClick={() => handleMarkAsRead(notificationId)}
-                title="Mark as read"
-                variant="outlined"
-                size="small"
-                sx={{ maxHeight: '24px', width: '125px' }}
-                label={!isRead ? 'Mark as read' : 'Read'}
-                disabled={isRead}
-              />
+              {NotificationButton}
             </Stack>
           </ListItem>
           <Divider variant="middle" sx={{ mt: 3 }} />
         </>
       )}
-    </List>
+    </StyledNotificationContentList>
   );
 };
 

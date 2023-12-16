@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
-import { CardContent, Stack, Typography } from '@mui/material';
+import { CardContent, Typography } from '@mui/material';
 
 import { AppButton } from '@/shared';
 import { CloseBtn } from './CloseBtn/CloseBtn';
@@ -14,6 +14,7 @@ import {
   StyledToast,
   StyledToastCard,
   StyledToastCardBox,
+  StyledToastStack,
 } from './NotificationToastStyled';
 
 export const NotificationToast = ({
@@ -52,15 +53,7 @@ export const NotificationToast = ({
               ))}
             </StyledToastCardBox>
           </CardContent>
-          <Stack
-            sx={{
-              position: 'absolute',
-              bottom: -5,
-              left: 0,
-              right: 0,
-              padding: '10px 16px',
-            }}
-          >
+          <StyledToastStack>
             <AppButton
               variant="contained"
               color="primary"
@@ -73,7 +66,7 @@ export const NotificationToast = ({
               label={` View ${role === 'user' ? '' : role} Orders`}
               sx={{ width: '50px', height: 28, mx: 'auto' }}
             ></AppButton>
-          </Stack>
+          </StyledToastStack>
         </StyledToastCard>
       ))}
       <CloseBtn onClose={closeToast} />

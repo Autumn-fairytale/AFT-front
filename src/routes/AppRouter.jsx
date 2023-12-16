@@ -39,7 +39,7 @@ const CourierOrdersPage = lazy(() => import('@/pages/courier/CourierOrders'));
 const AdminPage = lazy(() => import('@/pages/admin/Admin'));
 const AdminChefsPage = lazy(() => import('@/pages/admin/AdminChefs'));
 const AdminCouriersPage = lazy(() => import('@/pages/admin/AdminCouriers'));
-const AdminDishesPage = lazy(() => import('@/pages/admin/AdminDishes'));
+// const AdminDishesPage = lazy(() => import('@/pages/admin/AdminDishes'));
 const AdminOrdersPage = lazy(() => import('@/pages/admin/AdminOrders'));
 const NotFoundPage = lazy(() => import('@/pages/NotFound'));
 const AccessDeniedPage = lazy(() => import('@/pages/access/AccessDenied'));
@@ -208,7 +208,7 @@ const AppRouter = () => {
           <Route index element={<AdminPage />} />
           <Route path={route.ADMIN_CHEFS} element={<AdminChefsPage />} />
           <Route path={route.ADMIN_COURIERS} element={<AdminCouriersPage />} />
-          <Route path={route.ADMIN_DISHES} element={<AdminDishesPage />} />
+          {/* <Route path={route.ADMIN_DISHES} element={<AdminDishesPage />} /> */}
           <Route path={route.ADMIN_ORDERS} element={<AdminOrdersPage />} />
         </Route>
 

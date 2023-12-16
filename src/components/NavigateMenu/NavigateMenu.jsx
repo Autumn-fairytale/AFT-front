@@ -179,9 +179,9 @@ export const NavigateMenu = ({ onClose, onOpen }) => {
               <ListItem>
                 <CustomLink to={route.ADMIN_COURIERS}>Couriers</CustomLink>
               </ListItem>
-              <ListItem>
+              {/* <ListItem>
                 <CustomLink to={route.ADMIN_DISHES}>Dishes</CustomLink>
-              </ListItem>
+              </ListItem> */}
               <ListItem>
                 <CustomLink to={route.ADMIN_ORDERS}>Orders</CustomLink>
               </ListItem>

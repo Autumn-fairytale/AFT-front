@@ -27,44 +27,12 @@ publicInstance.interceptors.response.use(
   }
 );
 
-// privateInstance.interceptors.response.use(
-//   (response) => response,
-//   async (error) => {
-//     const originalRequest = error?.config;
-
-//     const { isAuth } = store.getState().auth;
-
-//     if (error?.response?.data?.message === tokens_failed_401_error) {
-//       isAuth && store.dispatch(signOut());
-//     }
-
-//     if (error?.response?.data?.message === refresh_token_401_error) {
-//       try {
-//         await privateInstance.post('/users/refresh');
-
-//         return privateInstance(originalRequest);
-//       } catch (error) {
-//         store.dispatch(signOut());
-//       }
-//     }
-
-//     const data = error?.response?.data;
-
-//     if (data) {
-//       data.statusCode = error?.response?.status;
-//     }
-//     return Promise.reject(data || error.message);
-//   }
-// );
-
 let refreshPromise = null;
 
-// Function to refresh the token
 const refreshAccessToken = async () => {
   return await privateInstance.post('/users/refresh');
 };
 
-// Add a response interceptor
 privateInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -84,6 +52,10 @@ privateInstance.interceptors.response.use(
         });
       }
 
+      /*  to keep track of the ongoing refresh operation. 
+     If multiple requests require a token refresh, they will wait 
+     for the same refreshPromise to complete before proceeding.
+     This avoids multiple simultaneous refresh requests. */
       return refreshPromise
         .then(() => privateInstance(originalRequest))
         .catch(() => store.dispatch(signOut()));

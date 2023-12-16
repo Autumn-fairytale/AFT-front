@@ -16,7 +16,11 @@ import {
   SignInSubmitButton,
 } from '@/shared/AuthFormComponents/readyComponents';
 import { FormWrapperStyled } from '@/shared/AuthFormComponents/styles';
-import { getError, useIsSameData } from '@/shared/AuthFormComponents/utils';
+import {
+  getError,
+  serverError,
+  useIsSameData,
+} from '@/shared/AuthFormComponents/utils';
 import { useTheme } from '@emotion/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -43,7 +47,7 @@ const SigInForm = () => {
   }, []);
 
   const onSubmit = async (data) => {
-    if (isSameData(data)) return;
+    if (isSameData(data) && formError !== serverError) return;
 
     await dispatch(signIn(data))
       .unwrap()

@@ -1,3 +1,5 @@
+export const serverError = 'An error occurred';
+
 export const getError = (statusCode, type = 'auth') => {
   const isAuthForm = type === 'auth';
   switch (statusCode) {

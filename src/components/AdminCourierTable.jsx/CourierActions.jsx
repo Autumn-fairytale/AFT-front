@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { Box } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 
-//import { ActionButtonWrapper, StyledButton } from './AdminChef.styled';
 import { updateCourierAccountStatus } from '@/api/courier/updateCourieAccountStatus';
 import { AppButton } from '@/shared';
 import { useMutation, useQueryClient } from '@tanstack/react-query';

@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 
+import { useDisableToasts } from '@/hooks';
 import { selectIsHidden, selectIsOpen } from '@/redux/cartStatus/selectors';
 import { closeUserCart } from '@/redux/cartStatus/slice';
 import { AppModal } from '@/shared';
@@ -7,6 +8,7 @@ import ModalContent from './ModalContent/ModalContent';
 import { modalStyles } from './UserModalCart.styled';
 
 const UserModalCart = () => {
+  useDisableToasts();
   const dispatch = useDispatch();
   const isOpen = useSelector(selectIsOpen);
   const isHidden = useSelector(selectIsHidden);

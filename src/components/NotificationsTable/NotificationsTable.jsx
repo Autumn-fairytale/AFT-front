@@ -102,7 +102,6 @@ export const NotificationsTable = () => {
             key="mark"
             onClick={() => handleMarkAsRead(params.id)}
             title="Mark as read"
-            variant="outlined"
             size="small"
             sx={{ maxHeight: '36px' }}
             label={!params.row.read ? 'Mark as read' : 'Message read'}

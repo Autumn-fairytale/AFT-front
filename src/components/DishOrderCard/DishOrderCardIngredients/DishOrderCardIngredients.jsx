@@ -19,7 +19,7 @@ export const DishOrderCardIngredients = ({ ingredients = [] }) => {
 
   return (
     <Box>
-      <DishIngredientsCard>
+      <DishIngredientsCard elevation={0}>
         <IngredientsBox>
           {ingredients.map((ingredient, index) => (
             <Chip

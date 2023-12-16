@@ -46,63 +46,83 @@ export const NavigateMenu = ({ onClose, onOpen }) => {
       </LogoAndButtonWrapper>
       <Navigation>
         <List>
-          {(!user || !roles.includes('admin')) && (
-            <>
-              <ListItem>
-                <CustomLink to={'/'}>Home</CustomLink>
-              </ListItem>
-              <ListItem>
-                <CustomLink to={route.DISHES}>Dishes</CustomLink>
-              </ListItem>
-              <ListItem>
-                <CustomLink to={route.CHEFS}>Chefs</CustomLink>
-              </ListItem>
-            </>
-          )}
+          <>
+            <ListItem>
+              <CustomLink to={'/'}>Home</CustomLink>
+            </ListItem>
+            <ListItem>
+              <CustomLink to={route.DISHES}>Dishes</CustomLink>
+            </ListItem>
+            <ListItem>
+              <CustomLink to={route.CHEFS}>Chefs</CustomLink>
+            </ListItem>
 
-          {user && isAuth && !roles.includes('admin') && (
-            <>
-              <ListItem>
-                <CustomLink to={route.USER_ORDERS}>Orders</CustomLink>
-              </ListItem>
-              <ListItem>
-                <CustomLink to={route.FAVORITE_DISHES}>
-                  Favorites dishes
-                </CustomLink>
-              </ListItem>
-              <ListItem>
-                <CustomLink to={route.FAVORITE_CHEFS}>
-                  Favorites chefs
-                </CustomLink>
-              </ListItem>
-              <Divider />
-            </>
-          )}
+            {user && isAuth && !roles.includes('admin') && (
+              <>
+                <ListItem>
+                  <CustomLink to={route.USER_ORDERS}>Orders</CustomLink>
+                </ListItem>
+                <ListItem>
+                  <CustomLink to={route.FAVORITE_DISHES}>
+                    Favorites dishes
+                  </CustomLink>
+                </ListItem>
+                <ListItem>
+                  <CustomLink to={route.FAVORITE_CHEFS}>
+                    Favorites chefs
+                  </CustomLink>
+                </ListItem>
+              </>
+            )}
+          </>
 
-          {user &&
-            isAuth &&
-            !roles.includes('chef') &&
-            !roles.includes('admin') && (
-              <ListItem>
-                <CustomLink to={route.CHEF_SIGN_UP}>Become a chef</CustomLink>
-              </ListItem>
-            )}
-          {user &&
-            isAuth &&
-            !roles.includes('courier') &&
-            !roles.includes('admin') && (
-              <ListItem>
-                <CustomLink to={route.COURIER_SIGN_UP}>
-                  Become a courier
-                </CustomLink>
-              </ListItem>
-            )}
+          <>
+            {user &&
+              isAuth &&
+              !roles.includes('chef') &&
+              !roles.includes('admin') && <Divider />}
+            {user && isAuth && !roles.includes('courier') && <Divider />}
+            {user &&
+              isAuth &&
+              !roles.includes('chef') &&
+              !roles.includes('admin') && (
+                <>
+                  <ListItem>
+                    <CustomLink to={route.CHEF_SIGN_UP}>
+                      Become a chef
+                    </CustomLink>
+                  </ListItem>
+                </>
+              )}
+            {user &&
+              isAuth &&
+              !roles.includes('courier') &&
+              !roles.includes('admin') && (
+                <>
+                  <ListItem>
+                    <CustomLink to={route.COURIER_SIGN_UP}>
+                      Become a courier
+                    </CustomLink>
+                  </ListItem>
+                </>
+              )}
+            {user &&
+              isAuth &&
+              !roles.includes('chef') &&
+              !roles.includes('admin') && <Divider />}
+            {user &&
+              isAuth &&
+              !roles.includes('courier') &&
+              !roles.includes('admin') && <Divider />}
+          </>
         </List>
 
+        {user &&
+          isAuth &&
+          roles.includes('chef') &&
+          roles.includes('courier') && <Divider />}
         {user && isAuth && roles.includes('chef') && (
           <>
-            <Divider />
-
             <Typography variant="h6" align="center" sx={{ fontWeight: '600' }}>
               CHEF
             </Typography>
@@ -157,6 +177,9 @@ export const NavigateMenu = ({ onClose, onOpen }) => {
                 <CustomLink to={route.ADMIN_CHEFS}>Chefs</CustomLink>
               </ListItem>
               <ListItem>
+                <CustomLink to={route.ADMIN_COURIERS}>Couriers</CustomLink>
+              </ListItem>
+              <ListItem>
                 <CustomLink to={route.ADMIN_DISHES}>Dishes</CustomLink>
               </ListItem>
               <ListItem>
@@ -165,7 +188,7 @@ export const NavigateMenu = ({ onClose, onOpen }) => {
             </List>
           </>
         )}
-        <Divider />
+        {!user && <Divider />}
         {!isAuth && (
           <List>
             <ListItem>

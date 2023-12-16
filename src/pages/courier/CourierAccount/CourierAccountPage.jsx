@@ -8,9 +8,11 @@ import { getCourierById } from '@/api/courier/getCourierById';
 import { CourierOrdersTable } from '@/components/CourierOrdersTable';
 import { PageTitle } from '@/components/PageTitle/PageTitle';
 import CourierProfile from '@/components/Profiles/CourierProfile/CourierProfile';
+import ProfitGraph from '@/components/StatisticGraphs/ProfitGraph';
 import { route } from '@/constants';
 import { addSpacesToPhoneNumber } from '@/helpers';
 import useCouriersOrdersByStatus from '@/hooks/courier/useCouriersOrdersByStatus';
+import useGetCourierStatistic from '@/hooks/courier/useGetChefStatistic';
 import { selectUser } from '@/redux/auth/selectors';
 import { AppContainer } from '@/shared';
 import { Main } from '@/shared/Main/Main';
@@ -46,7 +48,6 @@ const CourierAccountPage = () => {
     courierInfo?.address?.country,
     courierInfo?.address?.city
   );
-  console.log(data);
   const [status, setStatus] = useState('readyToDelivery');
   const refetchData = () => {
     setStatus('delivering');
@@ -54,6 +55,8 @@ const CourierAccountPage = () => {
   useEffect(() => {
     refetch();
   }, [status]);
+
+  const { data: profitData } = useGetCourierStatistic(courierId) || [];
   return (
     <Main>
       <AppContainer>
@@ -111,10 +114,41 @@ const CourierAccountPage = () => {
             data={data}
             error={error}
             isLoading={isLoading}
-            tableHeight="50vMin"
+            tableHeight="85vMin"
             refetchData={refetchData}
           />
         </Box>
+        {profitData?.length !== 0 && (
+          <>
+            <Box
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                margin: '15px 5px',
+              }}
+            >
+              <Box>
+                <Typography
+                  variant="h5"
+                  component="h2"
+                  fontSize="26px"
+                  fontWeight="600"
+                >
+                  Daily Profit
+                </Typography>
+                <Typography
+                  variant="p"
+                  component="h6"
+                  fontSize="16px"
+                  fontWeight="400"
+                >
+                  Total profit per day display on chart
+                </Typography>
+              </Box>
+            </Box>
+            <ProfitGraph profit={profitData} />
+          </>
+        )}
       </AppContainer>
     </Main>
   );

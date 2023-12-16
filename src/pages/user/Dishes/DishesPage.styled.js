@@ -11,14 +11,10 @@ export const InfiniteScrollStyled = styled(InfiniteScroll)`
 
   ::-webkit-scrollbar-track {
     background-color: #e4dcdc;
-    /* border-radius: 8px; */
-    /* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); */
   }
 
   ::-webkit-scrollbar-thumb {
     background-color: #ff7622;
-    /* border-radius: 8px; */
-    /* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6); */
   }
 `;
 

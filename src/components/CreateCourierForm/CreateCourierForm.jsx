@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { createCourier } from '@/api/courier/createCourier';
@@ -8,6 +8,7 @@ import { getCourierById } from '@/api/courier/getCourierById';
 import { updateCourier } from '@/api/courier/updateCourier';
 import { route } from '@/constants';
 import { addSpacesToPhoneNumber, removeSpacesFromPhoneNumber } from '@/helpers';
+import { getCurrentUser } from '@/redux/auth/operations';
 import { selectUser } from '@/redux/auth/selectors';
 import { courierSchema } from '@/schemas/courierSchema';
 import { AppButton } from '@/shared';
@@ -67,7 +68,7 @@ const CreateCourierForm = () => {
 
     fetchData();
   }, [reset, user.roles, userId]);
-
+  const dispatch = useDispatch();
   const formSubmitHandler = async (data) => {
     try {
       const result = {
@@ -87,6 +88,7 @@ const CreateCourierForm = () => {
         );
       } else {
         await createCourier(result);
+        dispatch(getCurrentUser());
       }
       navigate(route.COURIER_ACCOUNT);
     } catch (err) {

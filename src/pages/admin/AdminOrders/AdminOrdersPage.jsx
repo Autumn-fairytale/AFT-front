@@ -2,13 +2,10 @@ import { Box } from '@mui/material';
 
 import { AllOrdersTable } from '@/components/AllOrdersTable';
 import { PageTitle } from '@/components/PageTitle/PageTitle';
-import useGetAllOrders from '@/hooks/admin/useGetAllCouriers';
 import { AppContainer } from '@/shared';
 import { Main } from '@/shared/Main/Main';
 
 const AdminOrdersPage = () => {
-  const { data, isLoading, error } = useGetAllOrders();
-  console.log('data', data);
   return (
     <Main>
       <AppContainer>
@@ -20,12 +17,7 @@ const AdminOrdersPage = () => {
             margin: '20px 0px',
           }}
         >
-          <AllOrdersTable
-            data={data}
-            isLoading={isLoading}
-            error={error}
-            tableHeight={'85vMin'}
-          />
+          <AllOrdersTable tableHeight={'200vMin'} />
         </Box>
       </AppContainer>
     </Main>

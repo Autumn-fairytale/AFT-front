@@ -8,10 +8,9 @@ import { formatDateForDataGrid } from '../../helpers/formatDateForDataGrid';
 import { CustomPagination } from '../TableComponents/Pagination';
 import { StatusCell } from '../TableComponents/StatusCell';
 import { ChefOrdersTablePropTypes } from './ChefOrdersTable.props';
-import { getActions } from './getActions';
-import { getStatusOptions } from './getChefStatusOptions';
+import { getActions, getStatusOptions } from './ChefOrdersTableHelpers';
+import { processRowUpdate } from './ChefOrdersTableHelpers';
 import { OrderItemsCell } from './OrderItemsCell';
-import { processRowUpdate } from './processRowUpdate';
 
 export const ChefOrdersTable = ({
   data,

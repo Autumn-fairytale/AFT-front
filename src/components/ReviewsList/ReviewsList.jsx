@@ -18,7 +18,7 @@ import {
   SkeletonWrapper,
 } from './ReviewsList.styled';
 
-import styles from './InfiniteScroll.css';
+import './InfiniteScroll.css';
 
 export const ReviewsList = ({ dishId }) => {
   const [totalPages, setTotalPage] = useState(null);

@@ -19,7 +19,7 @@ const FavoriteChefs = () => {
     queryKey: [userId, 'favorite', 'chefs'],
     queryFn: () => getFavorite(userId, 'chefs'),
   });
-  console.log(data);
+
   return (
     <Main>
       <AppContainer>

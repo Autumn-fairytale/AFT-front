@@ -1,13 +1,14 @@
 import CreateOrderForm from '@/components/CreateOrderForm';
 import PageMessage from '@/components/PageMessage';
 import { PageTitle } from '@/components/PageTitle/PageTitle';
-import { useGetCartItems } from '@/hooks';
+import { useDisableToasts, useGetCartItems } from '@/hooks';
 import { AppLoader } from '@/shared';
 import { Main } from '@/shared/Main/Main';
 import { CreateOrderPageContainer } from './CreateOrderPage.styled';
 
 const CreateOrderPage = () => {
   const { data, isLoading, error } = useGetCartItems();
+  useDisableToasts();
   let render = null;
 
   if (isLoading) {

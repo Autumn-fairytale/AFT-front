@@ -8,9 +8,11 @@ import { getChefById } from '@/api/chef/getChefById';
 import { ChefOrdersTable } from '@/components/ChefOrdersTable';
 import { PageTitle } from '@/components/PageTitle/PageTitle';
 import ChefProfile from '@/components/Profiles/ChefProfile/ChefProfile';
+import ProfitGraph from '@/components/StatisticGraphs/ProfitGraph';
 import { route } from '@/constants';
 import { addSpacesToPhoneNumber } from '@/helpers';
 import useChefOrdersByStatus from '@/hooks/chef/useChefOrdersByStatus';
+import useGetChefStatistic from '@/hooks/chef/useGetChefStatistic';
 import { selectUser } from '@/redux/auth/selectors';
 import { AppContainer } from '@/shared';
 import { Main } from '@/shared/Main/Main';
@@ -50,7 +52,7 @@ const ChefAccountPage = () => {
 
     fetchChefData();
   }, [chefId]);
-
+  const { data: profitData } = useGetChefStatistic(chefId) || [];
   return (
     <Main>
       <AppContainer>
@@ -107,10 +109,41 @@ const ChefAccountPage = () => {
             data={data}
             error={error}
             isLoading={isLoading}
-            tableHeight="50vMin"
+            tableHeight="85vMin"
             refetchData={refetchData}
           />
         </Box>
+        {profitData?.length && (
+          <>
+            <Box
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                margin: '15px 5px',
+              }}
+            >
+              <Box>
+                <Typography
+                  variant="h5"
+                  component="h2"
+                  fontSize="26px"
+                  fontWeight="600"
+                >
+                  Daily Profit
+                </Typography>
+                <Typography
+                  variant="p"
+                  component="h6"
+                  fontSize="16px"
+                  fontWeight="400"
+                >
+                  Total profit per day display on chart
+                </Typography>
+              </Box>
+            </Box>
+            <ProfitGraph profit={profitData} />
+          </>
+        )}
       </AppContainer>
     </Main>
   );

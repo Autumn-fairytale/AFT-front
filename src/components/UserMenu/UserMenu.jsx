@@ -1,19 +1,23 @@
+import { useEffect } from 'react';
 import { TbChefHat } from 'react-icons/tb';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LogoutIcon from '@mui/icons-material/Logout';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Avatar, Badge } from '@mui/material';
 
 import { route } from '@/constants';
 import { calcTotalQtyOfCartItems } from '@/helpers';
-import { useGetCartItems } from '@/hooks';
+import { useGetCartItems, useToastNotifications } from '@/hooks';
 import { useGetFavorite } from '@/hooks/favorites/useGetFavorite';
 import { signOut } from '@/redux/auth/operations';
 import { selectIsAuth, selectRoles, selectUser } from '@/redux/auth/selectors';
 import { openUserCart } from '@/redux/cartStatus/slice';
+import { setUnreadCount } from '@/redux/notifications';
+import { selectUnreadNotificationsCount } from '@/redux/notifications/notificationsSliceSelectors';
 import styled from '@emotion/styled';
 import UserModalCart from '../UserModalCart';
 import {
@@ -37,6 +41,14 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 export const UserMenu = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const unreadCount = useSelector(selectUnreadNotificationsCount);
+  const notifications = useToastNotifications(navigate);
+
+  useEffect(() => {
+    if (notifications) {
+      dispatch(setUnreadCount(notifications.length));
+    }
+  }, [notifications, dispatch]);
 
   // Get number of items in user's cart
   const { data } = useGetCartItems();
@@ -74,6 +86,12 @@ export const UserMenu = () => {
         {!roles.includes('admin') && (
           <>
             <ListItemStyled>
+              <LinkStyled to={route.NOTIFICATIONS}>
+                <StyledBadge badgeContent={unreadCount} color="error">
+                  <NotificationsIcon sx={{ width: 30, height: 30 }} />
+                </StyledBadge>
+              </LinkStyled>
+
               <LinkStyled to={route.FAVORITE_DISHES}>
                 <StyledBadge
                   // badgeContent={favoriteDishes.length}

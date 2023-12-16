@@ -8,7 +8,6 @@ const TableChip = ({ status, sx }) => {
   const theme = useTheme();
   const statusKey = status.toLowerCase();
   let chipColor = 'default';
-  console.log(theme.palette.primary.contrastText);
   if (statusKey in chipStatusColors) {
     chipColor =
       chipStatusColors[statusKey] === 'pending'

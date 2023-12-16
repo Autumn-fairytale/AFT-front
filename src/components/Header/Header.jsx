@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import Toolbar from '@mui/material/Toolbar';
 
 import { route } from '@/constants/route.js';
 import { selectIsAuth } from '@/redux/auth/selectors.js';
@@ -16,6 +15,7 @@ import {
   AppBarStyled,
   AppContainerStyled,
   MenuWrapper,
+  ToolbarStyled,
 } from './Header.styled.js';
 
 // import SearchBar from './searchBar.jsx';
@@ -48,7 +48,7 @@ const Header = () => {
           <img src={Logo} alt="logo" style={{ maxWidth: 100 }} />
         </Link>
 
-        <Toolbar>
+        <ToolbarStyled>
           <MenuWrapper>
             {!isAuth && <NotAuthUserMenu />}
             {isAuth && <UserMenu />}
@@ -57,7 +57,7 @@ const Header = () => {
           <IconButtonStyled aria-label="menu" onClick={toggleDrawer(true)}>
             <MenuIcon sx={{ width: 35, height: 35 }} />
           </IconButtonStyled>
-        </Toolbar>
+        </ToolbarStyled>
       </AppContainerStyled>
       <SwipeableDrawer
         anchor={'left'}

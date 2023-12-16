@@ -25,7 +25,6 @@ function App() {
   return (
     <>
       <AppRouter />
-
       <ToastContainer autoClose={1500} closeOnClick />
     </>
   );

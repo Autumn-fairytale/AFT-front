@@ -154,6 +154,7 @@ export const ChefOrdersTable = ({
         tableHeight={tableHeight}
         pageSize={10}
         rowHeight={100}
+        getRowHeight={() => 'auto'}
       />
     </>
   );

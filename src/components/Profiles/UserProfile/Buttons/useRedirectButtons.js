@@ -28,7 +28,7 @@ export const useRedirectButtons = () => {
     },
     {
       label: 'Notifications',
-      onClick: () => {},
+      route: route.NOTIFICATIONS,
     },
     {
       label: 'Settings',

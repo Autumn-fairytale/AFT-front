@@ -12,7 +12,6 @@ import {
 } from '@mui/material';
 
 import debounce from 'lodash/debounce';
-import PropTypes from 'prop-types';
 
 import { convertToMoney } from '@/helpers';
 import {
@@ -23,13 +22,7 @@ import {
 import { useAddCartItem } from '@/hooks/cart/useAddCartItem';
 import { useFetchDish } from '@/hooks/useFetchDish';
 import { selectUser } from '@/redux/auth/selectors';
-import {
-  StyledAddDishOrderCardMedia,
-  StyledCenteredColumnBox,
-  StyledDishOrderCard,
-  StyledDishOrderCardWrapper,
-  StyledImageContainer,
-} from './DishOrderCard.styled';
+import { DishOrderCardProps } from './DishOrderCard.props';
 import { DishOrderCardButtonsGroup } from './DishOrderCardButtonsGroup';
 import { DishOrderCardChefLink } from './DishOrderCardChefLink';
 import { DishOrderCardDescription } from './DishOrderCardDescription';
@@ -37,7 +30,14 @@ import { DishOrderCardIngredients } from './DishOrderCardIngredients';
 import { DishOrderCardRating } from './DishOrderCardRating';
 import { DishOrderCardReview } from './DishOrderCardReview';
 import { DishOrderCardSpiceLevel } from './DishOrderCardSpiceLevel';
-import { DishOrderCardTabs } from './DishOrderCardTabs';
+import {
+  StyledAddDishOrderCardMedia,
+  StyledCenteredColumnBox,
+  StyledDishOrderCard,
+  StyledDishOrderCardWrapper,
+  StyledImageContainer,
+} from './DishOrderCardStyled';
+import { DishOrderCardTabs } from './DishOrderCardTabs/DishOrderCardTabs';
 import { DishOrderCardVeganBadge } from './DishOrderCardVeganBadge';
 
 const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
@@ -127,8 +127,6 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
     updateCartItem({
       item: { dishId: dish.id, count: newQuantity },
     });
-
-    // else { }
   };
 
   const handleAddToCart = () => {
@@ -283,8 +281,4 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
 };
 export default DishOrderCard;
 
-DishOrderCard.propTypes = {
-  dishId: PropTypes.string,
-  handleGoToCart: PropTypes.func,
-  closeModalHandler: PropTypes.func.isRequired,
-};
+DishOrderCard.propTypes = DishOrderCardProps;

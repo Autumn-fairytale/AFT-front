@@ -18,6 +18,7 @@ export const AddDishFormNavButtons = ({
       spacing={1}
       sx={{
         mt: 'auto',
+        mb: 3,
         position: 'relative',
         width: FIELD_WIDTH,
         justifyContent: 'center',

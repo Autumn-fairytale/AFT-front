@@ -6,6 +6,7 @@ import { route } from '@/constants';
 import { role } from '@/constants/role';
 import ProtectedRoute from '@/pages/access/ProtectedRoute';
 import RestrictedRoute from '@/pages/access/RestrictedRoute';
+// import AdminCouriersPage from '@/pages/admin/AdminCouriers/AdminCouriersPage';
 
 const FavoriteDishes = lazy(
   () => import('@/pages/user/FavoriteDishes/FavoriteDishes')
@@ -37,10 +38,14 @@ const CourierProfilePage = lazy(() => import('@/pages/courier/CourierProfile'));
 const CourierOrdersPage = lazy(() => import('@/pages/courier/CourierOrders'));
 const AdminPage = lazy(() => import('@/pages/admin/Admin'));
 const AdminChefsPage = lazy(() => import('@/pages/admin/AdminChefs'));
-const AdminDishesPage = lazy(() => import('@/pages/admin/AdminDishes'));
+const AdminCouriersPage = lazy(() => import('@/pages/admin/AdminCouriers'));
+// const AdminDishesPage = lazy(() => import('@/pages/admin/AdminDishes'));
 const AdminOrdersPage = lazy(() => import('@/pages/admin/AdminOrders'));
 const NotFoundPage = lazy(() => import('@/pages/NotFound'));
 const AccessDeniedPage = lazy(() => import('@/pages/access/AccessDenied'));
+const NotificationsPage = lazy(
+  () => import('@/pages/notifications/NotificationsPage')
+);
 
 const AppRouter = () => {
   return (
@@ -202,8 +207,22 @@ const AppRouter = () => {
         >
           <Route index element={<AdminPage />} />
           <Route path={route.ADMIN_CHEFS} element={<AdminChefsPage />} />
-          <Route path={route.ADMIN_DISHES} element={<AdminDishesPage />} />
+          <Route path={route.ADMIN_COURIERS} element={<AdminCouriersPage />} />
+          {/* <Route path={route.ADMIN_DISHES} element={<AdminDishesPage />} /> */}
           <Route path={route.ADMIN_ORDERS} element={<AdminOrdersPage />} />
+        </Route>
+
+        <Route
+          path={route.NOTIFICATIONS}
+          element={
+            <ProtectedRoute
+              authRedirectLink={route.SIGN_IN}
+              accessRedirectLink={route.SIGN_IN}
+              role={role.USER}
+            />
+          }
+        >
+          <Route index element={<NotificationsPage />} />
         </Route>
 
         <Route path={route.ACCESS_DENIED} element={<AccessDeniedPage />} />

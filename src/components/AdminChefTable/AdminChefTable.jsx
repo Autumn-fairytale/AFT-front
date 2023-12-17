@@ -40,7 +40,7 @@ export const AdminChefTable = () => {
   });
 
   const rows = data?.mappedChefs;
-
+  // console.log(data);
   const columns = useMemo(
     () => [
       {
@@ -66,7 +66,7 @@ export const AdminChefTable = () => {
       },
       {
         field: 'accountStatus',
-        headerName: 'Accaunt Status',
+        headerName: 'Account Status',
         width: 130,
 
         renderCell: ({ row: { accountStatus } }) => {
@@ -74,7 +74,7 @@ export const AdminChefTable = () => {
             case 'pending':
               return (
                 <Chip
-                  label="penging"
+                  label="pending"
                   color="primary"
                   sx={{ color: 'black', width: '100%' }}
                 />

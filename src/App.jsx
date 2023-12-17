@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
@@ -12,17 +12,19 @@ function App() {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
 
+  // Fetch the current user only on the initial and not when user has just signed out
+  const [initialLoad, setInitialLoad] = useState(true);
+
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    if (!isAuth && storedToken) {
+    if (initialLoad && !isAuth) {
       dispatch(getCurrentUser());
+      setInitialLoad(false);
     }
-  }, [dispatch, isAuth]);
+  }, [dispatch, isAuth, initialLoad]);
 
   return (
     <>
       <AppRouter />
-
       <ToastContainer autoClose={1500} closeOnClick />
     </>
   );

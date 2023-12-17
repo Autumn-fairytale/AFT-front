@@ -23,7 +23,8 @@ const ChefOrdersPage = () => {
             data={data}
             error={error}
             isLoading={isLoading}
-            tableHeight="85vMin"
+            tableHeight="auto"
+            //tableHeight="100vMin"
           />
         </Box>
       </AppContainer>

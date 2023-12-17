@@ -11,9 +11,8 @@ import CourierProfile from '@/components/Profiles/CourierProfile/CourierProfile'
 import ProfitGraph from '@/components/StatisticGraphs/ProfitGraph';
 import { route } from '@/constants';
 import { addSpacesToPhoneNumber } from '@/helpers';
-import { formatDateForDataGrid } from '@/helpers/formatDateForDataGrid';
-import useCourierOrder from '@/hooks/courier/useCourierOrders';
 import useCouriersOrdersByStatus from '@/hooks/courier/useCouriersOrdersByStatus';
+import useGetCourierStatistic from '@/hooks/courier/useGetChefStatistic';
 import { selectUser } from '@/redux/auth/selectors';
 import { AppContainer } from '@/shared';
 import { Main } from '@/shared/Main/Main';
@@ -57,31 +56,7 @@ const CourierAccountPage = () => {
     refetch();
   }, [status]);
 
-  let { data: chartData } = useCourierOrder();
-  const [profitData, setProfitData] = useState(null);
-  useEffect(() => {
-    if (chartData) {
-      const res = chartData
-        ?.filter((i) => i.statusCode === 6)
-        .map((i) => {
-          return {
-            date: formatDateForDataGrid(i.createdAt),
-            profit: i.summaryPrice.delivery,
-          };
-        })
-        .reduce((accumulator, item) => {
-          const key = item.date;
-          if (accumulator[key]) {
-            accumulator[key].count += 1;
-            accumulator[key].profit += item.profit;
-          } else {
-            accumulator[key] = { date: key, count: 1, profit: item.profit };
-          }
-          return accumulator;
-        }, {});
-      setProfitData(Object.values(res));
-    }
-  }, [chartData]);
+  const { data: profitData } = useGetCourierStatistic(courierId) || [];
   return (
     <Main>
       <AppContainer>
@@ -139,11 +114,11 @@ const CourierAccountPage = () => {
             data={data}
             error={error}
             isLoading={isLoading}
-            tableHeight="50vMin"
+            tableHeight="85vMin"
             refetchData={refetchData}
           />
         </Box>
-        {profitData && (
+        {profitData?.length !== 0 && (
           <>
             <Box
               style={{

@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 
 import axios from 'axios';
 
-import { getPresignedDeleteURL } from '@/api/getPresignedDeleteUrl';
+import { getPresignedDeleteURL } from '@/api/aws/getPresignedDeleteUrl';
 
 export const deleteFile = async (fileName, category) => {
   if (!fileName) return;

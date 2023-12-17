@@ -24,7 +24,6 @@ const ChefsActions = ({ params }) => {
 
   const handleStatusChange = async (id, newStatus) => {
     setIsLoading(true);
-
     try {
       await updateChefStatusMutate([{ accountStatus: newStatus }, id]);
     } catch (error) {

@@ -14,25 +14,18 @@ export const useRedirectButtons = () => {
     {
       label: isChef ? 'Chef Account' : 'Become a Chef',
       route: isChef ? route.CHEF_ACCOUNT : route.CHEF_SIGN_UP,
-      condition: isChef,
     },
     {
       label: isCourier ? 'Courier Account' : 'Become a Courier',
       route: isCourier ? route.COURIER_ACCOUNT : route.COURIER_SIGN_UP,
-      condition: isCourier,
     },
     {
       label: 'Order History',
       route: route.USER_ORDERS,
-      condition: true,
     },
     {
       label: 'Notifications',
       route: route.NOTIFICATIONS,
-    },
-    {
-      label: 'Settings',
-      onClick: () => {},
     },
   ];
   return { redirectButtons };

@@ -39,8 +39,9 @@ export const RateValue = styled('h4')(() => ({
 }));
 
 export const ChefCertificate = styled('img')(() => ({
-  width: '600px',
-  height: '400px',
+  width: '100%',
+  maxWidth: '600px',
+  maxHeight: '600px',
   objectFit: 'cover',
   borderRadius: '20px',
 }));

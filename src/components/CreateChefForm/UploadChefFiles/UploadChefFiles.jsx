@@ -164,8 +164,10 @@ export const UploadChefFiles = ({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: isAvatar ? 340 : 620,
-                height: isAvatar ? 340 : 420,
+                maxWidth: isAvatar ? 340 : 620,
+                maxHeight: isAvatar ? 340 : 660,
+                width: isAvatar ? 340 : '100%',
+                height: isAvatar ? 340 : 'auto',
                 borderRadius: isAvatar ? '50%' : '20px',
                 margin: isAvatar ? 'auto' : 0,
               }}
@@ -189,8 +191,10 @@ export const UploadChefFiles = ({
                     src={imageSrc}
                     alt="Image Preview"
                     sx={{
-                      width: isAvatar ? 270 : 570,
-                      height: isAvatar ? 270 : 370,
+                      maxWidth: isAvatar ? 270 : 560,
+                      maxHeight: isAvatar ? 270 : 600,
+                      width: isAvatar ? 270 : '100%',
+                      height: isAvatar ? 270 : 'auto',
                       objectFit: 'cover',
                       borderRadius: isAvatar ? '50%' : '20px',
                       margin: isAvatar ? 'auto' : 0,
@@ -231,14 +235,12 @@ export const UploadChefFiles = ({
               <HelperText text={error?.message} isError={!!error?.message} />
             </Typography>
             {showImage && (
-              <AppModal
-                onClose={() => handleCancel()}
-                //onClose={() => setShowImage(false)}
-                isOpen={showImage}
-              >
+              <AppModal onClose={() => handleCancel()} isOpen={showImage}>
                 <Box
-                  width={isAvatar ? '500px' : '620px'}
-                  height={isAvatar ? '400px' : '450px'}
+                  width={isAvatar ? '500px' : '100%'}
+                  height={isAvatar ? '400px' : '100%'}
+                  maxHeight={isAvatar ? '400px' : '600px'}
+                  maxWidth={isAvatar ? '500px' : '500px'}
                   display="flex"
                   flexDirection="column"
                   alignItems="center"
@@ -255,7 +257,12 @@ export const UploadChefFiles = ({
                     <img
                       alt={id}
                       src={imageSrc}
-                      style={{ width: '570px', height: '370px' }}
+                      style={{
+                        marginTop: '10px',
+                        maxHeight: '550px',
+                        maxWidth: '570px',
+                        width: '100%',
+                      }}
                     />
                   )}
                   <Stack direction="row" spacing={1}>

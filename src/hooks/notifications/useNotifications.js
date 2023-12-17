@@ -17,10 +17,9 @@ export const useNotifications = () => {
   useEffect(() => {
     setNotifications(data || []);
 
-    const storedToken = localStorage.getItem('token');
-    const eventSource = new EventSource(
-      `${VITE_API_URL}/sse?token=${storedToken}`
-    );
+    const eventSource = new EventSource(`${VITE_API_URL}/sse`, {
+      withCredentials: true,
+    });
 
     eventSource.onmessage = (e) => {
       const newNotifications = JSON.parse(e.data).notifications;

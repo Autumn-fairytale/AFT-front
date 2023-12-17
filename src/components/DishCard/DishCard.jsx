@@ -11,7 +11,7 @@ import { customColors } from '@/constants';
 import { convertToMoney } from '@/helpers';
 import {
   useGetCartItems,
-  useSingleToast,
+  //useSingleToast,
   useUpdateCartItemById,
 } from '@/hooks';
 import { useAddCartItem } from '@/hooks/cart/useAddCartItem';
@@ -65,10 +65,10 @@ const DishCard = ({ dishInfo, isCarousel, isChef, favoriteDishesIds }) => {
   const {
     mutate: addCartItem,
     isPending: isAddingItem,
-    error: ErrorAddToCard,
+    //error: ErrorAddToCard,
   } = useAddCartItem();
 
-  useSingleToast(ErrorAddToCard);
+  // useSingleToast(ErrorAddToCard);
 
   const cartItem = cartData?.cart.items.find(
     (item) => item.dish.id === dishInfo.id

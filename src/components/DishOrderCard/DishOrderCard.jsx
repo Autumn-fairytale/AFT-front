@@ -16,7 +16,7 @@ import debounce from 'lodash/debounce';
 import { convertToMoney } from '@/helpers';
 import {
   useGetCartItems,
-  useSingleToast,
+  // useSingleToast,
   useUpdateCartItemById,
 } from '@/hooks';
 import { useAddCartItem } from '@/hooks/cart/useAddCartItem';
@@ -54,10 +54,10 @@ const DishOrderCard = ({ dishId, handleGoToCart, closeModalHandler }) => {
   const {
     mutate: addCartItem,
     isPending: isAddingItem,
-    error: ErrorAddToCard,
+    // error: ErrorAddToCard,
   } = useAddCartItem();
 
-  useSingleToast(ErrorAddToCard);
+  // useSingleToast(ErrorAddToCard);
 
   const { data: dish = {}, isLoading } = useFetchDish(dishId);
 

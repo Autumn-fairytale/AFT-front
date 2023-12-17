@@ -1,9 +1,9 @@
 import { Box, Typography } from '@mui/material';
+import { GridPagination } from '@mui/x-data-grid';
 
 import PropTypes from 'prop-types';
 
 import { convertToMoney } from '@/helpers';
-import { CustomPagination } from '../TableComponents/Pagination';
 
 export const CustomFooter = ({ totalSum = 0, rowCount = 0 }) => {
   return (
@@ -23,7 +23,7 @@ export const CustomFooter = ({ totalSum = 0, rowCount = 0 }) => {
           Total orders: <b>{rowCount}</b>
         </Typography>
       </Box>
-      <CustomPagination />
+      <GridPagination />
     </Box>
   );
 };

@@ -8,5 +8,6 @@ export const TypographyStyled = styled(Typography)`
   text-align: center;
   font-weight: 600;
   font-size: 28px;
+  text-transform: uppercase;
   border-bottom: 3px solid ${({ theme }) => theme.palette.primary.main};
 `;

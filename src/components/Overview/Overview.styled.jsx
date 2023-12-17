@@ -18,7 +18,13 @@ export const OverviewHeaderWrapper = styled(Box)({
   alignItems: 'flex-end',
 });
 
-export const OverviewSeeAllLinkStyled = styled(Link)(() => ({
+export const OverviewSeeAllLinkStyled = styled(Link)(({ theme }) => ({
   fontSize: '20px',
-  textDecoration: 'underline',
+
+  transition: 'color 250ms ease-out',
+
+  '&:hover': {
+    textDecoration: 'underline',
+    color: `${theme.palette.primary.main}`,
+  },
 }));

@@ -1,21 +1,20 @@
-import { Box } from '@mui/material';
-
 import { PageTitle } from '@/components/PageTitle/PageTitle';
 import { UserOrdersTable } from '@/components/UserOrdersTable';
-import { AppContainer } from '@/shared';
 import { Main } from '@/shared/Main/Main';
+import {
+  UserOrdersPageContainer,
+  UserOrdersPageSection,
+} from './UserOrdersPage.styled';
 
 const UserOrdersPage = () => {
   return (
     <Main>
-      <Box component="section" sx={{ flexGrow: 1 }}>
-        <AppContainer
-          sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
-        >
+      <UserOrdersPageSection>
+        <UserOrdersPageContainer>
           <PageTitle>Orders</PageTitle>
           <UserOrdersTable />
-        </AppContainer>
-      </Box>
+        </UserOrdersPageContainer>
+      </UserOrdersPageSection>
     </Main>
   );
 };

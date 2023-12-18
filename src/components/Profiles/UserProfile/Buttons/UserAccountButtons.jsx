@@ -11,24 +11,16 @@ const UserAccountButtons = () => {
   const navigate = useNavigate();
   const { redirectButtons } = useRedirectButtons();
 
-  const handleButtonClick = (route, onClick) => {
-    if (route) {
-      navigate(route);
-    } else if (onClick) {
-      onClick();
-    }
-  };
-
   return (
     <UserButtonsBoxStyled>
       <UserButtonsGroupStyled>
-        {redirectButtons.map(({ label, route, onClick }) => (
+        {redirectButtons.map(({ label, route }) => (
           <AppButton
             key={label}
             fullWidth
             variant="outlined"
             label={label}
-            onClick={() => handleButtonClick(route, onClick)}
+            onClick={() => navigate(route)}
           />
         ))}
       </UserButtonsGroupStyled>

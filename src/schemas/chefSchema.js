@@ -12,7 +12,7 @@ export const chefSchema = z.object({
     country: z
       .string()
       .trim()
-      .min(1)
+      .min(1, { message: 'Country is required' })
       .max(255)
       .regex(
         addressRegExp,
@@ -21,14 +21,22 @@ export const chefSchema = z.object({
     city: z
       .string()
       .trim()
-      .min(1)
+      .min(1, { message: 'City is required' })
       .max(255)
       .regex(
         addressRegExp,
         'City include letters, spaces, hyphens, and apostrophes'
       ),
-    street: z.string().trim().min(1).max(255),
-    houseNumber: z.string().trim().min(1).max(10),
+    street: z
+      .string()
+      .trim()
+      .min(1, { message: 'Street is required' })
+      .max(255),
+    houseNumber: z
+      .string()
+      .trim()
+      .min(1, { message: 'House number is required' })
+      .max(10),
     apartment: z.string().optional(),
     coordinate: z
       .object({

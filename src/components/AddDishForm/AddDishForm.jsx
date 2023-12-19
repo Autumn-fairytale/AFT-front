@@ -176,7 +176,7 @@ export const AddDishForm = () => {
           <AppButton
             style={{
               position: 'absolute',
-              top: -60,
+              top: -40,
               left: -160,
             }}
             onClick={handleBackClick}
